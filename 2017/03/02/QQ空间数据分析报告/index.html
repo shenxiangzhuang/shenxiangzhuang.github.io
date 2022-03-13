@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概览 之前呢，写了这个爬虫，从QQ邮箱导出所有QQ联系人后，在本地电脑上放养几天，经过几次refuse，还是爬完了所有的好友的说说资料。数据量约60K+， 但是NA值较多。 数据导出 这里呢，简单作下分析。 第一步就是从MySQL中把数据以csv格式导出。 参考这里。开始时，尝试： 12345SELECT * FROM QQSpaceINTO OUTFILE &amp;#x27;&#x2F;home&#x2F;shen&#x2F;Py">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QQ空间数据分析报告">
+<meta property="og:url" content="http://datahonor.com/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="概览 之前呢，写了这个爬虫，从QQ邮箱导出所有QQ联系人后，在本地电脑上放养几天，经过几次refuse，还是爬完了所有的好友的说说资料。数据量约60K+， 但是NA值较多。 数据导出 这里呢，简单作下分析。 第一步就是从MySQL中把数据以csv格式导出。 参考这里。开始时，尝试： 12345SELECT * FROM QQSpaceINTO OUTFILE &amp;#x27;&#x2F;home&#x2F;shen&#x2F;Py">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ1.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ2.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ3.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ4.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ5.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ6.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ7.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ8.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ9.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ10.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ11.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ12.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ13.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ14.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ15.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ16.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ17.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ18.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ19.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ20.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ21.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ22.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ23.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ24.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ25.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ26.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ27.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ28.png">
+<meta property="article:published_time" content="2017-03-02T04:42:05.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Data Analysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ1.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/","path":"2017/03/02/QQ空间数据分析报告/","title":"QQ空间数据分析报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>QQ空间数据分析报告 | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A6%82%E8%A7%88-8"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">数据导出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90-2"><span class="nav-number">3.</span> <span class="nav-text">数据分析</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="QQ空间数据分析报告 | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          QQ空间数据分析报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-02 12:42:05" itemprop="dateCreated datePublished" datetime="2017-03-02T12:42:05+08:00">2017-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h5 id="概览-8">概览</h5>
+<p>之前呢，写了<a href="http://datahonor.com/2017/03/02/Selenium%E7%88%AC%E5%8F%96QQ%E7%A9%BA%E9%97%B4%E8%AF%B4%E8%AF%B4%E4%BF%A1%E6%81%AF/#more">这个爬虫</a>，从QQ邮箱导出所有QQ联系人后，在本地电脑上放养几天，经过几次refuse，还是爬完了所有的好友的说说资料。数据量约60K+， 但是NA值较多。</p>
+<h5 id="数据导出">数据导出</h5>
+<p>这里呢，简单作下分析。<br>
+第一步就是从MySQL中把数据以csv格式导出。</p>
+<p>参考<a target="_blank" rel="noopener" href="http://www.tech-recipes.com/rx/1475/save-mysql-query-results-into-a-text-or-csv-file/">这里</a>。开始时，尝试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM QQSpace</span><br><span class="line">INTO OUTFILE &#x27;/home/shen/PycharmProjects/MyPython/MySpider/QQ/data.csv&#x27;</span><br><span class="line">FIELDS TERMINATED BY &#x27;,&#x27;</span><br><span class="line">ENCLOSED BY &#x27;&quot;&#x27;</span><br><span class="line">LINES TERMINATED BY &#x27;\n&#x27;</span><br></pre></td></tr></table></figure>
+<p>出现权限问题：</p>
+<blockquote>
+<p>The MySQL server is running with the --secure-file-priv option so it cannot execute this statement</p>
+</blockquote>
+<p>参考<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/32737478/how-should-i-tackle-secure-file-priv-in-mysql">这里</a>解决：<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ1.png" alt=""><br>
+之后先将文件导出到这个文件夹下，再复制到指定文件夹下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /var/lib/mysql-files/data.csv /home/shen/PycharmProjects/MyPython/MySpider/QQ/data.csv</span><br></pre></td></tr></table></figure>
+<p>发现文件时锁定的，在给予权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 777 /home/shen/PycharmProjects/MyPython/MySpider/QQ/data.csv</span><br></pre></td></tr></table></figure>
+<h5 id="数据分析-2">数据分析</h5>
+<p>至此，算是将数据从数据库导出，接下来开始用Python作分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入数据</span></span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;/home/shen/PycharmProjects/MyPython/MySpider/QQ/data.csv&#x27;</span>, error_bad_lines=<span class="literal">False</span>） <span class="comment"># drop bad lines</span></span><br><span class="line">data.columns = [<span class="string">&#x27;Qq&#x27;</span>, <span class="string">&#x27;Date&#x27;</span>, <span class="string">&#x27;Content&#x27;</span>, <span class="string">&#x27;Star&#x27;</span>, <span class="string">&#x27;Comment&#x27;</span>]</span><br><span class="line"><span class="comment"># 预览数据，检查有无编码等问题</span></span><br><span class="line"><span class="built_in">print</span>(data.head())</span><br><span class="line"><span class="built_in">print</span>(data.shape)</span><br><span class="line"><span class="built_in">print</span>(data.dtypes)</span><br><span class="line"><span class="comment"># 因当中有过测试性的抓取，所以可能存在重复数据，这里先去重</span></span><br><span class="line">data = data.drop_duplicates()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看缺失值</span></span><br><span class="line"><span class="built_in">print</span>(data.isnull().<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ2.png" alt=""><br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ3.png" alt=""><br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ4.png" alt=""><br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ5.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我们首先统一分析</span></span><br><span class="line">Date = data[<span class="string">&#x27;Date&#x27;</span>]</span><br><span class="line">Content = data[<span class="string">&#x27;Content&#x27;</span>]</span><br><span class="line">Star = data[<span class="string">&#x27;Star&#x27;</span>]</span><br><span class="line">Comment = data[<span class="string">&#x27;Comment&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p>日期的分析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Date</span></span><br><span class="line">Date = pd.DataFrame(Date)</span><br><span class="line"><span class="built_in">print</span>(Date.shape[<span class="number">0</span>])</span><br><span class="line">Date.isnull().<span class="built_in">sum</span>()</span><br><span class="line">Date  = Date.dropna()</span><br><span class="line"><span class="comment"># 对日期的处理，定义统一格式的函数</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">2016年09月09日</span></span><br><span class="line"><span class="string">2017年1月1日</span></span><br><span class="line"><span class="string">昨天18:03  这种格式一般为最近几天，数量较少，暂时忽略不去处理</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">datesplit</span>(<span class="params">date</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        year = date.split(<span class="string">&#x27;年&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        month = date.split(<span class="string">&#x27;年&#x27;</span>)[<span class="number">1</span>].split(<span class="string">&#x27;月&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> ((<span class="built_in">int</span>(month) &lt; <span class="number">10</span>) &amp; (<span class="string">&#x27;0&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> month)):</span><br><span class="line">            month = <span class="string">&#x27;0&#x27;</span> + month</span><br><span class="line"></span><br><span class="line">        day = date.split(<span class="string">&#x27;年&#x27;</span>)[<span class="number">1</span>].split(<span class="string">&#x27;月&#x27;</span>)[<span class="number">1</span>].replace(<span class="string">&#x27;日&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> ((<span class="built_in">int</span>(day) &lt; <span class="number">10</span>) &amp; (<span class="string">&#x27;0&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> day)):</span><br><span class="line">            day = <span class="string">&#x27;0&#x27;</span> + day</span><br><span class="line">        sdate = <span class="built_in">int</span>(<span class="built_in">int</span>(year)*<span class="number">10000</span>+<span class="built_in">int</span>(month)*<span class="number">100</span>+<span class="built_in">int</span>(day))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="comment"># print(date)</span></span><br><span class="line">        <span class="keyword">return</span> [<span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>]</span><br><span class="line">    <span class="keyword">return</span> [year, month, day, sdate]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Date[<span class="string">&#x27;Year&#x27;</span>] = Date[<span class="string">&#x27;Date&#x27;</span>].apply(datesplit).apply(<span class="keyword">lambda</span> x : x[<span class="number">0</span>])</span><br><span class="line">Date[<span class="string">&#x27;Month&#x27;</span>] = Date[<span class="string">&#x27;Date&#x27;</span>].apply(datesplit).apply(<span class="keyword">lambda</span> x : x[<span class="number">1</span>])</span><br><span class="line">Date[<span class="string">&#x27;Day&#x27;</span>] = Date[<span class="string">&#x27;Date&#x27;</span>].apply(datesplit).apply(<span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">Date[<span class="string">&#x27;SDate&#x27;</span>] = Date[<span class="string">&#x27;Date&#x27;</span>].apply(datesplit).apply(<span class="keyword">lambda</span> x : x[<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">Date = Date.dropna()  <span class="comment"># 去除废弃时间格式的数据</span></span><br><span class="line">Date[<span class="string">&#x27;SDate&#x27;</span>] = Date[<span class="string">&#x27;SDate&#x27;</span>].astype(<span class="built_in">int</span>)</span><br><span class="line"><span class="built_in">print</span>(Date.head())</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ6.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Date[<span class="string">&#x27;Date&#x27;</span>] = pd.to_datetime(Date[<span class="string">&#x27;SDate&#x27;</span>], <span class="built_in">format</span>=<span class="string">&#x27;%Y%m%d&#x27;</span>)  <span class="comment"># 格式化为标准时间格式</span></span><br><span class="line"><span class="keyword">del</span> Date[<span class="string">&#x27;SDate&#x27;</span>] <span class="comment"># 删掉无用列</span></span><br><span class="line"><span class="built_in">print</span>(Date.head())</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ7.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Year,Month, Day</span></span><br><span class="line">sns.countplot(<span class="string">&#x27;Year&#x27;</span>, data=Date)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">sns.countplot(<span class="string">&#x27;Month&#x27;</span>, data=Date)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">sns.countplot(<span class="string">&#x27;Day&#x27;</span>, data=Date)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>从年份看，还是很平均的，因为2017时刚开始，数据本来就是很少的。至于2010前比较少，可能和大部分人喜欢删之前的说说有关.<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ8.png" alt=""></p>
+<p>月份上，7，8月比较高，猜测和之前在博客园写的超级课程表的分析时原因类似的，就是，7，8月为暑假，大家对学习关注较少，而游玩的较多，所以经常会发些旅游的动态。或是在家里闲得无聊，发说说也会比较多。</p>
+<p>至于3,4,5月份数量较少[闰年二月天数少的影响在此可忽略]，就不太明白了，沉迷学习？ 🙂<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ9.png" alt=""><br>
+天数上看，大家还是“风雨无阻”的，31少也是必然的，毕竟1，3，5，7。。。 	<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ10.png" alt=""></p>
+<p>看了上面的图感觉都很平均的orz…<br>
+这里附上一张超级课程表分析时的一张图:<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ11.png" alt=""><br>
+与之比较，我们重新将月份整理为折线图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 与超级课程表相比较</span></span><br><span class="line">plt.plot(Date.groupby(<span class="string">&#x27;Month&#x27;</span>).size(), linestyle=<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">plt.xlim(xmin=<span class="number">1</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.title(<span class="string">&#x27;Month&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ12.png" alt=""></p>
+<p>貌似有点类似负相关的关系哦…<br>
+当我尝试进行年份[根据以上分析选取12-16年数据]比较时，发现了一个问题：没有出现预期的走势一致性.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 各个年份的比较[12-16]</span></span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2012&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2012&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2012&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2013&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2013&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2013&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2014&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2015&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2015&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2015&#x27;</span>) </span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2016&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2016&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2016&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ13.png" alt=""></p>
+<p>这张图有些乱，我们分开来做图，先做12-14年的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2012&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2012&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2012&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2013&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2013&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2013&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2014&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ14.png" alt=""><br>
+可以看到，12-14年走势基本上是一致的，但是14年出现较大的不同。<br>
+再作出14-16的图看下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2014&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2014&#x27;</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2015&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2015&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2015&#x27;</span>) </span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2016&#x27;</span>].groupby(<span class="string">&#x27;Month&#x27;</span>).size()/Date[Date[<span class="string">&#x27;Year&#x27;</span>]== <span class="string">&#x27;2016&#x27;</span>].shape[<span class="number">0</span>], label=<span class="string">&#x27;2016&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ15.png" alt=""><br>
+看到变化更大了，15尚且出现较大的峰值，到了16年，竟然变得近似平稳了…16年似乎欠我们个峰值…仔细想下，这可能和微信的崛起有关。查了下<a target="_blank" rel="noopener" href="http://mt.sohu.com/20150723/n417406422.shtml">资料</a>，14年春晚使用微信红包后微信开始迅速崛起，并于15年强势和QQ抗衡，并且微信发展速度明显超越QQ。所以16年QQ空间欠我们的峰值，可能跑去了微信朋友圈orz…<br>
+继续分析，我们来看下，一年中哪些特别的峰值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一年中的特特殊的日子</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">6</span>))</span><br><span class="line">plt.subplot(<span class="number">131</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]==<span class="string">&#x27;2012&#x27;</span>].groupby(<span class="string">&#x27;Date&#x27;</span>).size())</span><br><span class="line">plt.xticks(rotation=<span class="number">70</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">132</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]==<span class="string">&#x27;2013&#x27;</span>].groupby(<span class="string">&#x27;Date&#x27;</span>).size())</span><br><span class="line">plt.xticks(rotation=<span class="number">70</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">133</span>)</span><br><span class="line">plt.plot(Date[Date[<span class="string">&#x27;Year&#x27;</span>]==<span class="string">&#x27;2014&#x27;</span>].groupby(<span class="string">&#x27;Date&#x27;</span>).size())</span><br><span class="line">plt.xticks(rotation=<span class="number">70</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.grid()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ16.png" alt=""></p>
+<p>可以看到，2月初到中旬的情人节，暑假开始7月，开学季9月，国庆节10月都或多或少出现一些峰值[可能是爬虫漏爬的问题，这里不是特别明显]</p>
+<p>接下来分析说说的文本内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 动态内容，文本分析</span></span><br><span class="line">Content = pd.DataFrame(Content.astype(<span class="built_in">str</span>))</span><br><span class="line">Content.columns = [<span class="string">&#x27;content&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 说说长度</span></span><br><span class="line">Content[<span class="string">&#x27;length&#x27;</span>] = Content[<span class="string">&#x27;content&#x27;</span>].apply(<span class="built_in">len</span>)</span><br><span class="line"><span class="comment"># 大体观察，看有无异常值</span></span><br><span class="line">plt.plot(Content[<span class="string">&#x27;length&#x27;</span>])</span><br><span class="line">plt.show()</span><br><span class="line"><span class="comment"># 发现一个异常值，去除异常值并填充</span></span><br><span class="line">Content[<span class="string">&#x27;length&#x27;</span>][Content[<span class="string">&#x27;length&#x27;</span>] &gt; <span class="number">1000</span>] = Content[<span class="string">&#x27;length&#x27;</span>].mean()</span><br><span class="line"><span class="comment"># 再次观察</span></span><br><span class="line">plt.plot(Content[<span class="string">&#x27;length&#x27;</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ17.png" alt=""><br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ18.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上图仅仅是为了观察异常值，这里我们具体观察说说长度</span></span><br><span class="line"><span class="comment"># 取长度在4倍标准差之内的数据</span></span><br><span class="line">ctmean = Content[<span class="string">&#x27;length&#x27;</span>].mean()</span><br><span class="line">ctstd = Content[<span class="string">&#x27;length&#x27;</span>].std()</span><br><span class="line">foursigma = Content[(ctmean-<span class="number">4</span>*ctstd&lt;Content[<span class="string">&#x27;length&#x27;</span>]) &amp; (Content[<span class="string">&#x27;length&#x27;</span>]&lt;ctmean+<span class="number">4</span>*ctstd)]</span><br><span class="line">plt.hist(foursigma[<span class="string">&#x27;length&#x27;</span>])</span><br><span class="line">plt.grid()</span><br><span class="line">plt.title(<span class="string">&#x27;Length&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ19.png" alt=""></p>
+<p>可以看到，大部分的说说都是不超过50字的…这才是典型的快餐文化嘛:-)</p>
+<p>接着我们来做个简单的情感分析，通过调用Boson公司的API</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 之前没考虑到根据QQ号来分类，这里重新获取</span></span><br><span class="line">Content = data[[<span class="string">&#x27;Qq&#x27;</span>, <span class="string">&#x27;Content&#x27;</span>]]</span><br><span class="line">Content = Content.dropna()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Content[<span class="string">&#x27;Qq&#x27;</span>].unique())</span><br><span class="line"><span class="comment"># 发现有些QQ号被误填为其他文字，用相邻[上一个]QQ号填充</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(Content[<span class="string">&#x27;Qq&#x27;</span>]).index):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        Content[<span class="string">&#x27;Qq&#x27;</span>].loc[Content[<span class="string">&#x27;Qq&#x27;</span>].index[i]] = <span class="built_in">int</span>(Content[<span class="string">&#x27;Qq&#x27;</span>].loc[Content[<span class="string">&#x27;Qq&#x27;</span>].index[i]])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line"></span><br><span class="line">        Content[<span class="string">&#x27;Qq&#x27;</span>].loc[Content[<span class="string">&#x27;Qq&#x27;</span>].index[i]] = <span class="built_in">int</span>(Content[<span class="string">&#x27;Qq&#x27;</span>].loc[Content[<span class="string">&#x27;Qq&#x27;</span>].index[i-<span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Content[<span class="string">&#x27;Qq&#x27;</span>].unique())</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 情感分析</span></span><br><span class="line">emotion = &#123;&#125;</span><br><span class="line">nlp = BosonNLP(<span class="string">&#x27;你的密钥&#x27;</span>)   </span><br><span class="line"></span><br><span class="line">qq_cont = (Content.groupby(<span class="string">&#x27;Qq&#x27;</span>)[<span class="string">&#x27;Content&#x27;</span>])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(qq_cont)):</span><br><span class="line">    qq = <span class="built_in">list</span>(Content.groupby(<span class="string">&#x27;Qq&#x27;</span>)[<span class="string">&#x27;Content&#x27;</span>])[i][<span class="number">0</span>]</span><br><span class="line">    contents = <span class="built_in">list</span>(<span class="built_in">list</span>(Content.groupby(<span class="string">&#x27;Qq&#x27;</span>)[<span class="string">&#x27;Content&#x27;</span>])[i][<span class="number">1</span>])</span><br><span class="line">    text = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> content <span class="keyword">in</span> contents:</span><br><span class="line">        text += content</span><br><span class="line"></span><br><span class="line">    grade = nlp.sentiment(text)[<span class="number">0</span>]</span><br><span class="line">    emotion[<span class="built_in">str</span>(qq)] = grade</span><br><span class="line">    <span class="built_in">print</span>(grade)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 正面，负面情绪 </span></span><br><span class="line">positive = []</span><br><span class="line">negative = []</span><br><span class="line"><span class="keyword">for</span> e <span class="keyword">in</span> emotion.values():</span><br><span class="line">    positive.append(e[<span class="number">0</span>])</span><br><span class="line">    negative.append(e[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>简单的可视化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p1 = plt.subplot(<span class="number">121</span>)</span><br><span class="line">plt.hist(positive)</span><br><span class="line">p1.set_title(<span class="string">&#x27;Positive&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p2 = plt.subplot(<span class="number">122</span>)</span><br><span class="line">plt.hist(negative)</span><br><span class="line">p2.set_title(<span class="string">&#x27;Negative&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ20.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> LogNorm</span><br><span class="line"></span><br><span class="line">plt.hist2d(positive, negative, norm=LogNorm())</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Positive&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Negative&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Emotion&#x27;</span>, fontweight=<span class="string">&#x27;bold&#x27;</span>)</span><br><span class="line">plt.colorbar()</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ21.png" alt=""></p>
+<p>哈哈，还是开心看到大家都是非常乐观的:-)</p>
+<p>继续，我们来提取下关键词。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关键词提取</span></span><br><span class="line">WeightWord = &#123;&#125;</span><br><span class="line">KEYWORDS_URL = <span class="string">&#x27;http://api.bosonnlp.com/keywords/analysis&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> cont <span class="keyword">in</span> ContentDict.values():</span><br><span class="line">    text = cont</span><br><span class="line">    params = &#123;<span class="string">&#x27;top_k&#x27;</span>: <span class="number">5</span>&#125;</span><br><span class="line">    data = json.dumps(text)</span><br><span class="line">    headers = &#123;<span class="string">&#x27;X-Token&#x27;</span>: <span class="string">&#x27;你的密钥&#x27;</span>&#125;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;requesting...&#x27;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        resp = requests.post(KEYWORDS_URL, headers=headers, params=params, data=data.encode(<span class="string">&#x27;utf-8&#x27;</span>), timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(resp.json())</span><br><span class="line">        <span class="keyword">for</span> weight, word <span class="keyword">in</span> resp.json():</span><br><span class="line">            <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> WeightWord.keys():</span><br><span class="line">                WeightWord[word] = weight</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;Hit...&#x27;</span>)</span><br><span class="line">                WeightWord[word] += weight</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">        </span><br><span class="line"><span class="comment"># 关键词排序</span></span><br><span class="line">SortedValue = [v <span class="keyword">for</span> v <span class="keyword">in</span> <span class="built_in">sorted</span>(WeightWord.values())]</span><br><span class="line">ValueWord = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> WeightWord.items():</span><br><span class="line">    ValueWord[<span class="built_in">str</span>(value)] = key</span><br><span class="line"></span><br><span class="line">SortedValue_top100 = SortedValue[-<span class="number">100</span>:][::-<span class="number">1</span>]</span><br><span class="line">SortedWord = [ValueWord[<span class="built_in">str</span>(k)] <span class="keyword">for</span> k <span class="keyword">in</span> SortedValue_top100]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ22.png" alt=""></p>
+<p>这是用Boson公司的API做的，我们接下来用结巴分词并用wordcloud做个词云看看吧:-)[参考<a target="_blank" rel="noopener" href="https://www.oschina.net/code/snippet_2294527_56155">这里</a>]</p>
+<p>我这里用的Ubuntu16.04，没有中文字体，安装字体参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/up_com/article/details/51218458">这里</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关键词词云</span></span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">from</span> wordcloud <span class="keyword">import</span> WordCloud</span><br><span class="line"><span class="keyword">from</span> scipy.misc <span class="keyword">import</span> imread</span><br><span class="line"></span><br><span class="line">mylist = <span class="built_in">list</span>(ContentDict.values())   </span><br><span class="line"></span><br><span class="line">word_list = [<span class="string">&quot; &quot;</span>.join(jieba.cut(sentence)) <span class="keyword">for</span> sentence <span class="keyword">in</span> mylist]</span><br><span class="line">new_text = <span class="string">&#x27; &#x27;</span>.join(word_list)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pic_path = <span class="string">&#x27;/home/shen/CLionProjects/MyCv/QQ.jpg&#x27;</span></span><br><span class="line">mang_mask = imread(pic_path)</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">12</span>))</span><br><span class="line">wordcloud = WordCloud(background_color=<span class="string">&quot;white&quot;</span>, font_path=<span class="string">&#x27;/home/shen/Downloads/font/msyh.ttc&#x27;</span>, mask=mang_mask).generate(new_text)</span><br><span class="line">plt.imshow(wordcloud)</span><br><span class="line">plt.axis(<span class="string">&quot;off&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>]
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ23.png" alt=""><br>
+嗯，这张图用了QQ图标做的mask,还是挺有意思的。</p>
+<p>那么，我们接下来分析下说说关注的话题看看。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 说说文本分类</span></span><br><span class="line">CLASSIFY_URL = <span class="string">&#x27;http://api.bosonnlp.com/classify/analysis&#x27;</span></span><br><span class="line">TextClass = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(mylist)):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        data = json.dumps(mylist[i])</span><br><span class="line">        headers = &#123;<span class="string">&#x27;X-Token&#x27;</span>: <span class="string">&#x27;你的密钥&#x27;</span>&#125;</span><br><span class="line">        resp = requests.post(CLASSIFY_URL, headers=headers, data=data.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(resp.text[<span class="number">1</span>])</span><br><span class="line">        TextClass.append(<span class="built_in">int</span>(resp.text[<span class="number">1</span>]))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">ClassCount = Counter(TextClass)</span><br><span class="line"><span class="built_in">print</span>(ClassCount)</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ24.png" alt=""><br>
+Boson给定的参照表为：<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ25.png" alt=""></p>
+<p>我们简单做个可视化： ~</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dfclass = pd.DataFrame(TextClass)</span><br><span class="line">sns.countplot(<span class="number">0</span>, data=dfclass)</span><br><span class="line">plt.xticks((<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>), (<span class="string">&#x27;Physical&#x27;</span>, <span class="string">&#x27;Education&#x27;</span>, <span class="string">&#x27;Society&#x27;</span>, <span class="string">&#x27;Entertainment&#x27;</span>, <span class="string">&#x27;Domestic&#x27;</span>, <span class="string">&#x27;Technology&#x27;</span>, <span class="string">&#x27;Estate&#x27;</span>), rotation=<span class="number">70</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Class&#x27;</span>, fontsize=<span class="number">16</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ26.png" alt=""></p>
+<p>嗯，同学们和大佬们还是学习的比较多:-)<br>
+于我的好友来说，确实是关注教育，娱乐，科技多一点的，看来Boson的API还是挺好用的。<br>
+数据集里面还有点赞数和评论数，我们先从点赞数分析。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(Star.shape)</span><br><span class="line"><span class="built_in">print</span>(Star.isnull().<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<blockquote>
+<p>(48822, )<br>
+51</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 去除缺失值</span></span><br><span class="line">Star = pd.DataFrame(Star.dropna())</span><br><span class="line">Star.columns = Star[<span class="string">&#x27;star&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去除Star里面的异常值</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Star[<span class="string">&#x27;star&#x27;</span>].index:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        Star[<span class="string">&#x27;star&#x27;</span>].loc[i] = <span class="built_in">int</span>(Star[<span class="string">&#x27;star&#x27;</span>].loc[i])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(Star[<span class="string">&#x27;star&#x27;</span>].loc[i])</span><br><span class="line">        Star[<span class="string">&#x27;star&#x27;</span>].loc[i] = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Star.isnull().<span class="built_in">sum</span>())</span><br><span class="line">Star = pd.DataFrame(Star.dropna())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有些赞数是来自转发的，一般较多，我们这里将这种情况去除</span></span><br><span class="line">Star = Star[(Star[<span class="string">&#x27;star&#x27;</span>].apply(<span class="built_in">int</span>) &lt; <span class="number">200</span>)]</span><br><span class="line"><span class="built_in">print</span>(Star.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 作图</span></span><br><span class="line">plt.hist(<span class="built_in">list</span>(Star[<span class="string">&#x27;star&#x27;</span>]), bins=<span class="number">20</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.title(<span class="string">&#x27;Star&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ27.png" alt=""></p>
+<p>相同地，接下来是评论数的分析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 评论数分析[与点赞分析基本一致]</span></span><br><span class="line"><span class="built_in">print</span>(Comment.shape)</span><br><span class="line"><span class="built_in">print</span>(Comment.isnull().<span class="built_in">sum</span>())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去除缺失值</span></span><br><span class="line">Comment = pd.DataFrame(Comment.dropna())</span><br><span class="line">Comment.columns = [<span class="string">&#x27;Comment&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去除Comment里面的异常值</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Comment[<span class="string">&#x27;Comment&#x27;</span>].index:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        Comment[<span class="string">&#x27;Comment&#x27;</span>].loc[i] = <span class="built_in">int</span>(Comment[<span class="string">&#x27;Comment&#x27;</span>].loc[i])</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(Comment[<span class="string">&#x27;Comment&#x27;</span>].loc[i])</span><br><span class="line">        Comment[<span class="string">&#x27;Comment&#x27;</span>].loc[i] = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Comment.isnull().<span class="built_in">sum</span>())</span><br><span class="line">Comment = pd.DataFrame(Comment.dropna())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有些评论是来自转发的，一般较多，我们这里将这种情况去除</span></span><br><span class="line">Comment = Comment[(Comment[<span class="string">&#x27;Comment&#x27;</span>].apply(<span class="built_in">int</span>) &lt; <span class="number">100</span>)]</span><br><span class="line"><span class="built_in">print</span>(Comment.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 作图</span></span><br><span class="line">plt.hist(<span class="built_in">list</span>(Comment[<span class="string">&#x27;Comment&#x27;</span>]), bins=<span class="number">20</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.title(<span class="string">&#x27;Comment&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/QQ/QQ28.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Data-Analysis/" rel="tag"># Data Analysis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/02/Cpp-Virtual-members%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="Cpp Virtual members的使用">
+                  <i class="fa fa-chevron-left"></i> Cpp Virtual members的使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/03/02/Kaggle%E2%80%94%E2%80%94GUNS-DEATHS-Python/" rel="next" title="Kaggle——GUNS-DEATHS[Python]">
+                  Kaggle——GUNS-DEATHS[Python] <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/03/02/QQ%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

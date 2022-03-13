@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="关于Ubuntu16.04LTS下Octave的安装和使用。 安装  sudo add-apt-repository ppa:octave&#x2F;stable sudo apt-get update sudo apt-get install octave  参考这里 之后运行报错：  The settings file &#x2F;home&#x2F;user&#x2F;.config&#x2F;octave&#x2F;qt-settings does">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Octave in Ubuntu">
+<meta property="og:url" content="http://datahonor.com/2017/05/06/Octave-IN-Ubuntu/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="关于Ubuntu16.04LTS下Octave的安装和使用。 安装  sudo add-apt-repository ppa:octave&#x2F;stable sudo apt-get update sudo apt-get install octave  参考这里 之后运行报错：  The settings file &#x2F;home&#x2F;user&#x2F;.config&#x2F;octave&#x2F;qt-settings does">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-05-06T15:10:53.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Octave">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/05/06/Octave-IN-Ubuntu/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/05/06/Octave-IN-Ubuntu/","path":"2017/05/06/Octave-IN-Ubuntu/","title":"Octave in Ubuntu"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Octave in Ubuntu | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-3"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-2"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8C%85"><span class="nav-number">2.1.</span> <span class="nav-text">安装包</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/05/06/Octave-IN-Ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Octave in Ubuntu | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Octave in Ubuntu
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-06 23:10:53" itemprop="dateCreated datePublished" datetime="2017-05-06T23:10:53+08:00">2017-05-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/05/06/Octave-IN-Ubuntu/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/06/Octave-IN-Ubuntu/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>关于Ubuntu16.04LTS下Octave的安装和使用。</p>
+<h5 id="安装-3">安装</h5>
+<blockquote>
+<p>sudo add-apt-repository ppa:octave/stable<br>
+sudo apt-get update<br>
+sudo apt-get install octave</p>
+</blockquote>
+<p>参考<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/645600/how-to-install-octave-4-0-0-in-ubuntu-14-04">这里</a></p>
+<p>之后运行报错：</p>
+<blockquote>
+<p>The settings file /home/user/.config/octave/qt-settings does not exist and can not be created.<br>
+Make sure you have read and write permissions to /home/user/.config/octave Octave GUI must be closed now.</p>
+</blockquote>
+<p>解决办法：</p>
+<blockquote>
+<p>cd .config/octave<br>
+sudo chown user qt-settings</p>
+</blockquote>
+<p>其中user改为自己的用户名。chown为更改拥有者的命令。</p>
+<p>参考<a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/292721/error-running-octave-in-ubuntu-16-04">这里</a></p>
+<h5 id="使用-2">使用</h5>
+<h6 id="安装包">安装包</h6>
+<p>安装包的下载列表在<a target="_blank" rel="noopener" href="https://octave.sourceforge.io/packages.php">这里</a>,直接下载即可。</p>
+<p>尝试：</p>
+<blockquote>
+<p>pkg install /home/shensir/Documents/MyPrograming/octave/struct-1.0.14.tar.gz</p>
+</blockquote>
+<p>报错：</p>
+<blockquote>
+<p>pkg: please install the Debian package “liboctave-dev” to get the mkoctfile command<br>
+error: called from ‘<strong>gripe_missing_component</strong>’ in file /usr/share/octave/4.0.2/m/help/<strong>gripe_missing_component</strong>.m near line 53, column 3</p>
+</blockquote>
+<p>解决报错：</p>
+<blockquote>
+<p>sudo apt-get install liboctave-dev</p>
+</blockquote>
+<p>安装成功：</p>
+<blockquote>
+<p>For information about changes from previous versions of the struct package, run ‘news struct’.</p>
+</blockquote>
+<p>查看已经安装的包：</p>
+<blockquote>
+<p>pkg list</p>
+</blockquote>
+<blockquote>
+<p>Package Name  | Version | Installation directory<br>
+optim  |   1.5.0 | /home/shensir/octave/optim-1.5.0<br>
+struct  |  1.0.14 | /home/shensir/octave/struct-1.0.14<br>
+symbolic  |   2.5.0 | /home/shensir/octave/symbolic-2.5.0</p>
+</blockquote>
+<p>调用安装的包：</p>
+<blockquote>
+<p>pkg load symbolic<br>
+sym x</p>
+</blockquote>
+<p>嗯，报错了。。。</p>
+<pre><code>Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: No module named sympy
+OctSymPy v2.5.0: this is free software without warranty, see source.
+Initializing communication with SymPy using a popen2() pipe.
+error: Python cannot import SymPy: have you installed SymPy?
+error: called from
+    assert_have_python_and_sympy at line 37 column 5
+    python_ipc_popen2 at line 78 column 5
+    python_ipc_driver at line 58 column 13
+    python_cmd at line 164 column 9
+    sym at line 340 column 9
+</code></pre>
+<p>貌似说python没有装sympy，检查了下，已经装了。注意到可能是Python路径设置的问题，就查了查官方给的symbolic的<a target="_blank" rel="noopener" href="https://octave.sourceforge.io/symbolic/NEWS.html">文档</a>.</p>
+<pre><code>  * The environment variable `PYTHON` controls which Python executable is
+    used.  The command
+         `sympref python C:\bin\python`
+    has been deprecated; instead please use:
+         `setenv PYTHON C:\bin\python`
+</code></pre>
+<p>于是[这里用的anaconda]：</p>
+<blockquote>
+<p>setenv PYTHON /home/shensir/anaconda3/bin/python</p>
+</blockquote>
+<p>搞定。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Octave/" rel="tag"># Octave</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/04/Using-the-mean-shift-algorithm-to-find-an-object/" rel="prev" title="OpenCV系列笔记十六：Using the mean shift algorithm to find an object">
+                  <i class="fa fa-chevron-left"></i> OpenCV系列笔记十六：Using the mean shift algorithm to find an object
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/08/About-if-name-main-in-Python/" rel="next" title="About if __name__=='__main__' in Python">
+                  About if __name__=='__main__' in Python <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/05/06/Octave-IN-Ubuntu/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

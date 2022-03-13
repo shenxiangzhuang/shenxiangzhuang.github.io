@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="始  “You are writing a book because you are not entirely satisfied with the available texts.”  – George Casella  因为我实在受不了竟然有人写出ROC-AUC的物理意义这种东西… When&amp;Where&amp;Who&amp;Why 任何事物，包括一个概念，理论的提出必然有其历史背景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROC-AUC">
+<meta property="og:url" content="http://datahonor.com/2020/05/02/ROC-AUC/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="始  “You are writing a book because you are not entirely satisfied with the available texts.”  – George Casella  因为我实在受不了竟然有人写出ROC-AUC的物理意义这种东西… When&amp;Where&amp;Who&amp;Why 任何事物，包括一个概念，理论的提出必然有其历史背景">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/2020/Screenshot%20from%202020-05-02%2014-58-14.png">
+<meta property="article:published_time" content="2020-05-02T05:24:11.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Statistics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/2020/Screenshot%20from%202020-05-02%2014-58-14.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2020/05/02/ROC-AUC/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2020/05/02/ROC-AUC/","path":"2020/05/02/ROC-AUC/","title":"ROC-AUC"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ROC-AUC | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When-Where-Who-Why"><span class="nav-number">2.</span> <span class="nav-text">When&amp;Where&amp;Who&amp;Why</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">3.</span> <span class="nav-text">What</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How"><span class="nav-number">4.</span> <span class="nav-text">How</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AUC"><span class="nav-number">5.</span> <span class="nav-text">AUC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AB"><span class="nav-number">6.</span> <span class="nav-text">末</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2020/05/02/ROC-AUC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ROC-AUC | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ROC-AUC
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-02 13:24:11" itemprop="dateCreated datePublished" datetime="2020-05-02T13:24:11+08:00">2020-05-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Statistics/" itemprop="url" rel="index"><span itemprop="name">Statistics</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2020/05/02/ROC-AUC/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/02/ROC-AUC/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="始">始</h2>
+<blockquote>
+<p>“You are writing a book because you are not entirely satisfied with the available texts.”  – George Casella</p>
+</blockquote>
+<p>因为我实在受不了竟然有人写出ROC-AUC的物理意义这种东西…</p>
+<h2 id="When-Where-Who-Why">When&amp;Where&amp;Who&amp;Why</h2>
+<p>任何事物，包括一个概念，理论的提出必然有其历史背景，有其原因，也就是所谓的Motivation. 所以要想真正认识ROC和AUC必须追溯其历史，这要从1941年日军偷袭珍珠港说起…</p>
+<blockquote>
+<p>The ROC curve was first used during <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/World_War_II">World War II</a> for the analysis of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Radar">radar signals</a> before it was employed in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Signal_detection_theory">signal detection theory</a>.[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#cite_note-green66-44">44]</a> Following the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor">attack on Pearl Harbor</a> in 1941, the United States army began new research to increase the prediction of correctly detected Japanese aircraft from their radar signals. For these purposes they <strong>measured the ability</strong> of a radar receiver operator to make these important distinctions, which was called the <strong>Receiver Operating Characteristic.</strong>  --Wikipedia</p>
+</blockquote>
+<p>也就是说，在珍珠港战役之后，美军迫切地需要侦测技术的提升来更好地检测到日军飞机的入侵，所谓提升必然要有比较的指标，这个指标就是ROC.</p>
+<p>在《百面机器学习》的第二章提到了ROC曲线具体的由来。</p>
+<blockquote>
+<p>ROC曲线最早是运用在军事上的,后来逐渐运用到医学领域,并于20世纪80年代后期被引入机器学习领域。相传在第二次 世界大战期间,雷达兵的任务之一就是死死地盯住雷达显示器,观察是否有敌机来袭。理论上讲,只要有敌机来袭,雷达屏幕上 就会出现相应的信号。但是实际上,如果飞鸟出现在雷达扫描区域时,雷达屏幕上有时也会出现信号。这种情况令雷达兵烦恼不<br>
+已,如果过于谨慎,凡是有信号就确定为敌机来袭,显然会增加误报风险;如果过于大胆,凡是信号都认为是飞鸟,又会增加漏报的风险。每个雷达兵都竭尽所能地研究飞鸟信号和飞机信号之间的区别,以便增加预报的准确性。但问题在于,每个雷达兵都 有自己的判别标准,有的雷达兵比较谨慎,容易出现误报;有的雷达兵则比较胆大,容易出现漏报。</p>
+<p>为了研究每个雷达兵预报的准确性,雷达兵的管理者汇总了所有雷达兵的预报特点,特别是他们漏报和误报的概率,并将 这些概率画到一个二维坐标系里。这个二维坐标的纵坐标为敏感性(真阳性率),即在所有敌机来袭的事件中,每个雷达兵准确 预报的概率。而横坐标则为1-特异性(假阳性率),表示在所有非敌机来袭信号中,雷达兵预报错误的概率。由于每个雷达兵的<br>
+预报标准不同,且得到的敏感性和特异性的组合也不同。将这些雷达兵的预报性能进行汇总后,雷达兵管理员发现他们刚好在一条曲线上,这条曲线就是后来被广泛应用在医疗和机器学习领域的ROC曲线。</p>
+</blockquote>
+<p>现在我们可以来尝试回答为什么会有ROC曲线的存在了，就是我们需要<strong>一种更加稳健的衡量指标来判断某样东西的好坏</strong>，在探索这个指标的过程诞生了ROC曲线.在后面的分析中，我们可以更加直观地搞明白其为什么是稳健的。</p>
+<p>我这里用“某样东西”是因为其不仅仅包含大家熟知的二分类器和上面的雷达探测仪器，它包含更多的东西。</p>
+<h2 id="What">What</h2>
+<p>说了那么久，那么到底ROC是什么东西呢？简单地讲，是个曲线图。</p>
+<blockquote>
+<p>A <strong>receiver operating characteristic curve</strong>, or <strong>ROC curve</strong>, is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Graph_of_a_function">graphical plot</a> that illustrates the diagnostic ability of a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_classifier">binary classifier</a> system as its discrimination threshold is varied. --Wikipedia</p>
+</blockquote>
+<p>Wiki上明确地给出我前面说的“某样东西”是一个&quot;binary classifier sysytem&quot;， 即一个二分类系统(再次强调，请不要局限在ML里面的二分类…一个分辨灯泡好坏的仪器同样是一个二分类系统，这在质量管理中的例子很多).</p>
+<p>那么，现在我们知道了ROC曲线是一个图，它衡量一个二分类系统的诊断能力，同时其每一个点是根据一个<code>threshold</code>得到，我们变换这个<code>threshold</code>就得到了一系列的点，连点成线就得到了ROC曲线。</p>
+<p>那么现在就剩下一个问题，即如何根据这个<code>threshold</code>来获取ROC曲线上的点。这里需要引入一些定义。</p>
+<blockquote>
+<p>正类: Positive class,正品，阳性， 用1表示</p>
+<p>负类: Negative class,次品，阴性，用0表示</p>
+<p>TP, FP, TN, FN: True Positive, False Positive, True Negative, False Negative</p>
+<p>TPR: True Postive Rate, Recall, Sensitivity, $$TPR = \frac{TP}{TP+FN}$$</p>
+<p>FPR:  False Positive Rate, Fall-out, $FPR=\frac{FP}{FP+TN}$</p>
+<p>预测值: Score，二分类系统给样本的打分，实数范围R</p>
+<p>阈值: Threshold</p>
+</blockquote>
+<p>ROC定义横轴为FPR，纵轴为TPR。进而问题转化成如何从<code>Threshold</code> $T$得到对应点的横纵座标，即$(FPR_T， TPR_T)$.从某个集合$S_T$中取不同的阈值$T$，就得到一系列的横纵座标，也就是ROC曲线上的一系列点${(FPR_T, TPR_T) | T \in S_T}$, 也就得到了ROC曲线。</p>
+<p>一般来说，二分类系统的直接结果是一个连续的值即<code>Score</code>，而不是0或1的<code>Class</code>，或者说，从更广义的角度来说，这是一个合理的假定。而$TP, FP, FN, TN$等的计算是是直接依赖类别的，而<code>Threshold</code>就是一个沟通预测<code>Score</code>与<code>Class</code>的桥梁。我们通常约定**<code>Score</code>大于<code>Threshold</code>则预测为1，否则预测为0**</p>
+<p>虽然说的很麻烦，但是整个流程很简单: 拟定$T$的取值集合$S_T$， 将测试样本进入二分类系统，得出Score（将Score按升序排列），根据每个$T$进而计算$TP, FP, FN, TN$， 最后有 ${(FPR_T, TPR_T) | T \in S_T}$， 连点成线即可。</p>
+<p>因为<code>Score</code>的取值范围为$R$, 所以$T$的取值理论上也是$R$, 但是在此问题中，我们可以将其缩小到$[min(Score), max(Score)]$（这里的<code>Score</code>是指根据样本计算出的实际的数列）, 想一想为什么(hint: 考虑$TP, FP, FN, TN$的计算)， 一般均匀地取上几十个点就足够了，当然这也要看具体的样本量。这里其实又衍生出另外一个问题，而这个问题又给出了另外一种在实际中绘制ROC曲线的方法，当然本质上还是上面说的那种，只是实践起来略有差别。</p>
+<p>在样本很多的时候，我们可以取一些阈值，好比是10个，然后得到10个点，绘制出ROC曲线；如果我们取20个阈值，显然绘制出的ROC曲线会更加“精细”一些。那么这就是我前面说到的衍生的问题了，我们可以绘制出无限精细的ROC曲线吗？如果不能，我们能够做到的“精细”的极限又在哪里呢？答案是不能无限精细，其精细的极限由样本量控制。那么，为什么呢？看下面这种绘制ROC曲线的方法，你就明白了。</p>
+<blockquote>
+<p>首先,根据样本标签统计出正负样本的数量,假设正样本数量为P,负样本数量为N;接下来,把横轴的刻度间隔设置为1/N,纵轴的刻度间隔设置为1/P;再根据模型输出的预测概率对样本进行排序(从高到低);依次遍历样本,同时从零点开始绘制ROC曲线,每遇到一个正样本就沿纵轴方向绘制一个刻度间隔的曲线,每遇到一个负样本就沿横轴方向绘制一个刻度间隔的曲线,直到遍历完所有样本,曲线最终停在(1,1)这个点,整个ROC曲线绘制完成。 --《百面机器学习》</p>
+</blockquote>
+<p><img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/2020/Screenshot%20from%202020-05-02%2014-58-14.png" alt=""></p>
+<h2 id="How">How</h2>
+<p>在搞清楚ROC是什么之后，我们需要知道它到底怎么来衡量二分类系统的好坏呢？或者说什么样的曲线是说明系统分类的性能比较好？这首先要研究下ROC曲线的一些性质。</p>
+<p>首先，其必过(0, 0)与(1, 1)两点： $\forall T \in (-\inf, min(Score))$, 样本全部被预测为1， $FPR=1, TPR=1$, 即过点(1, 1); $\forall T \in (max(Score), \inf)$,样本全部被预测为0， $FPR=0, TPR=0$, 即过点(0, 0).</p>
+<blockquote>
+<p>所以上面说的$T$的取值范围可以限制在$[min(Score), max(Score)]$的原因就一目了然了~</p>
+</blockquote>
+<p>其次是我们希望二分类系统的FPR尽可能小的同时TPR尽可能地大，对应到ROC曲线就是曲线尽可能向左上方靠近。一个很好的辅助线就是$y=x$,即连接上述两点的对角线。在ROC Space(详见Wikipedia)中，这条曲线表示二分类系统中衡有FPR=TPR，也就说这种分类系统就是随机给出的预测，毫无任何意义。我们的ROC 曲线一般都是在其上方的。</p>
+<p>这里其实还可以问一下，ROC总是在$y=x$的上方吗？我觉着这个问题值得停下来取想一下的。这个问题的答案当然是否定的。因为我们一般遇到的结果效果都比较好，所以不存在这种情况，但是确实是存在这种情况的。举一个极端的例子，设计好一个二分类系统后，我们给定的测试样本全是负样本，那么无论如何得到的ROC曲线一定是X轴上的一条直线，必然是在$y=x$下面的！</p>
+<p>然后呢，还有一个问题就是我们仅仅知道<strong>偏左上方比较好</strong>是不够的，定性的方法还是不如定量的方法来的实用。在两个系统的ROC曲线都是偏左上方，并且看起来没什么大的差别时如果比较呢？答案就是AUC(Area under the curve)了，即ROC曲线下的面积(这里没有具体去查AUC引入的历史，不过其引入也算是比较自然的，究其本质，面积即积分，积分即累加)。</p>
+<p>先说结论，一般认为AUC大的分类系统更好一些。而且AUC除了定量地表示了偏左上的程度之外还有一个很好的性质，就是其取值范围在0和1之间，可以很方便地进行比较。考虑上面的$y=x$时为随机猜正负，其AUC为0.5， 所以我们的分类系统AUC的底线就是0.5，越高越好。</p>
+<h2 id="AUC">AUC</h2>
+<p>对AUC的解释有很多，其中有个被问烂的问题就是其所谓的“物理意义”…（真就“为什么JAVA实现中链表长度到8就变红黑树”呗:-)</p>
+<p>AUC的概率解释在Wikipedia中有详细的推导.<br>
+$$<br>
+\begin{equation}\begin{aligned}<br>
+&amp;T P R(T): T \rightarrow y(x)\<br>
+&amp;F P R(T): T \rightarrow x\<br>
+&amp;\mathrm{TPR}(T)=\int_{T}^{\infty} f_{1}(x) d x\<br>
+&amp;\operatorname{FPR}(T)=\int_{T}^{\infty} f_{0}(x) d x\<br>
+&amp;AUC=\int_{x=0}^{1} \operatorname{TPR}\left(\operatorname{FPR}^{-1}(x)\right) d x=\int_{\infty}^{-\infty} \operatorname{TPR}(T) \operatorname{FPR}^{\prime}(T) d T=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} I\left(T^{\prime}&gt;T\right) f_{1}\left(T^{\prime}\right) f_{0}(T) d T^{\prime} d T=P\left(X_{1}&gt;X_{0}\right)<br>
+\end{aligned}\end{equation}<br>
+$$<br>
+其中$X_1$是正类的的$Score$, $X_2$是负类的$Score$. 此外AUC也是<code>Wilcoxon-Mann-Whitney statistic</code>，公式如下,这里的$f$指二分类系统.<br>
+$$<br>
+A U C(f)=\frac{\sum_{t_{0} \in \mathcal{D}^{0}} \sum_{t_{1} \in \mathcal{D}^{1}} \mathbf{1}\left[f\left(t_{0}\right)&lt;f\left(t_{1}\right)\right]}{\left|\mathcal{D}^{0}\right| \cdot\left|\mathcal{D}^{1}\right|}<br>
+$$<br>
+总而言之就是</p>
+<blockquote>
+<p>When using normalized units, the area under the curve (often referred to<br>
+as simply the AUC) is equal to the probability that a classifier will<br>
+rank a randomly chosen positive instance higher than a randomly chosen<br>
+negative one (assuming ‘positive’ ranks higher than ‘negative’)</p>
+</blockquote>
+<p>也就是说AUC本质上是一个平均值，对正负样本集做笛卡尔积，然后每对样本中比较正类与负类的$Score$大小，找出那些正类得分大于负类得分的配对，其数量与总的配对数量之比就是AUC的值。</p>
+<p>那么，根据上面的计算公式，我们能够理解AUC的稳健之处正是在于其平均了每种配对的情况，这也是在样本类别不均衡时用AUC来衡量模型的原因。</p>
+<p>其实还有一个很有趣的问题，就是AUC的代码实现，这个我是没有去查过目前已有的实现的，但是通过上面的解释，我们大概有两种方法去计算，第一就是用<code>Wilcoxon-Mann-Whitney statistic</code>，基于计数去算；第二个是从给出的精细ROC绘制方法入手。那么问题来了，那个更快呢？</p>
+<h2 id="末">末</h2>
+<p>想知道ROC怎么from scratch来用代码画吗？想了解AUC两种计算方式的benchmarking吗？想…也没有续集了，或许要等下年五一了:-)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Statistics/" rel="tag"># Statistics</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/05/01/%E4%B8%8D%E8%89%AF%E5%B0%8F%E7%99%BD/" rel="prev" title="不良小白">
+                  <i class="fa fa-chevron-left"></i> 不良小白
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/13/%E4%B9%B1%E4%B8%96%E4%B8%8E%E4%BD%B3%E4%BA%BA/" rel="next" title="乱世与佳人">
+                  乱世与佳人 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2020/05/02/ROC-AUC/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 在复习CookBook的闲暇，看了看OpenCV By Example, 里面的示例很不错，这里做下记录。此处实现了目标的背景去除，目标的分割和检测，以工厂螺母为例。就是下面的图啦。   Code 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动光学检测，目标分割和检测">
+<meta property="og:url" content="http://datahonor.com/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 在复习CookBook的闲暇，看了看OpenCV By Example, 里面的示例很不错，这里做下记录。此处实现了目标的背景去除，目标的分割和检测，以工厂螺母为例。就是下面的图啦。   Code 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/170518/light.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/170518/test.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/170518/Selection_051801.png">
+<meta property="article:published_time" content="2017-05-17T16:49:33.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.460Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-1252464519.costj.myqcloud.com/170518/light.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/","path":"2017/05/18/自动光学检测，目标分割和检测/","title":"自动光学检测，目标分割和检测"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自动光学检测，目标分割和检测 | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-65"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Code-54"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%85%E6%94%B9%E8%BF%9B%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="nav-number">3.</span> <span class="nav-text">待改进的地方</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="自动光学检测，目标分割和检测 | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自动光学检测，目标分割和检测
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-18 00:49:33" itemprop="dateCreated datePublished" datetime="2017-05-18T00:49:33+08:00">2017-05-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cpp/" itemprop="url" rel="index"><span itemprop="name">Cpp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Overview-65">Overview</h4>
+<p>在复习CookBook的闲暇，看了看<em>OpenCV By Example</em>, 里面的示例很不错，这里做下记录。此处实现了目标的背景去除，目标的分割和检测，以工厂螺母为例。就是下面的图啦。</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/170518/light.png" alt=""><br>
+<img src="http://blog-1252464519.costj.myqcloud.com/170518/test.png" alt=""></p>
+<h4 id="Code-54">Code</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by shensir on 17-5-17.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 光纹去除</span></span><br><span class="line"><span class="function">Mat <span class="title">removeLight</span><span class="params">(Mat img, Mat pattern, <span class="type">int</span> method)</span></span>&#123;</span><br><span class="line">    Mat aux;</span><br><span class="line">    <span class="comment">// 如果方法是归一化</span></span><br><span class="line">    <span class="keyword">if</span>(method==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">// 相除时需要将图像改为32位浮点型</span></span><br><span class="line">        Mat img32, pattern32;</span><br><span class="line">        img.<span class="built_in">convertTo</span>(img32, CV_32F);</span><br><span class="line">        pattern.<span class="built_in">convertTo</span>(pattern32, CV_32F);</span><br><span class="line">        <span class="comment">// 图像相除模式</span></span><br><span class="line">        aux = <span class="number">255</span>*(<span class="number">1</span>-(img32/pattern32));</span><br><span class="line">        <span class="comment">// 换回8bit</span></span><br><span class="line">        aux.<span class="built_in">convertTo</span>(aux, CV_8U);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        aux = pattern - img;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> aux;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 估计背景图像，大尺寸核矩阵模糊</span></span><br><span class="line"><span class="function">Mat <span class="title">calculateLightPattern</span><span class="params">(Mat img)</span></span>&#123;</span><br><span class="line">    Mat pattern;</span><br><span class="line">    <span class="built_in">blur</span>(img, pattern, <span class="built_in">Size</span>(img.cols/<span class="number">3</span>, img.rows/<span class="number">3</span>));</span><br><span class="line">    <span class="keyword">return</span> pattern;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 先进行形态学操作[在背景色是核函数模糊得到的时候，很有必要]，再二值化</span></span><br><span class="line"><span class="function">Mat <span class="title">getBinary</span><span class="params">(Mat img_no_light, <span class="type">int</span> method_light)</span></span>&#123;</span><br><span class="line">    Mat img_thr;</span><br><span class="line">    <span class="keyword">if</span>(method_light!=<span class="number">2</span>)&#123;</span><br><span class="line">        <span class="built_in">threshold</span>(img_no_light, img_thr, <span class="number">30</span>, <span class="number">255</span>, THRESH_BINARY);</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">threshold</span>(img_no_light, img_thr, <span class="number">140</span>, <span class="number">255</span>, THRESH_BINARY_INV);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 进行形态学操作去除边缘不规则噪点</span></span><br><span class="line">    cv::Mat closed;</span><br><span class="line">    <span class="function">cv::Mat <span class="title">element5</span><span class="params">(<span class="number">5</span> ,<span class="number">5</span>, CV_8U, cv::Scalar(<span class="number">1</span>))</span></span>;</span><br><span class="line">    cv::<span class="built_in">morphologyEx</span>(img_thr, closed,   <span class="comment">// input and output</span></span><br><span class="line">                     cv::MORPH_CLOSE,  <span class="comment">// operator code</span></span><br><span class="line">                     element5);  <span class="comment">// structuring element</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Opening</span></span><br><span class="line">    cv::Mat opening;</span><br><span class="line">    cv::<span class="built_in">morphologyEx</span>(closed, opening,   <span class="comment">// input and output</span></span><br><span class="line">                     cv::MORPH_OPEN,  <span class="comment">// operator code</span></span><br><span class="line">                     element5);  <span class="comment">// structuring element</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;img_thr_closed-opening&quot;</span>, opening);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> opening;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> Scalar <span class="title">randomColor</span><span class="params">( RNG&amp; rng )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> icolor = (<span class="type">unsigned</span>) rng;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Scalar</span>( icolor&amp;<span class="number">255</span>, (icolor&gt;&gt;<span class="number">8</span>)&amp;<span class="number">255</span>, (icolor&gt;&gt;<span class="number">16</span>)&amp;<span class="number">255</span> );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 连通区域算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConnectedComponents</span><span class="params">(Mat img)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 使用连通区域分离符合要求部分图像Mat标签</span></span><br><span class="line">    Mat labels;</span><br><span class="line">    <span class="type">int</span> num_objects = <span class="built_in">connectedComponents</span>(img, labels);</span><br><span class="line">    <span class="comment">// 检查检测到的目标数目</span></span><br><span class="line">    <span class="keyword">if</span>(num_objects&lt;<span class="number">2</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;No objects detected&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Number of objects detected: &quot;</span>&lt;&lt; num_objects<span class="number">-1</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建彩色目标的输出图像</span></span><br><span class="line">    Mat output=Mat::<span class="built_in">zeros</span>(img.rows, img.cols, CV_8UC3);</span><br><span class="line">    <span class="function">RNG <span class="title">rng</span><span class="params">(<span class="number">0xFFFFFFFF</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;num_objects; i++)&#123;</span><br><span class="line">        Mat mask = labels==i;</span><br><span class="line">        output.<span class="built_in">setTo</span>(<span class="built_in">randomColor</span>(rng), mask);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;Result&quot;</span>, output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 连通区域算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ConnectedComponentsStats</span><span class="params">(Mat img)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 连通区域统计信息</span></span><br><span class="line">    Mat labels, stats, centroids;</span><br><span class="line">    <span class="type">int</span> num_objects = <span class="built_in">connectedComponentsWithStats</span>(img, labels, stats, centroids);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检测物体数目判别</span></span><br><span class="line">    <span class="keyword">if</span>(num_objects&lt;<span class="number">2</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;No objects detedcted&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Number of objects detected: &quot;</span>&lt;&lt;num_objects<span class="number">-1</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建彩色对象的输出图像并显示区域</span></span><br><span class="line">    Mat output = Mat::<span class="built_in">zeros</span>(img.rows, img.cols, CV_8UC3);</span><br><span class="line">    <span class="function">RNG <span class="title">rng</span><span class="params">(<span class="number">0xFFFFFFFF</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;num_objects; i++)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Object &quot;</span>&lt;&lt;i&lt;&lt;<span class="string">&quot; with pos: &quot;</span>&lt;&lt;centroids.<span class="built_in">at</span>&lt;Point2d&gt;(i)</span><br><span class="line">                                         &lt;&lt;<span class="string">&quot; with area &quot;</span>&lt;&lt;stats.<span class="built_in">at</span>&lt;<span class="type">int</span>&gt;(i, CC_STAT_AREA)&lt;&lt;endl;</span><br><span class="line">        Mat mask = labels==i;</span><br><span class="line">        output.<span class="built_in">setTo</span>(<span class="built_in">randomColor</span>(rng), mask);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用区域绘制文本</span></span><br><span class="line">        stringstream ss;</span><br><span class="line">        ss&lt;&lt;<span class="string">&quot;area: &quot;</span>&lt;&lt;stats.<span class="built_in">at</span>&lt;<span class="type">int</span>&gt;(i, CC_STAT_AREA);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">putText</span>(output, ss.<span class="built_in">str</span>(), centroids.<span class="built_in">at</span>&lt;Point2d&gt;(i), FONT_HERSHEY_SIMPLEX, <span class="number">0.4</span>, <span class="built_in">Scalar</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;Result&quot;</span>, output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//  边缘检测算法</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FindContoursBasic</span><span class="params">(Mat img)</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;Point&gt;&gt; contours;</span><br><span class="line">    <span class="built_in">findContours</span>(img, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);</span><br><span class="line">    Mat output = Mat::<span class="built_in">zeros</span>(img.rows, img.cols, CV_8UC3);</span><br><span class="line">    <span class="comment">// 检查检测到的对象的数目</span></span><br><span class="line">    <span class="keyword">if</span>(contours.<span class="built_in">size</span>() == <span class="number">0</span>)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;No objects detected&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;Number of objects detected: &quot;</span>&lt;&lt;contours.<span class="built_in">size</span>()&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">RNG <span class="title">rng</span><span class="params">(<span class="number">0xFFFFFFFF</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;contours.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="built_in">drawContours</span>(output, contours, i, <span class="built_in">randomColor</span>(rng));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;Contours&quot;</span>, output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Mat img = <span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/industry.pgm&quot;</span>, IMREAD_GRAYSCALE);</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;Original Image&quot;</span>, img);</span><br><span class="line"></span><br><span class="line">    Mat pattern = <span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/light.pgm&quot;</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;Back&quot;</span>, pattern);</span><br><span class="line"><span class="comment">//    Mat pattern = calculateLightPattern(img);</span></span><br><span class="line">    Mat img_no_light = <span class="built_in">removeLight</span>(img, pattern, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">imshow</span>(<span class="string">&quot;removelight--minus&quot;</span>, img_no_light);</span><br><span class="line"></span><br><span class="line">    Mat img_thr = <span class="built_in">getBinary</span>(img_no_light,<span class="number">1</span>);</span><br><span class="line"><span class="comment">//    ConnectedComponents(img_thr);</span></span><br><span class="line">    <span class="built_in">ConnectedComponentsStats</span>(img_thr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">FindContoursBasic</span>(img_thr);</span><br><span class="line">    <span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<blockquote>
+<p>Number of objects detected: 4<br>
+Object 1 with pos: [160.203, 143.822] with area 2315<br>
+Object 2 with pos: [263.535, 131.804] with area 1820<br>
+Object 3 with pos: [52.7045, 143.926] with area 1171<br>
+Object 4 with pos: [68.233, 202.819] with area 1618<br>
+Number of objects detected: 4</p>
+</blockquote>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/170518/Selection_051801.png" alt=""></p>
+<h4 id="待改进的地方">待改进的地方</h4>
+<p>在没有背景色图的时候，我们直接通过大尺寸核矩阵模糊化得到的效果很差，得到的objects大于50左右，后面自己加上了形态学的操作，降到了5个，但是还是多了一个。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/15/Morphalogical-Operations/" rel="prev" title="OpenCV系列笔记十九：Morphalogical Operations">
+                  <i class="fa fa-chevron-left"></i> OpenCV系列笔记十九：Morphalogical Operations
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/18/%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB/" rel="next" title="学习目标分类">
+                  学习目标分类 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/05/18/%E8%87%AA%E5%8A%A8%E5%85%89%E5%AD%A6%E6%A3%80%E6%B5%8B%EF%BC%8C%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2%E5%92%8C%E6%A3%80%E6%B5%8B/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

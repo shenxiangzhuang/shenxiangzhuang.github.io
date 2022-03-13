@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 用了大概几个月的时间看完了OpenCV 3 Computer Vision Application Programming Cookbook - Third Edition， 也对前7章的基本操作部分在小站上进行了相应的总结。这里是最后一章实战的DEMO部分的代码，算作对本书学习的一个结尾吧。前面也看了几本相关的书，不过都和这本书差远了，无论理论和算法的讲解还是代码的水平都堪称一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HOG+SVM&amp;Pedestrian Detection">
+<meta property="og:url" content="http://datahonor.com/2017/08/17/HOG-SVM-Pedestrian-Detection/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 用了大概几个月的时间看完了OpenCV 3 Computer Vision Application Programming Cookbook - Third Edition， 也对前7章的基本操作部分在小站上进行了相应的总结。这里是最后一章实战的DEMO部分的代码，算作对本书学习的一个结尾吧。前面也看了几本相关的书，不过都和这本书差远了，无论理论和算法的讲解还是代码的水平都堪称一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/Original%20image_081704.png">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/HOG%20image_081705.png">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/Positive%20samples_081707.png">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/Negative%20Samples_081706.png">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/People%20detection_081708.png">
+<meta property="article:published_time" content="2017-08-17T07:24:18.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://datahonor-1252464519.costj.myqcloud.com/201708/Original%20image_081704.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/08/17/HOG-SVM-Pedestrian-Detection/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/08/17/HOG-SVM-Pedestrian-Detection/","path":"2017/08/17/HOG-SVM-Pedestrian-Detection/","title":"HOG+SVM&Pedestrian Detection"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HOG+SVM&Pedestrian Detection | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-17"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Code-15"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EHOG%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">关于HOG的可视化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HOG-SVM%E6%A3%80%E6%B5%8B%E8%AD%A6%E7%A4%BA%E7%89%8C"><span class="nav-number">2.2.</span> <span class="nav-text">HOG+SVM检测警示牌</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Pedestrian-Detection%E7%AE%80%E5%8C%96%E7%89%88"><span class="nav-number">2.3.</span> <span class="nav-text">Pedestrian Detection简化版</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%A6"><span class="nav-number">3.</span> <span class="nav-text">…</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/08/17/HOG-SVM-Pedestrian-Detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HOG+SVM&Pedestrian Detection | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HOG+SVM&Pedestrian Detection
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-08-17 15:24:18" itemprop="dateCreated datePublished" datetime="2017-08-17T15:24:18+08:00">2017-08-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cpp/" itemprop="url" rel="index"><span itemprop="name">Cpp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/08/17/HOG-SVM-Pedestrian-Detection/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/08/17/HOG-SVM-Pedestrian-Detection/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Overview-17">Overview</h4>
+<p>用了大概几个月的时间看完了<em>OpenCV 3 Computer Vision Application Programming Cookbook - Third Edition</em>， 也对前7章的基本操作部分在小站上进行了相应的总结。这里是最后一章实战的DEMO部分的代码，算作对本书学习的一个结尾吧。前面也看了几本相关的书，不过都和这本书差远了，无论理论和算法的讲解还是代码的水平都堪称一流，真心推荐~</p>
+<h4 id="Code-15">Code</h4>
+<h5 id="关于HOG的可视化">关于HOG的可视化</h5>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgproc.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgcodecs.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/ml.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// draw one HOG over one cell</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">drawHOG</span><span class="params">(std::vector&lt;<span class="type">float</span>&gt;::const_iterator hog, <span class="comment">// iterator to the HOG</span></span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> numberOfBins,  <span class="comment">// number of bins inHOG</span></span></span></span><br><span class="line"><span class="params"><span class="function">        cv::Mat &amp; image,  <span class="comment">// image of the cell</span></span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">float</span> scale = <span class="number">1.0</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> PI = <span class="number">3.1415927</span>;</span><br><span class="line">    <span class="type">float</span> binStep = PI/numberOfBins;</span><br><span class="line">    <span class="type">float</span> maxLength = image.rows;</span><br><span class="line">    <span class="type">float</span> cx = image.cols/<span class="number">2</span>;</span><br><span class="line">    <span class="type">float</span> cy = image.rows/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for each bin</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> bin=<span class="number">0</span>; bin&lt;numberOfBins; bin++)&#123;</span><br><span class="line">        <span class="comment">// bin orientation</span></span><br><span class="line">        <span class="type">float</span> angle = bin*binStep;</span><br><span class="line">        <span class="type">float</span> dirX = <span class="built_in">cos</span>(angle);</span><br><span class="line">        <span class="type">float</span> dirY = <span class="built_in">sin</span>(angle);</span><br><span class="line">        <span class="comment">// length of line proportion to bin size</span></span><br><span class="line">        <span class="comment">// 这里感觉是为了可视化的时候区分不同的bin,不是很明白...</span></span><br><span class="line">        <span class="type">float</span> length = <span class="number">0.5</span>*maxLength**(hog+bin);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// drawing the line</span></span><br><span class="line">        <span class="type">float</span> x1 = cx - dirX * length * scale;</span><br><span class="line">        <span class="type">float</span> y1 = cy - dirY * length * scale;</span><br><span class="line">        <span class="type">float</span> x2 = cx + dirX * length * scale;</span><br><span class="line">        <span class="type">float</span> y2 = cy + dirY * length * scale;</span><br><span class="line">        cv::<span class="built_in">line</span>(image, cv::<span class="built_in">Point</span>(x1, y1), cv::<span class="built_in">Point</span>(x2, y2),</span><br><span class="line">        <span class="built_in">CV_RGB</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), <span class="number">1.5</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Draw HOG over an image</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">drawHOGDescriptors</span><span class="params">(<span class="type">const</span> cv::Mat &amp;image, <span class="comment">// the input image</span></span></span></span><br><span class="line"><span class="params"><span class="function">    cv::Mat &amp;hogImage, <span class="comment">// the resulting hog image</span></span></span></span><br><span class="line"><span class="params"><span class="function">        cv::Size cellSize,  <span class="comment">// size of each cell</span></span></span></span><br><span class="line"><span class="params"><span class="function">        <span class="type">int</span> nBins</span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span>&#123;</span><br><span class="line">    <span class="comment">// block size is image size</span></span><br><span class="line">    <span class="comment">// image.cols = 391</span></span><br><span class="line">    <span class="comment">// (image.cols/cellSize.width)*cellSize.width = 384</span></span><br><span class="line">    <span class="comment">// 下面这里先除后乘，是为了保证在不能恰好被cell均分的情况</span></span><br><span class="line">    <span class="function">cv::HOGDescriptor <span class="title">hog</span><span class="params">(cv::Size((image.cols/cellSize.width)*cellSize.width, (image.rows/cellSize.height)*cellSize.height),</span></span></span><br><span class="line"><span class="params"><span class="function">                          cv::Size((image.cols/cellSize.width)*cellSize.width, (image.rows/cellSize.height)*cellSize.height),</span></span></span><br><span class="line"><span class="params"><span class="function">                          cellSize, cellSize, nBins)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute HOG</span></span><br><span class="line">    std::vector&lt;<span class="type">float</span>&gt;descriptors;</span><br><span class="line">    hog.<span class="built_in">compute</span>(image, descriptors);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> scale = <span class="number">2.0</span> / *std::<span class="built_in">max_element</span>(descriptors.<span class="built_in">begin</span>(), descriptors.<span class="built_in">end</span>());</span><br><span class="line">    hogImage.<span class="built_in">create</span>(image.rows, image.cols, CV_8U);</span><br><span class="line">    cv::Mat temp;</span><br><span class="line">    std::vector&lt;<span class="type">float</span>&gt;::const_iterator itDesc = descriptors.<span class="built_in">begin</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;image.rows/cellSize.height; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j &lt; image.cols/cellSize.width; j++)&#123;</span><br><span class="line">            <span class="comment">// draw each cell</span></span><br><span class="line">            temp = <span class="built_in">hogImage</span>(cv::<span class="built_in">Rect</span>(j*cellSize.width, i*cellSize.height, cellSize.width, cellSize.height));</span><br><span class="line">            <span class="built_in">drawHOG</span>(itDesc, nBins, temp, scale);</span><br><span class="line">            itDesc += nBins;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cv::Mat image = <span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/MyCV/data/girl.png&quot;</span>, <span class="number">0</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Original image&quot;</span>, image);</span><br><span class="line"></span><br><span class="line">    <span class="function">cv::HOGDescriptor <span class="title">hog</span><span class="params">(cv::Size((image.cols / <span class="number">16</span>) * <span class="number">16</span>, (image.rows / <span class="number">16</span>) * <span class="number">16</span>), <span class="comment">// size of the window</span></span></span></span><br><span class="line"><span class="params"><span class="function">                          cv::Size(<span class="number">16</span>, <span class="number">16</span>),  <span class="comment">// block size</span></span></span></span><br><span class="line"><span class="params"><span class="function">                          cv::Size(<span class="number">16</span>, <span class="number">16</span>),  <span class="comment">// block stride</span></span></span></span><br><span class="line"><span class="params"><span class="function">                          cv::Size(<span class="number">4</span>, <span class="number">4</span>),  <span class="comment">// cell size</span></span></span></span><br><span class="line"><span class="params"><span class="function">                          <span class="number">9</span>)</span></span>; <span class="comment">// num of bins</span></span><br><span class="line"></span><br><span class="line">    std::vector&lt;<span class="type">float</span>&gt; descriptor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Draw  a representation of HOG cells</span></span><br><span class="line">    cv::Mat hogImage = image.<span class="built_in">clone</span>();</span><br><span class="line">    <span class="built_in">drawHOGDescriptors</span>(image, hogImage, cv::<span class="built_in">Size</span>(<span class="number">16</span>, <span class="number">16</span>), <span class="number">9</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;HOG image&quot;</span>, hogImage);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="http://datahonor-1252464519.costj.myqcloud.com/201708/Original%20image_081704.png" alt=""><br>
+<img src="http://datahonor-1252464519.costj.myqcloud.com/201708/HOG%20image_081705.png" alt=""></p>
+<h5 id="HOG-SVM检测警示牌">HOG+SVM检测警示牌</h5>
+<p>这里是自己完成训练到预测全部过程的，之前看到<a target="_blank" rel="noopener" href="http://blog.csdn.net/masibuaa/article/details/16105073">这个</a>，但是是OpenCV2.4的，尝试改成3的没成功，很多函数的用法已经变了，不过对比看还是下面这种逻辑更为清晰一些。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgproc.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgcodecs.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/ml.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// generate the filename</span></span><br><span class="line">    std::vector&lt;std::string&gt; imgs;</span><br><span class="line">    std::string prefix = <span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/b&quot;</span></span><br><span class="line">            <span class="string">&quot;ooks/CV/1-ing/OpenCV3ComputerVisionApplicationProgrammingCookbook&quot;</span></span><br><span class="line">            <span class="string">&quot;ThirdEdition_Code/images/stopSamples/stop&quot;</span>;</span><br><span class="line">    std::string ext = <span class="string">&quot;.png&quot;</span>;</span><br><span class="line">    <span class="comment">// loading 8 positive samples</span></span><br><span class="line">    std::vector&lt;cv::Mat&gt; positives;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="function">std::string <span class="title">name</span><span class="params">(prefix)</span></span>;</span><br><span class="line">        std::ostringstream ss;</span><br><span class="line">        ss &lt;&lt; std::<span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; i;</span><br><span class="line">        name += ss.<span class="built_in">str</span>();</span><br><span class="line">        name += ext;</span><br><span class="line">        positives.<span class="built_in">push_back</span>(<span class="built_in">imread</span>(name, cv::IMREAD_GRAYSCALE));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// the first 8 positive samples</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">posSamples</span><span class="params">(<span class="number">2</span> * positives[<span class="number">0</span>].rows, <span class="number">4</span> * positives[<span class="number">0</span>].cols, CV_8U)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">            positives[i * <span class="number">4</span> + j].<span class="built_in">copyTo</span>(<span class="built_in">posSamples</span>(cv::<span class="built_in">Rect</span>(j * positives[i * <span class="number">4</span> + j].cols,</span><br><span class="line">                                                            i * positives[i * <span class="number">4</span> + j].rows,</span><br><span class="line">                                                            positives[i * <span class="number">4</span> + j].cols,</span><br><span class="line">                                                            positives[i * <span class="number">4</span> + j].rows)));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Positive samples&quot;</span>, posSamples);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// laoding 8 negative samples</span></span><br><span class="line">    std::string nprefix = <span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/books/CV/1-ing&quot;</span></span><br><span class="line">            <span class="string">&quot;/OpenCV3ComputerVisionApplicationProgrammingCookbookThirdEdition_Code&quot;</span></span><br><span class="line">            <span class="string">&quot;/images/stopSamples/neg&quot;</span>;</span><br><span class="line">    std::vector&lt;cv::Mat&gt; negatives;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">long</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="function">std::string <span class="title">name</span><span class="params">(nprefix)</span></span>;</span><br><span class="line">        std::ostringstream ss;</span><br><span class="line">        ss &lt;&lt; std::<span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; std::<span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; i;</span><br><span class="line">        name += ss.<span class="built_in">str</span>();</span><br><span class="line">        name += ext;</span><br><span class="line">        negatives.<span class="built_in">push_back</span>(cv::<span class="built_in">imread</span>(name, cv::IMREAD_GRAYSCALE));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// the first 8 negative  samples</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">negSamples</span><span class="params">(<span class="number">2</span> * negatives[<span class="number">0</span>].rows, <span class="number">4</span> * negatives[<span class="number">0</span>].cols, CV_8U)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">            negatives[i * <span class="number">4</span> + j].<span class="built_in">copyTo</span>(</span><br><span class="line">                    <span class="built_in">negSamples</span>(cv::<span class="built_in">Rect</span>(j * negatives[<span class="number">4</span> * i + j].cols,</span><br><span class="line">                                        i * negatives[<span class="number">4</span> * i + j].rows, negatives[<span class="number">4</span> * i + j].cols,</span><br><span class="line">                                        negatives[<span class="number">4</span> * i + j].rows)));</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Negative Samples&quot;</span>, negSamples);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The HOG descriptor for stop sign detection</span></span><br><span class="line">    <span class="function">cv::HOGDescriptor <span class="title">hogDesc</span><span class="params">(positives[<span class="number">0</span>].size(), <span class="comment">// size of the window</span></span></span></span><br><span class="line"><span class="params"><span class="function">                              cv::Size(<span class="number">8</span>, <span class="number">8</span>),  <span class="comment">// block size</span></span></span></span><br><span class="line"><span class="params"><span class="function">                              cv::Size(<span class="number">4</span>, <span class="number">4</span>),  <span class="comment">// block stride</span></span></span></span><br><span class="line"><span class="params"><span class="function">                              cv::Size(<span class="number">4</span>, <span class="number">4</span>),  <span class="comment">// cell size</span></span></span></span><br><span class="line"><span class="params"><span class="function">                              <span class="number">9</span>  <span class="comment">// number of bins</span></span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute first descriptor</span></span><br><span class="line">    std::vector&lt;<span class="type">float</span>&gt; desc;</span><br><span class="line">    hogDesc.<span class="built_in">compute</span>(positives[<span class="number">0</span>], desc);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Positive sample size: &quot;</span> &lt;&lt; positives[<span class="number">0</span>].rows &lt;&lt; <span class="string">&quot;x&quot;</span> &lt;&lt; positives[<span class="number">0</span>].cols &lt;&lt; endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;HOG descriptor size: &quot;</span> &lt;&lt; desc.<span class="built_in">size</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// the matrix of sample descriptors</span></span><br><span class="line">    <span class="type">int</span> featureSize = desc.<span class="built_in">size</span>();</span><br><span class="line">    <span class="type">int</span> numberOfSamples = positives.<span class="built_in">size</span>() + negatives.<span class="built_in">size</span>();</span><br><span class="line">    <span class="comment">// create the matrix that will contain the sample HOG</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">samples</span><span class="params">(numberOfSamples, featureSize, CV_32FC1)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fill first row with first descriptor</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++)</span><br><span class="line">        samples.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(<span class="number">0</span>)[i] = desc[i];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute descriptor of the positive samples</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; positives.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        hogDesc.<span class="built_in">compute</span>(positives[j], desc);</span><br><span class="line">        <span class="comment">// fill the next row with current descriptor</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++) &#123;</span><br><span class="line">            samples.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(j)[i] = desc[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute descriptor of the negative samples</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; negatives.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">        hogDesc.<span class="built_in">compute</span>(negatives[j], desc);</span><br><span class="line">        <span class="comment">// fill the next row with current descriptor</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++) &#123;</span><br><span class="line">            samples.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(j + positives.<span class="built_in">size</span>())[i] = desc[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create the labels</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">labels</span><span class="params">(numberOfSamples, <span class="number">1</span>, CV_32SC1)</span></span>;</span><br><span class="line">    <span class="comment">// labels of positive samples</span></span><br><span class="line">    labels.<span class="built_in">rowRange</span>(<span class="number">0</span>, positives.<span class="built_in">size</span>()) = <span class="number">1.0</span>;</span><br><span class="line">    <span class="comment">// labels of negative sampels</span></span><br><span class="line">    labels.<span class="built_in">rowRange</span>(positives.<span class="built_in">size</span>(), numberOfSamples) = <span class="number">-1.0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create SVM classifier</span></span><br><span class="line">    cv::Ptr&lt;cv::ml::SVM&gt; svm = cv::ml::SVM::<span class="built_in">create</span>();</span><br><span class="line">    svm-&gt;<span class="built_in">setType</span>(cv::ml::SVM::C_SVC);</span><br><span class="line">    svm-&gt;<span class="built_in">setKernel</span>(cv::ml::SVM::LINEAR);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// prepare the training data</span></span><br><span class="line">    cv::Ptr&lt;cv::ml::TrainData&gt; trainingData =</span><br><span class="line">            cv::ml::TrainData::<span class="built_in">create</span>(samples, cv::ml::SampleTypes::ROW_SAMPLE, labels);</span><br><span class="line">    <span class="comment">// SVM training</span></span><br><span class="line">    svm-&gt;<span class="built_in">train</span>(trainingData);</span><br><span class="line">    <span class="comment">// 将训练好的SVM模型保存为XML文件</span></span><br><span class="line">    svm-&gt;<span class="built_in">save</span>(<span class="string">&quot;STOP_LOGO.xml&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 测试</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">queries</span><span class="params">(<span class="number">4</span>, featureSize, CV_32FC1)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fill the rows with query descriptor</span></span><br><span class="line">    hogDesc.<span class="built_in">compute</span>(cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/bo&quot;</span></span><br><span class="line">                                       <span class="string">&quot;oks/CV/1-ing/OpenCV3ComputerVisionApplication&quot;</span></span><br><span class="line">                                       <span class="string">&quot;ProgrammingCookbookThirdEdition_Code/images/stopSamples/stop08.png&quot;</span>, <span class="number">0</span>), desc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++)</span><br><span class="line">        queries.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(<span class="number">0</span>)[i] = desc[i];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    hogDesc.<span class="built_in">compute</span>(cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/boo&quot;</span></span><br><span class="line">                                       <span class="string">&quot;ks/CV/1-ing/OpenCV3ComputerVisionApplicationProgramm&quot;</span></span><br><span class="line">                                       <span class="string">&quot;ingCookbookThirdEdition_Code/images/stopSamples/stop09.png&quot;</span>, <span class="number">0</span>), desc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++)</span><br><span class="line">        queries.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(<span class="number">1</span>)[i] = desc[i];</span><br><span class="line"></span><br><span class="line">    hogDesc.<span class="built_in">compute</span>(cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/&quot;</span></span><br><span class="line">                                       <span class="string">&quot;Cpp/books/CV/1-ing/OpenCV3ComputerVisionApplicationPro&quot;</span></span><br><span class="line">                                       <span class="string">&quot;grammingCookbookThirdEdition_Code/images/stopSamples/neg08.png&quot;</span>, <span class="number">0</span>), desc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++)</span><br><span class="line">        queries.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(<span class="number">2</span>)[i] = desc[i];</span><br><span class="line"></span><br><span class="line">    hogDesc.<span class="built_in">compute</span>(cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/books/&quot;</span></span><br><span class="line">                                       <span class="string">&quot;CV/1-ing/OpenCV3ComputerVisionApplicationP&quot;</span></span><br><span class="line">                                       <span class="string">&quot;rogrammingCookbookThirdEdition_Code/images/stopSamples/neg09.png&quot;</span>, <span class="number">0</span>), desc);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; featureSize; i++)</span><br><span class="line">        queries.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>)[i] = desc[i];</span><br><span class="line"></span><br><span class="line">    cv::Mat predictions;</span><br><span class="line">    svm-&gt;<span class="built_in">predict</span>(queries, predictions);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++)&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;query: &quot;</span> &lt;&lt; i &lt;&lt; <span class="string">&quot;: &quot;</span> &lt;&lt;</span><br><span class="line">                                       ((predictions.<span class="built_in">at</span>&lt;<span class="type">float</span>&gt;(i,<span class="number">0</span>) &lt; <span class="number">0.0</span>) ?</span><br><span class="line">                                       <span class="string">&quot;Negative&quot;</span> : <span class="string">&quot;Positive&quot;</span>) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<pre><code>Positive sample size: 64x64
+HOG descriptor size: 8100
+query: 0: Positive
+query: 1: Positive
+query: 2: Negative
+query: 3: Negative
+</code></pre>
+<p><img src="http://datahonor-1252464519.costj.myqcloud.com/201708/Positive%20samples_081707.png" alt=""></p>
+<p><img src="http://datahonor-1252464519.costj.myqcloud.com/201708/Negative%20Samples_081706.png" alt=""></p>
+<h5 id="Pedestrian-Detection简化版">Pedestrian Detection简化版</h5>
+<p>同样是用的OpenCV自带的行人检测器，这里只是一个针对照片的简化版本，<a href="http://datahonor.com/2017/08/17/Pedestrain-Detection/">这里</a>是完整版。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;grayhistogram.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;matplotlibcpp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// People detection</span></span><br><span class="line">    cv::Mat myImage = <span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/MyCV/data/person.jpg&quot;</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// create the detector</span></span><br><span class="line">    std::vector&lt;cv::Rect&gt; peoples;</span><br><span class="line">    cv::HOGDescriptor peopleHog;</span><br><span class="line">    peopleHog.<span class="built_in">setSVMDetector</span>(cv::HOGDescriptor::<span class="built_in">getDefaultPeopleDetector</span>());</span><br><span class="line">    <span class="comment">// detect people on an image</span></span><br><span class="line">    peopleHog.<span class="built_in">detectMultiScale</span>(myImage,</span><br><span class="line">                               peoples, <span class="number">0</span>, cv::<span class="built_in">Size</span>(<span class="number">4</span>, <span class="number">4</span>), cv::<span class="built_in">Size</span>(<span class="number">32</span>, <span class="number">32</span>), <span class="number">1.1</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="comment">// draw detections on image</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; peoples.<span class="built_in">size</span>(); i++)</span><br><span class="line">        cv::<span class="built_in">rectangle</span>(myImage, peoples[i], cv::<span class="built_in">Scalar</span>(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;People detection&quot;</span>, myImage);</span><br><span class="line">    cv::<span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="http://datahonor-1252464519.costj.myqcloud.com/201708/People%20detection_081708.png" alt=""></p>
+<h4 id="…">…</h4>
+<p>马上大三了，课比较多，估计没时间再捣鼓这些纯粹为了兴趣的东西了orz…嗯，不过毕竟看了快一年，也算是有点基础了解吧，之后还有机会玩这个也会轻松一些了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/08/17/Pedestrain-Detection/" rel="prev" title="Pedestrian Detection">
+                  <i class="fa fa-chevron-left"></i> Pedestrian Detection
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/08/20/Orange3%E4%BD%BF%E7%94%A8/" rel="next" title="Orange3使用">
+                  Orange3使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/08/17/HOG-SVM-Pedestrian-Detection/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

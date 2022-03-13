@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="李航老师《统计学习方法》第二章笔记。 关于原始感知机学习算法的简单实现[ Python ]。 之后有感知机的对偶形式的实现。 算法原理  算法实现 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676">
+<meta property="og:type" content="article">
+<meta property="og:title" content="原始感知机模型">
+<meta property="og:url" content="http://datahonor.com/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="李航老师《统计学习方法》第二章笔记。 关于原始感知机学习算法的简单实现[ Python ]。 之后有感知机的对偶形式的实现。 算法原理  算法实现 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/1.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/2.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/3.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/4.png">
+<meta property="article:published_time" content="2017-03-03T05:09:30.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Data Analysis">
+<meta property="article:tag" content="ML">
+<meta property="article:tag" content="Clustering">
+<meta property="article:tag" content="统计学习方法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/1.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/","path":"2017/03/03/原始感知机模型/","title":"原始感知机模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>原始感知机模型 | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">算法原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">算法实现</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="原始感知机模型 | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          原始感知机模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-03 13:09:30" itemprop="dateCreated datePublished" datetime="2017-03-03T13:09:30+08:00">2017-03-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>李航老师《统计学习方法》第二章笔记。<br>
+关于原始感知机学习算法的简单实现[ Python ]。<br>
+之后有<a href="http://datahonor.com/2017/03/03/%E6%84%9F%E7%9F%A5%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%B9%E5%81%B6%E5%BD%A2%E5%BC%8F/#more">感知机的对偶形式</a>的实现。</p>
+<h5 id="算法原理">算法原理</h5>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/1.png" alt=""></p>
+<h5 id="算法实现">算法实现</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># S1--&gt;随机生成训练集并标注</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># train matrix</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_train_data</span>():</span><br><span class="line"></span><br><span class="line">    M1 = np.random.random((<span class="number">100</span>, <span class="number">2</span>))</span><br><span class="line">    M11 = np.column_stack((M1, np.ones(<span class="number">100</span>)))</span><br><span class="line"></span><br><span class="line">    M2 = np.random.random((<span class="number">100</span>, <span class="number">2</span>)) - <span class="number">0.7</span></span><br><span class="line">    M22 = np.column_stack((M2, np.ones(<span class="number">100</span>) * (-<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">    MA = np.vstack((M11, M22))</span><br><span class="line"></span><br><span class="line">    plt.plot(M1[:, <span class="number">0</span>], M1[:, <span class="number">1</span>], <span class="string">&#x27;ro&#x27;</span>)</span><br><span class="line">    plt.plot(M2[:, <span class="number">0</span>], M2[:, <span class="number">1</span>], <span class="string">&#x27;go&#x27;</span>)</span><br><span class="line">    min_x = np.<span class="built_in">min</span>(M2)</span><br><span class="line">    max_x = np.<span class="built_in">max</span>(M1)</span><br><span class="line">    <span class="comment"># 此处返回 x 是为了之后作图方便</span></span><br><span class="line">    x = np.linspace(min_x, max_x, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> MA, x</span><br><span class="line"></span><br><span class="line"><span class="comment"># S2--&gt;原始感知机模型的训练及做图</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 感知机模型:f(x) = sign(w*x+b)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">w, b, xi, yi</span>):</span><br><span class="line">    num = yi * (np.dot(w, xi) + b)</span><br><span class="line">    <span class="keyword">return</span> num</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练training data</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">MA, w, b</span>):</span><br><span class="line">    <span class="comment"># M 存储每次处理后依旧处于误分类的原始数据</span></span><br><span class="line">    M = []</span><br><span class="line">    <span class="keyword">for</span> sample <span class="keyword">in</span> MA:</span><br><span class="line">        xi = sample[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">        yi = sample[-<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># 如果为误分类，更新w, b</span></span><br><span class="line">        <span class="comment"># n 为学习率</span></span><br><span class="line">        <span class="keyword">if</span> func(w, b, xi, yi) &lt;= <span class="number">0</span>:</span><br><span class="line">            w += n * yi * xi</span><br><span class="line">            b += n * yi</span><br><span class="line">            M.append(sample)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(M) &gt; <span class="number">0</span>:</span><br><span class="line">        train(M, w, b)</span><br><span class="line">    <span class="keyword">return</span> w, b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 作出分类线的图</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plot_classify</span>(<span class="params">w, b, x, rate0</span>):</span><br><span class="line">    y = (w[<span class="number">0</span>] * x + b) / ((-<span class="number">1</span>) * w[<span class="number">1</span>])</span><br><span class="line">    plt.plot(x, y)</span><br><span class="line">    plt.title(<span class="string">&#x27;Accuracy = &#x27;</span> + <span class="built_in">str</span>(rate0))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># S3--&gt;随机生成测试集，并测试模型</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机生成testing data 并作图</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_test_data</span>():</span><br><span class="line">    M = np.random.random((<span class="number">50</span>, <span class="number">2</span>))</span><br><span class="line">    plt.plot(M[:, <span class="number">0</span>], M[:, <span class="number">1</span>], <span class="string">&#x27;*y&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对传入的testing data 的单个样本进行分类</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">classify</span>(<span class="params">w, b, test_i</span>):</span><br><span class="line">    <span class="keyword">if</span> np.sign(np.dot(w, test_i) + b) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试数据，返回正确率</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">w, b, test_data</span>):</span><br><span class="line">    right_count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> test_i <span class="keyword">in</span> test_data:</span><br><span class="line">        classx = classify(w, b, test_i)</span><br><span class="line">        <span class="keyword">if</span> classx == <span class="number">1</span>:</span><br><span class="line">            right_count += <span class="number">1</span></span><br><span class="line">    rate = right_count / <span class="built_in">len</span>(test_data)</span><br><span class="line">    <span class="keyword">return</span> rate</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plot_n_rate</span>(<span class="params">rate_l</span>):</span><br><span class="line">    <span class="comment"># plot n-rate</span></span><br><span class="line">    n_l = <span class="built_in">sorted</span>([<span class="built_in">float</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> rate_l.keys()])</span><br><span class="line">    y = [<span class="built_in">float</span>(rate_l[n_l[i]]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(n_l))]</span><br><span class="line">    <span class="built_in">print</span>(n_l, <span class="string">&#x27;\n&#x27;</span>, y)</span><br><span class="line">    plt.plot(n_l, y, <span class="string">&#x27;ro-&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&quot;n-accuracy&quot;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    MA, x = get_train_data()</span><br><span class="line">    test_data = get_test_data()</span><br><span class="line">    <span class="comment"># 定义初始的w,b</span></span><br><span class="line">    w = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    b = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 初始化最优的正确率</span></span><br><span class="line">    rate0 = <span class="number">0</span></span><br><span class="line">    <span class="comment"># rate_l 记录学习率的更新</span></span><br><span class="line">    rate_l = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 循环不同的学习率n,寻求最优的学习率，即最终的rate0</span></span><br><span class="line">    <span class="comment"># w0,b0为对应的最优参数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> np.linspace(<span class="number">0.01</span>, <span class="number">1</span>, <span class="number">1000</span>):</span><br><span class="line">        n = i</span><br><span class="line">        w, b = train(MA, w, b)</span><br><span class="line">        <span class="comment"># print(w,b)</span></span><br><span class="line">        rate = test(w, b, test_data)</span><br><span class="line">        <span class="keyword">if</span> rate &gt;= rate0:</span><br><span class="line">            rate_l[n] = rate</span><br><span class="line">            rate0 = rate</span><br><span class="line">            w0 = w</span><br><span class="line">            b0 = b</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;Until now, the best result of the accuracy on test data is &#x27;</span> + <span class="built_in">str</span>(rate))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;with w=&#x27;</span> + <span class="built_in">str</span>(w0) + <span class="string">&#x27; b=&#x27;</span> + <span class="built_in">str</span>(b0))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;n=&quot;</span>, n)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;---------------------------------------------&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在选定最优的学习率后，作图</span></span><br><span class="line">    plot_classify(w0, b0, x, rate0)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 作出学习率——准确率的图</span></span><br><span class="line">    plot_n_rate(rate_l)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/2.png" alt=""></p>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/3.png" alt=""></p>
+<p><img src="http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch2/4.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+              <a href="/tags/Data-Analysis/" rel="tag"># Data Analysis</a>
+              <a href="/tags/ML/" rel="tag"># ML</a>
+              <a href="/tags/Clustering/" rel="tag"># Clustering</a>
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/" rel="tag"># 统计学习方法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/03/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%AE%97%E6%B3%95%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" rel="prev" title="朴素贝叶斯算法的简单实现">
+                  <i class="fa fa-chevron-left"></i> 朴素贝叶斯算法的简单实现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/03/03/%E6%84%9F%E7%9F%A5%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%B9%E5%81%B6%E5%BD%A2%E5%BC%8F/" rel="next" title="感知机学习算法的对偶形式">
+                  感知机学习算法的对偶形式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/03/03/%E5%8E%9F%E5%A7%8B%E6%84%9F%E7%9F%A5%E6%9C%BA%E6%A8%A1%E5%9E%8B/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

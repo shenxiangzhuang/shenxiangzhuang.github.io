@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 滤波在信号处理领域具有广泛的应用。同样的，我们可以通过 Fourier transform 或者 Cosine transform将空域（ spatial domain）上的图像信息转化到频域（frequency domain）。这里我们暂时不做深入了解，只需要了解：图像中的一些边缘和细节（变化较大的部分）对应频域中的高频部分，图像中较为平坦，变化不大的地方对应频域的低频部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCV系列笔记二十二：滤波">
+<meta property="og:url" content="http://datahonor.com/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 滤波在信号处理领域具有广泛的应用。同样的，我们可以通过 Fourier transform 或者 Cosine transform将空域（ spatial domain）上的图像信息转化到频域（frequency domain）。这里我们暂时不做深入了解，只需要了解：图像中的一些边缘和细节（变化较大的部分）对应频域中的高频部分，图像中较为平坦，变化不大的地方对应频域的低频部分。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052501.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052502.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052503.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052504.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052505.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052506.png">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052508.png">
+<meta property="article:published_time" content="2017-05-25T07:33:11.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052501.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/","path":"2017/05/25/OpenCV系列笔记二十二：滤波/","title":"OpenCV系列笔记二十二：滤波"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OpenCV系列笔记二十二：滤波 | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-36"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Code-29"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Downsampling-images-with-filters"><span class="nav-number">2.1.</span> <span class="nav-text">Downsampling images with filters</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Applying-directional-filters-to-detect-edges"><span class="nav-number">2.2.</span> <span class="nav-text">Applying directional filters to detect edges</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#band-pass-filter"><span class="nav-number">2.3.</span> <span class="nav-text">band-pass filter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Computing-the-Laplacian-of-an-image"><span class="nav-number">2.4.</span> <span class="nav-text">Computing the Laplacian of an image</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference-9"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OpenCV系列笔记二十二：滤波 | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenCV系列笔记二十二：滤波
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-25 15:33:11" itemprop="dateCreated datePublished" datetime="2017-05-25T15:33:11+08:00">2017-05-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cpp/" itemprop="url" rel="index"><span itemprop="name">Cpp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Overview-36">Overview</h4>
+<p>滤波在信号处理领域具有广泛的应用。同样的，我们可以通过 Fourier transform 或者 Cosine transform将空域（ spatial domain）上的图像信息转化到频域（frequency domain）。这里我们暂时不做深入了解，只需要了解：图像中的一些边缘和细节（变化较大的部分）对应频域中的高频部分，图像中较为平坦，变化不大的地方对应频域的低频部分。</p>
+<p>基于上面的结论，我们称进行滤波的工具为滤波器(filter)，根据不同的过滤方式分为低通滤波器（ low-pass filter ）和高通滤波器( high-pass filter ).</p>
+<p>我们将展示mean filter, gaussian filter, median filter 等多种滤波器的使用。</p>
+<h4 id="Code-29">Code</h4>
+<h5 id="Downsampling-images-with-filters">Downsampling images with filters</h5>
+<p>我们在进行downsampling的时候，如果不进行低通滤波器的处理，直接去除行列的话，结果会比较糟糕：</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052501.png" alt=""></p>
+<p>可以看到，在直接downsampling的时候，原图像的细节，也就是高频部分无法在如此小的空间（如此少的像素数）上表现出来，还会出现spatial aliasing的现象。所以，我们一般进经过low-pass filter处理后在进行downsampling，这种做法即是遵从 Nyquist-Shannon theorem.而效果也是有较高的提升的：</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052502.png" alt=""></p>
+<p>下面是一些低通滤波器具体的应用：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgcodecs.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv/cv.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cv::Mat image = cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/lake.png&quot;</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!image.data)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Original Image&quot;</span>, image);</span><br><span class="line"></span><br><span class="line">    cv::Mat result;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Mean filtered</span></span><br><span class="line">    cv::<span class="built_in">blur</span>(image, result, cv::<span class="built_in">Size</span>(<span class="number">5</span>,<span class="number">5</span>)); <span class="comment">// size of the filter</span></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Mean filtered Image&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Gaussian filtered Image</span></span><br><span class="line">    cv::<span class="built_in">GaussianBlur</span>(image, result, cv::<span class="built_in">Size</span>(<span class="number">5</span>,<span class="number">5</span>), <span class="number">1.5</span>);</span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Gaussian filtered Image&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Gaussian filtered Image&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 应用高斯滤波后进行downsampling</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">reduced</span><span class="params">(image.rows/<span class="number">4</span>, image.cols/<span class="number">4</span>, CV_8U)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;reduced.rows; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;reduced.cols; j++)&#123;</span><br><span class="line">            reduced.<span class="built_in">at</span>&lt;uchar&gt;(i, j) = result.<span class="built_in">at</span>&lt;uchar&gt;(i*<span class="number">4</span>, j*<span class="number">4</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;downsampling gaussian&quot;</span>, reduced);</span><br><span class="line">    cv::<span class="built_in">imwrite</span>(<span class="string">&quot;gaussian-redeced.jpg&quot;</span>, reduced);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 图像金字塔</span></span><br><span class="line">    cv::Mat reducedImage;</span><br><span class="line">    cv::<span class="built_in">pyrDown</span>(result, reducedImage);  <span class="comment">// reduce by half</span></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;pyDownImage&quot;</span>, reducedImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// resizing</span></span><br><span class="line">    cv::Mat resized;</span><br><span class="line">    cv::<span class="built_in">resize</span>(image, resized, cv::<span class="built_in">Size</span>(), <span class="number">2</span>, <span class="number">2</span>, cv::INTER_LINEAR);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;resized&quot;</span>, resized);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Median filtered</span></span><br><span class="line">    cv::<span class="built_in">medianBlur</span>(image, result, <span class="number">5</span>); <span class="comment">// size of the filter</span></span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Mean filtered Image&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">waitKey</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052503.png" alt=""></p>
+<p>median filter（注意其为no-linear）输出：</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052504.png" alt=""></p>
+<p>注意，基于图像金字塔的操作pyDown和pyUp是不可逆的。而pyDown在进行downsampling是也是进行了5x5 Gaussian filter to low-pass 处理的。</p>
+<h5 id="Applying-directional-filters-to-detect-edges">Applying directional filters to detect edges</h5>
+<p>高通的滤波器一般用来检测变化比较大的区域，这里通过sobel函数，用于图像的边缘检测。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgcodecs.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv/cv.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cv::Mat image = cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/lake.png&quot;</span>, <span class="number">0</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Original Image&quot;</span>, image);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cv::Mat sobelX, sobelY;</span><br><span class="line">    cv::<span class="built_in">Sobel</span>(image, sobelX, CV_8U, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0.4</span>, <span class="number">128</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;SobelX Image&quot;</span>, sobelX);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">Sobel</span>(image, sobelY, CV_8U, <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">0.4</span>, <span class="number">128</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;SobelY Image&quot;</span>, sobelY);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Compute norm of Sobel</span></span><br><span class="line">    cv::<span class="built_in">Sobel</span>(image, sobelX, CV_16S, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    cv::<span class="built_in">Sobel</span>(image, sobelY, CV_16S, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    cv::Mat sobel;</span><br><span class="line">    <span class="comment">// compute the L1 norm</span></span><br><span class="line">    sobel = <span class="built_in">abs</span>(sobelX)+<span class="built_in">abs</span>(sobelY);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Find Sobel max value</span></span><br><span class="line">    <span class="type">double</span> sobmin, sobmax;</span><br><span class="line">    cv::<span class="built_in">minMaxLoc</span>(sobel, &amp;sobmin, &amp;sobmax);</span><br><span class="line">    <span class="comment">// Conversion to 8-bit image</span></span><br><span class="line">    <span class="comment">// -alpha*sobel + 255</span></span><br><span class="line">    cv::Mat sobelImage;</span><br><span class="line">    sobel.<span class="built_in">convertTo</span>(sobelImage,CV_8U, <span class="number">-255.</span>/sobmax, <span class="number">255</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Sobel Image&quot;</span>, sobelImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Binary Sobel Image(low)</span></span><br><span class="line">    cv::Mat sobeThreshold;</span><br><span class="line">    cv::<span class="built_in">threshold</span>(sobelImage, sobeThreshold, <span class="number">230</span>, <span class="number">255</span>, cv::THRESH_BINARY);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Binary Sobel Image(low)&quot;</span>, sobeThreshold);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">waitKey</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052505.png" alt=""></p>
+<h5 id="band-pass-filter">band-pass filter</h5>
+<p>如果我们先应用高斯滤波器去除高频的部分，再用sobel filter去除低频的部分，那么我们就得到了一个band-filter. 我们只要在上面程序的开头加上一个高斯滤波即可查看效果：</p>
+<p><code>   cv::GaussianBlur(image, image, cv::Size(5,5), 1.5);</code></p>
+<p>输出：<br>
+<img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052506.png" alt=""></p>
+<h5 id="Computing-the-Laplacian-of-an-image">Computing the Laplacian of an image</h5>
+<p>ps:这个公式推导不是很懂，所以暂时只是会用…</p>
+<p>关于Laplacian:</p>
+<blockquote>
+<p>The Laplacian is another high-pass linear filter that is based on the computation of the image derivatives. As it will be explained, it computes second-order derivatives to measure the curvature of the image function.</p>
+</blockquote>
+<p>关于LOG：</p>
+<blockquote>
+<p>Since these larger kernels are computed using the second derivatives of the Gaussian function, the corresponding operator is often called Laplacian of Gaussian (LoG)</p>
+</blockquote>
+<p>由于高斯-拉普拉斯算子形状像一个草帽，所以又被称为“墨西哥草帽”</p>
+<p>注意，拉氏算子是一种二阶导数算子，对图像中的噪声相对敏感，检测的边缘没有方向信息。因此，拉普拉斯算子很少直接用于检测边缘，而主要用于已知边缘像素后，确定图像的名区还是暗区。</p>
+<p>关于DOG：</p>
+<blockquote>
+<p>. Now, if we subtract the two images that result from the filtering of an image by two Gaussian filters of different bandwidths, then the resulting image will be composed of those higher frequencies that one filter has preserved, and not the other. This operation is called Difference of Gaussians (DoG)</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgcodecs.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv/cv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LaplacianZC</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// laplacina</span></span><br><span class="line">    cv::Mat laplace;</span><br><span class="line">    <span class="comment">// Aperture size of the laplacian kernel</span></span><br><span class="line">    <span class="type">int</span> aperture;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">LaplacianZC</span>():<span class="built_in">aperture</span>(<span class="number">3</span>)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set the aperture size of the kernel</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setAperture</span><span class="params">(<span class="type">int</span> a)</span></span>&#123;</span><br><span class="line">        aperture = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Compute the floating point Laplacian</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">computeLaplacian</span><span class="params">(<span class="type">const</span> cv::Mat&amp; image)</span></span>&#123;</span><br><span class="line">        <span class="comment">// Compute Laplacian</span></span><br><span class="line">        cv::<span class="built_in">Laplacian</span>(image, laplace, CV_32F, aperture);</span><br><span class="line">        <span class="keyword">return</span> laplace;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get the Laplacian result in 8-bits image</span></span><br><span class="line">    <span class="comment">// zero corresponds to gray level 128</span></span><br><span class="line">    <span class="comment">// if no scale is provide, then the max value will be</span></span><br><span class="line">    <span class="comment">// scaled to intensity 255</span></span><br><span class="line">    <span class="comment">// You must call cimputeLaplacianImage before calling this</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">getLaplacianImage</span><span class="params">(<span class="type">double</span> scale=<span class="number">-1.0</span>)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(scale&lt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">double</span> lapmin, lapmax;</span><br><span class="line">            <span class="comment">// get min and max laplacian values</span></span><br><span class="line">            cv::<span class="built_in">minMaxLoc</span>(laplace, &amp;lapmin, &amp;lapmax);</span><br><span class="line">            <span class="comment">// scale the laplacian to 127</span></span><br><span class="line">            scale = <span class="number">127</span>/std::<span class="built_in">max</span>(-lapmin, lapmax);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// produce gray-level image</span></span><br><span class="line">        cv::Mat laplaceImage;</span><br><span class="line">        laplace.<span class="built_in">convertTo</span>(laplaceImage, CV_8U, scale, <span class="number">128</span>);</span><br><span class="line">        <span class="keyword">return</span> laplaceImage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Get a binary image of the zero-crossings</span></span><br><span class="line">    <span class="comment">// laplacian image should be CV_32F</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">getZeroCrossings</span><span class="params">(cv::Mat laplace)</span></span>&#123;</span><br><span class="line">        <span class="comment">// threshold at 0</span></span><br><span class="line">        <span class="comment">// negtive values in black</span></span><br><span class="line">        <span class="comment">// positive values in white</span></span><br><span class="line">        cv::Mat signImage;</span><br><span class="line">        cv::<span class="built_in">threshold</span>(laplace, signImage, <span class="number">0</span>, <span class="number">255</span>, cv::THRESH_BINARY);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// convert the +/- image into CV_8U</span></span><br><span class="line">        cv::Mat binary;</span><br><span class="line">        signImage.<span class="built_in">convertTo</span>(binary, CV_8U);</span><br><span class="line">        <span class="comment">// dilate the binary image of +/- regions</span></span><br><span class="line">        cv::Mat dilated;</span><br><span class="line">        cv::<span class="built_in">dilate</span>(binary, dilated, cv::<span class="built_in">Mat</span>());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// return the zero-crossing contours</span></span><br><span class="line">        <span class="keyword">return</span> dilated-binary;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cv::Mat image = cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/lake.png&quot;</span>, <span class="number">0</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Original&quot;</span>, image);</span><br><span class="line">    <span class="comment">// Compute Laplcian using LaplacianZC class</span></span><br><span class="line">    LaplacianZC laplacian;</span><br><span class="line">    laplacian.<span class="built_in">setAperture</span>(<span class="number">7</span>); <span class="comment">// 7x7 laplacian</span></span><br><span class="line">    cv::Mat flap = laplacian.<span class="built_in">computeLaplacian</span>(image);</span><br><span class="line"></span><br><span class="line">    cv::Mat laplace;</span><br><span class="line">    laplace = laplacian.<span class="built_in">getLaplacianImage</span>();</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Laplacian Image 7x7&quot;</span>, laplace);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// binary image of zero-crossing</span></span><br><span class="line">    cv::Mat Binary;</span><br><span class="line">    Binary = laplacian.<span class="built_in">getZeroCrossings</span>(flap);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Binary&quot;</span>, Binary);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// DoG</span></span><br><span class="line">    cv::Mat gauss20, gauss22;</span><br><span class="line">    cv::<span class="built_in">GaussianBlur</span>(image, gauss20, cv::<span class="built_in">Size</span>(), <span class="number">2.0</span>);</span><br><span class="line">    cv::<span class="built_in">GaussianBlur</span>(image, gauss22, cv::<span class="built_in">Size</span>(), <span class="number">2.2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute a difference of Gaussians</span></span><br><span class="line">    cv::Mat dog;</span><br><span class="line">    cv::<span class="built_in">subtract</span>(gauss22, gauss20, dog, cv::<span class="built_in">Mat</span>(), CV_32F);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute the zero-crossings of DoG</span></span><br><span class="line">    cv::Mat zeros;</span><br><span class="line">    zeros = laplacian.<span class="built_in">getZeroCrossings</span>(dog);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;DoG&quot;</span>,zeros);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">waitKey</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/1705/Selection_052508.png" alt=""></p>
+<h4 id="Reference-9">Reference</h4>
+<p><em>《数字图像处理》高教出版社</em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%B8%80%EF%BC%9AMSER/" rel="prev" title="OpenCV系列笔记二十一：MSER">
+                  <i class="fa fa-chevron-left"></i> OpenCV系列笔记二十一：MSER
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/27/Extracting-Lines-Contours-and-Components/" rel="next" title="OpenCV系列笔记二十三：Extracting Lines, Contours, and Components">
+                  OpenCV系列笔记二十三：Extracting Lines, Contours, and Components <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/05/25/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%9A%E6%BB%A4%E6%B3%A2/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

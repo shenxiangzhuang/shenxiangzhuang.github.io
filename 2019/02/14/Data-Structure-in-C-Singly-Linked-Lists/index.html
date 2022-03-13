@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 但凡提及Data Structure的学习总是从Single Linked List开始…之前看Data Structures and Algorithms in C++在Singly Linked Lists写过一个Cpp版本的，实现的东西比较简单一些。后来有看了Data Structure Using C(一些笔记放在这里), 这书写的十分细致，而且代码比较好看懂(虽然偶尔B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Structure in C: Singly Linked Lists">
+<meta property="og:url" content="http://datahonor.com/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 但凡提及Data Structure的学习总是从Single Linked List开始…之前看Data Structures and Algorithms in C++在Singly Linked Lists写过一个Cpp版本的，实现的东西比较简单一些。后来有看了Data Structure Using C(一些笔记放在这里), 这书写的十分细致，而且代码比较好看懂(虽然偶尔B">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-14T08:12:36.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="Data Structure">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://datahonor.com/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/","path":"2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/","title":"Data Structure in C: Singly Linked Lists"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Data Structure in C: Singly Linked Lists | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview-12"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code-11"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Int-type-version"><span class="nav-number">2.1.</span> <span class="nav-text">Int type version</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#singlelinkedlist-h"><span class="nav-number">2.1.1.</span> <span class="nav-text">singlelinkedlist.h</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main-c"><span class="nav-number">2.1.2.</span> <span class="nav-text">main.c</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generic-pointer-version"><span class="nav-number">2.2.</span> <span class="nav-text">Generic pointer version</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Supplement"><span class="nav-number">3.</span> <span class="nav-text">Supplement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference-5"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Data Structure in C: Singly Linked Lists | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Data Structure in C: Singly Linked Lists
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-14 16:12:36" itemprop="dateCreated datePublished" datetime="2019-02-14T16:12:36+08:00">2019-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Overview-12">Overview</h3>
+<p>但凡提及<code>Data Structure</code>的学习总是从<code>Single Linked List</code>开始…之前看<em>Data Structures and Algorithms in C++<em>在<a href="http://datahonor.com/2017/04/25/Singly-Linked-Lists/">Singly Linked Lists</a>写过一个Cpp版本的，实现的东西比较简单一些。后来有看了</em>Data Structure Using C</em>(一些笔记放在<a target="_blank" rel="noopener" href="https://github.com/shenxiangzhuang/DataStructureUsingC">这里</a>), 这书写的十分细致，而且代码比较好看懂(虽然偶尔Bug比较多…)。但是两本书写的东西都有些局限的地方，比如都只是“面向”<code>Int</code>类型给出的实现。这在<em>Master Algorithms with C</em>得到很好的实现，因为它把链表存储的对象换成了<code>generic pointer</code>,这就使得可以进行任何类型数据的存储。</p>
+<p>下面首先结合前面两本书给出<code>Int</code>类型的实现，后给出<code>generic pointer</code>的实现。</p>
+<h3 id="Code-11">Code</h3>
+<h4 id="Int-type-version">Int type version</h4>
+<h5 id="singlelinkedlist-h">singlelinkedlist.h</h5>
+<p>注意，下面的两个自定义的<code>type</code>，<code>Node</code>就是我们的链表元素，或者叫节点。<code>List</code>就是链表。</p>
+<p>这里我们实现了大部分可以想到的操作…包括增[4]删[4]改[1]查[1],创建，打印，排序[<code>Buble sort</code>]</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by shensir on 19-2-14.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> TEST_SINGLELINKEDLIST_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TEST_SINGLELINKEDLIST_H</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Node&#x27;s data structure</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">Node</span> *next;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"><span class="comment">// linked list&#x27;s data structure</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">List</span>&#123;</span><br><span class="line">	Node *head;</span><br><span class="line">	<span class="type">int</span> length;</span><br><span class="line">&#125;List;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a single linked list with length n</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_create</span><span class="params">(List *list, <span class="type">int</span> n)</span></span>;</span><br><span class="line"><span class="comment">// print a single linked list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_print</span><span class="params">(List *list)</span></span>;</span><br><span class="line"><span class="comment">// add a Node to a list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_begin</span><span class="params">(List *list, Node *new_element)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_end</span><span class="params">(List *list, Node *new_element)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_after</span><span class="params">(List *list, <span class="type">int</span> given_node_data, Node *new_element)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_before</span><span class="params">(List *list, <span class="type">int</span> given_node_data, Node *new_element)</span></span>;</span><br><span class="line"><span class="comment">// delete Node in a list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_begin</span><span class="params">(List *list)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_end</span><span class="params">(List *list)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_given_node</span><span class="params">(List *list, <span class="type">int</span> data)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_delete_all</span><span class="params">(List *list)</span></span>;</span><br><span class="line"><span class="comment">// change node&#x27;s data in a list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_change</span><span class="params">(List *list, <span class="type">int</span> data, <span class="type">int</span> new_data)</span></span>;</span><br><span class="line"><span class="comment">// search a number in a list</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">node_search</span><span class="params">(List *list, <span class="type">int</span> data)</span></span>;</span><br><span class="line"><span class="comment">// sort  the list(increasing)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_sorted</span><span class="params">(List *list)</span></span>;</span><br><span class="line"><span class="comment">// test function</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">//TEST_SINGLELINKEDLIST_H</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="main-c">main.c</h5>
+<p>几点注意：</p>
+<blockquote>
+<p>1.为说明起见，这里没有处理重复数据的情况，重复情况下仅仅对第一个数据进行对应处理<br>
+2.多次出现的temp变量，其作用就是一个工具变量，用于定位与释放内存<br>
+3.在链表中，next的使用“代替”了数组中根据index的循环<br>
+4.我们必须注意对空表的处理，使用if或assert来控制这一情况</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;singlelinkedlist.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*StepINT SINGLE LINKED LIST*/</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">run</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_create</span><span class="params">(List *list, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i, data;</span><br><span class="line">	Node *new_element;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;n; i++)&#123;</span><br><span class="line">		new_element = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">		new_element-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter the data: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;data);</span><br><span class="line">		new_element-&gt;data = data;</span><br><span class="line">		<span class="built_in">node_insert_end</span>(list, new_element);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_print</span><span class="params">(List *list)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(list-&gt;length == <span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Empty List!&quot;</span>);</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		Node *temp;</span><br><span class="line">		temp = list-&gt;head;</span><br><span class="line">		<span class="keyword">while</span>(temp!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, temp-&gt;data);</span><br><span class="line">			temp = temp-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// add a Node to a list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_begin</span><span class="params">(List *list, Node * new_element)</span></span>&#123;</span><br><span class="line">	<span class="comment">// 从用户输入新元素的数据</span></span><br><span class="line">	<span class="keyword">if</span>(new_element == <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="type">int</span> data;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter the data: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;data);</span><br><span class="line">		new_element = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">		new_element-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		new_element-&gt;data = data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// empty list or not</span></span><br><span class="line">	<span class="keyword">if</span>(list-&gt;length == <span class="number">0</span>)</span><br><span class="line">		list-&gt;head = new_element;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		new_element-&gt;next = list-&gt;head;</span><br><span class="line">		list-&gt;head = new_element;</span><br><span class="line">	&#125;</span><br><span class="line">	list-&gt;length++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_end</span><span class="params">(List *list, Node *new_element)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(new_element == <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="type">int</span> data;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter the data: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;data);</span><br><span class="line">		new_element = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">		new_element-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">		new_element-&gt;data = data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// empty list or not</span></span><br><span class="line">	<span class="keyword">if</span>(list-&gt;length == <span class="number">0</span>)</span><br><span class="line">		list-&gt;head = new_element;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="comment">// 找到最后的元素</span></span><br><span class="line">		<span class="type">int</span> i;</span><br><span class="line">		Node *temp;</span><br><span class="line">		temp = list-&gt;head;</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>; i &lt; list-&gt;length<span class="number">-1</span>; i++)</span><br><span class="line">			temp = temp-&gt;next;</span><br><span class="line">		<span class="comment">// 确保找到的是尾节点</span></span><br><span class="line">		<span class="built_in">assert</span>(temp-&gt;next == <span class="literal">NULL</span>);</span><br><span class="line">		temp-&gt;next = new_element;</span><br><span class="line">	&#125;</span><br><span class="line">	list-&gt;length++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_after</span><span class="params">(List *list, <span class="type">int</span> given_node_data, Node *new_element)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(new_element == <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="type">int</span> data;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter the data of new node: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;data);</span><br><span class="line">		new_element = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">		new_element-&gt;data = data;</span><br><span class="line">		new_element-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	Node *temp;</span><br><span class="line">	temp = list-&gt;head;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(temp-&gt;data == given_node_data)</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		temp = temp-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	new_element-&gt;next = temp-&gt;next;</span><br><span class="line">	temp-&gt;next = new_element;</span><br><span class="line">	list-&gt;length++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_insert_before</span><span class="params">(List *list, <span class="type">int</span> given_node_data, Node *new_element)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(new_element == <span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="type">int</span> data;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter the data of new node: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;data);</span><br><span class="line">		new_element = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">		new_element-&gt;data = data;</span><br><span class="line">		new_element-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// before head or not</span></span><br><span class="line">	<span class="keyword">if</span>(list-&gt;head-&gt;data == given_node_data)</span><br><span class="line">		<span class="built_in">node_insert_begin</span>(list, new_element);</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		Node *temp;</span><br><span class="line">		temp = list-&gt;head;</span><br><span class="line">		<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(temp-&gt;next-&gt;data == given_node_data)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			temp = temp-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		new_element-&gt;next = temp-&gt;next;</span><br><span class="line">		temp-&gt;next = new_element;</span><br><span class="line">	&#125;</span><br><span class="line">	list-&gt;length++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// delete Node in a list</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_begin</span><span class="params">(List *list)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	Node*temp;</span><br><span class="line">	temp = list-&gt;head;</span><br><span class="line">	list-&gt;head = list-&gt;head-&gt;next;</span><br><span class="line">	<span class="built_in">free</span>(temp);</span><br><span class="line">	list-&gt;length--;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_end</span><span class="params">(List *list)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	<span class="comment">// 仅有一个节点</span></span><br><span class="line">	<span class="keyword">if</span>(list-&gt;length == <span class="number">1</span>)&#123;</span><br><span class="line">		<span class="built_in">free</span>(list-&gt;head);</span><br><span class="line">		list-&gt;head = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="comment">// 两个节点及以上</span></span><br><span class="line">		<span class="comment">// 获取倒数第二个节点</span></span><br><span class="line">		Node*prev;</span><br><span class="line">		prev = list-&gt;head;</span><br><span class="line">		<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(prev-&gt;next-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			prev = prev-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">free</span>(prev-&gt;next);</span><br><span class="line">		prev-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	list-&gt;length--;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_delete_given_node</span><span class="params">(List *list, <span class="type">int</span> data)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	<span class="comment">// if the node at 1st</span></span><br><span class="line">	<span class="keyword">if</span>(list-&gt;head-&gt;data == data)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Delete from head!\n&quot;</span>);</span><br><span class="line">		<span class="built_in">node_delete_begin</span>(list);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="comment">// two nodes or more</span></span><br><span class="line">		<span class="comment">// find the node before the given node</span></span><br><span class="line">		Node*prev, *node;</span><br><span class="line">		prev = list-&gt;head;</span><br><span class="line">		<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(prev-&gt;next-&gt;data == data)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			prev = prev-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		node = prev-&gt;next;</span><br><span class="line">		prev-&gt;next = node-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(node);</span><br><span class="line">		list-&gt;length--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_delete_all</span><span class="params">(List *list)</span></span>&#123;</span><br><span class="line">	Node*temp;</span><br><span class="line">	<span class="keyword">while</span>(list-&gt;length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">		temp = list-&gt;head;</span><br><span class="line">		list-&gt;head = list-&gt;head-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(temp);</span><br><span class="line">		list-&gt;length--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// change node&#x27;s data in a list(for simple: only change the first one)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">node_change</span><span class="params">(List *list, <span class="type">int</span> data, <span class="type">int</span> new_data)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	Node *temp;</span><br><span class="line">	temp = list-&gt;head;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(temp-&gt;data == data)&#123;</span><br><span class="line">			temp-&gt;data = new_data;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		temp = temp-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// search a number in a list</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">node_search</span><span class="params">(List *list, <span class="type">int</span> data)</span></span>&#123;</span><br><span class="line">	<span class="built_in">assert</span>(list-&gt;length &gt; <span class="number">0</span>);</span><br><span class="line">	Node *temp;</span><br><span class="line">	temp = list-&gt;head;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(temp-&gt;next!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(temp-&gt;data == data)</span><br><span class="line">			count++;</span><br><span class="line">		temp = temp-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(count&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Get %d &#x27;%d&#x27;!&quot;</span>, count, data);</span><br><span class="line">		<span class="keyword">return</span> count;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;There is not a %d\n&quot;</span>, data);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// sort the list(increasing)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">list_sorted</span><span class="params">(List *list)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(list-&gt;length == <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Empty list!&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	Node *ptr1, *lptr;</span><br><span class="line">	<span class="type">int</span> temp, swapped;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		swapped = <span class="number">0</span>;</span><br><span class="line">		ptr1 = list-&gt;head;</span><br><span class="line">		lptr = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">while</span> (ptr1-&gt;next != lptr)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (ptr1-&gt;data &gt; ptr1-&gt;next-&gt;data)</span><br><span class="line">			&#123;</span><br><span class="line">				temp = ptr1-&gt;data;</span><br><span class="line">				ptr1-&gt;data = ptr1-&gt;next-&gt;data;</span><br><span class="line">				ptr1-&gt;next-&gt;data = temp;</span><br><span class="line">				swapped = <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			ptr1 = ptr1-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		lptr = ptr1;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (swapped);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">	List * list;</span><br><span class="line">	list = (List *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(List));</span><br><span class="line">	list-&gt;head = <span class="literal">NULL</span>;</span><br><span class="line">	list-&gt;length = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">// 控制下面循环的选项; the length var</span></span><br><span class="line">	<span class="type">int</span> option, n;</span><br><span class="line">	<span class="comment">// 要用到的变量</span></span><br><span class="line">	<span class="type">int</span> given_node_data, old_data, new_data;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;*****MAIN MENU *****\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;1: Create a list\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;2: Display a list\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;3: Add a node at the beginning\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;4: Add a node at the end\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;5: Add a node before a given node\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;6: Add a node after a given node\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;7: Delete a node from the beginning\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;8: Delete a node from the end\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;9: Delete a given node\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;10: Delete the entire list\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;11: Change the number\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;12: Search a number\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;13: Sort the list\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;14: EXIT\n&quot;</span>);</span><br><span class="line">		<span class="comment">// 输入选项</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Enter your option: &quot;</span>);</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;option);</span><br><span class="line">		<span class="keyword">switch</span>(option)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Enter the length of the list: &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">				<span class="built_in">list_create</span>(list, n);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="built_in">list_print</span>(list);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				<span class="comment">// 我们从输入来进行新增元素的初始化</span></span><br><span class="line">				<span class="comment">// 所以这里写为NULL，而非一个Node</span></span><br><span class="line">				<span class="comment">// 下同</span></span><br><span class="line">				<span class="built_in">node_insert_begin</span>(list, <span class="literal">NULL</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				<span class="built_in">node_insert_end</span>(list, <span class="literal">NULL</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Enter the given node data(we will insert node before it): &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;given_node_data);</span><br><span class="line">				<span class="built_in">node_insert_before</span>(list, given_node_data, <span class="literal">NULL</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Enter the given node data(we will insert node after it): &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;given_node_data);</span><br><span class="line">				<span class="built_in">node_insert_after</span>(list, given_node_data, <span class="literal">NULL</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">				<span class="built_in">node_delete_begin</span>(list);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">				<span class="built_in">node_delete_end</span>(list);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">9</span>:</span><br><span class="line">				<span class="comment">// 同插入时一样，我们从用户输入来</span></span><br><span class="line">				<span class="comment">// 指定要删除的元素，故写为NULL</span></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Enter the given node data: &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;given_node_data);</span><br><span class="line">				<span class="built_in">node_delete_given_node</span>(list, given_node_data);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">				<span class="built_in">list_delete_all</span>(list);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">11</span>:</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Change data.\nold data: &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;old_data);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;new data: &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;new_data);</span><br><span class="line">				<span class="built_in">node_change</span>(list, old_data, new_data);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">12</span>:</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;Enter data to be searched: &quot;</span>);</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;given_node_data);</span><br><span class="line">				<span class="built_in">node_search</span>(list, given_node_data);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">13</span>:</span><br><span class="line">				<span class="built_in">list_sorted</span>(list);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">while</span>(option != <span class="number">14</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Generic-pointer-version">Generic pointer version</h4>
+<p>暂略.</p>
+<h3 id="Supplement">Supplement</h3>
+<p>在CLion中写C的项目，直接把Cmake改一行比较好用。把<code>CMAKE_CXX_FLAGS</code>所在行改为<code>set(CMAKE_C_FLAGS &quot;$&#123;CMAKE_C_FLAGS&#125; -Wall -Werror&quot;)</code>，参考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/26177390/how-to-create-a-c-project-with-clion">这里</a></p>
+<h3 id="Reference-5">Reference</h3>
+<p><em>Data Structure Using C</em><br>
+<em>Master Algorithms with C</em><br>
+<em>Data Structures and Algorithms in C++</em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/Data-Structure/" rel="tag"># Data Structure</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/01/19/%E6%89%80%E8%B0%93%E5%81%B6%E7%84%B6/" rel="prev" title="所谓偶然">
+                  <i class="fa fa-chevron-left"></i> 所谓偶然
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/28/%E8%80%83%E7%A0%94%E6%9D%82%E8%AE%B0/" rel="next" title="考研杂记">
+                  考研杂记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2019/02/14/Data-Structure-in-C-Singly-Linked-Lists/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

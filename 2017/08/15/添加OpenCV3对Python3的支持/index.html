@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一直用的Python3,但是呢之前编译OpenCV只是按照默认添加了对Python2的支持，于是有进行重新编译，多次挂掉后总算成功了，这里做下记录。 关于编译时的可选参数 编译环境：  Ubuntu16.04LTS 64-Bit 英文版  编译还是根据官网教程来的，但是教程只是给了最基本的编译示例，其他的可选参数并未做太多说明。我们用的是cmake-gui进行选择，影响编译的几个选项就是下面这些：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="添加OpenCV3对Python3的支持&amp;QT中使用OpenCV">
+<meta property="og:url" content="http://datahonor.com/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="一直用的Python3,但是呢之前编译OpenCV只是按照默认添加了对Python2的支持，于是有进行重新编译，多次挂掉后总算成功了，这里做下记录。 关于编译时的可选参数 编译环境：  Ubuntu16.04LTS 64-Bit 英文版  编译还是根据官网教程来的，但是教程只是给了最基本的编译示例，其他的可选参数并未做太多说明。我们用的是cmake-gui进行选择，影响编译的几个选项就是下面这些：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://datahonor-1252464519.costj.myqcloud.com/201707/Screenshot%20from%202017-08-15%2017-31-16.png">
+<meta property="article:published_time" content="2017-08-15T09:18:58.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://datahonor-1252464519.costj.myqcloud.com/201707/Screenshot%20from%202017-08-15%2017-31-16.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/","path":"2017/08/15/添加OpenCV3对Python3的支持/","title":"添加OpenCV3对Python3的支持&QT中使用OpenCV"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>添加OpenCV3对Python3的支持&QT中使用OpenCV | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BC%96%E8%AF%91%E6%97%B6%E7%9A%84%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">关于编译时的可选参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%9C%80%E5%90%8E%E7%9A%84%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">2.</span> <span class="nav-text">关于最后的软链接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Python%E4%B8%8B%E7%9A%84%E6%8A%A5%E9%94%99"><span class="nav-number">3.</span> <span class="nav-text">Python下的报错</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8QT%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV"><span class="nav-number">4.</span> <span class="nav-text">在QT中使用OpenCV</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0-2"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="添加OpenCV3对Python3的支持&QT中使用OpenCV | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          添加OpenCV3对Python3的支持&QT中使用OpenCV
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-08-15 17:18:58" itemprop="dateCreated datePublished" datetime="2017-08-15T17:18:58+08:00">2017-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>一直用的Python3,但是呢之前编译OpenCV只是按照默认添加了对Python2的支持，于是有进行重新编译，多次挂掉后总算成功了，这里做下记录。</p>
+<h5 id="关于编译时的可选参数">关于编译时的可选参数</h5>
+<p>编译环境：</p>
+<blockquote>
+<p>Ubuntu16.04LTS 64-Bit 英文版</p>
+</blockquote>
+<p>编译还是根据<a target="_blank" rel="noopener" href="http://docs.opencv.org/3.1.0/d7/d9f/tutorial_linux_install.html">官网教程</a>来的，但是教程只是给了最基本的编译示例，其他的可选参数并未做太多说明。我们用的是cmake-gui进行选择，影响编译的几个选项就是下面这些：</p>
+<blockquote>
+<p><strong>CUDA</strong>: 本次编译只是选了<code>WITH_CUDA</code>， 但是选择其他相关的文件进行编译有时会出错。由于我这小本本不支持CUDA的，所以下次不选就是了。</p>
+<p><strong>dnn</strong>: 只要包含dnn就出错orz…本次编译全部取消勾选dnn相关文件才通过了.可能是新版本支持不好？</p>
+<p><strong>TBB</strong>：这个也是十分蛋疼啊。。。加上也是出错</p>
+<p><strong>EIGEN</strong>: 可以添加，未出错</p>
+<p><strong>OPENCL</strong>： 可以添加，未出错</p>
+<p><strong>OPENGL</strong>: 未添加</p>
+</blockquote>
+<p>关于Python（使用的anaconda）路径的设置：</p>
+<p>参考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36201282/install-opencv-for-python3">这里</a></p>
+<p><img src="http://datahonor-1252464519.costj.myqcloud.com/201707/Screenshot%20from%202017-08-15%2017-31-16.png" alt=""></p>
+<h5 id="关于最后的软链接">关于最后的软链接</h5>
+<p>参考<a target="_blank" rel="noopener" href="http://www.pyimagesearch.com/2015/07/20/install-opencv-3-0-and-python-3-4-on-ubuntu/">这里</a></p>
+<p>切换到<code>/home/shensir/anaconda3/lib/python3.6/site-packages</code><br>
+执行：</p>
+<blockquote>
+<p>sudo ln -s ‘/home/shensir/anaconda3/lib/python3.6/site-packages/cv2.cpython-36m-x86_64-linux-gnu.so’  <a target="_blank" rel="noopener" href="http://cv2.so">cv2.so</a></p>
+</blockquote>
+<h5 id="Python下的报错">Python下的报错</h5>
+<p>嗯，上面准备的很妥当了，接下来就是…新的报错了orz…</p>
+<blockquote>
+<p>ImportError: /usr/lib/liblapack.so.3: undefined symbol: gotoblas</p>
+</blockquote>
+<p>基本上没找到相关资料，但是有个<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/8917977/installing-lapack-for-numpy">类似的</a>, 试了试竟然成功了：</p>
+<blockquote>
+<p>sudo apt-get remove libopenblas-base</p>
+</blockquote>
+<h5 id="在QT中使用OpenCV">在QT中使用OpenCV</h5>
+<p>看到很多书上的教程是基于QT来讲的，这里也接着在QT设置了OpenCV的支持。主要参考<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=qA46fvP3O5A">这里</a>[及其风骚的操作…]。其实关键是在QT添加OpenCV库的链接，只需要在配置文件<code>xxx.pro</code>中最后添加两行即可：</p>
+<blockquote>
+<p>INCLUDEPATH += “/usr/local/include/”<br>
+LIBS += <code>pkg-config --libs opencv</code></p>
+</blockquote>
+<blockquote>
+<p>ps: 看到视频里面用QT做应用竟然如此方便…嗯，又要入坑QT吗。。。</p>
+</blockquote>
+<h5 id="后记-2">后记</h5>
+<p>折腾那么久，终于解决了…其实添加3的支持也是因为今天看到了<a target="_blank" rel="noopener" href="https://pythonprogramming.net/">这个</a>, 绝对的大佬…想着有空跟进这里的项目来学习。嗯，就这样。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/08/10/%E5%85%B3%E4%BA%8E%E6%95%99%E8%82%B2%E7%BD%91%E9%82%AE%E7%AE%B1/" rel="prev" title="关于教育网邮箱">
+                  <i class="fa fa-chevron-left"></i> 关于教育网邮箱
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/08/16/%E7%99%BE%E5%B9%B4%E5%9B%9E%E9%A6%96-%E5%85%B3%E4%BA%8E%E5%BF%83%E5%9E%8B%E6%9B%B2%E7%BA%BF%E7%9A%84%E5%87%A0%E7%A7%8D%E7%94%BB%E6%B3%95/" rel="next" title="百年回首--关于心形曲线的几种画法">
+                  百年回首--关于心形曲线的几种画法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/08/15/%E6%B7%BB%E5%8A%A0OpenCV3%E5%AF%B9Python3%E7%9A%84%E6%94%AF%E6%8C%81/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 在介绍Adaptive thresholding之前，让我们来看看Integral Image的概念：  Integral images have been introduced as an efficient way of summing pixels in image regions of interest. They are widely used in applicati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCV系列笔记十七：Adaptive thresholding">
+<meta property="og:url" content="http://datahonor.com/2017/05/15/Adaptive-thresholding/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 在介绍Adaptive thresholding之前，让我们来看看Integral Image的概念：  Integral images have been introduced as an efficient way of summing pixels in image regions of interest. They are widely used in applicati">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/170515/AdF.png">
+<meta property="article:published_time" content="2017-05-15T00:15:28.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-1252464519.costj.myqcloud.com/170515/AdF.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/05/15/Adaptive-thresholding/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/05/15/Adaptive-thresholding/","path":"2017/05/15/Adaptive-thresholding/","title":"OpenCV系列笔记十七：Adaptive thresholding"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OpenCV系列笔记十七：Adaptive thresholding | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-3"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Code-3"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#integral-h"><span class="nav-number">2.1.</span> <span class="nav-text">integral.h</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main-cpp"><span class="nav-number">2.2.</span> <span class="nav-text">main.cpp</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/05/15/Adaptive-thresholding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OpenCV系列笔记十七：Adaptive thresholding | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenCV系列笔记十七：Adaptive thresholding
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-15 08:15:28" itemprop="dateCreated datePublished" datetime="2017-05-15T08:15:28+08:00">2017-05-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cpp/" itemprop="url" rel="index"><span itemprop="name">Cpp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/05/15/Adaptive-thresholding/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/15/Adaptive-thresholding/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Overview-3">Overview</h4>
+<p>在介绍Adaptive thresholding之前，让我们来看看Integral Image的概念：</p>
+<blockquote>
+<p>Integral images have been introduced as an efficient way of summing<br>
+pixels in image regions of interest. They are widely used in applications<br>
+that involve, for example, computations over sliding windows at multiple<br>
+scales.</p>
+</blockquote>
+<p>可以看到，Integral Image是避免重复计算多个ROI像素值和的一种方法。接下来，我们实现的就是简单的矩形ROI，使得Integral Image上的每一个点的值为：该点和图像左上角形成的矩形区域像素值之和。</p>
+<p>而Adaptive thresholding 是相对于fixed thresholding而言的。fixed就是我们之前常用的固定阀值，而Adaptive的阀值是由一个固定阀值和一个变化的均值决定的，这个均值，就是某像素点周围一些像素点的均值。</p>
+<h4 id="Code-3">Code</h4>
+<h5 id="integral-h">integral.h</h5>
+<p>实际上，OpenCV已经提供了计算Integral Image的函数<code>cv::integral</code>，但是书上也自己实现了一边，我们这里也贴上。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !defined IINTEGRAL</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IINTEGRAL</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgproc.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="type">int</span> N&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">IntegralImage</span> &#123;</span><br><span class="line"></span><br><span class="line">      cv::Mat integralImage;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">      <span class="built_in">IntegralImage</span>(cv::Mat image) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// (costly) computation of the integral image</span></span><br><span class="line">        cv::<span class="built_in">integral</span>(image,integralImage,cv::DataType&lt;T&gt;::type);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// compute sum over sub-regions of any size from 4 pixel access</span></span><br><span class="line">      <span class="function">cv::Vec&lt;T,N&gt; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> xo, <span class="type">int</span> yo, <span class="type">int</span> width, <span class="type">int</span> height)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// window at (xo,yo) of size width by height</span></span><br><span class="line">          <span class="keyword">return</span> (integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(yo+height,xo+width)</span><br><span class="line">                  -integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(yo+height,xo)</span><br><span class="line">                  -integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(yo,xo+width)</span><br><span class="line">                  +integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(yo,xo));</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// compute sum over sub-regions of any size from 4 pixel access</span></span><br><span class="line">      <span class="function">cv::Vec&lt;T,N&gt; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> radius)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// square window centered at (x,y) of size 2*radius+1</span></span><br><span class="line">          <span class="keyword">return</span> (integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(y+radius+<span class="number">1</span>,x+radius+<span class="number">1</span>)</span><br><span class="line">                  -integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(y+radius+<span class="number">1</span>,x-radius)</span><br><span class="line">                  -integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(y-radius,x+radius+<span class="number">1</span>)</span><br><span class="line">                  +integralImage.at&lt;cv::Vec&lt;T,N&gt; &gt;(y-radius,x-radius));</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// convert to a multi-channel image made of binary planes</span></span><br><span class="line"><span class="comment">// nPlanes must be a power of 2</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">convertToBinaryPlanes</span><span class="params">(<span class="type">const</span> cv::Mat&amp; input, cv::Mat&amp; output, <span class="type">int</span> nPlanes)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// number of bits to mask out</span></span><br><span class="line">        <span class="type">int</span> n= <span class="number">8</span>-<span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(<span class="built_in">log</span>(<span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(nPlanes))/<span class="built_in">log</span>(<span class="number">2.0</span>));</span><br><span class="line">        <span class="comment">// mask used to eliminate least significant bits</span></span><br><span class="line">        uchar mask= <span class="number">0xFF</span>&lt;&lt;n; <span class="comment">// e.g. for div=16, mask= 0xF0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// create a vector of 16 binary images</span></span><br><span class="line">        std::vector&lt;cv::Mat&gt; planes;</span><br><span class="line">        <span class="comment">// reduce to nBins bins by eliminating least significant bits</span></span><br><span class="line">        cv::Mat reduced= input&amp;mask;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// compute each binary image plane</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;nPlanes; i++) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 1 for each pixel equals to i&lt;&lt;shift</span></span><br><span class="line">            planes.<span class="built_in">push_back</span>((reduced==(i&lt;&lt;n))&amp;<span class="number">0x1</span>);  <span class="comment">// i&lt;&lt;n  --&gt; 16, 32, 48, ...</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// create multi-channel image</span></span><br><span class="line">        cv::<span class="built_in">merge</span>(planes,output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="main-cpp">main.cpp</h5>
+<p>这里介绍了，OpenCV自带的fixed thresholding， Adaptive thresholding, boxFilter的用法，同时运用Integral Image重新实现了一遍Adaptive thresholding.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;highgui.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgcodecs.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv/cv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;integral.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cv::Mat image = cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/book.png&quot;</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// display original image</span></span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Original Image&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Original Image&quot;</span>, image);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// using a fixed threshold</span></span><br><span class="line">    cv::Mat binaryFixed;</span><br><span class="line">    cv::Mat binaryAdaptive;</span><br><span class="line">    cv::<span class="built_in">threshold</span>(image, binaryFixed,<span class="number">70</span>,<span class="number">255</span>,cv::THRESH_BINARY);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//using as adaptive threshold</span></span><br><span class="line">    <span class="type">int</span> blockSize=<span class="number">21</span>;  <span class="comment">//size of the neighborhood</span></span><br><span class="line">    <span class="type">int</span> threshold=<span class="number">10</span>;  <span class="comment">// pixel will be compare to (mean-threshold)</span></span><br><span class="line"></span><br><span class="line">    int64 time;</span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>();</span><br><span class="line">    cv::<span class="built_in">adaptiveThreshold</span>(</span><br><span class="line">            image,  <span class="comment">//input image</span></span><br><span class="line">            binaryAdaptive, <span class="comment">// output binary image</span></span><br><span class="line">            <span class="number">255</span>,  <span class="comment">//max value for output</span></span><br><span class="line">            cv::ADAPTIVE_THRESH_GAUSSIAN_C, <span class="comment">// adaptive method</span></span><br><span class="line">            cv::THRESH_BINARY, <span class="comment">//threshold type</span></span><br><span class="line">            blockSize,</span><br><span class="line">            threshold</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>() - time;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;time (adaptiveThreshold) =  &quot;</span>&lt;&lt;time&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute integral image</span></span><br><span class="line">    IntegralImage&lt;<span class="type">int</span>, <span class="number">1</span>&gt;<span class="built_in">integral</span>(image);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// test integral image</span></span><br><span class="line"><span class="comment">//    cout&lt;&lt;&quot;sum = &quot;&lt;&lt;integral(18, 45,30, 50)&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">//    cv::Mat test(image, cv::Rect(18,45,30,50));</span></span><br><span class="line"><span class="comment">//    cv::Scalar t = cv::sum(test);</span></span><br><span class="line"><span class="comment">//    cout&lt;&lt;&quot;sum test = &quot;&lt;&lt;t[0]&lt;&lt;endl;</span></span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Fixed Threshold&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Fixed Threshold&quot;</span>, binaryFixed);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Adaptive Threshold&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Adaptive Threshold&quot;</span>, binaryAdaptive);</span><br><span class="line"></span><br><span class="line">    cv::Mat binary = image.<span class="built_in">clone</span>();</span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>();</span><br><span class="line">    <span class="type">int</span> nl = binary.rows; <span class="comment">// number of lines</span></span><br><span class="line">    <span class="type">int</span> nc = binary.cols; <span class="comment">// total number of elements per line</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// compute integral image</span></span><br><span class="line">    cv::Mat iimage;</span><br><span class="line">    cv::<span class="built_in">integral</span>(image, iimage, CV_32S);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//for each row</span></span><br><span class="line">    <span class="type">int</span> halfSize = blockSize/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=halfSize; j&lt;nl - halfSize <span class="number">-1</span>;j++ )&#123;</span><br><span class="line">        <span class="comment">// get the address of row j</span></span><br><span class="line">        uchar* data = binary.<span class="built_in">ptr</span>&lt;uchar&gt;(j);</span><br><span class="line">        <span class="type">int</span>* idata1 = iimage.<span class="built_in">ptr</span>&lt;<span class="type">int</span>&gt;(j-halfSize); <span class="comment">// 滑动窗口上边</span></span><br><span class="line">        <span class="type">int</span>* idata2 = iimage.<span class="built_in">ptr</span>&lt;<span class="type">int</span>&gt;(j+halfSize+<span class="number">1</span>); <span class="comment">// 滑动窗口下边</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//for pixel of a line</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=halfSize; i&lt;nc-halfSize<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            <span class="comment">//compute pix_mean</span></span><br><span class="line">            <span class="type">int</span> pix_mean = (idata2[i+halfSize+<span class="number">1</span>]-idata2[i-halfSize]-idata1[i+halfSize+<span class="number">1</span>]</span><br><span class="line">            +idata1[i-halfSize])/(blockSize*blockSize);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//apply adaptive threshold</span></span><br><span class="line">            <span class="keyword">if</span>(data[i]&lt;(pix_mean-threshold))</span><br><span class="line">                data[i] = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                data[i]  =<span class="number">255</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// add white border</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;halfSize;j++)&#123;</span><br><span class="line">        uchar *data = binary.<span class="built_in">ptr</span>&lt;uchar&gt;(j);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;binary.cols;i++)</span><br><span class="line">            data[i] = <span class="number">255</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=binary.rows-halfSize<span class="number">-1</span>;j&lt;binary.rows;j++)&#123;</span><br><span class="line">        uchar * data = binary.<span class="built_in">ptr</span>&lt;uchar&gt;(j);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;binary.cols;i++)&#123;</span><br><span class="line">            data[i] = <span class="number">255</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=halfSize;j&lt;nl-halfSize<span class="number">-1</span>;j++)&#123;</span><br><span class="line">        uchar* data = binary.<span class="built_in">ptr</span>&lt;uchar&gt;(j);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;halfSize;i++)</span><br><span class="line">            data[i] = <span class="number">255</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=binary.cols-halfSize<span class="number">-1</span>;i&lt;binary.cols;i++)</span><br><span class="line">            data[i] = <span class="number">255</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>()-time;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;time integral= &quot;</span>&lt;&lt;time&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Adaptive Threshold (integral)&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Adaptive Threshold (integral)&quot;</span>, binary);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// adaptive threshold using image operators</span></span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>();</span><br><span class="line">    cv::Mat filtered;</span><br><span class="line">    cv::Mat binaryFiltered;</span><br><span class="line">    <span class="comment">// box filter compute avg of pixels over a rectangle region</span></span><br><span class="line">    cv::<span class="built_in">boxFilter</span>(image, filtered, CV_8U, cv::<span class="built_in">Size</span>(blockSize,blockSize));</span><br><span class="line">    <span class="comment">// check if pixel greater than (mean+shreshold)</span></span><br><span class="line">    binaryFiltered = image&gt;=(filtered-threshold);</span><br><span class="line">    time = cv::<span class="built_in">getTickCount</span>()-time;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;time filtered= &quot;</span>&lt;&lt;time&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">namedWindow</span>(<span class="string">&quot;Adaptive filtered&quot;</span>);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Adaptive filtered&quot;</span>, binaryFiltered);</span><br><span class="line"></span><br><span class="line">    cv::<span class="built_in">waitKey</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="http://blog-1252464519.costj.myqcloud.com/170515/AdF.png" alt=""></p>
+<blockquote>
+<p>time (adaptiveThreshold) =  2305893<br>
+time integral= 7118664<br>
+time filtered= 1179760</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/11/Queue/" rel="prev" title="Queue">
+                  <i class="fa fa-chevron-left"></i> Queue
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/15/Visual-tracking-using-histograms/" rel="next" title="OpenCV系列笔记十八：Visual tracking using histograms">
+                  OpenCV系列笔记十八：Visual tracking using histograms <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/05/15/Adaptive-thresholding/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

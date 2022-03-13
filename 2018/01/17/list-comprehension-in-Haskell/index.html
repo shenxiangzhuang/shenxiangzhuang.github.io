@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 以建立简易的图书馆数据库为例，学习Haskell的list comprehension以及其他的关于QuickCheck，pattern match的一些内容。 Code 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657">
+<meta property="og:type" content="article">
+<meta property="og:title" content="list comprehension in Haskell">
+<meta property="og:url" content="http://datahonor.com/2018/01/17/list-comprehension-in-Haskell/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 以建立简易的图书馆数据库为例，学习Haskell的list comprehension以及其他的关于QuickCheck，pattern match的一些内容。 Code 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-17T09:55:00.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Haskell">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://datahonor.com/2018/01/17/list-comprehension-in-Haskell/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2018/01/17/list-comprehension-in-Haskell/","path":"2018/01/17/list-comprehension-in-Haskell/","title":"list comprehension in Haskell"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>list comprehension in Haskell | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Overview-56"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Code-49"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%A6-2"><span class="nav-number">3.</span> <span class="nav-text">…</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2018/01/17/list-comprehension-in-Haskell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="list comprehension in Haskell | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          list comprehension in Haskell
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-17 17:55:00" itemprop="dateCreated datePublished" datetime="2018-01-17T17:55:00+08:00">2018-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Haskell/" itemprop="url" rel="index"><span itemprop="name">Haskell</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2018/01/17/list-comprehension-in-Haskell/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/17/list-comprehension-in-Haskell/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="Overview-56">Overview</h4>
+<p>以建立简易的图书馆数据库为例，学习Haskell的list comprehension以及其他的关于QuickCheck，pattern match的一些内容。</p>
+<h4 id="Code-49">Code</h4>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 图书馆数据库模型</span></span><br><span class="line"><span class="keyword">module</span> Library <span class="keyword">where</span></span><br><span class="line">  <span class="keyword">import</span> Test.QuickCheck</span><br><span class="line">  <span class="keyword">import</span> Data.List</span><br><span class="line"></span><br><span class="line">  <span class="comment">--在对问题建立模型时，首先考虑对象的类型</span></span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="type">Person</span>  = <span class="type">String</span></span></span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="type">Book</span>     = <span class="type">String</span></span></span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="type">Database</span> = [(<span class="type">Person</span>, <span class="type">Book</span>)]</span></span><br><span class="line"></span><br><span class="line">  exampleBase :: <span class="type">Database</span></span><br><span class="line">  exampleBase =</span><br><span class="line">	[(<span class="string">&quot;Alice&quot;</span>, <span class="string">&quot;Tintin&quot;</span>), (<span class="string">&quot;Anna&quot;</span>, <span class="string">&quot;Little Women&quot;</span>),</span><br><span class="line">	 (<span class="string">&quot;Alice&quot;</span>, <span class="string">&quot;Asterix&quot;</span>), (<span class="string">&quot;Roty&quot;</span>, <span class="string">&quot;Tintin&quot;</span>)]</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 数据库上的函数</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 查询函数(lookup)</span></span><br><span class="line">  <span class="comment">-- 读者-&gt;图书</span></span><br><span class="line">  books      ::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; [<span class="type">Book</span>]</span><br><span class="line">  books dBase findPerson = [book | (person, book) &lt;- dBase, person == findPerson]</span><br><span class="line">  <span class="comment">-- 图书-&gt;读者</span></span><br><span class="line">  borrowers  ::<span class="type">Database</span> -&gt; <span class="type">Book</span> -&gt; [<span class="type">Person</span>]</span><br><span class="line">  borrowers dBase findBook = [person | (person, book) &lt;- dBase, book == findBook]</span><br><span class="line">  <span class="comment">-- 图书是否借出</span></span><br><span class="line">  borrowed   ::<span class="type">Database</span> -&gt; <span class="type">Book</span> -&gt; <span class="type">Bool</span></span><br><span class="line">  borrowed dBase findBook = findBook `elem` [book | (_, book) &lt;- dBase]</span><br><span class="line">  <span class="comment">-- 读者借书数目</span></span><br><span class="line">  numBorrowed::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; <span class="type">Int</span></span><br><span class="line">  numBorrowed dBase findPerson = length (books dBase findPerson)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 更新函数(update)</span></span><br><span class="line">  makeLoan  ::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; <span class="type">Book</span> -&gt;<span class="type">Database</span></span><br><span class="line">  makeLoan dBase findPerson findBook = dBase ++ [(findPerson, findBook)]</span><br><span class="line"></span><br><span class="line">  returnLoan::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; <span class="type">Book</span> -&gt; <span class="type">Database</span></span><br><span class="line">  returnLoan dBase findPerson findBook = [pair | pair &lt;- dBase, pair /= (findPerson, findBook)]</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- Show Database</span></span><br><span class="line">  showDatabase::<span class="type">Database</span> -&gt; <span class="type">IO</span>()</span><br><span class="line">  showDatabase dBase =</span><br><span class="line">	putStrLn $ intercalate <span class="string">&quot;\n&quot;</span> [person++<span class="string">&quot;:&quot;</span>++book | (person, book) &lt;- dBase]</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- QuickCheck测试</span></span><br><span class="line">  <span class="comment">-- 如果将书借给读者person,然后查询借给读者person的书，那么book应该在列表中出现</span></span><br><span class="line">  prop_db1::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; <span class="type">Book</span> -&gt; <span class="type">Bool</span></span><br><span class="line">  prop_db1 dBase person book =</span><br><span class="line">	book `elem` loanedAfterLoan <span class="keyword">where</span></span><br><span class="line">	  afterLoan = makeLoan dBase person book</span><br><span class="line">	  loanedAfterLoan = books afterLoan person</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 如果读者将peson借的书book还回，然后查询读者person借阅的图书，那么book不应该在列表中</span></span><br><span class="line">  prop_db2::<span class="type">Database</span> -&gt; <span class="type">Person</span> -&gt; <span class="type">Book</span> -&gt; <span class="type">Bool</span></span><br><span class="line">  prop_db2 dBase person book =</span><br><span class="line">	  book `notElem` loanedAfterReturn <span class="keyword">where</span></span><br><span class="line">	  afterReturn = returnLoan dBase person book</span><br><span class="line">	  loanedAfterReturn = books afterReturn person</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="…-2">…</h4>
+<p>学haskell有一段时间了，感觉还是挺不错的。了解了很多新的东西（虽然现在还有很多理解不了）。感觉就elegant来言，haskell是不输Python的。目前了解到的typeclass感觉很强大（比OOP里面的多态继承要更加简洁），看了wiki，它也是首次出现在haskell里面的。其他是之前看到haskell不仅可以test,而且可以proof…test用的QuickCheck，感觉很好用,proof还没有看到。另外感觉haskell群的各位大佬都比较热心，经常是原理+demo的给讲解很基础的东西。慢慢学吧…</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Haskell/" rel="tag"># Haskell</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/01/08/Matrix-in-C/" rel="prev" title="Matrix in C">
+                  <i class="fa fa-chevron-left"></i> Matrix in C
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/24/Dangling-pointer-and-Lifetime/" rel="next" title="Dangling pointer and Lifetime">
+                  Dangling pointer and Lifetime <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2018/01/17/list-comprehension-in-Haskell/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这里记录下如何将自己写的Python程序打包成库，并安装, 参考官方文档Packaging Python Projects。 方法一：官方安装流程 首先，我们要有一个文件夹，比如名为mypkg的文件夹。 之后我们需要将我们主要的源文件，比如myml文件夹（比如里面是一些机器学习的算法实现）， 添加到mypkg中。 之后我们需要两个辅助文件：setup.py和README.md 其中README.m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to write a Python package?">
+<meta property="og:url" content="http://datahonor.com/2019/07/13/How-to-write-a-Python-package/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="这里记录下如何将自己写的Python程序打包成库，并安装, 参考官方文档Packaging Python Projects。 方法一：官方安装流程 首先，我们要有一个文件夹，比如名为mypkg的文件夹。 之后我们需要将我们主要的源文件，比如myml文件夹（比如里面是一些机器学习的算法实现）， 添加到mypkg中。 之后我们需要两个辅助文件：setup.py和README.md 其中README.m">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-13T06:09:10.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://datahonor.com/2019/07/13/How-to-write-a-Python-package/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2019/07/13/How-to-write-a-Python-package/","path":"2019/07/13/How-to-write-a-Python-package/","title":"How to write a Python package?"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>How to write a Python package? | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">方法一：官方安装流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#init-py%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%99%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">__init__.py文件的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">1.2.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3"><span class="nav-number">1.3.</span> <span class="nav-text">文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Step1-%E6%9C%AC%E5%9C%B0%E7%94%9F%E6%88%90"><span class="nav-number">1.3.1.</span> <span class="nav-text">Step1: 本地生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step2-%E5%8F%91%E5%B8%83%E6%96%87%E6%A1%A3"><span class="nav-number">1.3.2.</span> <span class="nav-text">Step2: 发布文档</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">方法二：自动化构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BA%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">本地创建库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%8F%91%E5%B8%83%E5%88%B0GitHub"><span class="nav-number">2.2.</span> <span class="nav-text">项目发布到GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E6%96%87%E6%A1%A3"><span class="nav-number">2.3.</span> <span class="nav-text">发布文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E5%BA%93%E5%88%B0PyPI"><span class="nav-number">2.4.</span> <span class="nav-text">发布库到PyPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">2.5.</span> <span class="nav-text">后记</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2019/07/13/How-to-write-a-Python-package/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="How to write a Python package? | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to write a Python package?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-13 14:09:10" itemprop="dateCreated datePublished" datetime="2019-07-13T14:09:10+08:00">2019-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2019/07/13/How-to-write-a-Python-package/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/13/How-to-write-a-Python-package/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这里记录下如何将自己写的Python程序打包成库，并安装, 参考官方文档<a target="_blank" rel="noopener" href="https://packaging.python.org/tutorials/packaging-projects/">Packaging Python Projects</a>。</p>
+<h2 id="方法一：官方安装流程">方法一：官方安装流程</h2>
+<p>首先，我们要有一个文件夹，比如名为<code>mypkg</code>的文件夹。</p>
+<p>之后我们需要将我们主要的源文件，比如<code>myml</code>文件夹（比如里面是一些机器学习的算法实现）， 添加到<code>mypkg</code>中。</p>
+<p>之后我们需要两个辅助文件：<code>setup.py</code>和<code>README.md</code></p>
+<p>其中<code>README.md</code>写上项目简短的说明即可。</p>
+<p><code>setup.py</code>需要按照一定的格式写，比如下面这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> setuptools</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;README.md&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> fh:</span><br><span class="line">    long_description = fh.read()</span><br><span class="line"></span><br><span class="line">setuptools.setup(</span><br><span class="line">    name=<span class="string">&quot;example-pkg-your-username&quot;</span>,</span><br><span class="line">    version=<span class="string">&quot;0.0.1&quot;</span>,</span><br><span class="line">    author=<span class="string">&quot;Example Author&quot;</span>,</span><br><span class="line">    author_email=<span class="string">&quot;author@example.com&quot;</span>,</span><br><span class="line">    description=<span class="string">&quot;A small example package&quot;</span>,</span><br><span class="line">    long_description=long_description,</span><br><span class="line">    long_description_content_type=<span class="string">&quot;text/markdown&quot;</span>,</span><br><span class="line">    url=<span class="string">&quot;https://github.com/pypa/sampleproject&quot;</span>,</span><br><span class="line">    packages=setuptools.find_packages(),</span><br><span class="line">    classifiers=[</span><br><span class="line">        <span class="string">&quot;Programming Language :: Python :: 3&quot;</span>,</span><br><span class="line">        <span class="string">&quot;License :: OSI Approved :: MIT License&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Operating System :: OS Independent&quot;</span>,</span><br><span class="line">    ],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>之后呢，我们就可以将上面的文件夹打包并发布了，发布之后便可以自行通过pip安装。具体可以参考上面官网的链接。</p>
+<p>但是，我们这里可能会有一个需求，那就是，我们可能要持续开发这个库。这样的话，我们可以用pip提供的<a target="_blank" rel="noopener" href="https://pip.pypa.io/en/stable/reference/pip_install/#id44">“Editable” Installs</a>, 如此可以进入<a target="_blank" rel="noopener" href="https://setuptools.readthedocs.io/en/latest/setuptools.html#id25">“Development Mode”</a>。也即，我们只需要在<code>mypkg</code>上层文件夹下运行<code>pip install -e mypkg</code>就可以直接进入开发模式。这时候我们已经可以在终端（但是记得不要在<code>myml</code>文件下，不然就会无法调用）运行Python, 并直接通过<code>import myml</code>来完成调用。</p>
+<p>这里我们对代码进行更改后，只需要在<code>mypkg</code>文件下用命令行运行<code>python setup.py build</code>就可以将新的改动提交上去。最后在我们将项目开发完时，运行<code>python setup.py develop --uninstall</code>将开发版本卸载掉，之后重新打包发布，在安装正式版本即可。</p>
+<h3 id="init-py文件的写法"><code>__init__.py</code>文件的写法</h3>
+<p>首先明确<code>__init__.py</code>文件存在，则其所在的文件夹被自动视为一个<code>package</code>,在运行<code>import package_name</code>之后，其对应的<code>__init__.py</code>首先被调用。</p>
+<p>按照文档，最顶层的<code>__init__.py</code>可以只写上库名字：<code>name = &quot;example_pkg&quot;</code>。</p>
+<p>其他的一般空下，不写任何东西，只是作为一个标识。</p>
+<p>也有时候会用于多个<code>submodules</code>的一起调用或者限制调用，具体可以参考<em>Python Cookbook3-Chap10</em>.</p>
+<h3 id="测试">测试</h3>
+<p>在写完需求后，写简单的单元测试来验证API的正确性，同时也避免了通过打印测试的局限性。目前主要用的还是<code>unittest</code>库，结合<code>vscode</code>使用非常方便。</p>
+<h3 id="文档">文档</h3>
+<p>对于一个完整的库来说，文档是必不可少的，这里选用的是用<code>Sphinx</code>来做项目的文档。大致流程可以先参考下<a target="_blank" rel="noopener" href="https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html">这里</a>, 将文档通过Github发布，可以参考<a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCOSeGDrlScCNgBcN5C8nTEw">Open Source Options</a>的这个教程， 最后还有些细枝末节的问题，可以看<a target="_blank" rel="noopener" href="https://daler.github.io/sphinxdoc-test/includeme.html">这篇文档</a></p>
+<p>上面的教程总体感觉都挺乱的，这里进行下汇总。</p>
+<h4 id="Step1-本地生成">Step1: 本地生成</h4>
+<p>首先安装<code>sphinx</code>: <code>pip install sphinx</code>.</p>
+<p>之后在<code>mypkg</code>新建文件夹<code>sphinx</code>， 之后进入该文件夹<code>cd sphinx</code>，并运行<code>sphinx-quickstart</code>， 根据提示输入对应的信息。（这里填错了后面还可以改的）</p>
+<p>这时候，可以根据<a target="_blank" rel="noopener" href="http://sphinx-doc.org/rest.html">reStructuredText</a> 语法写改<code>sphinx</code>文件夹下的<code>.rst</code>文件，指定生成文档的内容与格式等。</p>
+<p>之后修改<code>sphinx/source/conf.py</code>文件设置<code>autodoc</code>，参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/23a54872ab82">这里</a>。因为我在设置的时候没有遇到让加入<code>extensions</code>的提示，所以就手动设置，修改结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">extensions = [</span><br><span class="line">    <span class="string">&quot;sphinx.ext.autodoc&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sphinx.ext.intersphinx&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sphinx.ext.todo&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sphinx.ext.viewcode&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sphinx_rtd_theme&quot;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>这里还有去掉下面路径设置的注释</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.abspath(<span class="string">&#x27;.&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>然后保存（其他设置可以随便找个开源项目看看别人怎么写的，比如<code>requests</code>库），在<code>sphinx</code>文件夹下，终端执行<code>sphinx-apidoc -o ./source ../src/</code></p>
+<p>最后是生成html文件，<code>make html</code>。</p>
+<p>此时可以打开<code>sphinx/build/html/index.html</code>打开文档。</p>
+<h4 id="Step2-发布文档">Step2: 发布文档</h4>
+<p>发布的方法<a target="_blank" rel="noopener" href="https://daler.github.io/sphinxdoc-test/includeme.html">这篇文档</a>写的比较详细，可以照着作下，我这里并没有测试，而是按照<a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCOSeGDrlScCNgBcN5C8nTEw">Open Source Options</a>最后一集比较粗暴的方法。</p>
+<p>就是在<code>mypkg</code>文件夹下新建一个<code>docs</code>文件夹，之后将<code>html</code>文件夹下的文档全部复制过去，再新建一个<code>.nojekyll</code>文件，之后直接commit， push到github。最后在项目的<code>setting</code>中选择githubpages的设置，选中<code>docs</code>文件夹即可。</p>
+<p>之后重新生成文档，同样将<code>html</code>文件夹下的文件全部复制到<code>docs</code>再提交就是了。注意这里<code>.nojekyll</code>文件十分重要，如果没有这个文件（而是选择某个主题），会出现文档页面无法显示的情况。</p>
+<p>在全部完成之后就可以打包发布了。其他可能有些设置没有提到，可以看下我的<a target="_blank" rel="noopener" href="https://github.com/shenxiangzhuang/ToyData">ToyData</a>项目的设置。</p>
+<h2 id="方法二：自动化构建">方法二：自动化构建</h2>
+<p>之前的项目都是按照上面的方法一来构建和发布的，但是总体来看，流程还是有一些复杂的…(当然了，全面地了解下这个流程还是很有必要的)</p>
+<p>所以就查了下一些自动化构建的工具，在测试过之后采取了<a target="_blank" rel="noopener" href="https://python-poetry.org/">Poetry</a>+<a target="_blank" rel="noopener" href="https://www.mkdocs.org">MkDocs</a>的组合: Poetry用于库文件的创建，库的本地打包与<a target="_blank" rel="noopener" href="https://pypi.org/">PyPI</a>上传; MkDocs用于文档的生成与部署。下面简单介绍下整个库从重建到发布的流程。(Poetry和MkDocs的安装见官网指引)</p>
+<h3 id="本地创建库">本地创建库</h3>
+<p>命令行执行<code>poetry new poetry-mkdocs-shenxzh</code>, 输出<code>Created package poetry_mkdocs_shenxzh in poetry-mkdocs-shenxzh</code>.</p>
+<p>查看文件目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜ tree </span><br><span class="line">.</span><br><span class="line">├── poetry_mkdocs_shenxzh</span><br><span class="line">│   └── __init__.py</span><br><span class="line">├── pyproject.toml</span><br><span class="line">├── README.rst</span><br><span class="line">└── tests</span><br><span class="line">    ├── __init__.py</span><br><span class="line">    └── test_poetry_mkdocs_shenxzh.py</span><br></pre></td></tr></table></figure>
+<p>我们在<code>poetry_mkdocs_shenxzh</code>文件夹下放我们的库源码，在<code>tests</code>文件夹下做测试。为了符合一般习惯，可以把<code>README.rst</code>改成<code>README.md</code>, <code>pyproject.toml</code>是项目的主要配置文件，包括库依赖等设置。</p>
+<p>后面就要进行库的开发了，我们用Git记录开发过程，故在<code>pyproject.toml</code>同目录(后称之为根目录)下运行<code>git init</code>初始化项目。</p>
+<p>之后添加库文件，修改<code>README.md</code>文件， <code>.gitignore</code>，测试…</p>
+<p>之后在根目录下执行<code>mkdocs new docs</code>, 此时<code>docs</code>文件夹目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜ tree .</span><br><span class="line">.</span><br><span class="line">├── docs</span><br><span class="line">│   └── index.md</span><br><span class="line">└── mkdocs.yml</span><br></pre></td></tr></table></figure>
+<p>我们将在<code>docs/docs</code>文件夹下放我们的文档源文件，这里是<code>.md</code>格式的。<code>mkdocs.yml</code>是MkDocs的配置文件。</p>
+<p>我们在<code>docs/docs</code>文件夹下加入<code>intro.md</code>之后修改<code>mkdocs.yml</code>为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">site_name: My Docs</span><br><span class="line">nav:</span><br><span class="line">    - Home: index.md</span><br><span class="line">    - Introduction: intro.md</span><br></pre></td></tr></table></figure>
+<p>之后<code>mkdocs serve</code>就可以在打开本地服务，查看文档界面。调整合适之后即可<code>mkdocs build</code>生成html文件，位于<code>./docs/site</code>文件夹下。因为我们一般不把<code>site</code>目录加入Git(只用<code>docs/docs</code>下面的md文件就可以很好地追踪文档变化),所以将<code>docs/site</code>加入<code>.gitignore</code>之后再<code>add</code>, <code>commit</code>。(如果已经commit也可以用<code>git rm -r --cached docs/site</code>将其删除)</p>
+<p>现在我们已经完成了库的开发和文档的本地生成。下面首先将项目发布到GitHub，然后发布文档，最后将整个库打包发布。</p>
+<h3 id="项目发布到GitHub">项目发布到GitHub</h3>
+<p>首先在Github新建项目<code>poetry-mkdocs-shenxzh</code>，之后复制仓库地址，执行<code>git remote add origin https://github.com/shenxiangzhuang/poetry-mkdocs-shenxzh.git</code>加入远程仓库地址。</p>
+<h3 id="发布文档">发布文档</h3>
+<p>在<code>./docs</code>文件夹下执行<code>mkdocs gh-deploy</code>，输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜ mkdocs gh-deploy</span><br><span class="line">INFO    -  Cleaning site directory </span><br><span class="line">INFO    -  Building documentation to directory: /home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site </span><br><span class="line">INFO    -  Documentation built in 0.23 seconds </span><br><span class="line">WARNING -  Version check skipped: No version specified in previous deployment. </span><br><span class="line">INFO    -  Copying &#x27;/home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site&#x27; to &#x27;gh-pages&#x27; branch and pushing to GitHub. </span><br><span class="line">INFO    -  Your documentation should shortly be available at: https://shenxiangzhuang.github.io/poetry-mkdocs-shenxzh/ </span><br></pre></td></tr></table></figure>
+<p>这里直接访问<code>https://shenxiangzhuang.github.io/poetry-mkdocs-shenxzh/ </code>即可查看文档了。(我们可以在https://github.com/shenxiangzhuang/poetry-mkdocs-shenxzh/settings 中看到，GitHub Page的站点建立在<code>gh-pages</code>分支(<code>mkdocs gh-deploy</code>帮我们自动创建的)的根目录下。</p>
+<h3 id="发布库到PyPI">发布库到PyPI</h3>
+<p>这里就是Poetry发挥作用的时候了，根目录执行<code>poetry build</code>把轮子造好（会自动创建<code>./dist</code>文件夹，然后将build好的文件放在这里）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜ poetry build     </span><br><span class="line">Building poetry-mkdocs-shenxzh (0.1.0)</span><br><span class="line">  - Building sdist</span><br><span class="line">  - Built poetry-mkdocs-shenxzh-0.1.0.tar.gz</span><br><span class="line">  - Building wheel</span><br><span class="line">  - Built poetry_mkdocs_shenxzh-0.1.0-py3-none-any.whl</span><br></pre></td></tr></table></figure>
+<p>之后执行<code>poetry publish</code>即可直接将库发布。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜ poetry publish</span><br><span class="line"></span><br><span class="line">Username: IronSky</span><br><span class="line">Password: </span><br><span class="line">Publishing poetry-mkdocs-shenxzh (0.1.0) to PyPI</span><br><span class="line"> - Uploading poetry-mkdocs-shenxzh-0.1.0.tar.gz 100%</span><br><span class="line"> - Uploading poetry_mkdocs_shenxzh-0.1.0-py3-none-any.whl 100%</span><br></pre></td></tr></table></figure>
+<p>此时登录https://pypi.org/manage/projects/即可看到发布的库，这时执行<code>pip install poetry-mkdocs-shenxzh</code>就可以安装了。因为我本地已经把默认源头换成了豆瓣源，所以需要<code>pip install poetry-mkdocs-shenxzh -i https://pypi.org/simple</code>才可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜ pip install poetry-mkdocs-shenxzh -i https://pypi.org/simple</span><br><span class="line">Collecting poetry-mkdocs-shenxzh</span><br><span class="line">  Downloading poetry_mkdocs_shenxzh-0.1.0-py3-none-any.whl (1.4 kB)</span><br><span class="line">Installing collected packages: poetry-mkdocs-shenxzh</span><br><span class="line">Successfully installed poetry-mkdocs-shenxzh-0.1.0</span><br></pre></td></tr></table></figure>
+<p>之后我们就可以使用我们自己写的库了！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [1]: from poetry_mkdocs_shenxzh.hello import Hello</span><br><span class="line"></span><br><span class="line">In [2]: h = Hello()</span><br><span class="line"></span><br><span class="line">In [3]: h.sayHello()</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+<h3 id="后记">后记</h3>
+<p>用MkDocs替换Sphinx其实有个问题,那就是没办法自动化生成API Doc，就是Python的Docstring不能直接生成文档。(暂时没找到好的插件可以做到这一点)</p>
+<p>所以用MkDocs在不需要对源码做大量解释的情况下还是很方便的，如果要对源码做更多的介绍，可能还是Sphinx好一些？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/21/VsCode%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" rel="prev" title="VsCode使用记录">
+                  <i class="fa fa-chevron-left"></i> VsCode使用记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/07/28/Mysql8-0-in-Ubuntu16-04/" rel="next" title="Mysql8.0 in Ubuntu16.04">
+                  Mysql8.0 in Ubuntu16.04 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2019/07/13/How-to-write-a-Python-package/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

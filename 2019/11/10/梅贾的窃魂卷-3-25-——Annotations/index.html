@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 整理下关于Python中Type Checking的资料。主要参考realpython.关于Type Checking，这篇文章主要是基于mypy来讲的，另外微软的pyright用着也还可以（还是有Bug…），可以和Vscode一起用。 Annotations 在variable, function,和class中均可以使用Annotations.此外有Type Comments">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梅贾的窃魂卷(3&#x2F;25)——Annotations">
+<meta property="og:url" content="http://datahonor.com/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 整理下关于Python中Type Checking的资料。主要参考realpython.关于Type Checking，这篇文章主要是基于mypy来讲的，另外微软的pyright用着也还可以（还是有Bug…），可以和Vscode一起用。 Annotations 在variable, function,和class中均可以使用Annotations.此外有Type Comments">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-10T07:34:22.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Tips">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://datahonor.com/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/","path":"2019/11/10/梅贾的窃魂卷-3-25-——Annotations/","title":"梅贾的窃魂卷(3/25)——Annotations"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>梅贾的窃魂卷(3/25)——Annotations | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview-62"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Annotations"><span class="nav-number">2.</span> <span class="nav-text">Annotations</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Variable-Annotations"><span class="nav-number">2.1.</span> <span class="nav-text">Variable Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Function-Annotations"><span class="nav-number">2.2.</span> <span class="nav-text">Function Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Class-Type-Hints-for-Methods"><span class="nav-number">2.3.</span> <span class="nav-text">Class: Type Hints for Methods</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Composite-Types-Type-Aliases"><span class="nav-number">3.</span> <span class="nav-text">Composite Types&amp;Type Aliases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Special-Types-Any-Type-Variables"><span class="nav-number">4.</span> <span class="nav-text">Special Types: Any&amp;Type Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example-A-Deck-of-Cards"><span class="nav-number">5.</span> <span class="nav-text">Example: A Deck of Cards</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Without-Annotations"><span class="nav-number">5.1.</span> <span class="nav-text">Without Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#With-Annotations"><span class="nav-number">5.2.</span> <span class="nav-text">With Annotations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#With-Annotations-OOP"><span class="nav-number">5.3.</span> <span class="nav-text">With Annotations &amp; OOP</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="梅贾的窃魂卷(3/25)——Annotations | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          梅贾的窃魂卷(3/25)——Annotations
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-11-10 15:34:22" itemprop="dateCreated datePublished" datetime="2019-11-10T15:34:22+08:00">2019-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="Overview-62">Overview</h3>
+<p>整理下关于<code>Python</code>中<code>Type Checking</code>的资料。主要参考<a target="_blank" rel="noopener" href="https://realpython.com/python-type-checking/">realpython</a>.关于<code>Type Checking</code>，这篇文章主要是基于<code>mypy</code>来讲的，另外微软的<code>pyright</code>用着也还可以（还是有Bug…），可以和<code>Vscode</code>一起用。</p>
+<h3 id="Annotations">Annotations</h3>
+<p>在<code>variable</code>, <code>function</code>,和<code>class</code>中均可以使用<code>Annotations</code>.此外有<code>Type Comments</code>可以用为旧版本<code>Python</code>的替代品，不过不太好用，一般只用<code>Annotations</code>。</p>
+<h4 id="Variable-Annotations">Variable Annotations</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pi: <span class="built_in">float</span> = <span class="number">3.14</span></span><br></pre></td></tr></table></figure>
+<p><code>Variable</code>的<code>Annotations</code>被存储在字典<code>__annotations__ </code>中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(__annotations__)</span><br></pre></td></tr></table></figure>
+<p>输出<code>&#123;'pi': &lt;class 'float'&gt;&#125;</code>.</p>
+<h4 id="Function-Annotations">Function Annotations</h4>
+<p>定义格式如下，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">arg: arg_type, optarg: arg_type = default</span>) -&gt; return_type:</span><br></pre></td></tr></table></figure>
+<p>示例代码，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">calArea</span>(<span class="params">r: <span class="built_in">float</span>, pi:<span class="built_in">float</span> = <span class="number">3.14</span></span>):</span><br><span class="line">    <span class="keyword">return</span> pi * r * r</span><br></pre></td></tr></table></figure>
+<p>在函数不返回任何值的时候，使用<code>None</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">play</span>(<span class="params">player_name: <span class="built_in">str</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;player_name&#125;</span> plays&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>因为<code>Python</code>是支持<code>Gradual typing</code>的，所以如果函数不返回任何值，这里是可以不写返回值的。不同的是，不写返回值的时候，<code>ret_val = play(&quot;Henrik&quot;)</code>是被<code>mypy</code>允许的，而上面的写返回值为<code>None</code>的时候，<code>ret_val = play(&quot;Henrik&quot;)</code>是不被允许的——<code>error: &quot;play&quot; does not return a value</code>。</p>
+<h4 id="Class-Type-Hints-for-Methods">Class: Type Hints for Methods</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Card</span>:</span><br><span class="line">    SUITS = <span class="string">&quot;♠ ♡ ♢ ♣&quot;</span>.split()</span><br><span class="line">    RANKS = <span class="string">&quot;2 3 4 5 6 7 8 9 10 J Q K A&quot;</span>.split()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, suit: <span class="built_in">str</span>, rank: <span class="built_in">str</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        self.suit = suit</span><br><span class="line">        self.rank = rank</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.suit&#125;</span><span class="subst">&#123;self.rank&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Composite-Types-Type-Aliases">Composite Types&amp;Type Aliases</h3>
+<p>对于简单的变量类型，我们可以直接使用内置的类型，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name: <span class="built_in">str</span> = <span class="string">&quot;Guido&quot;</span></span><br><span class="line">pi: <span class="built_in">float</span> = <span class="number">3.142</span></span><br><span class="line">centered: <span class="built_in">bool</span> = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>也可以进行依据内置的类型进行复合，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">names: <span class="built_in">list</span> = [<span class="string">&quot;Guido&quot;</span>, <span class="string">&quot;Jukka&quot;</span>, <span class="string">&quot;Ivan&quot;</span>]</span><br><span class="line">version: <span class="built_in">tuple</span> = (<span class="number">3</span>, <span class="number">7</span>, <span class="number">1</span>)</span><br><span class="line">options: <span class="built_in">dict</span> = &#123;<span class="string">&quot;centered&quot;</span>: <span class="literal">False</span>, <span class="string">&quot;capitalize&quot;</span>: <span class="literal">True</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这种写法存在问题，通过<code>Annotations</code>，可以直接推断出<code>names</code>是一个<code>list</code>，但是对于<code>names[0]</code>的类型，并不能通过<code>Annotations</code>知道（因为在<code>Python</code>中做<code>Type Checking</code>大部分不是在运行时进行的，所以我们无从知道<code>names[0]</code>的类型，换言之，我们能且只能通过<code>Annotations</code>来获取变量的类型）。</p>
+<p>这就引出了下面的用法，即依靠<code>typing</code>库的内置类型，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Dict</span>, <span class="type">List</span>, <span class="type">Tuple</span></span><br><span class="line"></span><br><span class="line">names: <span class="type">List</span>[<span class="built_in">str</span>] = [<span class="string">&quot;Guido&quot;</span>, <span class="string">&quot;Jukka&quot;</span>, <span class="string">&quot;Ivan&quot;</span>]</span><br><span class="line">version: <span class="type">Tuple</span>[<span class="built_in">int</span>, <span class="built_in">int</span>, <span class="built_in">int</span>] = (<span class="number">3</span>, <span class="number">7</span>, <span class="number">1</span>)</span><br><span class="line">options: <span class="type">Dict</span>[<span class="built_in">str</span>, <span class="built_in">bool</span>] = &#123;<span class="string">&quot;centered&quot;</span>: <span class="literal">False</span>, <span class="string">&quot;capitalize&quot;</span>: <span class="literal">True</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>如此，我们可以得到：</p>
+<blockquote>
+<p><code>names</code>是<code>str</code>组成的<code>list</code><br>
+<code>version</code>是三个<code>int</code>组成的<code>tuple</code><br>
+<code>options</code>是<code>key</code>为<code>str</code>，<code>value</code>为<code>bool</code>的<code>dict</code></p>
+</blockquote>
+<p>比如在后面<code>Example</code>段中将要提到的扑克牌（格式<code>♠8</code>）的例子就是利用上述类型，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">create_deck</span>(<span class="params">shuffle: <span class="built_in">bool</span> = <span class="literal">False</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Create a new deck of 52 cards&quot;&quot;&quot;</span></span><br><span class="line">    deck = [(s, r) <span class="keyword">for</span> r <span class="keyword">in</span> RANKS <span class="keyword">for</span> s <span class="keyword">in</span> SUITS]</span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">        random.shuffle(deck)</span><br><span class="line">	<span class="keyword">return</span> deck</span><br></pre></td></tr></table></figure>
+<p>观察上面的代码我们也可以发现一个问题，<code>List[Tuple[str, str]]</code>已经变的复杂，不仅其实际代表的数据结构的含义被掩盖，我们后面将此类型的参数传入函数的时候，其<code>Annotations</code>也会变得冗长，如，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">deal_hands</span>(<span class="params"></span></span><br><span class="line"><span class="params">    deck: <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]]</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="type">Tuple</span>[</span><br><span class="line">    <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]],</span><br><span class="line">    <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]],</span><br><span class="line">    <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]],</span><br><span class="line">    <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]],</span><br><span class="line">]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Deal the cards in the deck into four hands&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> (deck[<span class="number">0</span>::<span class="number">4</span>], deck[<span class="number">1</span>::<span class="number">4</span>], deck[<span class="number">2</span>::<span class="number">4</span>], deck[<span class="number">3</span>::<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+<p>于是就有了<code>Type Alias</code>的引入，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span>, <span class="type">Tuple</span></span><br><span class="line"></span><br><span class="line">Card = <span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]</span><br><span class="line">Deck = <span class="type">List</span>[Card]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deal_hands</span>(<span class="params">deck: Deck</span>) -&gt; <span class="type">Tuple</span>[Deck, Deck, Deck, Deck]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Deal the cards in the deck into four hands&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> (deck[<span class="number">0</span>::<span class="number">4</span>], deck[<span class="number">1</span>::<span class="number">4</span>], deck[<span class="number">2</span>::<span class="number">4</span>], deck[<span class="number">3</span>::<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+<p>如此，我们不但简化了<code>Annotations</code>的编写，也使得代码逻辑更容易理解。</p>
+<h3 id="Special-Types-Any-Type-Variables">Special Types: <code>Any</code>&amp;<code>Type Variables</code></h3>
+<p>考虑如下函数，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Any</span>, <span class="type">Sequence</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choose</span>(<span class="params">items: <span class="type">Sequence</span>[<span class="type">Any</span>]</span>) -&gt; <span class="type">Any</span>:</span><br><span class="line">    <span class="keyword">return</span> random.choice(items)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Why Sequence: In many cases your functions will expect some kind of sequence, and not really care whether it is a list or a tuple.</p>
+</blockquote>
+<p>这里，我们的意图是：使用<code>choose</code>函数从一个<code>Sequence</code>中任取一个值并返回，因为我们不关心<code>Sequence</code>中元素的类型，所以使用<code>Any</code>，代表任意类型。我们是想要其返回元素的类型与输入的<code>Sequence</code>元素的类型是一致的（在使用<code>Any</code>的情况下），但实际上并非如此——这里函数返回值丢失了原来<code>Sequence</code>中的元素类型，看下面的例子，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># choose.py</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Any</span>, <span class="type">Sequence</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choose</span>(<span class="params">items: <span class="type">Sequence</span>[<span class="type">Any</span>]</span>) -&gt; <span class="type">Any</span>:</span><br><span class="line">    <span class="keyword">return</span> random.choice(items)</span><br><span class="line"></span><br><span class="line">names = [<span class="string">&quot;Guido&quot;</span>, <span class="string">&quot;Jukka&quot;</span>, <span class="string">&quot;Ivan&quot;</span>]</span><br><span class="line">reveal_type(names)</span><br><span class="line"></span><br><span class="line">name = choose(names)</span><br><span class="line">reveal_type(name)</span><br></pre></td></tr></table></figure>
+<p>运行<code>mypy choose.py</code>，</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://choose.py:10">choose.py:10</a>: error: Revealed type is ‘builtins.list[builtins.str*]’<br>
+<a target="_blank" rel="noopener" href="http://choose.py:13">choose.py:13</a>: error: Revealed type is ‘Any’,可以看到原来元素为<code>str</code>，现在已经丢失为<code>Any</code>类型。</p>
+</blockquote>
+<p>为解决此问题，我们引入了<code>Type Variables</code>，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Sequence</span>, TypeVar</span><br><span class="line"></span><br><span class="line">Choosable = TypeVar(<span class="string">&quot;Chooseable&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choose</span>(<span class="params">items: <span class="type">Sequence</span>[Choosable]</span>) -&gt; Choosable:</span><br><span class="line">    <span class="keyword">return</span> random.choice(items)</span><br><span class="line"></span><br><span class="line">names = [<span class="string">&quot;Guido&quot;</span>, <span class="string">&quot;Jukka&quot;</span>, <span class="string">&quot;Ivan&quot;</span>]</span><br><span class="line">reveal_type(names)</span><br><span class="line"></span><br><span class="line">name = choose(names)</span><br><span class="line">reveal_type(name)</span><br></pre></td></tr></table></figure>
+<p>运行<code>mypy choose.py</code>，</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://choose.py:12">choose.py:12</a>: error: Revealed type is ‘builtins.list[builtins.str*]’<br>
+<a target="_blank" rel="noopener" href="http://choose.py:15">choose.py:15</a>: error: Revealed type is ‘builtins.str*’</p>
+</blockquote>
+<p>此外，我们也可以进一步地限制<code>Type Variables</code>的可选类型范围，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Choosable = TypeVar(<span class="string">&quot;Choosable&quot;</span>, <span class="built_in">str</span>, <span class="built_in">float</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Example-A-Deck-of-Cards">Example: A Deck of Cards</h3>
+<h4 id="Without-Annotations">Without Annotations</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">SUITS = <span class="string">&quot;♠ ♡ ♢ ♣&quot;</span>.split()</span><br><span class="line">RANKS = <span class="string">&quot;2 3 4 5 6 7 8 9 10 J Q K A&quot;</span>.split()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_deck</span>(<span class="params">shuffle=<span class="literal">False</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Create a new deck of 52 cards&quot;&quot;&quot;</span></span><br><span class="line">    deck = [(s, r) <span class="keyword">for</span> r <span class="keyword">in</span> RANKS <span class="keyword">for</span> s <span class="keyword">in</span> SUITS]</span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">        random.shuffle(deck)</span><br><span class="line">        <span class="keyword">return</span> deck</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deal_hands</span>(<span class="params">deck</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Deal the cards in the deck into four hands&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> (deck[<span class="number">0</span>::<span class="number">4</span>], deck[<span class="number">1</span>::<span class="number">4</span>], deck[<span class="number">2</span>::<span class="number">4</span>], deck[<span class="number">3</span>::<span class="number">4</span>])</span><br><span class="line">	</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">play</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Play a 4-player card game&quot;&quot;&quot;</span></span><br><span class="line">    deck = create_deck(shuffle=<span class="literal">True</span>)</span><br><span class="line">    names = <span class="string">&quot;P1 P2 P3 P4&quot;</span>.split()</span><br><span class="line">    hands = &#123;n: h <span class="keyword">for</span> n, h <span class="keyword">in</span> <span class="built_in">zip</span>(names, deal_hands(deck))&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> name, cards <span class="keyword">in</span> hands.items():</span><br><span class="line">		card_str = <span class="string">&quot; &quot;</span>.join(<span class="string">f&quot;<span class="subst">&#123;s&#125;</span><span class="subst">&#123;r&#125;</span>&quot;</span> <span class="keyword">for</span> (s, r) <span class="keyword">in</span> cards)</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;card_str&#125;</span>&quot;</span>)</span><br><span class="line">	</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	play()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>P4: ♣9 ♢9 ♡2 ♢7 ♡7 ♣A ♠6 ♡K ♡5 ♢6 ♢3 ♣3 ♣Q<br>
+P1: ♡A ♠2 ♠10 ♢J ♣10 ♣4 ♠5 ♡Q ♢5 ♣6 ♠A ♣5 ♢4<br>
+P2: ♢2 ♠7 ♡8 ♢K ♠3 ♡3 ♣K ♠J ♢A ♣7 ♡6 ♡10 ♠K<br>
+P3: ♣2 ♣8 ♠8 ♣J ♢Q ♡9 ♡J ♠4 ♢8 ♢10 ♠9 ♡4 ♠Q</p>
+</blockquote>
+<h4 id="With-Annotations">With Annotations</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span>, <span class="type">Tuple</span></span><br><span class="line"></span><br><span class="line">SUITS = <span class="string">&quot;♠ ♡ ♢ ♣&quot;</span>.split()</span><br><span class="line">RANKS = <span class="string">&quot;2 3 4 5 6 7 8 9 10 J Q K A&quot;</span>.split()</span><br><span class="line"></span><br><span class="line">Card = <span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]</span><br><span class="line">Deck = <span class="type">List</span>[Card]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_deck</span>(<span class="params">shuffle: <span class="built_in">bool</span> = <span class="literal">False</span></span>) -&gt; Deck:</span><br><span class="line">	<span class="string">&quot;&quot;&quot;Create a new deck of 52 cards&quot;&quot;&quot;</span></span><br><span class="line">	deck = [(s, r) <span class="keyword">for</span> r <span class="keyword">in</span> RANKS <span class="keyword">for</span> s <span class="keyword">in</span> SUITS]</span><br><span class="line">	<span class="keyword">if</span> shuffle:</span><br><span class="line">		random.shuffle(deck)</span><br><span class="line">	<span class="keyword">return</span> deck</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deal_hands</span>(<span class="params">deck: Deck</span>) -&gt; <span class="type">Tuple</span>[Deck, Deck, Deck, Deck]:</span><br><span class="line">	<span class="string">&quot;&quot;&quot;Deal the cards in the deck into four hands&quot;&quot;&quot;</span></span><br><span class="line">	<span class="keyword">return</span> (deck[<span class="number">0</span>::<span class="number">4</span>], deck[<span class="number">1</span>::<span class="number">4</span>], deck[<span class="number">2</span>::<span class="number">4</span>], deck[<span class="number">3</span>::<span class="number">4</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">choose</span>(<span class="params">items</span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;Choose and return a random item&quot;&quot;&quot;</span></span><br><span class="line">	<span class="keyword">return</span> random.choice(items)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">player_order</span>(<span class="params">names, start=<span class="literal">None</span></span>):</span><br><span class="line">	<span class="string">&quot;&quot;&quot;Rotate player order so that start goes first&quot;&quot;&quot;</span></span><br><span class="line">	<span class="keyword">if</span> start <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">		start = choose(names)</span><br><span class="line">	start_idx = names.index(start)</span><br><span class="line">	<span class="keyword">return</span> names[start_idx:] + names[:start_idx]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">play</span>() -&gt; <span class="literal">None</span>:</span><br><span class="line">	<span class="string">&quot;&quot;&quot;Play a 4-player card game&quot;&quot;&quot;</span></span><br><span class="line">	deck = create_deck(shuffle=<span class="literal">True</span>)</span><br><span class="line">	names = <span class="string">&quot;P1 P2 P3 P4&quot;</span>.split()</span><br><span class="line">	hands = &#123;n: h <span class="keyword">for</span> n, h <span class="keyword">in</span> <span class="built_in">zip</span>(names, deal_hands(deck))&#125;</span><br><span class="line">	start_player = choose(names)</span><br><span class="line">	turn_order = player_order(names, start=start_player)</span><br><span class="line"></span><br><span class="line">	<span class="comment"># Randomly play cards from each player&#x27;s hand until empty</span></span><br><span class="line">	<span class="keyword">while</span> hands[start_player]:</span><br><span class="line">		<span class="keyword">for</span> name <span class="keyword">in</span> turn_order:</span><br><span class="line">			card = choose(hands[name])</span><br><span class="line">			hands[name].remove(card)</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;name&#125;</span>: <span class="subst">&#123;card[<span class="number">0</span>] + card[<span class="number">1</span>]:&lt;<span class="number">3</span>&#125;</span>  &quot;</span>, end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">		<span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	play()</span><br></pre></td></tr></table></figure>
+<h4 id="With-Annotations-OOP">With Annotations &amp; OOP</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Card</span>:</span><br><span class="line">	SUITS = <span class="string">&quot;♠ ♡ ♢ ♣&quot;</span>.split()</span><br><span class="line">	RANKS = <span class="string">&quot;2 3 4 5 6 7 8 9 10 J Q K A&quot;</span>.split()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, suit, rank</span>):</span><br><span class="line">		self.suit = suit</span><br><span class="line">		self.rank = rank</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__repr__</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;self.suit&#125;</span><span class="subst">&#123;self.rank&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Deck</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, cards</span>):</span><br><span class="line">		self.cards = cards</span><br><span class="line"></span><br><span class="line"><span class="meta">	@classmethod</span></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">create</span>(<span class="params">cls, shuffle=<span class="literal">False</span></span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Create a new deck of 52 cards&quot;&quot;&quot;</span></span><br><span class="line">		cards = [Card(s, r) <span class="keyword">for</span> r <span class="keyword">in</span> Card.RANKS <span class="keyword">for</span> s <span class="keyword">in</span> Card.SUITS]</span><br><span class="line">		<span class="keyword">if</span> shuffle:</span><br><span class="line">			random.shuffle(cards)</span><br><span class="line">		<span class="keyword">return</span> cls(cards)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">deal</span>(<span class="params">self, num_hands</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Deal the cards in the deck into a number of hands&quot;&quot;&quot;</span></span><br><span class="line">		cls = self.__class__</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">tuple</span>(cls(self.cards[i::num_hands]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_hands))</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Player</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, hand</span>):</span><br><span class="line">		self.name = name</span><br><span class="line">		self.hand = hand</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">play_card</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Play a card from the player&#x27;s hand&quot;&quot;&quot;</span></span><br><span class="line">		card = random.choice(self.hand.cards)</span><br><span class="line">		self.hand.cards.remove(card)</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;self.name&#125;</span>: <span class="subst">&#123;card!r:&lt;<span class="number">3</span>&#125;</span>  &quot;</span>, end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span> card</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Game</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, *names</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Set up the deck and deal cards to 4 players&quot;&quot;&quot;</span></span><br><span class="line">		deck = Deck.create(shuffle=<span class="literal">True</span>)</span><br><span class="line">		self.names = (<span class="built_in">list</span>(names) + <span class="string">&quot;P1 P2 P3 P4&quot;</span>.split())[:<span class="number">4</span>]</span><br><span class="line">		self.hands = &#123;</span><br><span class="line">			n: Player(n, h) <span class="keyword">for</span> n, h <span class="keyword">in</span> <span class="built_in">zip</span>(self.names, deck.deal(<span class="number">4</span>))</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">play</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Play a card game&quot;&quot;&quot;</span></span><br><span class="line">		start_player = random.choice(self.names)</span><br><span class="line">		turn_order = self.player_order(start=start_player)</span><br><span class="line"></span><br><span class="line">		<span class="comment"># Play cards from each player&#x27;s hand until empty</span></span><br><span class="line">		<span class="keyword">while</span> self.hands[start_player].hand.cards:</span><br><span class="line">			<span class="keyword">for</span> name <span class="keyword">in</span> turn_order:</span><br><span class="line">				self.hands[name].play_card()</span><br><span class="line">			<span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">player_order</span>(<span class="params">self, start=<span class="literal">None</span></span>):</span><br><span class="line">		<span class="string">&quot;&quot;&quot;Rotate player order so that start goes first&quot;&quot;&quot;</span></span><br><span class="line">		<span class="keyword">if</span> start <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">			start = random.choice(self.names)</span><br><span class="line">		start_idx = self.names.index(start)</span><br><span class="line">		<span class="keyword">return</span> self.names[start_idx:] + self.names[:start_idx]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	<span class="comment"># Read player names from command line</span></span><br><span class="line">	player_names = sys.argv[<span class="number">1</span>:]</span><br><span class="line">	game = Game(*player_names)</span><br><span class="line">	game.play()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Tips/" rel="tag"># Tips</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/01/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-2-25-%E2%80%94%E2%80%94Context-Managers-with/" rel="prev" title="梅贾的窃魂卷(2/25)——Context Managers(with)">
+                  <i class="fa fa-chevron-left"></i> 梅贾的窃魂卷(2/25)——Context Managers(with)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/30/2019/" rel="next" title="2019">
+                  2019 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2019/11/10/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-3-25-%E2%80%94%E2%80%94Annotations/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

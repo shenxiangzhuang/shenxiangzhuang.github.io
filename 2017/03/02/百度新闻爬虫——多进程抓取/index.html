@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基于上文的改进，使用进程池抓取。 环境：  Ubuntu14.04, Pycharm, Anaconda3, MySQL:mysql  Ver 14.14 Distrib 5.5.53, for debian-linux-gnu (x86_64) using readline 6.3  文件目录：  MyTools.py 存放获取，解析并储存网页内容的工具函数[和上文的一样] processin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="百度新闻爬虫——多进程抓取">
+<meta property="og:url" content="http://datahonor.com/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="基于上文的改进，使用进程池抓取。 环境：  Ubuntu14.04, Pycharm, Anaconda3, MySQL:mysql  Ver 14.14 Distrib 5.5.53, for debian-linux-gnu (x86_64) using readline 6.3  文件目录：  MyTools.py 存放获取，解析并储存网页内容的工具函数[和上文的一样] processin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/Spider/baidu/3.png">
+<meta property="article:published_time" content="2017-03-02T08:22:51.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Spider">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/Spider/baidu/3.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/","path":"2017/03/02/百度新闻爬虫——多进程抓取/","title":"百度新闻爬虫——多进程抓取"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>百度新闻爬虫——多进程抓取 | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#MyTools-py"><span class="nav-number">1.</span> <span class="nav-text">MyTools.py</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#processing-pool-py"><span class="nav-number">2.</span> <span class="nav-text">processing_pool.py</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#globalValue-py"><span class="nav-number">3.</span> <span class="nav-text">globalValue.py</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="百度新闻爬虫——多进程抓取 | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          百度新闻爬虫——多进程抓取
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-02 16:22:51" itemprop="dateCreated datePublished" datetime="2017-03-02T16:22:51+08:00">2017-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <hr>
+<p>基于<a href="http://datahonor.com/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E6%99%AE%E9%80%9A%E6%8A%93%E5%8F%96/">上文</a>的改进，使用进程池抓取。</p>
+<p>环境：</p>
+<blockquote>
+<p>Ubuntu14.04, Pycharm, Anaconda3,<br>
+MySQL:mysql  Ver 14.14 Distrib 5.5.53, for debian-linux-gnu (x86_64) using readline 6.3</p>
+</blockquote>
+<p>文件目录：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://MyTools.py">MyTools.py</a> 存放获取，解析并储存网页内容的工具函数[和上文的一样]<br>
+processing_pool.py  单线程普通抓取的实现<br>
+<a target="_blank" rel="noopener" href="http://globalValue.py">globalValue.py</a>  新闻条数count的跨文件传递.</p>
+</blockquote>
+<h5 id="MyTools-py"><a target="_blank" rel="noopener" href="http://MyTools.py">MyTools.py</a></h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span>  globalValue</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.utils <span class="keyword">import</span> parseaddr, formataddr</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># headers = &#123;&#x27;User-Agent&#x27;: &quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36&quot;&#125;</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开数据库，之后在具体调用后close</span></span><br><span class="line">db = pymysql.connect(<span class="string">&quot;localhost&quot;</span>, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;数据库密码&quot;</span>, <span class="string">&quot;数据库名称&quot;</span>, charset=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现：给定新闻类别链接的列表class_urls，获取并储存数据</span></span><br><span class="line"><span class="comment"># 待实现函数:get_class_data, getdata</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_save_data</span>(<span class="params">class_urls</span>):</span><br><span class="line">    <span class="keyword">for</span> class_url <span class="keyword">in</span> class_urls:</span><br><span class="line">        class_data = get_class_data(class_url)</span><br><span class="line">        getdata(class_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对于每个分类提取单个新闻标题信息class_data</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_class_data</span>(<span class="params">class_url</span>):</span><br><span class="line">    classname = class_url.split(<span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">    class_data = requests.get(class_url, headers=headers)</span><br><span class="line">    pa = re.<span class="built_in">compile</span>(<span class="string">r&#x27;charset=(.*?)&quot;&gt;&#x27;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        charset = re.findall(pa, class_data.text)[<span class="number">0</span>]</span><br><span class="line">        class_data.encoding = charset</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># class_data.encoding = &#x27;gbk&#x27;</span></span><br><span class="line">    class_data = class_data.text</span><br><span class="line">    soup = BeautifulSoup(class_data, <span class="string">&#x27;lxml&#x27;</span>)</span><br><span class="line">    data = soup.findAll(<span class="string">&#x27;a&#x27;</span>, &#123;<span class="string">&#x27;target&#x27;</span>: <span class="string">&#x27;_blank&#x27;</span>&#125;)</span><br><span class="line">    class_data = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)):</span><br><span class="line">        title = data[i].get_text()</span><br><span class="line">        href = data[i].get(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">        <span class="comment"># 过滤一些干扰链接</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(title) &gt; <span class="number">10</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">&#x27;下载&#x27;</span> <span class="keyword">in</span> title:</span><br><span class="line">                class_data[title] = href</span><br><span class="line"></span><br><span class="line">    classname = class_url.split(<span class="string">&#x27;.&#x27;</span>)[<span class="number">0</span>][<span class="number">7</span>:]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 这里返回classname,主要是为了入库方便</span></span><br><span class="line">    <span class="keyword">return</span> [classname, class_data]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现：根据传入的新闻类别的信息class_data, 获取新闻文本并存入数据库</span></span><br><span class="line"><span class="comment"># 待实现函数：get_news_text</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getdata</span>(<span class="params">class_data</span>):</span><br><span class="line">    class_title = class_data[<span class="number">0</span>]</span><br><span class="line">    class_data = class_data[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> news_title, news_url <span class="keyword">in</span> <span class="built_in">dict</span>(class_data).items():</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(news_title)</span><br><span class="line">        text = get_news_text(news_url)</span><br><span class="line">        <span class="keyword">if</span> text <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Got text data...&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            text = <span class="string">&#x27;lost&#x27;</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            sql = <span class="string">&#x27;INSERT INTO BaiduNews(class, title, text)VALUES(%s,%s,%s)&#x27;</span></span><br><span class="line">            cursor.execute(sql, (class_title, news_title, text))</span><br><span class="line">            <span class="comment"># 提交事务</span></span><br><span class="line">            db.commit()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;Save fail...&#x27;</span>)</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取每条新闻的具体文本内容，粗略抓取</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">百度新闻的链接是跳转到各个新闻网站的，网站大部分的结构都不同，</span></span><br><span class="line"><span class="string">很难做到完全抓取到文本，所以目前只能粗略抓取。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">之后会进行pyquery 的 css抓取，有时间会研究下专门的文本抓取算法</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_news_text</span>(<span class="params">href</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        data = requests.get(href, headers=headers)</span><br><span class="line">        <span class="comment"># 检测编码</span></span><br><span class="line">        char = chardet.detect(data.content)</span><br><span class="line">        data.encoding = char[<span class="string">&#x27;encoding&#x27;</span>]</span><br><span class="line">        <span class="comment"># 解析网页</span></span><br><span class="line">        data = BeautifulSoup(data.text, <span class="string">&#x27;lxml&#x27;</span>)</span><br><span class="line">        <span class="comment"># 这里对于同一属性多个值进行匹配</span></span><br><span class="line">        <span class="comment"># data = BeautifulSoup(data.text,&#x27;lxml&#x27;).find(&quot;div&quot;, &#123;&#x27;class&#x27;: [&#x27;text&#x27;, &#x27;article&#x27;, &#x27;content&#x27;]&#125;)</span></span><br><span class="line">        data = data.find(<span class="string">&quot;div&quot;</span>, &#123;<span class="string">&#x27;class&#x27;</span>: re.<span class="built_in">compile</span>(<span class="string">r&quot;^(text|article|content)$&quot;</span>)&#125;)</span><br><span class="line">        text = data.get_text()</span><br><span class="line">        count = globalValue.get_value()</span><br><span class="line">        <span class="built_in">print</span>(count)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        globalValue.set_value(count)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        text = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 邮件</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_format_addr</span>(<span class="params">s</span>):</span><br><span class="line">    name, addr = parseaddr(s)</span><br><span class="line">    <span class="keyword">return</span> formataddr((Header(name,<span class="string">&#x27;utf-8&#x27;</span>).encode(), addr))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_ms</span>(<span class="params">T</span>):</span><br><span class="line">    from_addr = <span class="string">&quot;发件箱，自定义&quot;</span></span><br><span class="line">    <span class="comment"># 开启QQ邮箱STMP服务的授权码</span></span><br><span class="line">    <span class="comment"># 参考这里http://jingyan.baidu.com/article/4f7d5712b1ac7c1a201927da.html</span></span><br><span class="line">    password = <span class="string">&#x27;授权码&#x27;</span></span><br><span class="line">    to_addr = <span class="string">&#x27;收件箱[需开启STMP服务]&#x27;</span></span><br><span class="line">    smtp_server = <span class="string">&#x27;smtp.qq.com&#x27;</span></span><br><span class="line">    msg = MIMEText(T, <span class="string">&#x27;plain&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    msg[<span class="string">&#x27;From&#x27;</span>] = _format_addr(<span class="string">&#x27;Anyone&#x27;</span>)</span><br><span class="line">    msg[<span class="string">&#x27;To&#x27;</span>] = _format_addr(<span class="string">&#x27;Echo&#x27;</span>)</span><br><span class="line">    msg[<span class="string">&#x27;Subject&#x27;</span>] = Header(<span class="string">&#x27;The New Report&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>).encode()</span><br><span class="line">    server = smtplib.SMTP_SSL(smtp_server, <span class="number">465</span>, timeout=<span class="number">10</span>)</span><br><span class="line">    server.set_debuglevel(<span class="number">0</span>)</span><br><span class="line">    server.login(from_addr,password)</span><br><span class="line">    server.sendmail(from_addr, [to_addr], msg.as_string())</span><br><span class="line">    server.quit()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="processing-pool-py">processing_pool.py</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">进程池抓取</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">import</span> send_email</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"><span class="keyword">from</span> MyTools <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span>  globalValue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    globalValue.set_value(count)</span><br><span class="line"></span><br><span class="line">    start = time.time()</span><br><span class="line">    s = time.ctime()</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36&quot;</span>&#125;</span><br><span class="line">    class_list = [<span class="string">&#x27;http://finance.baidu.com/&#x27;</span>, <span class="string">&#x27;http://internet.baidu.com/&#x27;</span>, <span class="string">&#x27;http://yule.baidu.com/&#x27;</span>,</span><br><span class="line">                       <span class="string">&#x27;http://shipin.news.baidu.com/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    data_lists = []</span><br><span class="line">    <span class="keyword">for</span> class_url <span class="keyword">in</span> class_list:</span><br><span class="line">        data = get_class_data(class_url)</span><br><span class="line">        data_lists.append(data)</span><br><span class="line"></span><br><span class="line">    pool = Pool(processes=<span class="number">4</span>)</span><br><span class="line">    pool.<span class="built_in">map</span>(getdata, data_lists)</span><br><span class="line">    count = globalValue.get_value()</span><br><span class="line"></span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br><span class="line">    db.close()</span><br><span class="line"></span><br><span class="line">    end = time.time()</span><br><span class="line">    e = time.ctime()</span><br><span class="line"></span><br><span class="line">    total_time = end - start</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;processing_pool.txt&quot;</span>, <span class="string">&#x27;a&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(<span class="string">&quot;\nprocessing_pool抓取\n本次抓取开始于%s,结束于%s,耗时%s\n&quot;</span>%(s, e, total_time))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="globalValue-py"><a target="_blank" rel="noopener" href="http://globalValue.py">globalValue.py</a></h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_value</span>(<span class="params">input_value</span>):</span><br><span class="line">    <span class="keyword">global</span> value</span><br><span class="line">    value = input_value</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_value</span>():</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>日志文件：</p>
+<p>[可以看到约190秒,较普通抓取有明显的速度提速]<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/Spider/baidu/3.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Spider/" rel="tag"># Spider</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E6%99%AE%E9%80%9A%E6%8A%93%E5%8F%96/" rel="prev" title="百度新闻爬虫——普通抓取">
+                  <i class="fa fa-chevron-left"></i> 百度新闻爬虫——普通抓取
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/03/02/OpenCV%E8%AF%86%E5%88%AB%E6%9D%A1%E5%BD%A2%E7%A0%81%E2%80%94%E2%80%94python%E5%AE%9E%E7%8E%B0/" rel="next" title="OpenCV识别条形码——python实现">
+                  OpenCV识别条形码——python实现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/03/02/%E7%99%BE%E5%BA%A6%E6%96%B0%E9%97%BB%E7%88%AC%E8%99%AB%E2%80%94%E2%80%94%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%8A%93%E5%8F%96/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

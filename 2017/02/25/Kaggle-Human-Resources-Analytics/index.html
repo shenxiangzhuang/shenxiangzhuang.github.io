@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Introduce 这是新年定下的目标之一 —— Kaggle案例的学习 这里，数据即来自Human Resources Analytics， 参考这里学习数据的分析. Overview 这个kernel里面呢，大部分还是比较常规的EDA，可视化和简单算法的应用，但是也有要学习的地方，这里在代码里面都有声明。  [学习heatmap使用] [学习plt.barh使用] [学习如下reindex的步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kaggle: Human Resources Analytics">
+<meta property="og:url" content="http://datahonor.com/2017/02/25/Kaggle-Human-Resources-Analytics/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Introduce 这是新年定下的目标之一 —— Kaggle案例的学习 这里，数据即来自Human Resources Analytics， 参考这里学习数据的分析. Overview 这个kernel里面呢，大部分还是比较常规的EDA，可视化和简单算法的应用，但是也有要学习的地方，这里在代码里面都有声明。  [学习heatmap使用] [学习plt.barh使用] [学习如下reindex的步">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/Screenshot%20from%202017-02-25%2010-22-47.png">
+<meta property="og:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/Screenshot%20from%202017-02-25%2010-26-23.png">
+<meta property="article:published_time" content="2017-02-25T01:57:04.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Kaggle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://dataimage-1252464519.costj.myqcloud.com/images/Screenshot%20from%202017-02-25%2010-22-47.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/02/25/Kaggle-Human-Resources-Analytics/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/02/25/Kaggle-Human-Resources-Analytics/","path":"2017/02/25/Kaggle-Human-Resources-Analytics/","title":"Kaggle: Human Resources Analytics"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kaggle: Human Resources Analytics | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Introduce"><span class="nav-number">1.</span> <span class="nav-text">Introduce</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Overview-24"><span class="nav-number">2.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Code-19"><span class="nav-number">3.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Supplement-3"><span class="nav-number">4.</span> <span class="nav-text">Supplement</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/02/25/Kaggle-Human-Resources-Analytics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kaggle: Human Resources Analytics | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kaggle: Human Resources Analytics
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-02-25 09:57:04" itemprop="dateCreated datePublished" datetime="2017-02-25T09:57:04+08:00">2017-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/02/25/Kaggle-Human-Resources-Analytics/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/02/25/Kaggle-Human-Resources-Analytics/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h5 id="Introduce">Introduce</h5>
+<p>这是新年定下的目标之一 —— Kaggle案例的学习<br>
+这里，数据即来自<a target="_blank" rel="noopener" href="https://www.kaggle.com/ludobenistant/hr-analytics">Human Resources Analytics</a>， 参考<a target="_blank" rel="noopener" href="https://www.kaggle.com/nirajvermafcb/d/ludobenistant/hr-analytics/principal-component-analysis-explained">这里</a>学习数据的分析.</p>
+<h5 id="Overview-24">Overview</h5>
+<p>这个kernel里面呢，大部分还是比较常规的EDA，可视化和简单算法的应用，但是也有要学习的地方，这里在代码里面都有声明。</p>
+<blockquote>
+<p>[学习heatmap使用]<br>
+[学习plt.barh使用]<br>
+[学习如下reindex的步骤]<br>
+[学习iloc使用]<br>
+[学习使用sklearn进行标准化]<br>
+[掌握手动计算协方差]<br>
+[学习使用Numpy简单的线性代数的运算]<br>
+[学习使用sklearn做PCA]</p>
+</blockquote>
+<h5 id="Code-19">Code</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Created on Sat Feb 25 07:48:50 2017</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">@author: shen</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 人力资源——离职分析</span></span><br><span class="line"><span class="comment"># 采用PCA</span></span><br><span class="line"><span class="comment"># 参考https://www.kaggle.com/nirajvermafcb/d/ludobenistant/hr-analytics/principal-component-analysis-explained</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  <span class="comment"># linear algebra</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  <span class="comment"># data rocessing</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入数据</span></span><br><span class="line"><span class="comment"># https://www.kaggle.com/nirajvermafcb/d/ludobenistant/hr-analytics/principal-component-analysis-explained</span></span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;/home/shen/PycharmProjects/MyPython/Kaggle/human resources/data.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 了解数据</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">df.columns.tolist() fetches all the columns and </span></span><br><span class="line"><span class="string">then convert it into list type.This step is just </span></span><br><span class="line"><span class="string">to check out all the column names in our data.Columns </span></span><br><span class="line"><span class="string">are also called as features of our datasets.</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">columns_names = df.columns.tolist()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(df.shape)</span><br><span class="line"><span class="built_in">print</span>(df.head())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数值型变量的协方差矩阵</span></span><br><span class="line"><span class="built_in">print</span>(df.corr())</span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习heatmap使用]</span></span><br><span class="line"><span class="comment"># 协方差矩阵的可视化</span></span><br><span class="line">correlation = df.corr()</span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>,<span class="number">10</span>))</span><br><span class="line">sns.heatmap(correlation, vmax=<span class="number">1</span>, square=<span class="literal">True</span>, annot=<span class="literal">True</span>, cmap=<span class="string">&#x27;cubehelix&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Correlation between diffrent features&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 职位</span></span><br><span class="line"><span class="built_in">print</span>(df[<span class="string">&#x27;sales&#x27;</span>].unique())</span><br><span class="line"></span><br><span class="line">groupby_sales = df.groupby(<span class="string">&#x27;sales&#x27;</span>).mean()</span><br><span class="line"></span><br><span class="line">IT=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].IT</span><br><span class="line">RandD=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].RandD</span><br><span class="line">accounting=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].accounting</span><br><span class="line">hr=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].hr</span><br><span class="line">management=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].management</span><br><span class="line">marketing=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].marketing</span><br><span class="line">product_mng=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].product_mng</span><br><span class="line">sales=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].sales</span><br><span class="line">support=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].support</span><br><span class="line">technical=groupby_sales[<span class="string">&#x27;satisfaction_level&#x27;</span>].technical</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习plt.barh使用]</span></span><br><span class="line">department_name = df[<span class="string">&#x27;sales&#x27;</span>].unique()</span><br><span class="line">department=(sales, accounting, hr, technical, support, management,</span><br><span class="line">       IT, product_mng, marketing, RandD)</span><br><span class="line"></span><br><span class="line">y_pos = np.arange(<span class="built_in">len</span>(department))</span><br><span class="line">x = np.arange(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">plt.barh(y_pos, department, align=<span class="string">&#x27;center&#x27;</span>, alpha=<span class="number">0.8</span>)</span><br><span class="line">plt.yticks(y_pos, department_name)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Satisfaction level&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Mean Satisfaction Level of each department&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># PCA</span></span><br><span class="line"><span class="comment"># 去除非数值型的变量(feature)</span></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br><span class="line">df_drop = df.drop(labels=[<span class="string">&#x27;sales&#x27;</span>, <span class="string">&#x27;salary&#x27;</span>], axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(df_drop.dtypes)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习如下reindex的步骤]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Here we are converting columns of the dataframe to list </span></span><br><span class="line"><span class="string">so it would be easier for us to reshuffle the columns.</span></span><br><span class="line"><span class="string">We are going to use cols.insert method</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">cols = df_drop.columns.tolist()</span><br><span class="line">cols.insert(<span class="number">0</span>, cols.pop(cols.index(<span class="string">&#x27;left&#x27;</span>)))</span><br><span class="line"></span><br><span class="line">df_drop = df_drop.reindex(columns= cols)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习iloc使用]</span></span><br><span class="line"><span class="comment"># 索引分离数据</span></span><br><span class="line">X = df_drop.iloc[:, <span class="number">1</span>:<span class="number">8</span>].values</span><br><span class="line">y = df_drop.iloc[:, <span class="number">0</span>].values</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(np.shape(X))</span><br><span class="line"><span class="built_in">print</span>(np.shape(y))</span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习使用sklearn进行标准化]</span></span><br><span class="line"><span class="comment"># 数据的标准化</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">X_std = StandardScaler().fit_transform(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [掌握手动计算协方差]</span></span><br><span class="line"><span class="comment"># 计算协方差矩阵</span></span><br><span class="line">mean_vec = np.mean(X_std, axis=<span class="number">0</span>)</span><br><span class="line">cov_mat = (X_std - mean_vec).T.dot((X_std - mean_vec)) / (X_std.shape[<span class="number">0</span>] - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># another way --&gt; np.cov</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;NumPy covariance matrix: \n%s&#x27;</span> %np.cov(X_std.T))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>,<span class="number">8</span>))</span><br><span class="line">sns.heatmap(cov_mat, vmax=<span class="number">1</span>, square=<span class="literal">True</span>,annot=<span class="literal">True</span>,cmap=<span class="string">&#x27;cubehelix&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">&#x27;Correlation between different features&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习使用Numpy简单的线性代数的运算]</span></span><br><span class="line"><span class="comment"># 计算特征值与特征向量</span></span><br><span class="line">eig_vals, eig_vecs = np.linalg.eig(cov_mat)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Eigenvectors \n%s&#x27;</span> %eig_vecs)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;\nEigenvalues \n%s&#x27;</span> %eig_vals)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Make a list of (eigenvalue, eigenvector) tuples</span></span><br><span class="line">eig_pairs = [(np.<span class="built_in">abs</span>(eig_vals[i]), eig_vecs[:,i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(eig_vals))]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sort the (eigenvalue, eigenvector) tuples from high to low</span></span><br><span class="line">eig_pairs.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Visually confirm that the list is correctly sorted by decreasing eigenvalues</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Eigenvalues in descending order:&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> eig_pairs:</span><br><span class="line">    <span class="built_in">print</span>(i[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Explained Variance</span></span><br><span class="line">tot = <span class="built_in">sum</span>(eig_vals)</span><br><span class="line">var_exp = [(i / tot)*<span class="number">100</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">sorted</span>(eig_vals, reverse=<span class="literal">True</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> plt.style.context(<span class="string">&#x27;ggplot&#x27;</span>):</span><br><span class="line">    plt.figure(figsize=(<span class="number">6</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">    plt.bar(<span class="built_in">range</span>(<span class="number">7</span>), var_exp, alpha=<span class="number">0.5</span>, align=<span class="string">&#x27;center&#x27;</span>,</span><br><span class="line">            label=<span class="string">&#x27;individual explained variance&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;Explained variance ratio&#x27;</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;Principal components&#x27;</span>)</span><br><span class="line">    plt.legend(loc=<span class="string">&#x27;best&#x27;</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Projection matrix</span></span><br><span class="line"><span class="comment"># [假设前两个主成分占Explain Variance 的90%]选取前两个变量，构成Projection matrix</span></span><br><span class="line">matrix_w = np.hstack((eig_pairs[<span class="number">0</span>][<span class="number">1</span>].reshape(<span class="number">7</span>,<span class="number">1</span>), </span><br><span class="line">                      eig_pairs[<span class="number">1</span>][<span class="number">1</span>].reshape(<span class="number">7</span>,<span class="number">1</span>)</span><br><span class="line">                    ))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Matrix W:\n&#x27;</span>, matrix_w)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Projection Onto the New Feature Space</span></span><br><span class="line">Y = X_std.dot(matrix_w)</span><br><span class="line"></span><br><span class="line"><span class="comment"># [学习使用sklearn做PCA]</span></span><br><span class="line"><span class="comment"># PCA in scikit-learn</span></span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA</span><br><span class="line">pca = PCA().fit(X_std)</span><br><span class="line">plt.plot(np.cumsum(pca.explained_variance_ratio_))</span><br><span class="line">plt.xlim(<span class="number">0</span>, <span class="number">7</span>, <span class="number">1</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Number of components&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Cumulativa explained variance&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA </span><br><span class="line">sklearn_pca = PCA(n_components=<span class="number">6</span>)</span><br><span class="line">Y_sklearn = sklearn_pca.fit_transform(X_std)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(Y_sklearn.shape)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="Supplement-3">Supplement</h5>
+<p>补充下sns.heatmap的使用</p>
+<blockquote>
+<p>heatmap(data, vmin=None, vmax=None, cmap=None, center=None, robust=False, annot=None, fmt=‘.2g’, annot_kws=None, linewidths=0, linecolor=‘white’, cbar=True, cbar_kws=None, cbar_ax=None, square=False, ax=None, xticklabels=True, yticklabels=True, mask=None, **kwargs)</p>
+</blockquote>
+<blockquote>
+<p>Plot rectangular data as a color-encoded matrix.</p>
+</blockquote>
+<blockquote>
+<p>This function tries to infer a good colormap to use from the data, but<br>
+this is not guaranteed to work, so take care to make sure the kind of<br>
+colormap (sequential or diverging) and its limits are appropriate.</p>
+</blockquote>
+<blockquote>
+<p>This is an Axes-level function and will draw the heatmap into the<br>
+currently-active Axes if none is provided to the <code>ax</code> argument.  Part of<br>
+this Axes space will be taken and used to plot a colormap, unless <code>cbar</code><br>
+is False or a separate Axes is provided to <code>cbar_ax</code>.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">flights = sns.load_dataset(<span class="string">&quot;flights&quot;</span>)</span><br><span class="line">flights = flights.pivot(<span class="string">&quot;month&quot;</span>, <span class="string">&quot;year&quot;</span>, <span class="string">&quot;passengers&quot;</span>)</span><br><span class="line">ax = sns.heatmap(flights, linewidth=<span class="number">.5</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/Screenshot%20from%202017-02-25%2010-22-47.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">flights = sns.load_dataset(<span class="string">&quot;flights&quot;</span>)</span><br><span class="line">flights = flights.pivot(<span class="string">&quot;month&quot;</span>, <span class="string">&quot;year&quot;</span>, <span class="string">&quot;passengers&quot;</span>)</span><br><span class="line">ax = sns.heatmap(flights, center=flights.loc[<span class="string">&quot;January&quot;</span>, <span class="number">1955</span>])</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://dataimage-1252464519.costj.myqcloud.com/images/Screenshot%20from%202017-02-25%2010-26-23.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/02/23/OpenCV-Pyramid-and-Canny/" rel="prev" title="OpenCV [Pyramid and Canny]">
+                  <i class="fa fa-chevron-left"></i> OpenCV [Pyramid and Canny]
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/02/25/About-Hexo/" rel="next" title="About Hexo">
+                  About Hexo <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/02/25/Kaggle-Human-Resources-Analytics/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>

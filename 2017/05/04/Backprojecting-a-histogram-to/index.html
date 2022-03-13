@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" integrity="sha256-jTIdiMuX/e3DGJUGwl3pKSxuc6YOuqtJYkM0bGQESA4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"datahonor.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.10.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":"ture"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview 之前，我们在 OpenCV系列笔记九：Comparing colors using the Strategy design pattern , 和OpenCV系列笔记十二：Using colors for detection - skin tone detection里面分别介绍了在不同的颜色空间下，通过计算颜色距离，来进行the detection of specific im">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCV系列笔记十五：Backprojecting a histogram to detect specific image content">
+<meta property="og:url" content="http://datahonor.com/2017/05/04/Backprojecting-a-histogram-to/index.html">
+<meta property="og:site_name" content="DATA HONOR">
+<meta property="og:description" content="Overview 之前，我们在 OpenCV系列笔记九：Comparing colors using the Strategy design pattern , 和OpenCV系列笔记十二：Using colors for detection - skin tone detection里面分别介绍了在不同的颜色空间下，通过计算颜色距离，来进行the detection of specific im">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-1252464519.costj.myqcloud.com/170504/Selection_050415%3A23%3A52.png">
+<meta property="article:published_time" content="2017-05-04T07:06:11.000Z">
+<meta property="article:modified_time" content="2022-03-13T04:35:03.456Z">
+<meta property="article:author" content="Mathew Shen">
+<meta property="article:tag" content="Cpp">
+<meta property="article:tag" content="OpenCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-1252464519.costj.myqcloud.com/170504/Selection_050415%3A23%3A52.png">
+
+
+<link rel="canonical" href="http://datahonor.com/2017/05/04/Backprojecting-a-histogram-to/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://datahonor.com/2017/05/04/Backprojecting-a-histogram-to/","path":"2017/05/04/Backprojecting-a-histogram-to/","title":"OpenCV系列笔记十五：Backprojecting a histogram to detect specific image content"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OpenCV系列笔记十五：Backprojecting a histogram to detect specific image content | DATA HONOR</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DATA HONOR</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Pain Is Inevitable; Suffering Is Optional</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Overview-6"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Code-5"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#colorhistogram-h"><span class="nav-number">2.1.</span> <span class="nav-text">colorhistogram.h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#contenfinder-h"><span class="nav-number">2.2.</span> <span class="nav-text">contenfinder.h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#main-cpp-2"><span class="nav-number">2.3.</span> <span class="nav-text">main.cpp</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mathew Shen"
+      src="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+  <p class="site-author-name" itemprop="name">Mathew Shen</p>
+  <div class="site-description" itemprop="description">十年饮冰，难凉热血。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenxiangzhuang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenxiangzhuang" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:datahonor@gmail.com" title="E-Mail → mailto:datahonor@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://yuanhang0.github.io/" title="https:&#x2F;&#x2F;yuanhang0.github.io&#x2F;" rel="noopener" target="_blank">Tomorrow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yudaer.github.io/" title="http:&#x2F;&#x2F;yudaer.github.io&#x2F;" rel="noopener" target="_blank">小白二号</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://datahonor.com/2017/05/04/Backprojecting-a-histogram-to/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/17157965?v=3&u=1787d5d04d50967c7825062bfff705ee584ae2b2&s=400">
+      <meta itemprop="name" content="Mathew Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DATA HONOR">
+      <meta itemprop="description" content="十年饮冰，难凉热血。">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OpenCV系列笔记十五：Backprojecting a histogram to detect specific image content | DATA HONOR">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenCV系列笔记十五：Backprojecting a histogram to detect specific image content
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-04 15:06:11" itemprop="dateCreated datePublished" datetime="2017-05-04T15:06:11+08:00">2017-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-13 12:35:03" itemprop="dateModified" datetime="2022-03-13T12:35:03+08:00">2022-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cpp/" itemprop="url" rel="index"><span itemprop="name">Cpp</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Valine：</span>
+  
+    <a title="valine" href="/2017/05/04/Backprojecting-a-histogram-to/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/04/Backprojecting-a-histogram-to/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h5 id="Overview-6">Overview</h5>
+<p>之前，我们在 <a href="http://datahonor.com/2017/04/28/OpenCV%E7%B3%BB%E5%88%97%E7%AC%94%E8%AE%B0%E4%B9%9D%EF%BC%9AComparing-colors-using-the-Strategy-design-pattern/">OpenCV系列笔记九：Comparing colors using the Strategy design pattern</a><br>
+, 和<a href="http://datahonor.com/2017/05/02/Using-colors-for-detection-skin-tone-detection/">OpenCV系列笔记十二：Using colors for detection - skin tone detection</a>里面分别介绍了在不同的颜色空间下，通过计算颜色距离，来进行the detection of specific image content.这里，我们将要介绍的histogram backprojection是一种新的进行detection的方法。</p>
+<blockquote>
+<p>A histogram is an important characteristic of an image’s content. If you look at an image area that shows a particular texture or a particular object, then the histogram of this area can be seen as a function that gives the probability that a given pixel belongs to this specific texture or object.</p>
+</blockquote>
+<p>简单讲就是说，我们通过指定一块具有代表性的区域，来检测图片中具有相同特征的所有区域。而检测的根据就是直方图，根据直方图的相似度来进行判别。</p>
+<h5 id="Code-5">Code</h5>
+<h6 id="colorhistogram-h">colorhistogram.h</h6>
+<p>可以看到这里面很多函数在此处是用不到的，但是还是贴出来，好进一步的学习。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CLIONS_COLORHISTOGRAM_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CLIONS_COLORHISTOGRAM_H</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgproc/imgproc.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ColorHistogram</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> histSize[<span class="number">3</span>];        <span class="comment">// size of each dimension</span></span><br><span class="line">    <span class="type">float</span> hranges[<span class="number">2</span>];       <span class="comment">// range of values (same for the 3 dimensions)</span></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span>* ranges[<span class="number">3</span>]; <span class="comment">// array of ranges for each dimension</span></span><br><span class="line">    <span class="type">int</span> channels[<span class="number">3</span>];        <span class="comment">// channel to be considered</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ColorHistogram</span>() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Prepare default arguments for a color histogram</span></span><br><span class="line">        <span class="comment">// each dimension has equal size and range</span></span><br><span class="line">        histSize[<span class="number">0</span>]= histSize[<span class="number">1</span>]= histSize[<span class="number">2</span>]= <span class="number">256</span>;</span><br><span class="line">        hranges[<span class="number">0</span>]= <span class="number">0.0</span>;    <span class="comment">// BRG range from 0 to 256</span></span><br><span class="line">        hranges[<span class="number">1</span>]= <span class="number">256.0</span>;</span><br><span class="line">        ranges[<span class="number">0</span>]= hranges; <span class="comment">// in this class,</span></span><br><span class="line">        ranges[<span class="number">1</span>]= hranges; <span class="comment">// all channels have the same range</span></span><br><span class="line">        ranges[<span class="number">2</span>]= hranges;</span><br><span class="line">        channels[<span class="number">0</span>]= <span class="number">0</span>;		<span class="comment">// the three channels: B</span></span><br><span class="line">        channels[<span class="number">1</span>]= <span class="number">1</span>;     <span class="comment">// G</span></span><br><span class="line">        channels[<span class="number">2</span>]= <span class="number">2</span>;     <span class="comment">// R</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// set histogram size for each dimension</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setSize</span><span class="params">(<span class="type">int</span> size)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// each dimension has equal size</span></span><br><span class="line">        histSize[<span class="number">0</span>]= histSize[<span class="number">1</span>]= histSize[<span class="number">2</span>]= size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Computes the histogram.</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">getHistogram</span><span class="params">(<span class="type">const</span> cv::Mat &amp;image)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        cv::Mat hist;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// BGR color histogram</span></span><br><span class="line">        hranges[<span class="number">0</span>]= <span class="number">0.0</span>;    <span class="comment">// BRG range</span></span><br><span class="line">        hranges[<span class="number">1</span>]= <span class="number">256.0</span>;</span><br><span class="line">        channels[<span class="number">0</span>]= <span class="number">0</span>;		<span class="comment">// the three channels</span></span><br><span class="line">        channels[<span class="number">1</span>]= <span class="number">1</span>;</span><br><span class="line">        channels[<span class="number">2</span>]= <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Compute histogram</span></span><br><span class="line">        cv::<span class="built_in">calcHist</span>(&amp;image,</span><br><span class="line">            <span class="number">1</span>,			<span class="comment">// histogram of 1 image only</span></span><br><span class="line">            channels,	<span class="comment">// the channel used</span></span><br><span class="line">            cv::<span class="built_in">Mat</span>(),	<span class="comment">// no mask is used</span></span><br><span class="line">            hist,		<span class="comment">// the resulting histogram</span></span><br><span class="line">            <span class="number">3</span>,			<span class="comment">// it is a 3D histogram</span></span><br><span class="line">            histSize,	<span class="comment">// number of bins</span></span><br><span class="line">            ranges		<span class="comment">// pixel value range</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> hist;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Computes the histogram.</span></span><br><span class="line">    <span class="function">cv::SparseMat <span class="title">getSparseHistogram</span><span class="params">(<span class="type">const</span> cv::Mat &amp;image)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function">cv::SparseMat <span class="title">hist</span><span class="params">(<span class="number">3</span>,        <span class="comment">// number of dimensions</span></span></span></span><br><span class="line"><span class="params"><span class="function">                           histSize, <span class="comment">// size of each dimension</span></span></span></span><br><span class="line"><span class="params"><span class="function">                           CV_32F)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// BGR color histogram</span></span><br><span class="line">        hranges[<span class="number">0</span>]= <span class="number">0.0</span>;    <span class="comment">// BRG range</span></span><br><span class="line">        hranges[<span class="number">1</span>]= <span class="number">256.0</span>;</span><br><span class="line">        channels[<span class="number">0</span>]= <span class="number">0</span>;		<span class="comment">// the three channels</span></span><br><span class="line">        channels[<span class="number">1</span>]= <span class="number">1</span>;</span><br><span class="line">        channels[<span class="number">2</span>]= <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Compute histogram</span></span><br><span class="line">        cv::<span class="built_in">calcHist</span>(&amp;image,</span><br><span class="line">            <span class="number">1</span>,			<span class="comment">// histogram of 1 image only</span></span><br><span class="line">            channels,	<span class="comment">// the channel used</span></span><br><span class="line">            cv::<span class="built_in">Mat</span>(),	<span class="comment">// no mask is used</span></span><br><span class="line">            hist,		<span class="comment">// the resulting histogram</span></span><br><span class="line">            <span class="number">3</span>,			<span class="comment">// it is a 3D histogram</span></span><br><span class="line">            histSize,	<span class="comment">// number of bins</span></span><br><span class="line">            ranges		<span class="comment">// pixel value range</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> hist;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Computes the 1D Hue histogram.</span></span><br><span class="line">    <span class="comment">// BGR source image is converted to HSV</span></span><br><span class="line">    <span class="comment">// Pixels with low saturation are ignored</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">getHueHistogram</span><span class="params">(<span class="type">const</span> cv::Mat &amp;image,</span></span></span><br><span class="line"><span class="params"><span class="function">                             <span class="type">int</span> minSaturation=<span class="number">0</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        cv::Mat hist;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Convert to HSV colour space</span></span><br><span class="line">        cv::Mat hsv;</span><br><span class="line">        cv::<span class="built_in">cvtColor</span>(image, hsv, CV_BGR2HSV);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Mask to be used (or not)</span></span><br><span class="line">        cv::Mat mask;</span><br><span class="line">        <span class="comment">// creating the mask if required</span></span><br><span class="line">        <span class="keyword">if</span> (minSaturation&gt;<span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Spliting the 3 channels into 3 images</span></span><br><span class="line">            std::vector&lt;cv::Mat&gt; v;</span><br><span class="line">            cv::<span class="built_in">split</span>(hsv,v);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Mask out the low saturated pixels</span></span><br><span class="line">            cv::<span class="built_in">threshold</span>(v[<span class="number">1</span>],mask,minSaturation,<span class="number">255</span>,</span><br><span class="line">                                 cv::THRESH_BINARY);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Prepare arguments for a 1D hue histogram</span></span><br><span class="line">        hranges[<span class="number">0</span>]= <span class="number">0.0</span>;    <span class="comment">// range is from 0 to 180</span></span><br><span class="line">        hranges[<span class="number">1</span>]= <span class="number">180.0</span>;</span><br><span class="line">        channels[<span class="number">0</span>]= <span class="number">0</span>;    <span class="comment">// the hue channel</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Compute histogram</span></span><br><span class="line">        cv::<span class="built_in">calcHist</span>(&amp;hsv,</span><br><span class="line">            <span class="number">1</span>,			<span class="comment">// histogram of 1 image only</span></span><br><span class="line">            channels,	<span class="comment">// the channel used</span></span><br><span class="line">            mask,		<span class="comment">// binary mask</span></span><br><span class="line">            hist,		<span class="comment">// the resulting histogram</span></span><br><span class="line">            <span class="number">1</span>,			<span class="comment">// it is a 1D histogram</span></span><br><span class="line">            histSize,	<span class="comment">// number of bins</span></span><br><span class="line">            ranges		<span class="comment">// pixel value range</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> hist;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Computes the 2D ab histogram.</span></span><br><span class="line">    <span class="comment">// BGR source image is converted to Lab</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">getabHistogram</span><span class="params">(<span class="type">const</span> cv::Mat &amp;image)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        cv::Mat hist;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Convert to Lab color space</span></span><br><span class="line">        cv::Mat lab;</span><br><span class="line">        cv::<span class="built_in">cvtColor</span>(image, lab, CV_BGR2Lab);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Prepare arguments for a 2D color histogram</span></span><br><span class="line">        hranges[<span class="number">0</span>]= <span class="number">0</span>;</span><br><span class="line">        hranges[<span class="number">1</span>]= <span class="number">256.0</span>;</span><br><span class="line">        channels[<span class="number">0</span>]= <span class="number">1</span>; <span class="comment">// the two channels used are ab</span></span><br><span class="line">        channels[<span class="number">1</span>]= <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Compute histogram</span></span><br><span class="line">        cv::<span class="built_in">calcHist</span>(&amp;lab,</span><br><span class="line">            <span class="number">1</span>,			<span class="comment">// histogram of 1 image only</span></span><br><span class="line">            channels,	<span class="comment">// the channel used</span></span><br><span class="line">            cv::<span class="built_in">Mat</span>(),	<span class="comment">// no mask is used</span></span><br><span class="line">            hist,		<span class="comment">// the resulting histogram</span></span><br><span class="line">            <span class="number">2</span>,			<span class="comment">// it is a 2D histogram</span></span><br><span class="line">            histSize,	<span class="comment">// number of bins</span></span><br><span class="line">            ranges		<span class="comment">// pixel value range</span></span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> hist;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">//CLIONS_COLORHISTOGRAM_H</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h6 id="contenfinder-h">contenfinder.h</h6>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CLIONS_CONTENTFINDER_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CLIONS_CONTENTFINDER_H</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;highgui.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/imgcodecs.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv/cv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ContentFinder</span>&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// histogram parameters</span></span><br><span class="line">    <span class="type">float</span> hranges[<span class="number">2</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span>* ranges[<span class="number">3</span>];</span><br><span class="line">    <span class="type">int</span> channels[<span class="number">3</span>];</span><br><span class="line">    <span class="type">float</span> threshold; <span class="comment">//decision threshold</span></span><br><span class="line">    cv::Mat histogram;  <span class="comment">// input histogram</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ContentFinder</span>():<span class="built_in">threshold</span>(<span class="number">0.1f</span>)&#123;</span><br><span class="line">        <span class="comment">// in this class, all channels have the same range</span></span><br><span class="line">        ranges[<span class="number">0</span>] = hranges;</span><br><span class="line">        ranges[<span class="number">1</span>] = hranges;</span><br><span class="line">        ranges[<span class="number">2</span>] = hranges;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sets the refrence histogram</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setHistogram</span><span class="params">(<span class="type">const</span> cv::Mat&amp; h)</span></span>&#123;</span><br><span class="line">        histogram = h;</span><br><span class="line">        cv::<span class="built_in">normalize</span>(histogram, histogram, <span class="number">1.0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sets the threshold</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setThreshold</span><span class="params">(<span class="type">float</span> f)</span></span>&#123;</span><br><span class="line">        threshold = f;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Simplified version in which</span></span><br><span class="line">    <span class="comment">//all channels used, with range[0,256]</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">find</span><span class="params">(<span class="type">const</span> cv::Mat&amp; image)</span></span>&#123;</span><br><span class="line">        cv::Mat result;</span><br><span class="line">        hranges[<span class="number">0</span>] = <span class="number">0.0</span>;</span><br><span class="line">        hranges[<span class="number">1</span>] = <span class="number">256.0</span>;</span><br><span class="line">        channels[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        channels[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        channels[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">find</span>(image, hranges[<span class="number">0</span>], hranges[<span class="number">1</span>], channels);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Finds the pixel belonging to the histogram</span></span><br><span class="line">    <span class="function">cv::Mat <span class="title">find</span><span class="params">(<span class="type">const</span> cv::Mat&amp; image, <span class="type">float</span> minValue, <span class="type">float</span> maxValue, <span class="type">int</span> * channels)</span></span>&#123;</span><br><span class="line">        cv::Mat result;</span><br><span class="line">        hranges[<span class="number">0</span>] = minValue;</span><br><span class="line">        hranges[<span class="number">1</span>] = maxValue;</span><br><span class="line">        <span class="comment">// histogram dim matches channel list</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;histogram.dims; i++)</span><br><span class="line">            <span class="keyword">this</span>-&gt;channels[i]=channels[i];</span><br><span class="line"></span><br><span class="line">        cv::<span class="built_in">calcBackProject</span>(&amp;image, <span class="number">1</span>,</span><br><span class="line">                            channels,</span><br><span class="line">                            histogram,</span><br><span class="line">                            result,</span><br><span class="line">                            ranges, <span class="number">255.0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(threshold&gt;<span class="number">0.0</span>)</span><br><span class="line">            cv::<span class="built_in">threshold</span>(result, result, <span class="number">255.0</span>*threshold, <span class="number">255.0</span>,cv::THRESH_BINARY);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">//CLIONS_CONTENTFINDER_H</span></span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h6 id="main-cpp-2">main.cpp</h6>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgcodecs.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;grayhistogram.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;colorhistogram.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;contentfinder.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ColorHistogram hc;</span><br><span class="line">    cv::Mat color = cv::<span class="built_in">imread</span>(<span class="string">&quot;/home/shensir/Documents/MyPrograming/Cpp/Clions/data/waves.jpg&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cv::Mat imageROI;</span><br><span class="line">    imageROI = <span class="built_in">color</span>(cv::<span class="built_in">Rect</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>,<span class="number">45</span>)); <span class="comment">// sky region</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">//image with rectangle</span></span><br><span class="line">    cv::<span class="built_in">rectangle</span>(color, cv::<span class="built_in">Rect</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">100</span>,<span class="number">45</span>), cv::<span class="built_in">Scalar</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>));</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;image with rect&quot;</span>, color);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get 3D color histogram (8 bins per channel)</span></span><br><span class="line">    hc.<span class="built_in">setSize</span>(<span class="number">8</span>);</span><br><span class="line">    cv::Mat shist = hc.<span class="built_in">getHistogram</span>(imageROI);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create the content finder</span></span><br><span class="line">    ContentFinder finder;</span><br><span class="line">    <span class="comment">// set histogram to be bask-projected</span></span><br><span class="line">    finder.<span class="built_in">setHistogram</span>(shist);</span><br><span class="line">    finder.<span class="built_in">setThreshold</span>(<span class="number">0.05f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Get back-projection of color histogram</span></span><br><span class="line">    cv::Mat result = finder.<span class="built_in">find</span>(color);</span><br><span class="line">    cv::<span class="built_in">imshow</span>(<span class="string">&quot;Color Detection Result&quot;</span>, result);</span><br><span class="line">    cv::<span class="built_in">waitKey</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出：<br>
+<img src="http://blog-1252464519.costj.myqcloud.com/170504/Selection_050415%3A23%3A52.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cpp/" rel="tag"># Cpp</a>
+              <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/05/04/Look-up-tables/" rel="prev" title="OpenCV系列笔记十四：Look-up tables">
+                  <i class="fa fa-chevron-left"></i> OpenCV系列笔记十四：Look-up tables
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/05/04/Using-the-mean-shift-algorithm-to-find-an-object/" rel="next" title="OpenCV系列笔记十六：Using the mean shift algorithm to find an object">
+                  OpenCV系列笔记十六：Using the mean shift algorithm to find an object <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mathew Shen</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"qzF75hQvs6yPkMIO7gd7LwDB-gzGzoHsz","appKey":"foULNoeGLTL8LE8C2Ysitv5I","serverURLs":["datahonor.com"],"placeholder":"毕竟今天太阳那么好~(评论时留下邮箱才能收到回复提醒的邮件哦)","avatar":"","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":true,"enableQQ":true,"requiredFields":["nick"],"notify":true,"el":"#valine-comments","path":"/2017/05/04/Backprojecting-a-histogram-to/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js',
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+</body>
+</html>
