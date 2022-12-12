@@ -20,18 +20,23 @@ theme:
   search_index_only: true
 
   features:
+    - announce.dismiss
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
     - header.autohide
-    # - navigation.instant
-    # - navigation.expand
-    # - navigation.sections
+    - navigation.instant
     - navigation.tracking
-    # - navigation.tabs
-    # - navigation.tabs.sticky
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.prune
+    - navigation.sections
     - navigation.top
-    # - navigation.indexes
     - search.highlight
     - search.share
     - search.suggest
+    - toc.follow
     # - toc.integrate
     - content.code.annotate
 
@@ -99,13 +104,13 @@ extra:
       link: https://github.com/shenxiangzhuang/lifelong
 
 nav:
-  - 关于: "index.md"
+  - 关于: index.md
   - 数据科学:
 #    - 统计学:
 #    - 机器学习:
     - 深度学习:
-      - 论文阅读: "datascience/dl/paper.md"
-      - 梯度下降: "datascience/dl/sgd.md"
+      - 论文阅读: datascience/dl/paper.md
+      - 梯度下降: datascience/dl/sgd.md
 #  - 编程:
 #    - Python:
 #    - C++:
