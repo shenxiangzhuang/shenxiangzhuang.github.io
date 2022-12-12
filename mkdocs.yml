@@ -81,6 +81,12 @@ markdown_extensions:
   - abbr
   - admonition
 
+
+extra_javascript:
+- javascripts/mathjax.js
+- https://polyfill.io/v3/polyfill.min.js?features=es6
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
 plugins:
   - i18n:
       default_language: zh
@@ -107,7 +113,9 @@ nav:
   - 关于: index.md
   - 数据科学:
 #    - 统计学:
-#    - 机器学习:
+    - 机器学习:
+      - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
+      - 原始感知机: datascience/ml/perceptron.md
     - 深度学习:
       - 论文阅读: datascience/dl/paper.md
       - 梯度下降: datascience/dl/sgd.md
