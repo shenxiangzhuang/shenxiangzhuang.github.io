@@ -1,0 +1,123 @@
+site_name: Data Honor
+site_url: https://shenxiangzhuang.github.io
+site_author: Xiangzhuang Shen
+site_description: >-
+  Xiangzhuang Shen's blog
+
+repo_name: shenxiangzhuang.github.io
+repo_url: https://github.com/shenxiangzhuang/shenxiangzhuang.github.io
+
+copyright: Copyright &copy; 2017 Xiangzhuang Shen
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  language: zh
+  static_templates:
+    - 404.html
+  include_search_page: false
+  search_index_only: true
+
+  features:
+    - header.autohide
+    # - navigation.instant
+    # - navigation.expand
+    # - navigation.sections
+    - navigation.tracking
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    # - navigation.indexes
+    - search.highlight
+    - search.share
+    - search.suggest
+    # - toc.integrate
+    - content.code.annotate
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light blue
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: cyan
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      linenums_style: pymdownx.inline
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.tabbed
+  - abbr
+  - admonition
+
+plugins:
+  - i18n:
+      default_language: zh
+      material_alternate: true
+      languages:
+        zh:
+          name: 简体中文
+          build: true
+        en:
+          name: English
+          build: true
+  - search:
+      lang: ja
+  - git-revision-date-localized
+  - minify:
+      minify_html: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/shenxiangzhuang/lifelong
+
+nav:
+  - 关于: "index.md"
+#  - 编程:
+#    - Python:
+#    - C++:
+#    - Haskell:
+#
+#  - 计算机科学:
+#    - OS:
+#
+#
+#  - 分布式系统:
+#    - Hadoop:
+#    - Spark:
+#
+#  - 工具:
+#    - Latex:
+#
+#  - 主题:
+#    - OpenCV:
+
+  - 随笔:
+    - 2019: "sketch/2019.md"
