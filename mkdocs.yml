@@ -100,6 +100,12 @@ extra:
 
 nav:
   - 关于: "index.md"
+  - 数据科学:
+#    - 统计学:
+#    - 机器学习:
+    - 深度学习:
+      - 论文阅读: "datascience/dl/paper.md"
+      - 梯度下降: "datascience/dl/sgd.md"
 #  - 编程:
 #    - Python:
 #    - C++:
