@@ -115,8 +115,11 @@ nav:
 #    - 统计学:
     - 机器学习:
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
-      - 原始感知机: datascience/ml/perceptron.md
-    - 深度学习:
+      - 原始感知机算法实现: datascience/ml/perceptron.md
+      - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
+      - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
+  
+  - 深度学习:
       - 论文阅读: datascience/dl/paper.md
       - 梯度下降: datascience/dl/sgd.md
 #  - 编程:
