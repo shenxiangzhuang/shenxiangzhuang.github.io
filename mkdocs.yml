@@ -113,10 +113,10 @@ nav:
   - 关于: index.md
   - 数据科学:
     - 统计学:
-      - 概率论与数理统计教科书: datascience/statistics/Probability-and-Mathematical-Statistics-Books.md
-      - 三门问题与三囚犯问题: datascience/statistics/Three-Doors-Three-Prisoners.md
-      - ROC-AUC: datascience/statistics/ROC-AUC.md
-      - P value or Effect size: datascience/statistics/P-value-or-Effect-size.md
+      - 概率论与数理统计教科书: datascience/statistics/probability-and-mathematical-statistics-books.md
+      - 三门问题与三囚犯问题: datascience/statistics/three-doors-and-three-prisoners.md
+      - ROC-AUC: datascience/statistics/roc-auc.md
+      - P value or Effect size: datascience/statistics/effect-size.md
     
     - 机器学习:
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md

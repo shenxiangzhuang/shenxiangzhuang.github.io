@@ -1,13 +1,5 @@
 ---
-title: LaTex in Ubuntu16.04
-type: categories
-copyright: true
 date: 2019-04-30 18:13:24
-tags:
-- Latex
-- Tips
-categories:
-- Latex
 ---
 
 ### Overview
