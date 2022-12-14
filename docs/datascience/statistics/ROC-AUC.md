@@ -1,37 +1,36 @@
 ---
-title: ROC-AUC
-type: categories
-copyright: true
-mathjax: true
 date: 2020-05-02 13:24:11
-tags:
-- Statistics
-categories:
-- Statistics
-
 ---
 
-## 始
+!!! note
 
-> "You are writing a book because you are not entirely satisfied with the available texts."  -- George Casella
+    "You are writing a book because you are not entirely satisfied with the available texts."  -- George Casella
 
-因为我实在受不了竟然有人写出ROC-AUC的物理意义这种东西...
 
 ## When&Where&Who&Why
 
 任何事物，包括一个概念，理论的提出必然有其历史背景，有其原因，也就是所谓的Motivation. 所以要想真正认识ROC和AUC必须追溯其历史，这要从1941年日军偷袭珍珠港说起...
+!!! tip
 
->The ROC curve was first used during [World War II](https://en.wikipedia.org/wiki/World_War_II) for the analysis of [radar signals](https://en.wikipedia.org/wiki/Radar) before it was employed in [signal detection theory](https://en.wikipedia.org/wiki/Signal_detection_theory).[[44\]](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#cite_note-green66-44) Following the [attack on Pearl Harbor](https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor) in 1941, the United States army began new research to increase the prediction of correctly detected Japanese aircraft from their radar signals. For these purposes they **measured the ability** of a radar receiver operator to make these important distinctions, which was called the **Receiver Operating Characteristic.**  --Wikipedia
+    The ROC curve was first used during [World War II](https://en.wikipedia.org/wiki/World_War_II)
+    for the analysis of [radar signals](https://en.wikipedia.org/wiki/Radar)
+    before it was employed in [signal detection theory](https://en.wikipedia.org/wiki/Signal_detection_theory).
+    [[44\]](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#cite_note-green66-44)
+    Following the [attack on Pearl Harbor](https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor) in 1941,
+    the United States army began new research to increase the prediction of correctly detected Japanese aircraft from their radar signals.
+    For these purposes they **measured the ability** of a radar receiver operator to make these important distinctions,
+    which was called the **Receiver Operating Characteristic.**  --Wikipedia
 
 也就是说，在珍珠港战役之后，美军迫切地需要侦测技术的提升来更好地检测到日军飞机的入侵，所谓提升必然要有比较的指标，这个指标就是ROC.
 
 在《百面机器学习》的第二章提到了ROC曲线具体的由来。
+!!! note
 
->ROC曲线最早是运用在军事上的,后来逐渐运用到医学领域,并于20世纪80年代后期被引入机器学习领域。相传在第二次 世界大战期间,雷达兵的任务之一就是死死地盯住雷达显示器,观察是否有敌机来袭。理论上讲,只要有敌机来袭,雷达屏幕上 就会出现相应的信号。但是实际上,如果飞鸟出现在雷达扫描区域时,雷达屏幕上有时也会出现信号。这种情况令雷达兵烦恼不
->已,如果过于谨慎,凡是有信号就确定为敌机来袭,显然会增加误报风险;如果过于大胆,凡是信号都认为是飞鸟,又会增加漏报的风险。每个雷达兵都竭尽所能地研究飞鸟信号和飞机信号之间的区别,以便增加预报的准确性。但问题在于,每个雷达兵都 有自己的判别标准,有的雷达兵比较谨慎,容易出现误报;有的雷达兵则比较胆大,容易出现漏报。
->
->为了研究每个雷达兵预报的准确性,雷达兵的管理者汇总了所有雷达兵的预报特点,特别是他们漏报和误报的概率,并将 这些概率画到一个二维坐标系里。这个二维坐标的纵坐标为敏感性(真阳性率),即在所有敌机来袭的事件中,每个雷达兵准确 预报的概率。而横坐标则为1-特异性(假阳性率),表示在所有非敌机来袭信号中,雷达兵预报错误的概率。由于每个雷达兵的
->预报标准不同,且得到的敏感性和特异性的组合也不同。将这些雷达兵的预报性能进行汇总后,雷达兵管理员发现他们刚好在一条曲线上,这条曲线就是后来被广泛应用在医疗和机器学习领域的ROC曲线。
+    ROC曲线最早是运用在军事上的,后来逐渐运用到医学领域,并于20世纪80年代后期被引入机器学习领域。相传在第二次 世界大战期间,雷达兵的任务之一就是死死地盯住雷达显示器,观察是否有敌机来袭。理论上讲,只要有敌机来袭,雷达屏幕上 就会出现相应的信号。但是实际上,如果飞鸟出现在雷达扫描区域时,雷达屏幕上有时也会出现信号。这种情况令雷达兵烦恼不
+    已,如果过于谨慎,凡是有信号就确定为敌机来袭,显然会增加误报风险;如果过于大胆,凡是信号都认为是飞鸟,又会增加漏报的风险。每个雷达兵都竭尽所能地研究飞鸟信号和飞机信号之间的区别,以便增加预报的准确性。但问题在于,每个雷达兵都 有自己的判别标准,有的雷达兵比较谨慎,容易出现误报;有的雷达兵则比较胆大,容易出现漏报。
+
+    为了研究每个雷达兵预报的准确性,雷达兵的管理者汇总了所有雷达兵的预报特点,特别是他们漏报和误报的概率,并将 这些概率画到一个二维坐标系里。这个二维坐标的纵坐标为敏感性(真阳性率),即在所有敌机来袭的事件中,每个雷达兵准确 预报的概率。而横坐标则为1-特异性(假阳性率),表示在所有非敌机来袭信号中,雷达兵预报错误的概率。由于每个雷达兵的
+    预报标准不同,且得到的敏感性和特异性的组合也不同。将这些雷达兵的预报性能进行汇总后,雷达兵管理员发现他们刚好在一条曲线上,这条曲线就是后来被广泛应用在医疗和机器学习领域的ROC曲线。
 
 现在我们可以来尝试回答为什么会有ROC曲线的存在了，就是我们需要**一种更加稳健的衡量指标来判断某样东西的好坏**，在探索这个指标的过程诞生了ROC曲线.在后面的分析中，我们可以更加直观地搞明白其为什么是稳健的。
 
@@ -41,7 +40,9 @@ categories:
 
 说了那么久，那么到底ROC是什么东西呢？简单地讲，是个曲线图。
 
-> A **receiver operating characteristic curve**, or **ROC curve**, is a [graphical plot](https://en.wikipedia.org/wiki/Graph_of_a_function) that illustrates the diagnostic ability of a [binary classifier](https://en.wikipedia.org/wiki/Binary_classifier) system as its discrimination threshold is varied. --Wikipedia
+!!! note
+
+    A **receiver operating characteristic curve**, or **ROC curve**, is a [graphical plot](https://en.wikipedia.org/wiki/Graph_of_a_function) that illustrates the diagnostic ability of a [binary classifier](https://en.wikipedia.org/wiki/Binary_classifier) system as its discrimination threshold is varied. --Wikipedia
 
 Wiki上明确地给出我前面说的“某样东西”是一个"binary classifier sysytem"， 即一个二分类系统(再次强调，请不要局限在ML里面的二分类...一个分辨灯泡好坏的仪器同样是一个二分类系统，这在质量管理中的例子很多).
 
@@ -49,19 +50,21 @@ Wiki上明确地给出我前面说的“某样东西”是一个"binary classifi
 
 那么现在就剩下一个问题，即如何根据这个`threshold`来获取ROC曲线上的点。这里需要引入一些定义。
 
-> 正类: Positive class,正品，阳性， 用1表示
->
-> 负类: Negative class,次品，阴性，用0表示
->
-> TP, FP, TN, FN: True Positive, False Positive, True Negative, False Negative
->
-> TPR: True Postive Rate, Recall, Sensitivity, $$TPR = \frac{TP}{TP+FN}$$
->
-> FPR:  False Positive Rate, Fall-out, $FPR=\frac{FP}{FP+TN}$
->
-> 预测值: Score，二分类系统给样本的打分，实数范围R
->
-> 阈值: Threshold
+!!! note
+
+    正类: Positive class,正品，阳性， 用1表示
+
+    负类: Negative class,次品，阴性，用0表示
+
+    TP, FP, TN, FN: True Positive, False Positive, True Negative, False Negative
+
+    TPR: True Postive Rate, Recall, Sensitivity, $$TPR = \frac{TP}{TP+FN}$$
+
+    FPR:  False Positive Rate, Fall-out, $FPR=\frac{FP}{FP+TN}$
+
+    预测值: Score，二分类系统给样本的打分，实数范围R
+
+    阈值: Threshold
 
 ROC定义横轴为FPR，纵轴为TPR。进而问题转化成如何从`Threshold` $T$得到对应点的横纵座标，即$(FPR_T， TPR_T)$.从某个集合$S_T$中取不同的阈值$T$，就得到一系列的横纵座标，也就是ROC曲线上的一系列点$\{(FPR_T, TPR_T) | T \in S_T\}$, 也就得到了ROC曲线。
 
@@ -73,7 +76,9 @@ ROC定义横轴为FPR，纵轴为TPR。进而问题转化成如何从`Threshold`
 
 在样本很多的时候，我们可以取一些阈值，好比是10个，然后得到10个点，绘制出ROC曲线；如果我们取20个阈值，显然绘制出的ROC曲线会更加“精细”一些。那么这就是我前面说到的衍生的问题了，我们可以绘制出无限精细的ROC曲线吗？如果不能，我们能够做到的“精细”的极限又在哪里呢？答案是不能无限精细，其精细的极限由样本量控制。那么，为什么呢？看下面这种绘制ROC曲线的方法，你就明白了。
 
->首先,根据样本标签统计出正负样本的数量,假设正样本数量为P,负样本数量为N;接下来,把横轴的刻度间隔设置为1/N,纵轴的刻度间隔设置为1/P;再根据模型输出的预测概率对样本进行排序(从高到低);依次遍历样本,同时从零点开始绘制ROC曲线,每遇到一个正样本就沿纵轴方向绘制一个刻度间隔的曲线,每遇到一个负样本就沿横轴方向绘制一个刻度间隔的曲线,直到遍历完所有样本,曲线最终停在(1,1)这个点,整个ROC曲线绘制完成。 --《百面机器学习》
+!!! tip
+
+    首先,根据样本标签统计出正负样本的数量,假设正样本数量为P,负样本数量为N;接下来,把横轴的刻度间隔设置为1/N,纵轴的刻度间隔设置为1/P;再根据模型输出的预测概率对样本进行排序(从高到低);依次遍历样本,同时从零点开始绘制ROC曲线,每遇到一个正样本就沿纵轴方向绘制一个刻度间隔的曲线,每遇到一个负样本就沿横轴方向绘制一个刻度间隔的曲线,直到遍历完所有样本,曲线最终停在(1,1)这个点,整个ROC曲线绘制完成。 --《百面机器学习》
 
 ![](https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/2020/Screenshot%20from%202020-05-02%2014-58-14.png)
 
@@ -98,7 +103,7 @@ ROC定义横轴为FPR，纵轴为TPR。进而问题转化成如何从`Threshold`
 对AUC的解释有很多，其中有个被问烂的问题就是其所谓的“物理意义”...（真就“为什么JAVA实现中链表长度到8就变红黑树”呗:-)
 
 AUC的概率解释在Wikipedia中有详细的推导.
-$$
+
 \begin{equation}\begin{aligned}
 &T P R(T): T \rightarrow y(x)\\
 &F P R(T): T \rightarrow x\\
@@ -106,7 +111,7 @@ $$
 &\operatorname{FPR}(T)=\int_{T}^{\infty} f_{0}(x) d x\\
 &AUC=\int_{x=0}^{1} \operatorname{TPR}\left(\operatorname{FPR}^{-1}(x)\right) d x=\int_{\infty}^{-\infty} \operatorname{TPR}(T) \operatorname{FPR}^{\prime}(T) d T=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} I\left(T^{\prime}>T\right) f_{1}\left(T^{\prime}\right) f_{0}(T) d T^{\prime} d T=P\left(X_{1}>X_{0}\right)
 \end{aligned}\end{equation}
-$$
+
 其中$X_1$是正类的的$Score$, $X_2$是负类的$Score$. 此外AUC也是`Wilcoxon-Mann-Whitney statistic`，公式如下,这里的$f$指二分类系统.
 $$
 A U C(f)=\frac{\sum_{t_{0} \in \mathcal{D}^{0}} \sum_{t_{1} \in \mathcal{D}^{1}} \mathbf{1}\left[f\left(t_{0}\right)<f\left(t_{1}\right)\right]}{\left|\mathcal{D}^{0}\right| \cdot\left|\mathcal{D}^{1}\right|}

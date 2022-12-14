@@ -112,16 +112,22 @@ extra:
 nav:
   - 关于: index.md
   - 数据科学:
-#    - 统计学:
+    - 统计学:
+      - 概率论与数理统计教科书: datascience/statistics/Probability-and-Mathematical-Statistics-Books.md
+      - 三门问题与三囚犯问题: datascience/statistics/Three-Doors-Three-Prisoners.md
+      - ROC-AUC: datascience/statistics/ROC-AUC.md
+      - P value or Effect size: datascience/statistics/P-value-or-Effect-size.md
+    
     - 机器学习:
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
       - 原始感知机算法实现: datascience/ml/perceptron.md
       - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
       - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
-  
-  - 深度学习:
-      - 论文阅读: datascience/dl/paper.md
-      - 梯度下降: datascience/dl/sgd.md
+
+    - 深度学习:
+        - 论文阅读: datascience/dl/paper.md
+        - 梯度下降: datascience/dl/sgd.md
+
 #  - 编程:
 #    - Python:
 #    - C++:
