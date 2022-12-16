@@ -44,7 +44,7 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light blue
+      primary: teal
       accent: deep purple
       toggle:
         icon: material/weather-sunny
@@ -164,7 +164,7 @@ nav:
 
   - 随笔:
     - 2019年: sketch/2019.md
-    - 所谓偶然: sketch/change.md
+    - 所谓偶然: sketch/chance.md
     - 我的大学: sketch/college.md
     - 考研杂记: sketch/graduate.md
     - 罪在蒙昧: sketch/obscurant.md
