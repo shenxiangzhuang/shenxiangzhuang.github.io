@@ -1,0 +1,189 @@
+site_name: Data Honor
+site_url: https://shenxiangzhuang.github.io
+site_author: Xiangzhuang Shen
+site_description: >-
+  Xiangzhuang Shen's blog
+
+repo_name: Xiangzhuang Shen
+repo_url: https://github.com/shenxiangzhuang
+
+copyright: Copyright &copy; 2017 Xiangzhuang Shen
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  language: zh
+  static_templates:
+    - 404.html
+  include_search_page: false
+  search_index_only: true
+
+  features:
+    - announce.dismiss
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.prune
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+    - content.code.annotate
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light blue
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: cyan
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      linenums_style: pymdownx.inline
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.tabbed
+  - abbr
+  - admonition
+
+
+extra_javascript:
+- javascripts/mathjax.js
+- https://polyfill.io/v3/polyfill.min.js?features=es6
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - i18n:
+      default_language: zh
+      material_alternate: true
+      languages:
+        zh:
+          name: 简体中文
+          build: true
+        en:
+          name: English
+          build: true
+  - search:
+      lang: ja
+  - git-revision-date-localized
+  - minify:
+      minify_html: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/shenxiangzhuang
+
+nav:
+  - 关于: index.md
+  - 数据科学:
+    - 统计学:
+      - 概率论与数理统计教科书: datascience/statistics/probability-and-mathematical-statistics-books.md
+      - 三门问题与三囚犯问题: datascience/statistics/three-doors-and-three-prisoners.md
+      - ROC-AUC: datascience/statistics/roc-auc.md
+      - P value or Effect size: datascience/statistics/effect-size.md
+    
+    - 机器学习:
+      - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
+      - 原始感知机算法实现: datascience/ml/perceptron.md
+      - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
+      - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
+
+    - 深度学习:
+        - 论文阅读: datascience/dl/paper.md
+        - 梯度下降: datascience/dl/sgd.md
+
+  - 编程:
+    - Python:
+      - How to build a Python Package: programming/python/build_python_pkg.md
+      - The Art of Python Programming(TAPP): programming/python/tapp_0_motivation.md
+      - "TAPP1: Decorator and Closure": programming/python/tapp_1_decorator.md
+      - "TAPP2: Context Managers": programming/python/tapp_2_context_manager.md
+      - "TAPP3: Annotations": programming/python/tapp_3_annotations.md
+      - Python与数据分析: programming/python/python_data_analysis.md
+
+    - Scala:
+      - SBT使用: programming/scala/sbt_usage.md
+
+  - 分布式系统:
+    - Hadoop:
+      - Hadoop on Linux: distribution-system/hadoop/hadoop-linux.md
+    - HBase:
+      - HBase on Linux: distribution-system/hbase/hbase-linux.md
+    - Spark:
+      - Spark on Linux: distribution-system/spark/spark-linux.md
+      - Spark on Cloud: distribution-system/spark/spark-cloud.md
+
+#
+#  - 计算机科学:
+#    - OS:
+
+#  - 工具:
+#    - Latex:
+#     - Docker:
+#
+#  - 主题:
+#    - AIOps:
+#    - 风控:
+
+  - 随笔:
+    - 2019年: sketch/2019.md
+    - 所谓偶然: sketch/change.md
+    - 我的大学: sketch/college.md
+    - 考研杂记: sketch/graduate.md
+    - 罪在蒙昧: sketch/obscurant.md
+    - 奇怪的梦: sketch/strange-dream.md
+    - 当我们在谈论吃饭时: sketch/sysu-card.md
+    - 寻找无双: sketch/searching.md
+
+  - 终身学习:
+    - 前言: lifelong/index.md
+    - 数学/统计学/机器学习:
+      - 数学: lifelong/math-statistics-ml/math.md
+      - 统计学: lifelong/math-statistics-ml/statistics.md
+      - 机器学习: lifelong/math-statistics-ml/ml.md
+    - 计算机科学:
+      - 机器学习系统: lifelong/cs/ml-sys.md
+      - 编程概览: lifelong/cs/programming.md
+      - Python: lifelong/cs/python.md
+      - 数据结构与算法: lifelong/cs/dataStructure-algorithm.md
+      - 操作系统: lifelong/cs/os.md
+      - 数据库: lifelong/cs/db.md
+      - 工具箱: lifelong/cs/tools.md
+    - 文史哲:
+      - 书籍: lifelong/literature/books.md
