@@ -1,13 +1,5 @@
 ---
-title: 我的大学
-type: categories
-copyright: true
-mathjax: true
 date: 2019-05-20 09:06:47
-tags:
-- 随笔
-categories:
-- 随笔
 ---
 
 <center>始</center>

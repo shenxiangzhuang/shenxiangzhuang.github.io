@@ -1,17 +1,7 @@
 ---
-title: '当我们谈论吃饭时我们在谈什么:-)'
-type: categories
-copyright: true
 date: 2021-02-28 23:41:52
-tags:
-- Python
-- Spider
-categories:
-- Python
-
 ---
 
-# 概览
 
 如题,仅仅是出于好奇而已. 大致分为两个部分,校园卡数据爬取与数据分析.完整项目见[Github](https://github.com/shenxiangzhuang/Sysu-Card), 请合理使用!
 
