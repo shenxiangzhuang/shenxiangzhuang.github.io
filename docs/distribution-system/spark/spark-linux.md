@@ -1,28 +1,13 @@
 ---
-title: Linux下Scala与Spark使用
-type: categories
-copyright: true
 date: 2020-02-23 13:40:11
-tags:
-- Scala
-- Spark
-categories:
-- Spark
 ---
 
-## 概览
 
-原生Spark与Scala的使用。
+原生Spark与Scala的使用。参考林子雨老师教程[Spark的安装和使用](https://dblab.xmu.edu.cn/blog/1307-2/)。
 
-## 安装
+## PySpark安装与使用
 
-参考林子雨老师教程[Spark的安装和使用](https://dblab.xmu.edu.cn/blog/1307-2/)。
-
-## 使用
-
-### PySpark安装与使用
-
-#### 安装: 从Spark复制文件 
+### 安装: 从Spark复制文件
 
 在安装好Spark(目前自己电脑是在`/home/shensir/Application/spark/`)，并设置好环境变量之后，在终端直接运行`pyspark`就可以直接运行。此时在终端通过`which pyspark`也可以打印出上述路径。但是要想在脚本中使用还需要做额外的配置。
 
@@ -30,11 +15,11 @@ categories:
 
 > 我开始在测试的时候会报错，说是少py4j库，直接conda install py4j，然后测试就可以了。
 
-#### 安装: 直接安装PySpark第三方库
+### 安装: 直接安装PySpark第三方库
 
 我们也可以直接使用PySpark，即通过第三库的方式直接安装使用. 比如我们可以新创建一个虚拟的conda环境，然后在该环境内部通过pip或者conda进行安装。安装完成后我们进入该虚拟环境，终端输入`which pyspark`会发现此时的路径是在虚拟环境内部的，比如我这里在虚拟环境`myspark`中安装，得到的路径就是`/home/shensir/anaconda3/envs/myspark/bin/pyspark`. 此时我们可以在终端和脚本中任意调用PySpark使用了。
 
-#### 使用: IPython启动PySpark Shell
+### 使用: IPython启动PySpark Shell
 
 在上述安装完成的时候，终端输入`pyspark`会进入默认的IDLE,而不是IPython, 那么我们如何设置其以IPython启动呢？答案就是在上面的提到的路径。无论使用上述那种方法安装，我们通过`which pyspark`定位到PySpark的路径，然后直接编辑该文件即可,比如我们得到的路径为`/home/shensir/anaconda3/envs/myspark/bin/pyspark`，通过`vim /home/shensir/anaconda3/envs/myspark/bin/pyspark`打开，文件的最后是
 
@@ -60,7 +45,7 @@ export PYSPARK_DRIVER_PYTHON="ipython"
 # and executor Python executables.
 ```
 
-#### 使用: 在Jupyter Notebook使用PySpark
+### 使用: 在Notebook使用PySpark
 
 实际上只需要在Jupyter Notebook中添加该环境的Kernel就可以了，Kernel安装参考[文档](https://ipython.readthedocs.io/en/stable/install/kernel_install.html). 首先确保`ipykernel`库已经安装，安装直接通过`conda install ipykernel`即可。之后进入虚拟环境`conda activate myspark`， 终端执行`python -m ipykernel install --user --name myspark --display-name "Python(pyspark)"`
 
@@ -68,11 +53,11 @@ export PYSPARK_DRIVER_PYTHON="ipython"
 
 这样我们就安装好了一个环境为`myspark`的Jupyter Notebook Kernel, 终端执行`jupyter notebook`进入，可以发现新的Kernel, 显示为`Python(pyspark)`
 
-### 从本地&HDFS读取文件
+## 从本地&HDFS读取文件
 
 参考[stackoverflow](https://stackoverflow.com/questions/27299923/how-to-load-local-file-in-sc-textfile-instead-of-hdfs)
 
-#### 从HDFS读取
+### 从HDFS读取
 
 一般来说，我们执行下面的读取命令都是默认从HDFS读取文件
 
@@ -82,7 +67,7 @@ data = sc.textFile(path)
 
 而且要注意的是，目录默认不是HDFS的根目录，而是在`/user/用户名`,我这里就是在`/user/shensir`，所以要读取上层或者其他目录下的文件可以使用相对路径，比如`'../../data/bike-data'`来读取根目录的`data`文件夹下的`bike-data`文件.
 
-#### 从本地读取
+### 从本地读取
 
 要想在本地读取也很简单，需要用如下方式
 
@@ -92,7 +77,7 @@ data = sc.textFile("file://" + path)
 
 这里的`path`为本地文件的绝对路径，暂时还不知道如何使用相对路径。
 
-### 使用YARN
+## 使用YARN
 
 配置Spark On YARN. 首先在配置Hadoop的时候根据[Hadoop: Setting up a Single Node Cluster](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_a_Single_Node)对YARN进行一定的配置，主要是对`/home/shensir/Application/hadoop/etc/hadoop`文件夹下的`mapred-site.xml`和`yarn-site.xml`进行配置，具体内容参考链接。
 
@@ -111,7 +96,7 @@ data = sc.textFile("file://" + path)
 
 总之，这样可以先将任务RUN起来。参考[这里](https://blog.csdn.net/caiwenguang1992/article/details/77574182)
 
-#### Spark History Server使用
+### Spark History Server使用
 
 参考[cloudera](https://docs.cloudera.com/documentation/enterprise/5-6-x/topics/admin_spark_history_server.html)配置。首先创建存放历史文件的文件夹`hdfs dfs -mkdir -p logs/history`
 

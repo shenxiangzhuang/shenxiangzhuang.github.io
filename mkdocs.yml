@@ -137,9 +137,14 @@ nav:
 #    - OS:
 #
 #
-#  - 分布式系统:
-#    - Hadoop:
-#    - Spark:
+  - 分布式系统:
+    - Hadoop:
+      - Hadoop on Linux: distribution-system/hadoop/hadoop-linux.md
+    - HBase:
+      - HBase on Linux: distribution-system/hbase/hbase-linux.md
+    - Spark:
+      - Spark on Linux: distribution-system/spark/spark-linux.md
+      - Spark on Cloud: distribution-system/spark/spark-cloud.md
 #
 #  - 工具:
 #    - Latex:

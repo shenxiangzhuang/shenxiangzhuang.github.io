@@ -1,14 +1,5 @@
 ---
-title: Linux下HBase使用
-type: categories
-copyright: true
 date: 2020-02-23 18:17:57
-tags:
-- Spark
-- HBase
-categories:
-- HBase
-
 ---
 
 ## 概览

@@ -1,13 +1,5 @@
 ---
-title: Linux下Hadoop使用
-type: categories
-copyright: true
 date: 2020-02-23 12:01:05
-tags:
-- Hadoop
-categories:
-- Hadoop
-
 ---
 
 ## 概览
