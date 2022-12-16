@@ -162,11 +162,28 @@ nav:
 #    - 风控:
 
   - 随笔:
-    - 2019年: "sketch/2019.md"
-    - 所谓偶然: "sketch/change.md"
-    - 我的大学: "sketch/college.md"
-    - 考研杂记: "sketch/graduate.md"
-    - 罪在蒙昧: "sketch/obscurant.md"
-    - 奇怪的梦: "sketch/strange-dream.md"
-    - 当我们在谈论吃饭时: "sketch/sysu-card.md"
-    - 寻找无双: "sketch/searching.md"
+    - 2019年: sketch/2019.md
+    - 所谓偶然: sketch/change.md
+    - 我的大学: sketch/college.md
+    - 考研杂记: sketch/graduate.md
+    - 罪在蒙昧: sketch/obscurant.md
+    - 奇怪的梦: sketch/strange-dream.md
+    - 当我们在谈论吃饭时: sketch/sysu-card.md
+    - 寻找无双: sketch/searching.md
+
+  - 终身学习:
+    - 前言: lifelong-learn/index.md
+    - 数学/统计学/机器学习:
+      - 数学: lifelong-learn/math-statistics-ml/math.md
+      - 统计学: lifelong-learn/math-statistics-ml/statistics.md
+      - 机器学习: lifelong-learn/math-statistics-ml/ml.md
+    - 计算机科学:
+      - 机器学习系统: lifelong-learn/cs/ml-sys.md
+      - 编程概览: lifelong-learn/cs/programming.md
+      - Python: lifelong-learn/cs/python.md
+      - 数据结构与算法: lifelong-learn/cs/dataStructure-algorithm.md
+      - 操作系统: lifelong-learn/cs/os.md
+      - 数据库: lifelong-learn/cs/db.md
+      - 工具箱: lifelong-learn/cs/tools.md
+    - 文史哲:
+      - 书籍: lifelong-learn/literature/books.md
