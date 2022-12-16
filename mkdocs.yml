@@ -11,6 +11,7 @@ copyright: Copyright &copy; 2017 Xiangzhuang Shen
 
 theme:
   name: material
+  custom_dir: overrides
   icon:
     repo: fontawesome/brands/github
   language: zh
