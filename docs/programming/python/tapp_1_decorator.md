@@ -1,15 +1,3 @@
----
-title: 梅贾的窃魂卷(1/25)——Decorator and Closure
-type: categories
-copyright: true
-date: 2019-09-26 16:35:34
-tags:
-- Python
-- Tips
-categories:
-- Python
-
----
 
 ### 为什么需要装饰器(MotivaMotion)
 
@@ -526,7 +514,7 @@ decorate_func = add_hello(func)
 >>> decorate_func.__name__
 'wrapper'
 >>> decorate_func.__doc__
->>> 
+>>>
 ```
 
 毕竟，到了这里，我们早就知道装饰过后返回的是一个新的函数，自然名字和文档都会变为新的。因为我们使用装饰器的初衷就是为了**不修改**函数的定义等来进行新功能的加入，这种情况看起来不太妙，而且尤其不利于我们DEBUG，毕竟谁看到一个莫名`wrapper`函数出错都感到茫然...

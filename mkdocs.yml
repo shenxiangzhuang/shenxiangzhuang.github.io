@@ -4,8 +4,8 @@ site_author: Xiangzhuang Shen
 site_description: >-
   Xiangzhuang Shen's blog
 
-repo_name: shenxiangzhuang.github.io
-repo_url: https://github.com/shenxiangzhuang/shenxiangzhuang.github.io
+repo_name: Xiangzhuang Shen
+repo_url: https://github.com/shenxiangzhuang
 
 copyright: Copyright &copy; 2017 Xiangzhuang Shen
 
@@ -107,7 +107,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/shenxiangzhuang/lifelong
+      link: https://github.com/shenxiangzhuang
 
 nav:
   - 关于: index.md
@@ -128,15 +128,18 @@ nav:
         - 论文阅读: datascience/dl/paper.md
         - 梯度下降: datascience/dl/sgd.md
 
-#  - 编程:
-#    - Python:
-#    - C++:
-#    - Haskell:
-#
-#  - 计算机科学:
-#    - OS:
-#
-#
+  - 编程:
+    - Python:
+      - How to build a Python Package: programming/python/build_python_pkg.md
+      - The Art of Python Programming(TAPP): programming/python/tapp_0_motivation.md
+      - "TAPP1: Decorator and Closure": programming/python/tapp_1_decorator.md
+      - "TAPP2: Context Managers": programming/python/tapp_2_context_manager.md
+      - "TAPP3: Annotations": programming/python/tapp_3_annotations.md
+      - Python与数据分析: programming/python/python_data_analysis.md
+
+    - Scala:
+      - SBT使用: programming/scala/sbt_usage.md
+
   - 分布式系统:
     - Hadoop:
       - Hadoop on Linux: distribution-system/hadoop/hadoop-linux.md
@@ -145,12 +148,18 @@ nav:
     - Spark:
       - Spark on Linux: distribution-system/spark/spark-linux.md
       - Spark on Cloud: distribution-system/spark/spark-cloud.md
+
 #
+#  - 计算机科学:
+#    - OS:
+
 #  - 工具:
 #    - Latex:
+#     - Docker:
 #
 #  - 主题:
-#    - OpenCV:
+#    - AIOps:
+#    - 风控:
 
   - 随笔:
     - 2019年: "sketch/2019.md"

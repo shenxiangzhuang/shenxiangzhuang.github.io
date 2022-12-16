@@ -1,13 +1,5 @@
 ---
-title: 梅贾的窃魂卷(3/25)——Annotations
-type: categories
-copyright: true
 date: 2019-11-10 15:34:22
-tags:
-- Python
-- Tips
-categories:
-- Python
 ---
 
 
@@ -236,21 +228,21 @@ def create_deck(shuffle=False):
     if shuffle:
         random.shuffle(deck)
         return deck
-	
+
 def deal_hands(deck):
     """Deal the cards in the deck into four hands"""
     return (deck[0::4], deck[1::4], deck[2::4], deck[3::4])
-	
+
 def play():
     """Play a 4-player card game"""
     deck = create_deck(shuffle=True)
     names = "P1 P2 P3 P4".split()
     hands = {n: h for n, h in zip(names, deal_hands(deck))}
-	
+
 	for name, cards in hands.items():
 		card_str = " ".join(f"{s}{r}" for (s, r) in cards)
 		print(f"{name}: {card_str}")
-	
+
 if __name__ == "__main__":
 	play()
 ```

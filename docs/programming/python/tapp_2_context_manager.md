@@ -1,14 +1,5 @@
 ---
-title: 梅贾的窃魂卷(2/25)——Context Managers(with)
-type: categories
-copyright: true
 date: 2019-11-01 11:37:02
-tags:
-- Python
-- Tips
-categories:
-- Python
-
 ---
 
 ### 为什么需要Context Managers(Motivation)
@@ -78,7 +69,7 @@ class LookingGlass:
 >>> with LookingGlass() as what:
 ...     print('Hello World')
 ...     print(what)
-... 
+...
 dlroW olleH
 DCBA
 >>> what
@@ -94,7 +85,7 @@ Hello
 
 其实运行机制也非常简单，就是在`with LookingGlass() as what`时，执行`__enter__`做一些操作（比如这里更改打印行为），并将该函数的返回值赋给`as`后面的`what`。之后执行`with` 段的程序（即这里的两个`print`）。执行完之后跳出`with`段，同时调用`__exit__`函数做一些操作（这里是将打印行为恢复正常）。
 
-此外，注意`__exit__`中的异常判断，在`if exc_type is ZeroDivisionError:`中，我们返回`True`表示该异常已经被处理。如果上述异常未触发，该处的`__exit__`会默认返回`None`，如果在`with`段内执行的代码有其他类型的错误，即`exc_type`并非`ZeroDivisionError`那么错误将会被`raise`出来。 
+此外，注意`__exit__`中的异常判断，在`if exc_type is ZeroDivisionError:`中，我们返回`True`表示该异常已经被处理。如果上述异常未触发，该处的`__exit__`会默认返回`None`，如果在`with`段内执行的代码有其他类型的错误，即`exc_type`并非`ZeroDivisionError`那么错误将会被`raise`出来。
 
 
 
@@ -126,7 +117,7 @@ def looking_glass():
 >>> with looking_glass() as what:
 ...     print('Hello World')
 ...     print(what)
-... 
+...
 dlroW olleH
 DCBA
 >>> what
