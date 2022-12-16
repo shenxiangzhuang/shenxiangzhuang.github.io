@@ -1,21 +1,9 @@
 ---
-title: SBT使用
-type: categories
-copyright: true
 date: 2020-12-14 23:06:18
-tags:
-- Tips
-- Scala
-categories:
-- Tips
-
 ---
 
-# Overview
 
 记录SBT使用情况.
-
-# Tips
 
 ## 入门指南
 
