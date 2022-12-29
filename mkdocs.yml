@@ -118,7 +118,7 @@ nav:
       - 三门问题与三囚犯问题: datascience/statistics/three-doors-and-three-prisoners.md
       - ROC-AUC: datascience/statistics/roc-auc.md
       - P value or Effect size: datascience/statistics/effect-size.md
-    
+
     - 机器学习:
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
       - 原始感知机算法实现: datascience/ml/perceptron.md
@@ -191,3 +191,4 @@ nav:
 
     - 菜谱:
       - 煮: lifelong-learn/cookbook/boil.md
+      - 炒: lifelong-learn/cookbook/saute.md
