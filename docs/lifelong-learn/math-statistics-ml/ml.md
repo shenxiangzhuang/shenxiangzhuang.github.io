@@ -12,7 +12,7 @@
 - [x] [Learning From Data](https://work.caltech.edu/library/index.html)
 
     ??? "高屋建瓴之神作"
-        如果从看过的机器学习书籍中
+
 
 - [x] [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/)
 
