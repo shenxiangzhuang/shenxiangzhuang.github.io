@@ -183,7 +183,7 @@ nav:
       - 机器学习系统: lifelong-learn/cs/ml-sys.md
       - 编程概览: lifelong-learn/cs/programming.md
       - Python: lifelong-learn/cs/python.md
-      - 数据结构与算法: lifelong-learn/cs/dataStructure-algorithm.md
+      - 数据结构与算法: lifelong-learn/cs/datastructure-algorithm.md
       - 操作系统: lifelong-learn/cs/os.md
       - 数据库: lifelong-learn/cs/db.md
       - 工具箱: lifelong-learn/cs/tools.md
