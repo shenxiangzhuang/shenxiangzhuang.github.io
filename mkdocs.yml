@@ -81,6 +81,7 @@ markdown_extensions:
   - pymdownx.tabbed
   - abbr
   - admonition
+  - footnotes
 
 
 extra_javascript:
@@ -104,6 +105,10 @@ plugins:
   - git-revision-date-localized
   - minify:
       minify_html: true
+  - bibtex:
+      bib_file: "docs/references.bib"
+      csl_file: "https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl"
+      cite_inline: false
 
 extra:
   social:
@@ -160,8 +165,13 @@ nav:
 #     - Docker:
 #
 #  - 主题:
-#    - AIOps:
 #    - 风控:
+  - AIOps:
+    - Time Series Anomaly Detection:
+      - Paper: aiops/tsad/paper.md
+
+    - Root Cause Analysis:
+      - Paper: aiops/rca/paper.md
 
   - 随笔:
     - 2019年: sketch/2019.md
