@@ -166,12 +166,20 @@ nav:
 #
 #  - 主题:
 #    - 风控:
+  - MLSys:
+    - MLOps:
+      - Tools: mlsys/mlops/tool.md
+    - Research:
+      - Paper: mlsys/research/paper.md
+      - Learn: mlsys/research/learn.md
+
   - AIOps:
     - Time Series Anomaly Detection:
       - Paper: aiops/tsad/paper.md
 
     - Root Cause Analysis:
       - Paper: aiops/rca/paper.md
+
 
   - 随笔:
     - 2019年: sketch/2019.md
@@ -190,7 +198,6 @@ nav:
       - 统计学: lifelong-learn/math-statistics-ml/statistics.md
       - 机器学习: lifelong-learn/math-statistics-ml/ml.md
     - 计算机科学:
-      - 机器学习系统: lifelong-learn/cs/ml-sys.md
       - 编程概览: lifelong-learn/cs/programming.md
       - Python: lifelong-learn/cs/python.md
       - 数据结构与算法: lifelong-learn/cs/datastructure-algorithm.md
