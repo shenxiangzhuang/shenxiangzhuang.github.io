@@ -1,9 +1,4 @@
-# Machine Learning System
-
-## Paper
-- [x] [Hidden Technical Debt in Machine Learning Systems](https://proceedings.neurips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html)
-
-    ??? "技术负债在机器学习系统中表现"
+# Machine Learning System: Books & Courses
 
 
 ## Books
