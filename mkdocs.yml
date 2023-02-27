@@ -179,7 +179,9 @@ nav:
 
     - Root Cause Analysis:
       - Paper: aiops/rca/paper.md
-
+    - Conference & Product:
+      - Conference: aiops/resource/conference.md
+      - Product: aiops/resource/product.md
 
   - 随笔:
     - 2019年: sketch/2019.md
