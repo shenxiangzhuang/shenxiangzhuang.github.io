@@ -46,6 +46,22 @@
   AnomalyKiTS[@patel2022anomalykits]是专门针对时间序列异常检测设计的系统，专注于无监督和半监督算法。
 
 
+### TODO: 2022-MicroSoft-HEAT-RL
+
+HEAT-RL[@wang2022heat]是微软的一篇关于时序异常检测系统中如和模型自动选择的文章。
+
+> Time-series anomaly detection plays an important role in various applications. In a commercial
+system, anomaly detection models are either unsupervised or pre-trained in a self-supervised manner
+offline; while in the online serving stage, an appropriate model should be selected to fulfill each
+customer’s requirement with only a few human interactions. Existing online model selection methods
+do not have good data efficiency, failing to achieve good performance with limited number of manual
+feedbacks. In this paper, we propose Heat-RL, a novel reinforcement learning algorithm tailored to
+online model selection for streaming time-series data. Specifically, we design a new state based on
+metric-oriented heatmaps and apply ResNet for policy and value networks to capture the correlations
+among similar model configurations. Experiments demonstrated the effectiveness of Heat-RL on
+both academic and industrial datasets. On all datasets, the average F1 and last F1 scores have been
+improved by 5.5% and 14.6% respectively compared to the best state-of-the-art solution.
+
 
 ## Algorithms & Models
 
@@ -73,5 +89,25 @@ MemStream[@bhatia2021memstream]明确地提出Memory的概念，
 相对于Matrix Profile更加的轻量，相对于其他的多指标异常检测算法具有更多的可解释性。
 
 
+### TODO: 2022-EDF-Series2Graph
 
+Series2Graph[@boniol2022series2graph], GraphAn[@boniol2020graphan]和DADS[@schneider2021distributed]
+是Series2Graph系列的三篇文章: 其中Series2Graph是主要的算法部分([主页](https://helios2.mi.parisdescartes.fr/~themisp/series2graph/))，GraphAn强调问题与挑战，
+DADS专注于时序异常检测分布式系统的实现，具体采用Actor Programming Model实现，具体参考[Github](https://github.com/HPI-Information-Systems/DADS)。
 
+### TODO: 2023-SINTEF-TSAD Metric
+
+SINTEF Digital关于时序异常检测算法衡量指标的分析[@sorbo2023navigating].
+
+> The field of time series anomaly detection is constantly advancing, with several methods available,
+making it a challenge to determine the most appropriate method for a specific domain. The evaluation
+of these methods is facilitated by the use of metrics, which vary widely in their properties. Despite
+the existence of new evaluation metrics, there is limited agreement on which metrics are best suited
+for specific scenarios and domain, and the most commonly used metrics have faced criticism in the
+literature. This paper provides a comprehensive overview of the metrics used for the evaluation of
+time series anomaly detection methods, and also defines a taxonomy of these based on how they are
+calculated. By defining a set of properties for evaluation metrics and a set of specific case studies and
+experiments, twenty metrics are analyzed and discussed in detail, highlighting the unique suitability
+of each for specific tasks. Through extensive experimentation and analysis, this paper argues that the
+choice of evaluation metric must be made with care, taking into account the specific requirements of
+the task at hand.

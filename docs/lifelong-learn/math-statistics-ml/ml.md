@@ -54,6 +54,19 @@
         课程后半主要讲的是GAN和RL, 这块之前几乎没有接触过，所以学起来比较吃力。所以最后的Assignment4(RL相关)只做了一部分，还是参考了下面的实现写的。感觉这块内容进度有点太快了，也是因为我主要以Lecture Notes为主，资料看得比较少。
 
 
+- [ ] [Introduction to Data-Centric AI](https://dcai.csail.mit.edu/)
+
+    ??? "DCAI"
+
+        Typical machine learning classes teach techniques to produce effective models for a given dataset.
+        In real-world applications, data is messy and improving models is not the only way to get better performance.
+        You can also improve the dataset itself rather than treating it as fixed.
+        Data-Centric AI (DCAI) is an emerging science that studies techniques to improve datasets,
+        which is often the best way to improve performance in practical ML applications.
+        While good data scientists have long practiced this manually via ad hoc trial/error and intuition, DCAI considers the improvement of data as a systematic engineering discipline.
+
+        This is the first-ever course on DCAI. This class covers algorithms to find and fix common issues in ML data and to construct better datasets, concentrating on data used in supervised learning tasks like classification. All material taught in this course is highly practical, focused on impactful aspects of real-world ML applications, rather than mathematical details of how particular models work. You can take this course to learn practical techniques not covered in most ML classes, which will help mitigate the “garbage in, garbage out” problem that plagues many real-world ML applications.
+
 - [ ] [Introduction To Machine Learning](https://www.cs.huji.ac.il/~shais/IML2014.html)
 
     ??? 高屋建瓴
