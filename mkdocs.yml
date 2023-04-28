@@ -200,6 +200,7 @@ nav:
       - 统计学: lifelong-learn/math-statistics-ml/statistics.md
       - 机器学习: lifelong-learn/math-statistics-ml/ml.md
     - 计算机科学:
+      - 计算机科学概览: lifelong-learn/cs/cs.md
       - 编程概览: lifelong-learn/cs/programming.md
       - Python: lifelong-learn/cs/python.md
       - 数据结构与算法: lifelong-learn/cs/datastructure-algorithm.md
