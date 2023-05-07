@@ -139,6 +139,11 @@ nav:
         - 梯度下降: datascience/dl/sgd.md
 
   - 计算机科学:
+    - K8S:
+        - Docker:
+          - cs/k8s/docker/learn.md
+        - Kubernetes:
+          - cs/k8s/kubernetes/learn.md
     - Algorithm:
         - cs/algorithm/learn.md
     - OS:
