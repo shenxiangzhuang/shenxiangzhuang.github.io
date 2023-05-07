@@ -1,4 +1,4 @@
-# Statistics
+# Lifelong Learn: Statistics
 
 
 ## Books

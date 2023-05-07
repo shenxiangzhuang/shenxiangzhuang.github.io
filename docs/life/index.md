@@ -1,0 +1,3 @@
+# Life
+
+Life is ...

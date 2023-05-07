@@ -1,7 +1,3 @@
----
-date: 2021-01-28 15:36:12
----
-
 # Deep Learning Papers
 
 
