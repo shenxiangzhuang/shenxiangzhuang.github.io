@@ -118,28 +118,40 @@ extra:
 nav:
   - 关于: index.md
   - 数据科学:
+    - datascience/index.md
     - 统计学:
+      - datascience/statistics/learn.md
       - 概率论与数理统计教科书: datascience/statistics/probability-and-mathematical-statistics-books.md
       - 三门问题与三囚犯问题: datascience/statistics/three-doors-and-three-prisoners.md
       - ROC-AUC: datascience/statistics/roc-auc.md
       - P value or Effect size: datascience/statistics/effect-size.md
 
     - 机器学习:
+      - datascience/ml/learn.md
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
       - 原始感知机算法实现: datascience/ml/perceptron.md
       - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
       - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
 
     - 深度学习:
+        - datascience/dl/learn.md
         - 论文阅读: datascience/dl/paper.md
         - 梯度下降: datascience/dl/sgd.md
 
   - 计算机科学:
+    - Algorithm:
+        - cs/algorithm/learn.md
     - OS:
+        - cs/os/learn.md
         - Ubuntu Usage: cs/os/ubuntu-usage.md
+    - DB:
+        - cs/db/learn.md
+    - Network:
+        - cs/network/learn.md
 
   - 编程:
     - Python:
+      - programming/python/learn.md
       - How to build a Python Package: programming/python/build_python_pkg.md
       - The Art of Python Programming(TAPP): programming/python/tapp_0_motivation.md
       - "TAPP1: Decorator and Closure": programming/python/tapp_1_decorator.md
@@ -160,18 +172,12 @@ nav:
       - Spark on Cloud: distribution-system/spark/spark-cloud.md
 
 
-#  - 工具:
-#    - Latex:
-#     - Docker:
-#
-#  - 主题:
-#    - 风控:
   - MLSys:
+    - mlsys/learn.md
     - MLOps:
       - Tools: mlsys/mlops/tool.md
     - Research:
       - Paper: mlsys/research/paper.md
-      - Learn: mlsys/research/learn.md
 
   - AIOps:
     - Time Series Anomaly Detection:
@@ -183,33 +189,21 @@ nav:
       - Conference: aiops/resource/conference.md
       - Product: aiops/resource/product.md
 
-  - 随笔:
-    - 2019年: sketch/2019.md
-    - 所谓偶然: sketch/chance.md
-    - 我的大学: sketch/college.md
-    - 考研杂记: sketch/graduate.md
-    - 罪在蒙昧: sketch/obscurant.md
-    - 奇怪的梦: sketch/strange-dream.md
-    - 当我们在谈论吃饭时: sketch/sysu-card.md
-    - 寻找无双: sketch/searching.md
 
-  - 终身学习:
-    - 前言: lifelong-learn/index.md
-    - 数学/统计学/机器学习:
-      - 数学: lifelong-learn/math-statistics-ml/math.md
-      - 统计学: lifelong-learn/math-statistics-ml/statistics.md
-      - 机器学习: lifelong-learn/math-statistics-ml/ml.md
-    - 计算机科学:
-      - 计算机科学概览: lifelong-learn/cs/cs.md
-      - 编程概览: lifelong-learn/cs/programming.md
-      - Python: lifelong-learn/cs/python.md
-      - 数据结构与算法: lifelong-learn/cs/datastructure-algorithm.md
-      - 操作系统: lifelong-learn/cs/os.md
-      - 数据库: lifelong-learn/cs/db.md
-      - 工具箱: lifelong-learn/cs/tools.md
+  - 生活:
+    - 前言: life/index.md
     - 文史哲:
-      - 书籍: lifelong-learn/literature/books.md
-
+      - 书籍: life/literature/books.md
     - 菜谱:
-      - 煮: lifelong-learn/cookbook/boil.md
-      - 炒: lifelong-learn/cookbook/saute.md
+      - 煮: life/cookbook/boil.md
+      - 炒: life/cookbook/saute.md
+
+    - 随笔:
+      - 2019年: sketch/2019.md
+      - 所谓偶然: sketch/chance.md
+      - 我的大学: sketch/college.md
+      - 考研杂记: sketch/graduate.md
+      - 罪在蒙昧: sketch/obscurant.md
+      - 奇怪的梦: sketch/strange-dream.md
+      - 当我们在谈论吃饭时: sketch/sysu-card.md
+      - 寻找无双: sketch/searching.md

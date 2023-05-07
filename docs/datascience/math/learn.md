@@ -1,4 +1,4 @@
-# Math
+# Lifelong Learn: Math
 
 ## Books
 - [x] [Linear Algebra Done Right](https://linear.axler.net/)

@@ -1,3 +1,5 @@
+# How to build a python package
+
 ---
 date: 2019-07-13 14:09:10
 ---
@@ -128,12 +130,12 @@ sys.path.insert(0, os.path.abspath('.'))
 
 ### 本地创建库
 
-命令行执行`poetry new poetry-mkdocs-shenxzh`, 输出`Created package poetry_mkdocs_shenxzh in poetry-mkdocs-shenxzh`. 
+命令行执行`poetry new poetry-mkdocs-shenxzh`, 输出`Created package poetry_mkdocs_shenxzh in poetry-mkdocs-shenxzh`.
 
 查看文件目录
 
 ```
-➜ tree 
+➜ tree
 .
 ├── poetry_mkdocs_shenxzh
 │   └── __init__.py
@@ -185,12 +187,12 @@ nav:
 
 ```
 ➜ mkdocs gh-deploy
-INFO    -  Cleaning site directory 
-INFO    -  Building documentation to directory: /home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site 
-INFO    -  Documentation built in 0.23 seconds 
-WARNING -  Version check skipped: No version specified in previous deployment. 
-INFO    -  Copying '/home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site' to 'gh-pages' branch and pushing to GitHub. 
-INFO    -  Your documentation should shortly be available at: https://shenxiangzhuang.github.io/poetry-mkdocs-shenxzh/ 
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site
+INFO    -  Documentation built in 0.23 seconds
+WARNING -  Version check skipped: No version specified in previous deployment.
+INFO    -  Copying '/home/shensir/Documents/CS/MyPrograming/Python/poetry-mkdocs-shenxzh/docs/site' to 'gh-pages' branch and pushing to GitHub.
+INFO    -  Your documentation should shortly be available at: https://shenxiangzhuang.github.io/poetry-mkdocs-shenxzh/
 ```
 
 这里直接访问`https://shenxiangzhuang.github.io/poetry-mkdocs-shenxzh/ `即可查看文档了。(我们可以在https://github.com/shenxiangzhuang/poetry-mkdocs-shenxzh/settings 中看到，GitHub Page的站点建立在`gh-pages`分支(`mkdocs gh-deploy`帮我们自动创建的)的根目录下。
@@ -200,7 +202,7 @@ INFO    -  Your documentation should shortly be available at: https://shenxiangz
 这里就是Poetry发挥作用的时候了，根目录执行`poetry build`把轮子造好（会自动创建`./dist`文件夹，然后将build好的文件放在这里）
 
 ```
-➜ poetry build     
+➜ poetry build
 Building poetry-mkdocs-shenxzh (0.1.0)
   - Building sdist
   - Built poetry-mkdocs-shenxzh-0.1.0.tar.gz
@@ -214,7 +216,7 @@ Building poetry-mkdocs-shenxzh (0.1.0)
 ➜ poetry publish
 
 Username: IronSky
-Password: 
+Password:
 Publishing poetry-mkdocs-shenxzh (0.1.0) to PyPI
  - Uploading poetry-mkdocs-shenxzh-0.1.0.tar.gz 100%
  - Uploading poetry_mkdocs_shenxzh-0.1.0-py3-none-any.whl 100%

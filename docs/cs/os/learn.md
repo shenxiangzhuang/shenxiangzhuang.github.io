@@ -1,6 +1,11 @@
-# Computer Science: General
+# Lifelong Learn: Computer Operating System
 
 ## Books
+
+- [x] CSAPP
+
+    ??? 集大成之作
+        神书！只有真正看过之后才会明白为什么那么多人推荐吧。
 
 - [x] [コンピュータはなぜ動くのか~知っておきたいハードウエア＆ソフトウエアの基礎知識~(计算机是怎样跑起来的，How Computers Work)](https://www.amazon.co.jp/-/en/%E7%9F%A2%E6%B2%A2-%E4%B9%85%E9%9B%84/dp/429600123X/ref=sr_1_1?crid=249SMSMQG7W4X&keywords=%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%AF%E3%81%AA%E3%81%9C%E5%8B%95%E3%81%8F%E3%81%AE%E3%81%8B+%7E+%E7%9F%A5%E3%81%A3%E3%81%A6%E3%81%8A%E3%81%8D%E3%81%9F%E3%81%84%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A8%E3%82%A2+%26+%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A8%E3%82%A2%E3%81%AE%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98+%7E&qid=1682646184&sprefix=%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3%E3%81%AE%E3%81%97%E3%81%8F%E3%81%BF+%E7%9F%A2%E6%BE%A4%2Caps%2C569&sr=8-1)
 
@@ -13,14 +18,6 @@
         对Linux的进程，内存，硬盘等进行了较为细致的讲解。相对上面的这本更加注重OS层的一些知识。整体读起来还算不错。
 
 
-- [x] [ネットワークはなぜつながるのか 第2版 知っておきたいTCP/IP、LAN、光ファイバの基礎知識(网络是怎样连接的，How Networks Work)](https://www.amazon.co.jp/-/en/%E6%88%B8%E6%A0%B9-%E5%8B%A4/dp/4822283119/ref=sr_1_1?crid=3GWXKUAC7BG73&keywords=%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%AF%E3%81%AA%E3%81%9C%E3%81%A4%E3%81%AA%E3%81%8C%E3%82%8B%E3%81%AE%E3%81%8B+%E2%80%94+%E7%9F%A5%E3%81%A3%E3%81%A6%E3%81%8A%E3%81%8D%E3%81%9F%E3%81%84+tcp%2Fip%E3%80%81lan%E3%80%81led+%E3%81%AE%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98&qid=1682647841&sprefix=%E8%A9%A6%E3%81%97%E3%81%A6%E7%90%86%E8%A7%A3+linux+%E3%81%AE%E3%81%97%E3%81%8F%E3%81%BF+%E5%AE%9F%E9%A8%93%E3%81%A8%E5%9B%B3%E8%A7%A3%E3%81%A7%E5%AD%A6%E3%81%B6+os+%E3%81%A8%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E3%81%AE%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98%2Caps%2C885&sr=8-1)
-
-    ??? "讲解极为详细且易懂的计算网络书籍"
-        如果想要快速了解计算机网络相关的知识而又没有时间通读自顶向下，那么这本书是极佳的选择。全书对网络相关的硬件，内核协议栈和TCP/IP协议等都有十分
-        详细的介绍。整体读起来非常惊艳，强烈推荐！
-
-
-
 - [x] [プログラムはなぜ動くのか　第2版　知っておきたいプログラムの基礎知識(程序是怎样跑起来的，How Program Work)](https://www.amazon.co.jp/-/en/%E7%9F%A2%E6%B2%A2-%E4%B9%85%E9%9B%84-ebook/dp/B094J3CK1C/ref=sr_1_1?crid=3RNXQ1UEQVZYT&keywords=%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%AF%E3%81%AA%E3%81%9C%E5%8B%95%E3%81%8F%E3%81%AE%E3%81%8B+%E7%AC%AC2%E7%89%88+%E7%9F%A5%E3%81%A3%E3%81%A6%E3%81%8A%E3%81%8D%E3%81%9F%E3%81%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98&qid=1682648284&sprefix=%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%AF%E3%81%AA%E3%81%9C%E5%8B%95%E3%81%8F%E3%81%AE%E3%81%8B+%E7%AC%AC2%E7%89%88+%E7%9F%A5%E3%81%A3%E3%81%A6%E3%81%8A%E3%81%8D%E3%81%9F%E3%81%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%AE%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98%2Caps%2C557&sr=8-1)
 
     ??? "从二进制开始的程序运行"
@@ -28,12 +25,19 @@
         虽然没有那么惊艳，但还是值得一读的。
 
 
-- [x] [オブジェクト指向でなぜつくるのか 第３版　知っておきたいOOP、設計、アジャイル開発の基礎知識 (面向对象是怎么工作的，How Objects Work)](https://www.amazon.co.jp/-/en/%E5%B9%B3%E6%BE%A4-%E7%AB%A0-ebook/dp/B092HDFJKK/ref=sr_1_1?crid=GB4QM7MLXCWF&keywords=%E7%89%A9%E6%8C%87%E5%90%91%E3%81%A7%E3%81%AA%E3%81%9C%E3%81%A4%E3%81%8F%E3%82%8B%E3%81%AE%E3%81%8B&qid=1682648645&sprefix=%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91%E3%81%A7%E3%81%AA%E3%81%9C%E3%81%A4%E3%81%8F%E3%82%8B%E3%81%AE%E3%81%8B%2Caps%2C284&sr=8-1)
-
-    ??? "对面向对象程度设计的定义和解读"
-        书籍全书很注意厘清“面向对象”最本质的含义，并去除其因为被滥用而带来的各种误解。个人感觉读完对面向对象本身并没有增加太多理解。不过关于对象和内存的关系以及
-        软件开发相关的话题，如XP，TDD等倒是有了一个初步的了解。
-
-
-
 ## Courses
+- [ ] [Computation Structures(MIT6.004)](https://6004.mit.edu/web/fall19FA19/resources/lectures)
+
+    ??? "分布式系统先修课"
+        需要一定的计算机底层知识才可以
+
+
+- [ ] [Intro to Computer Systems, Spring 2020 CMU](http://www.cs.cmu.edu/afs/cs/academic/class/15213-s20/www/schedule.html)
+
+    ??? "CSAPP为教材的操作系统课程"
+        CMU 15-445/645的先修课。在官网好像是只能看到lab0的资料，后续lab官网(不登录)没法看， 可以去书的主页去找老版本的lab做。
+        感觉lecture notes不是很全面，买本实体书边看边做练习比较好。
+
+- [ ] [CS110 Principles of Computer Systems(Stanford)-Computer Organization & Systems](http://web.stanford.edu/class/cs110/)
+
+    ??? "计算机系统"
