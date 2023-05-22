@@ -1,5 +1,24 @@
 # Paper
 
+## Review
+
+### TODO: 2021-A review on TSAD
+*A review on outlier/anomaly detection in time series data*[@blazquez2021review]
+
+### TODO: 2022-A Comprehensive Evaluation on TSAD
+
+*Anomaly Detection in Time Series: A Comprehensive Evaluation*[@schmidl2022anomaly]
+
+### TODO: 2023-New Trends in Time-Series Anomaly Detection
+*New Trends in Time-Series Anomaly Detection*[@boniol2023new]
+
+### TODO: 2023-IS IT WORTH IT?
+
+*IS IT WORTH IT? COMPARING SIX DEEP AND CLASSICAL METHODS FOR UNSUPERVISED ANOMALY DETECTION IN TIME SERIES*
+[@rewicki2023worth]
+
+
+
 ## Systems
 
 
@@ -63,7 +82,7 @@ both academic and industrial datasets. On all datasets, the average F1 and last 
 improved by 5.5% and 14.6% respectively compared to the best state-of-the-art solution.
 
 
-## Algorithms & Models
+## Algorithms
 
 ### 2016-Amazon-RRCF
 RRCF[@guha2016robust]较为通用的多指标异常检测算法，
@@ -94,6 +113,29 @@ MemStream[@bhatia2021memstream]明确地提出Memory的概念，
 Series2Graph[@boniol2022series2graph], GraphAn[@boniol2020graphan]和DADS[@schneider2021distributed]
 是Series2Graph系列的三篇文章: 其中Series2Graph是主要的算法部分([主页](https://helios2.mi.parisdescartes.fr/~themisp/series2graph/))，GraphAn强调问题与挑战，
 DADS专注于时序异常检测分布式系统的实现，具体采用Actor Programming Model实现，具体参考[Github](https://github.com/HPI-Information-Systems/DADS)。
+
+## Evaluation
+
+### TODO: 2022-Theseus
+*Theseus: Navigating the Labyrinth of Time-Series Anomaly  Detection*[@boniol2022theseus]
+
+### TODO: 2022-Rigorous Evaluation
+*Towards a rigorous evaluation of time-series anomaly detection*[@kim2022towards]
+
+
+### TODO: 2022-Huawei-Local Evaluation
+*Local Evaluation of Time Series Anomaly Detection Algorithms*[@huet2022local]
+
+### TODO: 2022-Volume under the surface
+*Volume under the surface:
+a new accuracy evaluation measure for time-series anomaly detection*[@paparrizos2022volume]
+
+### TODO: 2022-TimeEval
+*TimeEval: a benchmarking toolkit for time series anomaly detection algorithms*[@wenig2022timeeval]
+
+### TODO: 2022-TSB-UAD
+*TSB-UAD: an end-to-end benchmark suite for univariate time-series anomaly detection*[@paparrizos2022tsb]
+
 
 ### TODO: 2023-SINTEF-TSAD Metric
 
