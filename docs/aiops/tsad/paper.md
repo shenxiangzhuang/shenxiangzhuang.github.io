@@ -2,20 +2,50 @@
 
 ## Review
 
-### TODO: 2021-A review on TSAD
-*A review on outlier/anomaly detection in time series data*[@blazquez2021review]
+### 2021-A review on TSAD
+![](./images/blazquez2021review.png)
+*A review on outlier/anomaly detection in time series data*[@blazquez2021review].
 
-### TODO: 2022-A Comprehensive Evaluation on TSAD
+论文对一元和多元时间序列在Point outlier, Subsequence outlier和Outlier time series的检测算法进行了
+详尽的介绍. 总共涵盖了近几十年来的几十个算法, 并对每个算法进行了简单的介绍和分类.
+同时论文给出了一些算法的开源代码仓库, 方便直接测试并应用相关算法.
 
-*Anomaly Detection in Time Series: A Comprehensive Evaluation*[@schmidl2022anomaly]
 
-### TODO: 2023-New Trends in Time-Series Anomaly Detection
-*New Trends in Time-Series Anomaly Detection*[@boniol2023new]
+### 2022-A Comprehensive Evaluation on TSAD
+![Algorithm Graph](./images/schmidl2022anomaly.png "Algorithm Graph")
 
-### TODO: 2023-IS IT WORTH IT?
+*Anomaly Detection in Time Series: A Comprehensive Evaluation*[@schmidl2022anomaly].
+论文收集了来自Statistics, Stochastic Learning, Signal Analysis, Classic ML,
+Data Mining, Outlier Detection和Deep learning共7个领域累计158种异常检测算法, 并选取其中71个有代表性的
+算法在976个时间序列数据集上进行了测试验证和水平对比, 总结出14个RI(Research Insight).
+
+这些RI提供了一个足够广阔的视角和相当实用的方法论, 这对我们实际落地实现有很大的帮助.
+这里列举其中一些和我个人实践经验非常匹配的几个结论:
+
+- Deep learning approaches are not (yet) competitive despite their higher processing effort
+on trainning data
+- There is no one-size-fits-all solution in the set of currently available algorithms...there is no clear winner
+- Simple methods yield performance almost as good as more sophisticated methods
+- Every practical algorithm deployment needs careful testing
+- Anomalies on periodic time series are easier to detect than on non-periodic time series
+
+
+### 2023-IS IT WORTH IT?
 
 *IS IT WORTH IT? COMPARING SIX DEEP AND CLASSICAL METHODS FOR UNSUPERVISED ANOMALY DETECTION IN TIME SERIES*
-[@rewicki2023worth]
+[@rewicki2023worth].
+![](./images/rewicki2023worth.png)
+论文选取了用于时序异常检测的三种统计机器学习算法(MDI, MERLIN, RRCF)
+和三种深度学习算法(AE, GANF, TRANAD), 对这六种算法进行了详细的水平对比.
+最后的结论是发现深度学习的效果其实并不如统计机器学习算法.这点和上述Comprehensive Evaluation[@schmidl2022anomaly]
+中得到的结论是一致的.
+
+
+### 2023-New Trends in Time-Series Anomaly Detection
+![Anomaly Types](./images/boniol2023new_anomaly_types.png)
+![Anomaly Detection Method](./images/boniol2023new_anomaly_method.png)
+*New Trends in Time-Series Anomaly Detection*[@boniol2023new].
+[Paul Boniol](https://boniolp.github.io/)新出的综述, 对时序异常的类型和检测算法进行了进一步的划分.
 
 
 
