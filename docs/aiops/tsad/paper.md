@@ -116,7 +116,11 @@ RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 
 
 ### 2017-IRISA-SPOT
-SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法。
+![Anomaly Detection Overview](./images/siffer2017anomaly.png)
+SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
+作者是[Alban Siffer](https://asiffer.github.io/).
+这篇论文是我个人非常看好的工作, 适当的复杂度,
+较强的可解释性和很好的可适用性使得该算法非常适合在工业生产环境中落地.
 
 
 ### 2021-Huawei-FluxEV
