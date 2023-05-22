@@ -95,22 +95,17 @@ on trainning data
   AnomalyKiTS[@patel2022anomalykits]是专门针对时间序列异常检测设计的系统，专注于无监督和半监督算法。
 
 
-### TODO: 2022-MicroSoft-HEAT-RL
-
+### 2022-MicroSoft-HEAT-RL
+![Network architecture ](./images/wang2022heat.png)
 HEAT-RL[@wang2022heat]是微软的一篇关于时序异常检测系统中如和模型自动选择的文章。
+论文选取SR, IForest和TwitterAD作为基础的时序异常检测算法, 然后利用强化学习通过用户反馈来调整各模型的参数.
+个人感觉这个方法总体来说还是有些太重了, 可以作为成熟系统的拓展尝试.
 
-> Time-series anomaly detection plays an important role in various applications. In a commercial
-system, anomaly detection models are either unsupervised or pre-trained in a self-supervised manner
-offline; while in the online serving stage, an appropriate model should be selected to fulfill each
-customer’s requirement with only a few human interactions. Existing online model selection methods
-do not have good data efficiency, failing to achieve good performance with limited number of manual
-feedbacks. In this paper, we propose Heat-RL, a novel reinforcement learning algorithm tailored to
-online model selection for streaming time-series data. Specifically, we design a new state based on
-metric-oriented heatmaps and apply ResNet for policy and value networks to capture the correlations
-among similar model configurations. Experiments demonstrated the effectiveness of Heat-RL on
-both academic and industrial datasets. On all datasets, the average F1 and last F1 scores have been
-improved by 5.5% and 14.6% respectively compared to the best state-of-the-art solution.
-
+最后比较有意思的一点是, 论文用online click-through rate(CTR)来衡量该算法带来的收益:
+>After shipping the Heat-RL algorithm to a commercial monitoring service, the online click-through rate (CTR) of
+anomaly alerts has been improved by 29.9% (Figure 8). Online CTR indicates the probability of a customer to click into
+the system portal after receiving an anomaly alert, which reflects how much the customers trust our anomaly detection
+results. Therefore, higher CTR score indicates better user satisfaction
 
 ## Algorithms
 
@@ -121,7 +116,11 @@ RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 
 
 ### 2017-IRISA-SPOT
-SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法。
+![Anomaly Detection Overview](./images/siffer2017anomaly.png)
+SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
+作者是[Alban Siffer](https://asiffer.github.io/).
+这篇论文是我个人非常看好的工作, 适当的复杂度,
+较强的可解释性和很好的可适用性使得该算法非常适合在工业生产环境中落地.
 
 
 ### 2021-Huawei-FluxEV
