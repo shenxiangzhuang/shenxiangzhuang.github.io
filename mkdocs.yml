@@ -193,6 +193,8 @@ nav:
       - Paper: aiops/rca/paper.md
     - Conference: aiops/resource/conference.md
 
+  - Project:
+      - Toys: project/toys.md
 
   - Life:
     - 前言: life/index.md
