@@ -187,12 +187,11 @@ nav:
   - AIOps:
     - Time Series Anomaly Detection:
       - Paper: aiops/tsad/paper.md
+      - Product: aiops/tsad/product.md
 
     - Root Cause Analysis:
       - Paper: aiops/rca/paper.md
-    - Conference & Product:
-      - Conference: aiops/resource/conference.md
-      - Product: aiops/resource/product.md
+    - Conference: aiops/resource/conference.md
 
 
   - Life:
