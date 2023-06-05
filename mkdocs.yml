@@ -116,29 +116,29 @@ extra:
       link: https://github.com/shenxiangzhuang
 
 nav:
-  - 关于: index.md
-  - 数据科学:
+  - About: index.md
+  - Data Science:
     - datascience/index.md
-    - 统计学:
+    - Statistics:
       - datascience/statistics/learn.md
-      - 概率论与数理统计教科书: datascience/statistics/probability-and-mathematical-statistics-books.md
-      - 三门问题与三囚犯问题: datascience/statistics/three-doors-and-three-prisoners.md
+      - Probability and mathematical statistics books recommendation: datascience/statistics/probability-and-mathematical-statistics-books.md
+      - Three doors and three prisoners: datascience/statistics/three-doors-and-three-prisoners.md
       - ROC-AUC: datascience/statistics/roc-auc.md
       - P value or Effect size: datascience/statistics/effect-size.md
 
-    - 机器学习:
+    - Statistical Machine Learning:
       - datascience/ml/learn.md
       - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
       - 原始感知机算法实现: datascience/ml/perceptron.md
       - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
       - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
 
-    - 深度学习:
+    - Deep Learning:
         - datascience/dl/learn.md
-        - 论文阅读: datascience/dl/paper.md
-        - 梯度下降: datascience/dl/sgd.md
+        - Papers: datascience/dl/paper.md
+        - Sgd: datascience/dl/sgd.md
 
-  - 计算机科学:
+  - Computer Science:
     - K8S:
         - Docker:
           - cs/k8s/docker/learn.md
@@ -154,7 +154,7 @@ nav:
     - Network:
         - cs/network/learn.md
 
-  - 编程:
+  - Programming:
     - Python:
       - programming/python/learn.md
       - How to build a Python Package: programming/python/build_python_pkg.md
@@ -165,9 +165,9 @@ nav:
       - Python与数据分析: programming/python/python_data_analysis.md
 
     - Scala:
-      - SBT使用: programming/scala/sbt_usage.md
+      - SBT Usage: programming/scala/sbt_usage.md
 
-  - 分布式系统:
+  - Distributed System:
     - Hadoop:
       - Hadoop on Linux: distribution-system/hadoop/hadoop-linux.md
     - HBase:
@@ -187,15 +187,16 @@ nav:
   - AIOps:
     - Time Series Anomaly Detection:
       - Paper: aiops/tsad/paper.md
+      - Product: aiops/tsad/product.md
 
     - Root Cause Analysis:
       - Paper: aiops/rca/paper.md
-    - Conference & Product:
-      - Conference: aiops/resource/conference.md
-      - Product: aiops/resource/product.md
+    - Conference: aiops/resource/conference.md
 
+  - Project:
+      - Toys: project/toys.md
 
-  - 生活:
+  - Life:
     - 前言: life/index.md
     - 文史哲:
       - 书籍: life/literature/books.md
