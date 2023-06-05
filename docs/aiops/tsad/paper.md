@@ -96,7 +96,7 @@ on trainning data
 
 
 ### 2022-MicroSoft-HEAT-RL
-![Network architecture ](./images/wang2022heat.png)
+![Network architecture](./images/wang2022heat.png)
 HEAT-RL[@wang2022heat]是微软的一篇关于时序异常检测系统中如和模型自动选择的文章。
 论文选取SR, IForest和TwitterAD作为基础的时序异常检测算法, 然后利用强化学习通过用户反馈来调整各模型的参数.
 个人感觉这个方法总体来说还是有些太重了, 可以作为成熟系统的拓展尝试.
@@ -106,6 +106,10 @@ HEAT-RL[@wang2022heat]是微软的一篇关于时序异常检测系统中如和�
 anomaly alerts has been improved by 29.9% (Figure 8). Online CTR indicates the probability of a customer to click into
 the system portal after receiving an anomaly alert, which reflects how much the customers trust our anomaly detection
 results. Therefore, higher CTR score indicates better user satisfaction
+
+### TODO: 2023-Amazon-Unsupervised Model Selection for Time-series Anomaly Detection
+![The Model Selection Workflow](./images/goswami2022unsupervised.png)
+CMU和Amazon合作的关于时序异常检测模型选择的文章[@goswami2022unsupervised], 整体还是比较有参考意义的.
 
 ## Algorithms
 
