@@ -193,6 +193,11 @@ nav:
       - Paper: aiops/rca/paper.md
     - Conference: aiops/resource/conference.md
 
+  - Crowdsourcing and Human Computation:
+      - chc/learn.md
+      - Paper: chc/paper.md
+      - Product: chc/product.md
+
   - Project:
       - Toys: project/toys.md
 
