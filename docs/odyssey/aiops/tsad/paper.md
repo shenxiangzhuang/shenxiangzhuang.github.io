@@ -3,7 +3,7 @@
 ## Review
 
 ### 2021-A review on TSAD
-![](./images/blazquez2021review.png)
+![](images/blazquez2021review.png)
 *A review on outlier/anomaly detection in time series data*[@blazquez2021review].
 
 论文对一元和多元时间序列在Point outlier, Subsequence outlier和Outlier time series的检测算法进行了
@@ -12,7 +12,7 @@
 
 
 ### 2022-A Comprehensive Evaluation on TSAD
-![Algorithm Graph](./images/schmidl2022anomaly.png "Algorithm Graph")
+![Algorithm Graph](images/schmidl2022anomaly.png "Algorithm Graph")
 
 *Anomaly Detection in Time Series: A Comprehensive Evaluation*[@schmidl2022anomaly].
 论文收集了来自Statistics, Stochastic Learning, Signal Analysis, Classic ML,
@@ -34,7 +34,7 @@ on trainning data
 
 *IS IT WORTH IT? COMPARING SIX DEEP AND CLASSICAL METHODS FOR UNSUPERVISED ANOMALY DETECTION IN TIME SERIES*
 [@rewicki2023worth].
-![](./images/rewicki2023worth.png)
+![](images/rewicki2023worth.png)
 论文选取了用于时序异常检测的三种统计机器学习算法(MDI, MERLIN, RRCF)
 和三种深度学习算法(AE, GANF, TRANAD), 对这六种算法进行了详细的水平对比.
 最后的结论是发现深度学习的效果其实并不如统计机器学习算法.这点和上述Comprehensive Evaluation[@schmidl2022anomaly]
@@ -42,8 +42,8 @@ on trainning data
 
 
 ### 2023-New Trends in Time-Series Anomaly Detection
-![Anomaly Types](./images/boniol2023new_anomaly_types.png)
-![Anomaly Detection Method](./images/boniol2023new_anomaly_method.png)
+![Anomaly Types](images/boniol2023new_anomaly_types.png)
+![Anomaly Detection Method](images/boniol2023new_anomaly_method.png)
 *New Trends in Time-Series Anomaly Detection*[@boniol2023new].
 [Paul Boniol](https://boniolp.github.io/)新出的综述, 对时序异常的类型和检测算法进行了进一步的划分.
 
@@ -96,7 +96,7 @@ on trainning data
 
 
 ### 2022-MicroSoft-HEAT-RL
-![Network architecture](./images/wang2022heat.png)
+![Network architecture](images/wang2022heat.png)
 HEAT-RL[@wang2022heat]是微软的一篇关于时序异常检测系统中如和模型自动选择的文章。
 论文选取SR, IForest和TwitterAD作为基础的时序异常检测算法, 然后利用强化学习通过用户反馈来调整各模型的参数.
 个人感觉这个方法总体来说还是有些太重了, 可以作为成熟系统的拓展尝试.
@@ -108,7 +108,7 @@ the system portal after receiving an anomaly alert, which reflects how much the 
 results. Therefore, higher CTR score indicates better user satisfaction
 
 ### TODO: 2023-Amazon-Unsupervised Model Selection for Time-series Anomaly Detection
-![The Model Selection Workflow](./images/goswami2022unsupervised.png)
+![The Model Selection Workflow](images/goswami2022unsupervised.png)
 CMU和Amazon合作的关于时序异常检测模型选择的文章[@goswami2022unsupervised], 整体还是比较有参考意义的.
 
 ## Algorithms
@@ -120,7 +120,7 @@ RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 
 
 ### 2017-IRISA-SPOT
-![Anomaly Detection Overview](./images/siffer2017anomaly.png)
+![Anomaly Detection Overview](images/siffer2017anomaly.png)
 SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
 作者是[Alban Siffer](https://asiffer.github.io/).
 这篇论文是我个人非常看好的工作, 适当的复杂度,
