@@ -107,7 +107,7 @@ plugins:
       minify_html: true
   - bibtex:
       bib_file: "docs/references.bib"
-      csl_file: "https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl"
+      csl_file: "docs/ieee.csl"
       cite_inline: false
 
 extra:
@@ -184,19 +184,21 @@ nav:
     - Research:
       - Paper: mlsys/research/paper.md
 
-  - AIOps:
-    - Time Series Anomaly Detection:
-      - Paper: aiops/tsad/paper.md
-      - Product: aiops/tsad/product.md
+  - Data Mining Odyssey:
+    - odyssey/index.md
+    - AIOps:
+      - Time Series Anomaly Detection:
+        - Paper: odyssey/aiops/tsad/paper.md
+        - Product: odyssey/aiops/tsad/product.md
 
-    - Root Cause Analysis:
-      - Paper: aiops/rca/paper.md
-    - Conference: aiops/resource/conference.md
+      - Root Cause Analysis:
+        - Paper: odyssey/aiops/rca/paper.md
+      - Conference: odyssey/aiops/resource/conference.md
 
-  - Crowdsourcing and Human Computation:
-      - chc/learn.md
-      - Paper: chc/paper.md
-      - Product: chc/product.md
+    - Crowdsourcing and Human Computation:
+        - odyssey/chc/learn.md
+        - Paper: odyssey/chc/paper.md
+        - Product: odyssey/chc/product.md
 
   - Project:
       - Toys: project/toys.md
