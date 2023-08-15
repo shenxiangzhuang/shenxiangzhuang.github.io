@@ -1,0 +1,34 @@
+[project]
+name = "shenxiangzhuang-github-io"
+version = "0.1.0"
+description = "datahonor"
+authors = [
+    { name = "Xiangzhuang Shen", email = "datahonor@gmail.com" }
+]
+dependencies = [
+    "mkdocs>=1.5.2",
+    "mkdocs-material>=9.1.21",
+    "mkdocs-material-extensions>=1.1.1",
+    "mkdocs-static-i18n>=0.56",
+    "mkdocs-minify-plugin>=0.7.1",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.0",
+    "jinja2>=3.1.2",
+    "mkdocs-bibtex>=2.11.0",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[[tool.rye.sources]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
