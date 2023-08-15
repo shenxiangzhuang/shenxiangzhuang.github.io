@@ -138,16 +138,26 @@ nav:
     - Deep Learning:
         - datascience/dl/learn.md
         - Papers: datascience/dl/paper.md
-#        - Sgd: datascience/dl/sgd.md
 
   - Computer Science:
-    - K8S:
-        - Docker:
-          - cs/k8s/docker/learn.md
-        - Kubernetes:
-          - cs/k8s/kubernetes/learn.md
+    - cs/index.md
+    - Programming:
+      - General: cs/programming/general/learn.md
+      - Python:
+        - cs/programming/python/learn.md
+        - How to build a Python Package: cs/programming/python/build_python_pkg.md
+        - The Art of Python Programming(TAPP): cs/programming/python/tapp_0_motivation.md
+        - "TAPP1: Decorator and Closure": cs/programming/python/tapp_1_decorator.md
+        - "TAPP2: Context Managers": cs/programming/python/tapp_2_context_manager.md
+        - "TAPP3: Annotations": cs/programming/python/tapp_3_annotations.md
+        - Python与数据分析: cs/programming/python/python_data_analysis.md
+
+      - Scala:
+        - SBT Usage: cs/programming/scala/sbt_usage.md
+
     - Algorithm:
         - cs/algorithm/learn.md
+
     - OS:
         - cs/os/learn.md
         - Ubuntu Usage: cs/os/ubuntu-usage.md
@@ -155,37 +165,22 @@ nav:
         - cs/db/learn.md
     - Network:
         - cs/network/learn.md
-
-  - Programming:
-    - General: programming/general/learn.md
-    - Python:
-      - programming/python/learn.md
-      - How to build a Python Package: programming/python/build_python_pkg.md
-      - The Art of Python Programming(TAPP): programming/python/tapp_0_motivation.md
-      - "TAPP1: Decorator and Closure": programming/python/tapp_1_decorator.md
-      - "TAPP2: Context Managers": programming/python/tapp_2_context_manager.md
-      - "TAPP3: Annotations": programming/python/tapp_3_annotations.md
-      - Python与数据分析: programming/python/python_data_analysis.md
-
-    - Scala:
-      - SBT Usage: programming/scala/sbt_usage.md
-
-  - Distributed System:
-    - Hadoop:
-      - Hadoop on Linux: distribution-system/hadoop/hadoop-linux.md
-    - HBase:
-      - HBase on Linux: distribution-system/hbase/hbase-linux.md
-    - Spark:
-      - Spark on Linux: distribution-system/spark/spark-linux.md
-      - Spark on Cloud: distribution-system/spark/spark-cloud.md
+    - K8S:
+        - Docker:
+          - cs/k8s/docker/learn.md
+        - Kubernetes:
+          - cs/k8s/kubernetes/learn.md
+    - Distributed System:
+      - Hadoop:
+        - Hadoop on Linux: cs/distribution/hadoop/hadoop-linux.md
+      - HBase:
+        - HBase on Linux: cs/distribution/hbase/hbase-linux.md
+      - Spark:
+        - Spark on Linux: cs/distribution/spark/spark-linux.md
+        - Spark on Cloud: cs/distribution/spark/spark-cloud.md
 
 
-  - MLSys:
-    - mlsys/learn.md
-    - MLOps:
-      - Tools: mlsys/mlops/tool.md
-    - Research:
-      - Paper: mlsys/research/paper.md
+
 
   - Data Mining Odyssey:
     - odyssey/index.md
@@ -197,6 +192,13 @@ nav:
       - Root Cause Analysis:
         - Paper: odyssey/aiops/rca/paper.md
       - Conference: odyssey/aiops/conference.md
+
+    - MLSys:
+      - odyssey/mlsys/learn.md
+      - MLOps:
+        - Tools: odyssey/mlsys/mlops/tool.md
+      - Research:
+        - Paper: odyssey/mlsys/research/paper.md
 
     - Crowdsourcing and Human Computation:
         - odyssey/chc/learn.md

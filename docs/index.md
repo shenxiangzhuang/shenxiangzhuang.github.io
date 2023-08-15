@@ -1,6 +1,4 @@
-# Data Honor
-
-
+# About [Mathew Shen]
 - 🔭 I majored in statistics in both undergraduate and graduate studies,
 and I am also interested in data mining/machine learning.
 Now I'm a machine learning engineer aiming to solve real world problems.
@@ -21,6 +19,16 @@ with the main goal being to detect system failures in advance
 and locate the root cause timely to reduce MTTR (Mean time to repair)
 based on Metrics, Log, and Trace.
 
+- 🔭 Now, I'm a Machine learning Engineer at NetEase. And I'm focusing on Crowdsourcing and Human Computation.
+
+# Presentation
+
+- 2023/08/03: [Data Mining Odyssey](https://github.com/shenxiangzhuang/CareerPublic/blob/f63459e5efcfbdc4843151471905eae17fa68b8d/presentation/review/2023/career_review_2023_public.pdf)
+
+
+# Current Projects
+
 - 🌱 I’m currently working on my toys:[ToyData: Data Structures from Scratch](https://datahonor.com/toydata/),
 [ToyML: Machine Learning from Scratch](https://datahonor.com/toyml/),
 [ToyDL: Deep Learning from Scratch ](https://datahonor.com/toydl/)
+

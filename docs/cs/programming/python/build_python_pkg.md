@@ -1,8 +1,5 @@
 # How to build a python package
 
----
-date: 2019-07-13 14:09:10
----
 
 这里记录下如何将自己写的Python程序打包成库，并安装, 参考官方文档[Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)。
 
@@ -103,7 +100,8 @@ extensions = [
 ```python
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+
+sys.path.insert(0, os.path.abspath(''))
 ```
 
 然后保存（其他设置可以随便找个开源项目看看别人怎么写的，比如`requests`库），在`sphinx`文件夹下，终端执行`sphinx-apidoc -o ./source ../src/`
