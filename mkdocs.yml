@@ -51,7 +51,7 @@ theme:
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
+      primary: cyan
       accent: deep purple
       toggle:
         icon: material/weather-night
