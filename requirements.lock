@@ -51,3 +51,5 @@ urllib3==2.0.4
 validators==0.21.2
 watchdog==3.0.0
 zipp==3.16.2
+# The following packages are considered to be unsafe in a requirements file:
+setuptools==68.1.2
