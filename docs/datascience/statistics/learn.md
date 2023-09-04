@@ -149,3 +149,8 @@
 
     ??? "非常好的Kernel教程"
         课程难得在数学推导极为详细，没有跳过任何关键的步骤，学习起来曲线十分平滑。
+
+- [ ] [Statistics 200: Introduction to Statistical Inference, Stanford University, Autumn 2016](https://web.stanford.edu/class/archive/stats/stats200/stats200.1172/lectures.html)
+
+    ??? "Stanford统计推断课程"
+        课程整体比较精简，不过统计推断中核心的知识都有涉及
