@@ -14,4 +14,4 @@
 
 
 ## ToyDL
-[ToyDL: ** **Deep Learning from Scratch ](https://shenxiangzhuang.github.io/toydl/)
+[ToyDL: Learning Deep Learning from Scratch ](https://shenxiangzhuang.github.io/toydl/)
