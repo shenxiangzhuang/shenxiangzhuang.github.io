@@ -179,9 +179,6 @@ nav:
         - Spark on Linux: cs/distribution/spark/spark-linux.md
         - Spark on Cloud: cs/distribution/spark/spark-cloud.md
 
-
-
-
   - Data Mining Odyssey:
     - odyssey/index.md
     - AIOps:
@@ -206,8 +203,9 @@ nav:
         - Product: odyssey/chc/product.md
 
   - Project:
-      - Toys: project/toys.md
       - PySESD: project/pysesd.md
+      - MPPT: project/mppt.md
+      - Toys: project/toys.md
 
   - Life:
     - 前言: life/index.md
