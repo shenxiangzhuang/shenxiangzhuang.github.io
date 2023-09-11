@@ -205,7 +205,7 @@ nav:
   - Project:
       - PySESD: project/pysesd.md
       - MPPT: project/mppt.md
-      - Toys: project/toys.md
+      - ToyPark: project/toys.md
 
   - Life:
     - 前言: life/index.md
