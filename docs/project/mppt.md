@@ -1,5 +1,1 @@
-# MPPT: A Modern Python Package Template
-
-[MPPT](https://github.com/shenxiangzhuang/python-package-template): A Modern Python Package Template
-
-
+--8<-- "https://raw.githubusercontent.com/shenxiangzhuang/python-package-template/master/README.md"
