@@ -77,7 +77,9 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.inlinehilite
   - pymdownx.details
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      url_download: true
+      url_max_size: 33554432
   - pymdownx.tabbed
   - abbr
   - admonition
@@ -205,7 +207,9 @@ nav:
   - Project:
       - PySESD: project/pysesd.md
       - MPPT: project/mppt.md
-      - ToyPark: project/toys.md
+      - ToyData: project/toydata.md
+      - ToyML: project/toyml.md
+      - ToyDL: project/toydl.md
 
   - Life:
     - 前言: life/index.md

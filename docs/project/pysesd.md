@@ -1,3 +1,1 @@
-# [Py]S-ESD
-
-[[Py]S-ESD](https://datahonor.com/pysesd/): Seasonal Extreme Studentized Deviate(S-ESD) in Python.
+--8<--  "https://raw.githubusercontent.com/shenxiangzhuang/pysesd/master/README.md"
