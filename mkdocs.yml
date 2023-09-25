@@ -11,7 +11,7 @@ copyright: Copyright &copy; 2017 Xiangzhuang Shen
 
 theme:
   name: material
-  custom_dir: overrides
+  custom_dir: docs/templates
   icon:
     repo: fontawesome/brands/github
   language: zh
@@ -205,6 +205,7 @@ nav:
         - Product: odyssey/chc/product.md
 
   - Project:
+      - project/index.md
       - PySESD: project/pysesd.md
       - MPPT: project/mppt.md
       - ToyData: project/toydata.md
