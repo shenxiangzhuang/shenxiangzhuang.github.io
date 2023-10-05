@@ -13,7 +13,7 @@ projects:
 
   - name: ToyData
     description: Learning Data Structures from scratch
-#    image: pysesd.png
+    image: toydata.gif
 
   - name: ToyML
     description: Learning Machine Learning from scratch
