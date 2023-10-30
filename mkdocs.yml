@@ -204,6 +204,12 @@ nav:
         - Paper: odyssey/chc/paper.md
         - Product: odyssey/chc/product.md
 
+  - Software Engineering:
+      - Backend: se/backend.md
+      - Frontend: se/frontend.md
+      - DevOps: se/devops.md
+      - Distributed System: se/distributed-system.md
+      - Tools: se/tools.md
   - Project:
       - project/index.md
       - PySESD: project/pysesd.md
