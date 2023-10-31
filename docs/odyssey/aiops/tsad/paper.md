@@ -53,12 +53,31 @@ on trainning data
 
 
 ### 2017-Twitter-ESD
+
+???+ info "GitHub Resources"
+
+    - Github
+        - Twitter官方(R语言实现, 注意目前已经不再维护): [twitter/AnomalyDetection](https://github.com/twitter/AnomalyDetection)
+        - 个人项目(Python实现): [shenxiangzhuang/pysesd](https://github.com/shenxiangzhuang/pysesd)
+    - Paper
+        - arXiv: [https://arxiv.org/pdf/1704.07706.pdf](https://arxiv.org/pdf/1704.07706.pdf)
+
   H-S-ESD[@hochenbaum2017automatic]是较早的时序异常检测系统，
   主要理论依据为时序STL分解与ESD(Extreme Studentized Deviate test)。
   在后来的研究中也可以看出，这种基于时序分解的思想本质上从属于时序转化的思想：
   当原始序列$X$的异常不容易检测时，将其转化为更容易检测的序列$Y$,通过对$Y$进行异常检测以达到检测异常的目的。
 
+!!! note "大道至简"
+
+    个人感觉这篇文章在整个时序检测领域的地位是相当高的。其基于变换(或时序分解)的思想在后续的很多工作中都有体现。
+    另外就是文章整体的思路明显是工业界注重解决问题的路子————简单实用——这对算法的落地部署相当的重要。
+
 ### 2020-Alibaba-RobustX
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [LeeDoYup/RobustSTL](https://github.com/LeeDoYup/RobustSTL)
 
   阿里达摩院基于STL分解的思路利用深度学习做了一系列的创新研究。
   分别有RobustTrend[@wen2019robusttrend], RobustSTL[@wen2019robuststl],
@@ -68,13 +87,30 @@ on trainning data
   另外这一系列算法在标准数据集上的表现可能尚可，但是根据对其中部分算法的测试发现算法性能较差，
   在实际部署的时候可能存在性能瓶颈或者需要较大的资源开销。
 
+!!! warning "仅供参考:-)"
+
+    对比上面Twitter的方案就能看出这个系列的工作基本也是走时序分解的路子。但是不同的地方在于
+    Robust系列的工作玩的有点太花了，落地的难度更大，也没有那么实用。之前测试过其中一些方法的
+    使用，运行效率确实是差的。
 
 ### 2020-Amazon-GluonTS
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [awslabs/gluonts](https://github.com/awslabs/gluonts)
+
 
   GluonTS[@alexandrov2020gluonts]主要专注于时间序列概率模型。
 
 
 ### 2020-Zillow-Luminaire
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [zillow/luminaire](https://github.com/zillow/luminaire)
+
   Luminaire[@chakraborty2020building]列出了当前时序异常检测系统的挑战，并针对性地给出了解决方案，
   形成了一套基于无监督检测算法的简单易用全自动的系统。
 
@@ -82,16 +118,37 @@ on trainning data
   Auto-Selector[@ying2020automated]是微软提出的一种自动做模型选择的时序异常检测框架。
 
 ### 2021-Salesforce-Merlion
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [salesforce/Merlion](https://github.com/salesforce/Merlion)
+
   Merlion[@bhatnagar2021merlion]是针对时间序列设计的一个比较完备的系统，
   架构清晰，易用性强，具有较大的落地参考价值。
 
+!!! note "Merlion具有很强的落地参考意义"
+
+    Merlion系统整体的设计比较完备，在之前的算法落地工作中曾经参考过相关的设计。
+
 ### 2021-Linkedin-Silverkite
 
+???+ info "GitHub Resources"
+
+    - Github
+        - [linkedin/greykite](https://github.com/linkedin/greykite)
 
   Silverkite[@hosseini2021flexible]专注于时间序列的预测，也是通过对时间序列进行变换分解的思路。
   基于之前对Twitter和Alibab系统的介绍, 当然我们也可以将其应用于时序异常检测.
 
 ### 2022-IBM-AnomalyKiTS
+
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [IBM/anomaly-detection-code-pattern](https://github.com/IBM/anomaly-detection-code-pattern)
+
   AnomalyKiTS[@patel2022anomalykits]是专门针对时间序列异常检测设计的系统，专注于无监督和半监督算法。
 
 
@@ -114,6 +171,13 @@ CMU和Amazon合作的关于时序异常检测模型选择的文章[@goswami2022u
 ## Algorithms
 
 ### 2016-Amazon-RRCF
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [kLabUM/rrcf](https://github.com/kLabUM/rrcf)
+
+
 RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 其原始模型虽然没有考虑太多时序的问题，但是我们可以将滚动窗口的时序特征抽取出来作为新的指标特征加入模型
 以完成针对指标时序特征的建模。
@@ -121,10 +185,31 @@ RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 
 ### 2017-IRISA-SPOT
 ![Anomaly Detection Overview](images/siffer2017anomaly.png)
+
+???+ info "GitHub Resources"
+
+    - Github
+        - [asiffer/libspot](https://github.com/asiffer/libspot)
+        - [asiffer/python3-libspot](https://github.com/asiffer/python3-libspot)
+        - [asiffer/gospot](https://github.com/asiffer/gospot)
+
+
 SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
 作者是[Alban Siffer](https://asiffer.github.io/).
 这篇论文是我个人非常看好的工作, 适当的复杂度,
 较强的可解释性和很好的可适用性使得该算法非常适合在工业生产环境中落地.
+
+!!! note "Spot算法简洁实用，可解释性强，工业落地表现整体还不错"
+
+    之前的工作中大量使用Spot算法(及其衍生算法，如下面要介绍的FluxEV)。
+    因为Spot算法的理论基础是极值理论，所以具有较强的可解释性和可拓展性。
+
+    关于Spot在工业环境的应用涉及到的问题还比较多，如原始算法中，模型是需要
+    单步更新的(每个时间点的数据点进入都需要检验是否需要更新)。
+    一般模型存放在Redis，这种模型更新最坏情况下会使得模型数据的读写比为1:1，
+    这与一般Redis多读少些的场景有些不同，写入更频繁会更容易达到Redis的读写瓶颈。
+    后续有时间会单独把落地这部分系统整理下。
+
 
 
 ### 2021-Huawei-FluxEV
@@ -135,6 +220,16 @@ FluxEV[@li2021fluxev]是一个波动异常检测算法，主要用于指标陡�
 另外算法本身要求指标具有周期性，而且需要相当多个周期的数据，这使得其适用范围变的比较窄。
 针对算法存在的这些问题和出于实用考虑我们可以针对性的做若干改进：
 去除周期性相关部分；在连续异常的时候自动将EWMA窗口做Level Shift(通过将历史异常点换存在模型即可做到)等。
+
+!!! note "FluxEV算法结合Spot和时序分解的优秀后继者"
+
+    忽略论文中做得一些辅助性工作，FluxEV本质上是将时序做变换，
+    得到残差序列，之后让残差序列进Spot算法做异常检测。这种变换使得时序上非极值异常的检测更加简单，
+    变换会突出Change Points, 所以能够更好地检测突变点。
+
+    因为算法整体复杂度相比Spot会稍高一些，所以工程实现上会更加繁琐一些。
+
+
 
 ### 2021-NUS-MemStream
 MemStream[@bhatia2021memstream]明确地提出Memory的概念，
