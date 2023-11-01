@@ -11,15 +11,23 @@ projects:
     description: A Modern Python Package Template
     image: mppt.gif
 
+  - name: Beer
+    link_name: beer
+    description: Challenging Problems in Probability and Statistics
+#    image:
+
   - name: ToyData
+    link_name: toydata
     description: Learning Data Structures from scratch
     image: toydata.gif
 
   - name: ToyML
+    link_name: toyml
     description: Learning Machine Learning from scratch
-#    image: pysesd.png
+#    image:
 
   - name: ToyDL
+    link_name: toydl
     description: Learning Deep Learning from scratch
-#    image: pysesd.png
+#    image:
 ---
