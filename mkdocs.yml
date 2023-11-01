@@ -7,7 +7,7 @@ site_description: >-
 repo_name: Xiangzhuang Shen
 repo_url: https://github.com/shenxiangzhuang
 
-copyright: Copyright &copy; 2017 Xiangzhuang Shen
+copyright: Copyright &copy; 2017 - 2023 Xiangzhuang Shen
 
 theme:
   name: material
@@ -215,6 +215,7 @@ nav:
       - project/index.md
       - PySESD: project/pysesd.md
       - MPPT: project/mppt.md
+      - Beer: project/beer.md
       - ToyData: project/toydata.md
       - ToyML: project/toyml.md
       - ToyDL: project/toydl.md
