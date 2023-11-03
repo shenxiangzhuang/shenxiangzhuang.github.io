@@ -14,7 +14,7 @@ projects:
   - name: Beer
     link_name: beer
     description: Challenging Problems in Probability and Statistics
-#    image:
+    image: beer.gif
 
   - name: ToyData
     link_name: toydata
