@@ -181,7 +181,15 @@ nav:
         - Spark on Linux: cs/distribution/spark/spark-linux.md
         - Spark on Cloud: cs/distribution/spark/spark-cloud.md
 
-  - Data Mining Odyssey:
+  - Software Engineering:
+      - se/index.md
+      - Backend: se/backend.md
+      - Frontend: se/frontend.md
+      - DevOps: se/devops.md
+      - Distributed System: se/distributed-system.md
+      - Tool: se/tool.md
+
+  - Career Odyssey:
     - odyssey/index.md
     - AIOps:
       - Time Series Anomaly Detection:
@@ -204,13 +212,6 @@ nav:
         - Paper: odyssey/chc/paper.md
         - Product: odyssey/chc/product.md
 
-  - Software Engineering:
-      - se/index.md
-      - Backend: se/backend.md
-      - Frontend: se/frontend.md
-      - DevOps: se/devops.md
-      - Distributed System: se/distributed-system.md
-      - Tool: se/tool.md
   - Project:
       - project/index.md
       - PySESD: project/pysesd.md
