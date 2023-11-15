@@ -1,3 +1,3 @@
 # Career Odyssey
 
-- [ ] Add a timeline
+[timeline center alternate(./docs/odyssey/asset/timeline.yaml)]

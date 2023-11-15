@@ -63,7 +63,11 @@ theme:
 
 
 markdown_extensions:
+  - neoteroi.timeline
   - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - md_in_html
   - def_list
   - pymdownx.tasklist:
@@ -85,6 +89,8 @@ markdown_extensions:
   - admonition
   - footnotes
 
+extra_css:
+  - css/neoteroi-mkdocs.css
 
 extra_javascript:
 - javascripts/mathjax.js
@@ -92,16 +98,16 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
-  - i18n:
-      default_language: zh
-      material_alternate: true
-      languages:
-        zh:
-          name: 简体中文
-          build: true
-        en:
-          name: English
-          build: true
+#  - i18n:
+#      default_language: zh
+#      material_alternate: true
+#      languages:
+#        zh:
+#          name: 简体中文
+#          build: true
+#        en:
+#          name: English
+#          build: true
   - search:
       lang: ja
   - git-revision-date-localized
