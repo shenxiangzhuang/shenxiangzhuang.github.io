@@ -1,10 +1,13 @@
 name: Build Docs
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
   push:
     branches:
       - master
-  pull_request:
 
 jobs:
   deploy:
@@ -26,4 +29,9 @@ jobs:
           pip install -r requirements.lock
 
       - name: Build docs
-        run: mkdocs gh-deploy --force
+        run: mkdocs build
+
+      - name: Deploy docs
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: |
+          mkdocs gh-deploy --force
