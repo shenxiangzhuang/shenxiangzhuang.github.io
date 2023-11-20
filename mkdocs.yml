@@ -218,6 +218,11 @@ nav:
         - Paper: odyssey/chc/paper.md
         - Product: odyssey/chc/product.md
 
+    - Large Language Model:
+      - odyssey/llm/index.md
+      - Paper: odyssey/llm/paper.md
+
+
   - Project:
       - project/index.md
       - PySESD: project/pysesd.md
