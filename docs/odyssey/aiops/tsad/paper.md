@@ -78,6 +78,7 @@ on trainning data
 
     - Github
         - [LeeDoYup/RobustSTL](https://github.com/LeeDoYup/RobustSTL)
+        - (Unofficial)[ariaghora/robust-period](https://github.com/ariaghora/robust-period)
 
   阿里达摩院基于STL分解的思路利用深度学习做了一系列的创新研究。
   分别有RobustTrend[@wen2019robusttrend], RobustSTL[@wen2019robuststl],
