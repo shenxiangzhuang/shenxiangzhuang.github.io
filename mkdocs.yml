@@ -198,6 +198,7 @@ nav:
   - Career Odyssey:
     - odyssey/index.md
     - AIOps:
+      - odyssey/aiops/index.md
       - Time Series Anomaly Detection:
         - Paper: odyssey/aiops/tsad/paper.md
         - Product: odyssey/aiops/tsad/product.md
@@ -207,14 +208,16 @@ nav:
       - Conference: odyssey/aiops/conference.md
 
     - MLSys:
-      - odyssey/mlsys/learn.md
+      - odyssey/mlsys/index.md
+      - Learn: odyssey/mlsys/learn.md
       - MLOps:
         - Tools: odyssey/mlsys/mlops/tool.md
       - Research:
         - Paper: odyssey/mlsys/research/paper.md
 
     - Crowdsourcing and Human Computation:
-        - odyssey/chc/learn.md
+        - odyssey/chc/index.md
+        - Learn: odyssey/chc/learn.md
         - Paper: odyssey/chc/paper.md
         - Product: odyssey/chc/product.md
 
