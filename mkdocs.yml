@@ -189,6 +189,9 @@ nav:
 
   - Software Engineering:
       - se/index.md
+      - DDD:
+          - se/ddd/index.md
+          - "Book: Learning DDD": se/ddd/learning-ddd.md
       - Backend: se/backend.md
       - Frontend: se/frontend.md
       - DevOps: se/devops.md
