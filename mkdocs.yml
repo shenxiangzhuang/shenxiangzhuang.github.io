@@ -146,6 +146,8 @@ nav:
     - Deep Learning:
         - datascience/dl/learn.md
         - Papers: datascience/dl/paper.md
+        - Backpropagation:
+          - datascience/dl/bp/index.md
 
   - Computer Science:
     - cs/index.md
