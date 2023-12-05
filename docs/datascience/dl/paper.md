@@ -1,5 +1,9 @@
 # Deep Learning Papers
 
+!!! warning "待整理"
+
+    很久前读的一些论文，待后续整理
+
 
 参考[Deep Learning Papers Reading Roadmap](https://github.com/floodsung/Deep-Learning-Papers-Reading-Roadmaphttps://github.com/floodsung/Deep-Learning-Papers-Reading-Roadmap)来阅读DL相关论文，并做简单记录。
 
