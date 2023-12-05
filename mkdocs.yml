@@ -191,7 +191,9 @@ nav:
       - se/index.md
       - Backend: se/backend.md
       - Frontend: se/frontend.md
-      - DevOps: se/devops.md
+      - DevOps:
+        - se/devops/index.md
+        - Vercel Domain: se/devops/vercel.md
       - Distributed System: se/distributed-system.md
       - Tool: se/tool.md
 
