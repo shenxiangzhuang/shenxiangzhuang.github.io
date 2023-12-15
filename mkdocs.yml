@@ -83,7 +83,8 @@ markdown_extensions:
   - pymdownx.snippets:
       url_download: true
       url_max_size: 33554432
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - abbr
   - admonition
   - footnotes
@@ -143,7 +144,7 @@ nav:
       - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
 
     - Deep Learning:
-        - datascience/dl/learn.md
+        - datascience/dl/index.md
         - Papers: datascience/dl/paper.md
         - Backpropagation:
           - datascience/dl/bp/index.md
