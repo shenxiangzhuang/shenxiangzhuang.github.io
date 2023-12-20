@@ -9,7 +9,7 @@ projects:
   - name: MPPT
     link_name: mppt
     description: A Modern Python Package Template
-    image: mppt.gif
+    image: mppt.png
 
   - name: Beer
     link_name: beer
@@ -24,10 +24,10 @@ projects:
   - name: ToyML
     link_name: toyml
     description: Learning Machine Learning from scratch
-#    image:
+    image: toyml.png
 
   - name: ToyDL
     link_name: toydl
     description: Learning Deep Learning from scratch
-#    image:
+    image: toydl.png
 ---
