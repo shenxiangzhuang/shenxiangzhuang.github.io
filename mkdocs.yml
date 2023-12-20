@@ -99,23 +99,16 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
-#  - i18n:
-#      default_language: zh
-#      material_alternate: true
-#      languages:
-#        zh:
-#          name: 简体中文
-#          build: true
-#        en:
-#          name: English
-#          build: true
   - search:
-      lang: ja
-#  - git-revision-date-localized
-  - neoteroi.contribs:
-      contributors:
-        - email: datahonor@gmail.com
-          image: https://avatars.githubusercontent.com/u/17157965?s=96&v=4
+      lang: zh
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-committers:
+      repository: shenxiangzhuang/shenxiangzhuang.github.io
+      branch: master
+      cache_dir: docs/assets/git-committers
+      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
+
   - minify:
       minify_html: true
   - bibtex:
