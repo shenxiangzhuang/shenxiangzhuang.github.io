@@ -1,11 +1,10 @@
 [tool.poetry]
 name = "shenxiangzhuang-github-io"
 version = "0.1.0"
-description = ""
+description = "blog"
 authors = ["Xiangzhuang Shen <datahonor@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
-packages = [{include = "shenxiangzhuang"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -20,6 +19,7 @@ mkdocs-material-extensions = "^1.3.1"
 mkdocs-material = "^9.4.14"
 mkdocs-git-revision-date-localized-plugin = "^1.2.1"
 mkdocs-minify-plugin = "^0.7.2"
+neoteroi-mkdocs = "^1.0.4"
 
 
 

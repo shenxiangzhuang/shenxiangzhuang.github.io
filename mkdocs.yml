@@ -63,6 +63,7 @@ theme:
 
 
 markdown_extensions:
+  - neoteroi.timeline
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -110,7 +111,11 @@ plugins:
 #          build: true
   - search:
       lang: ja
-  - git-revision-date-localized
+#  - git-revision-date-localized
+  - neoteroi.contribs:
+      contributors:
+        - email: datahonor@gmail.com
+          image: https://avatars.githubusercontent.com/u/17157965?s=96&v=4
   - minify:
       minify_html: true
   - bibtex:
