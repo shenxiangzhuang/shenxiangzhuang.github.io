@@ -32,4 +32,6 @@ jobs:
         run: poetry install --no-root
 
       - name: Build docs
+        env: # As an environment variable
+          MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.MKDOCS_GIT_COMMITTERS_APIKEY }}
         run: poetry run mkdocs gh-deploy --force
