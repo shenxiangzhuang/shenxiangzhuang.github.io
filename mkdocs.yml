@@ -189,16 +189,23 @@ nav:
 
   - Software Engineering:
       - se/index.md
+      - Backend:
+          - se/backend/index.md
+      - Frontend:
+          - se/frontend/index.md
       - DDD:
           - se/ddd/index.md
           - "Book: Learning DDD": se/ddd/learning-ddd.md
-      - Backend: se/backend.md
-      - Frontend: se/frontend.md
+      - Observability:
+          - se/observability/index.md
+      - Distributed System:
+          - se/distributed/index.md
       - DevOps:
-        - se/devops/index.md
-        - Vercel Domain: se/devops/vercel.md
-      - Distributed System: se/distributed-system.md
-      - Tool: se/tool.md
+          - se/devops/index.md
+          - Vercel Domain: se/devops/vercel.md
+      - Tool:
+          - se/tool/index.md
+
 
   - Career Odyssey:
     - odyssey/index.md
