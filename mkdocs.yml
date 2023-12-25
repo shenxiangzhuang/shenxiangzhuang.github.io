@@ -198,6 +198,7 @@ nav:
           - "Book: Learning DDD": se/ddd/learning-ddd.md
       - Observability:
           - se/observability/index.md
+          - Skywalking: se/observability/skywalking.md
       - Distributed System:
           - se/distributed/index.md
       - DevOps:
