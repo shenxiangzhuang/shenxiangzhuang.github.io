@@ -416,6 +416,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/se/observability/skywalking/</loc>
+         <lastmod>2023-12-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/se/tool/</loc>
          <lastmod>2023-12-25</lastmod>
          <changefreq>daily</changefreq>
