@@ -200,7 +200,7 @@ nav:
           - se/observability/index.md
           - Skywalking: se/observability/skywalking.md
       - Distributed System:
-          - se/distributed/index.md
+          - se/distribution/index.md
       - DevOps:
           - se/devops/index.md
           - Vercel Domain: se/devops/vercel.md
