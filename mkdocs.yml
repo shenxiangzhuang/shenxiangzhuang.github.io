@@ -201,6 +201,7 @@ nav:
       - Observability:
           - se/observability/index.md
           - Skywalking: se/observability/skywalking.md
+          - "ElasticSearch & Kibana": se/observability/es_kibana.md
       - Distributed System:
           - se/distribution/index.md
       - DevOps:
