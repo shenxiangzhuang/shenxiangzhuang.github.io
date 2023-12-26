@@ -421,6 +421,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/se/observability/es_kibana/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/se/observability/skywalking/</loc>
          <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
