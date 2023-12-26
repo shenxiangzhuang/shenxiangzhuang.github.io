@@ -191,6 +191,8 @@ nav:
       - se/index.md
       - Backend:
           - se/backend/index.md
+          - Python:
+            - se/backend/python/index.md
       - Frontend:
           - se/frontend/index.md
       - DDD:

@@ -1,0 +1,54 @@
+# Backend: Python
+
+## Frameworks
+
+### FastAPI 🌟🌟🌟🌟🌟
+很新也很好，对ORM，异步等的支持也更好，接口文档等也可以原生地生成，感觉后续会逐渐取代Flask。
+
+### Flask 🌟🌟🌟🌟
+轻量简便，应用较多的后端框架，比较适合简单的服务的构建。
+但是对ORM，接口文档管理等目前比较通用的需求无内部集成，需要结合很多第三方库来实现。
+
+### Django 🌟🌟🌟
+更加完善的后端框架，更“重”一些，更适合大型项目的开发。
+
+## ORM(Object-relational mapping)
+
+### SQLAlchemy 🌟🌟🌟🌟🌟
+较为流行，用的比较多的ORM框架，支持的数据库种类也比较多。
+
+### SQLModel 🌟🌟🌟🌟
+很新的框架，基于SQLAlchemy和Pydantic构建，更加Modern。
+但是目前看距离1.0版本还要一段时间，文档也在完善中，所以可能还不太适合生产环境。
+
+
+## ODM(Object-document mapping)
+
+相关实践不多，待后续补充。
+
+### [ODMantic](https://github.com/art049/odmantic)
+**Sync and Async** ODM (Object Document Mapper) for MongoDB based on python type hints
+
+### [Beanie](https://github.com/roman-right/beanie)
+**Asynchronous** Python ODM for MongoDB
+
+### [Bunnet](https://github.com/roman-right/bunnet)
+Synchronous Python ODM for MongoDB.(Beanie的同步版本)
+
+
+## Observability
+
+目前接触到的有Skywalking和Sentry[^1].
+[^1]: 相关实践参考: [https://datahonor.com/se/observability/](https://datahonor.com/se/observability/)
+
+
+### Sentry 🌟🌟🌟🌟🌟
+
+总体用下来Sentry要好用的多，支持足够好，使用足够简单，也可以同时满足问题排查和性能监控的需求。
+Sentry相对优于Skywalking的地方很多，比如在性能监控方面，Sentry采集到的Span数据更加准确且精细，
+可以很方便地基于性能监控数据来针对性地降低服务延时，而Skywalking的性能监控数据则相对粗糙，且采集的数据和实际有一定偏差。
+另外在问题排查方面，Sentry的事件分析功能也更加强大，可以很方便地定位问题，而Skywalking的事件分析功能也相对简单。
+
+### Skywalking 🌟🌟🌟
+Skywalking可以接ElasticSearch来收集日志，这对于日志的检索/分析来说是一个很好的选择，
+相对来水Sentry对全局的日志检索/分析的支持得不够好。
