@@ -52,3 +52,18 @@ Sentry相对优于Skywalking的地方很多，比如在性能监控方面，Sent
 ### Skywalking 🌟🌟🌟
 Skywalking可以接ElasticSearch来收集日志，这对于日志的检索/分析来说是一个很好的选择，
 相对来水Sentry对全局的日志检索/分析的支持得不够好。
+
+
+## Doc, Test, Lint & Format
+
+!!! tip "MPPT: A Modern Python Package Template"
+
+    [MPPT](https://datahonor.com/mppt)是一个现代Python库模版，收集了目前社区应用最广泛的工具，这里只是列举一部分。
+    在MPPT文档中，还有更多的工具和实践，可以参考。
+
+| Domain               | Tools                                              |
+|----------------------|----------------------------------------------------|
+| Documentation        | Mkdocs(with Material theme)                        |
+| Testing              | Pytest(unit), Hypothesis(property), Locust(stress) |
+| Linting & Formatting | black, flake8, isort, ruff, mypy                   |
+
