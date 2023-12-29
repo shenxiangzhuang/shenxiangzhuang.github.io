@@ -63,6 +63,7 @@ theme:
 
 
 markdown_extensions:
+  - tables
   - neoteroi.timeline
   - attr_list
   - pymdownx.emoji:
