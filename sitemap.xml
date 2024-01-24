@@ -431,7 +431,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://shenxiangzhuang.github.io/se/tool/</loc>
+         <loc>https://shenxiangzhuang.github.io/tool/</loc>
+         <lastmod>2024-01-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://shenxiangzhuang.github.io/tool/diagram/</loc>
+         <lastmod>2024-01-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://shenxiangzhuang.github.io/tool/latex/</loc>
          <lastmod>2024-01-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
