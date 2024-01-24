@@ -208,8 +208,7 @@ nav:
       - DevOps:
           - se/devops/index.md
           - Vercel Domain: se/devops/vercel.md
-      - Tool:
-          - se/tool/index.md
+
 
 
   - Career Odyssey:
@@ -242,6 +241,10 @@ nav:
       - odyssey/llm/index.md
       - Paper: odyssey/llm/paper.md
 
+  - Tool:
+    - tool/index.md
+    - Diagram: tool/diagram.md
+    - Latex: tool/latex.md
 
   - Project:
       - project/index.md
