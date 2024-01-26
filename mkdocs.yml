@@ -240,6 +240,7 @@ nav:
     - Large Language Model:
       - odyssey/llm/index.md
       - Paper: odyssey/llm/paper.md
+      - Engineering: odyssey/llm/engineering.md
 
   - Tool:
     - tool/index.md
