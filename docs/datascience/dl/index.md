@@ -9,6 +9,16 @@
     ??? "NNDL: 个人看来入门DL最好(没有之一)的一本书"
          先是从理论上把基于梯度下降的优化过程讲清楚，之后写代码从零开始构建神经网络。条理清晰，层次分明，没有回避任何问题，读完解决了很多之前一直都有的疑惑。
 
+    ??? "一些碎碎念:-)"
+
+        不知道具体什么原因，以前一直对DL喜欢不起来，所以也就随便看看，没有系统地去学。现在看来，主要的原因还是在于没有好的引导资料，
+        像Berkley的DL课程，李沐的《深度学习》，我怎么看不下去...转折点是在一本书，Michael Nielson的[*Neural Network and Deep Learning* ](http://neuralnetworksanddeeplearning.com/)。
+        初读这本书时，直接被震撼到了，明白了何谓高屋建瓴。
+
+        > You need to understand the durable, lasting insights underlying how neural networks work. Technologies come and technologies go, but insight is forever.
+
+        所以我强烈推荐将这本书作为学习DL的开端。
+
 - [x] [Neural Networks from Scratch in Python](https://nnfs.io/)
 
     ??? "NNFS: 从零实现神经网络"
