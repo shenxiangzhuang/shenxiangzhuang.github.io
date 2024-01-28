@@ -151,7 +151,7 @@ nav:
   - Computer Science:
     - cs/index.md
     - Programming:
-      - General: cs/programming/general/learn.md
+      - cs/programming/general/learn.md
       - Python:
         - cs/programming/python/learn.md
         - How to build a Python Package: cs/programming/python/build_python_pkg.md
@@ -160,6 +160,9 @@ nav:
         - "TAPP2: Context Managers": cs/programming/python/tapp_2_context_manager.md
         - "TAPP3: Annotations": cs/programming/python/tapp_3_annotations.md
         - Python与数据分析: cs/programming/python/python_data_analysis.md
+
+      - Elixir:
+        - cs/programming/elixir/index.md
 
       - Scala:
         - SBT Usage: cs/programming/scala/sbt_usage.md
