@@ -2,452 +2,457 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://shenxiangzhuang.github.io/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/algorithm/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/db/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/distribution/hadoop/hadoop-linux/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/distribution/hbase/hbase-linux/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/distribution/spark/spark-cloud/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/distribution/spark/spark-linux/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/k8s/docker/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/k8s/kubernetes/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/network/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/os/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/os/ubuntu-usage/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://shenxiangzhuang.github.io/cs/programming/elixir/</loc>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/general/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/build_python_pkg/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/python_data_analysis/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/tapp_0_motivation/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/tapp_1_decorator/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/tapp_2_context_manager/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/python/tapp_3_annotations/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/scala/sbt_usage/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/dl/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/dl/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/dl/bp/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/math/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/ml/dual-perceptron/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/ml/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/ml/mle-mer/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/ml/naive-bayes/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/ml/perceptron/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/statistics/effect-size/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/statistics/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/statistics/probability-and-mathematical-statistics-books/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/statistics/roc-auc/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/datascience/statistics/three-doors-and-three-prisoners/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/cookbook/boil/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/cookbook/saute/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/literature/books/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/2019/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/chance/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/college/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/graduate/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/obscurant/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/open-source/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/searching/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/strange-dream/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/sysu-card/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/life/sketch/ten/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/aiops/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/aiops/conference/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/aiops/rca/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/aiops/tsad/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/aiops/tsad/product/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/chc/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/chc/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/chc/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/chc/product/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/llm/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/llm/engineering/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/llm/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/mlsys/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/mlsys/learn/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/mlsys/mlops/tool/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/odyssey/mlsys/research/paper/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/beer/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/mppt/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/pysesd/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/toydata/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/toydl/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/project/toyml/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/backend/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/backend/python/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/ddd/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/ddd/learning-ddd/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/devops/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/devops/vercel/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/distribution/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/frontend/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/observability/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/observability/es_kibana/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/se/observability/skywalking/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/tool/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/tool/diagram/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://shenxiangzhuang.github.io/tool/latex/</loc>
-         <lastmod>2024-01-26</lastmod>
+         <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
