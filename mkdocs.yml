@@ -199,6 +199,10 @@ nav:
             - se/backend/python/index.md
       - Frontend:
           - se/frontend/index.md
+      - Database:
+          - se/db/index.md
+          - MySQL: se/db/mysql.md
+
       - DDD:
           - se/ddd/index.md
           - "Book: Learning DDD": se/ddd/learning-ddd.md
