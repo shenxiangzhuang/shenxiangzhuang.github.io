@@ -162,5 +162,5 @@ Phoenix和LiveView也是足够先进和强大的Web框架，非常值得学习�
 
 
 [^1]: [https://en.wikipedia.org/wiki/Lifelong_learning](https://en.wikipedia.org/wiki/Lifelong_learning)
-[^2]: 目前只是在逻辑上大致氛围两个部分，工业落地实践没有完全拆分出来，和论文分析评论放在一起。
+[^2]: 目前只是在逻辑上大致分为两个部分，工业落地实践和论文分析评论放在一起，还没有完全拆分出来。
 
