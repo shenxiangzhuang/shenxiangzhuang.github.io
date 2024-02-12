@@ -122,6 +122,16 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/shenxiangzhuang
 
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/MathewShen42
+
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/mathewshen
+
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:datahonor@gmail.com
+
+
 nav:
   - About: index.md
   - Data Science:
