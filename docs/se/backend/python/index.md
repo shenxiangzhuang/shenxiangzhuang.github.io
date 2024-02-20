@@ -24,13 +24,19 @@
 
 ## ODM(Object-document mapping)
 
-相关实践不多，待后续补充。
-
 ### [ODMantic](https://github.com/art049/odmantic)
 **Sync and Async** ODM (Object Document Mapper) for MongoDB based on python type hints
 
-### [Beanie](https://github.com/roman-right/beanie)
-**Asynchronous** Python ODM for MongoDB
+### [Beanie](https://github.com/roman-right/beanie) 🌟🌟🌟🌟
+**Asynchronous** Python ODM for MongoDB.
+当前业务中用的最多的MongoDB ODM，支持异步，支持Pydantic。
+整体用下来也没有遇到太大的坑，还是比较推荐使用的。
+
+!!! note "大量数据Validation的性能问题"
+
+    因为底层是用的Pydantic做数据校验，
+    所以Beanie在大量数据的Validation上可能会有一些性能问题
+
 
 ### [Bunnet](https://github.com/roman-right/bunnet)
 Synchronous Python ODM for MongoDB.(Beanie的同步版本)
