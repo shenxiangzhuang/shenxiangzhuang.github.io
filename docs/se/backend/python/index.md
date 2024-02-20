@@ -35,6 +35,21 @@
 ### [Bunnet](https://github.com/roman-right/bunnet)
 Synchronous Python ODM for MongoDB.(Beanie的同步版本)
 
+## Database Migration
+
+### [Alembic](https://github.com/sqlalchemy/alembic) 🌟🌟🌟🌟🌟
+Alembic是使用非常广泛的数据库迁移工具，功能完善, 且和SQLAlchemy集成得很好。
+
+!!! note "Alembic的使用场景"
+
+    随着业务的发展，数据库的表结构和数据的变更是不可避免的，
+    而数据库迁移工具就是用来管理这些变更的。
+    一般来说，数据库迁移工具会记录下数据库的变更历史，
+    并且可以根据这些历史记录来生成数据库迁移脚本，
+    以便在不同的环境中执行这些脚本来同步数据库的变更。
+
+    使用数据库迁移工具可以让数据库的变更更加可控，更加透明(以代码的方式记录变更历史)。
+
 
 ## Observability
 
