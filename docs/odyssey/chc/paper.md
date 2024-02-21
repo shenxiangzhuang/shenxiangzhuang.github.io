@@ -59,6 +59,26 @@ An evaluation of aggregation techniques in crowdsourcing[@chc-aggregation-2013].
 
 ### TODO: MACE
 
+### 2024-Meta-OAK
+*Efficient Online Crowdsourcing with Complex Annotations*[@meta-2024-oak]
+是Meta在2024年关于复杂在线众包任务的一篇论文，主要是关于OAK算法的。
+
+论文的基础假设是[Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle),
+放在众包的场景中就是：好的标注员都是相似的，坏的标注员各有各的坏。
+
+基于这一假设，论文提出了一种基于标注员相似度的标注结果聚合和评估算法，
+可以在标注过程中动态判断当前标注是否已经满足了一定的一致性要求，当判断满足要求时可以及时停止标注，
+从而节省成本。
+
+!!! tip "差强人意: 相对扎实且实用的算法"
+
+    从算法架构可以看出其确实是考虑了实际的落地情况，比如将相似度计算抽象出来以适配不同的复杂标注任务，
+    评估当前标注准确率时引入$\gamma$超参数(也是为了适配不同的任务场景)等。
+    另外就是算法整体流程比较清晰，实现起来也相对容易，这点在做算法落地时尤为重要。
+
+    目前看下来，一个比较大的问题是: 通过建立用户相似度与准确率的关系(线性拟合)来近似估计标注员的准确率这种方法是否有必要，
+    相比直接用准确率来判断标注员的质量，这种方法是否更加准确，这点感觉说得不是很清晰。
+
 
 ## Agreement
 这里的Agreement是指标注者之间的一致性，即标注者对于同一个标注任务的标注结果是否一致。
