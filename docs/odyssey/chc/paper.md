@@ -63,21 +63,27 @@ An evaluation of aggregation techniques in crowdsourcing[@chc-aggregation-2013].
 *Efficient Online Crowdsourcing with Complex Annotations*[@meta-2024-oak]
 是Meta在2024年关于复杂在线众包任务的一篇论文，主要是关于OAK算法的。
 
-论文的基础假设是[Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle),
-放在众包的场景中就是：好的标注员都是相似的，坏的标注员各有各的坏。
+!!! note "基础假设"
 
-基于这一假设，论文提出了一种基于标注员相似度的标注结果聚合和评估算法，
-可以在标注过程中动态判断当前标注是否已经满足了一定的一致性要求，当判断满足要求时可以及时停止标注，
-从而节省成本。
+    [Anna Karenina Principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle),
+    放在众包的场景中就是：好的标注员都是相似的，坏的标注员各有各的坏。
 
-!!! tip "差强人意: 相对扎实且实用的算法"
+!!! note "基础理论"
 
-    从算法架构可以看出其确实是考虑了实际的落地情况，比如将相似度计算抽象出来以适配不同的复杂标注任务，
-    评估当前标注准确率时引入$\gamma$超参数(也是为了适配不同的任务场景)等。
-    另外就是算法整体流程比较清晰，实现起来也相对容易，这点在做算法落地时尤为重要。
+    另外论文证明了一个基础理论:
+    >the expected average similarity of a labeler is linear in their accuracy conditional on the reported label.
 
-    目前看下来，一个比较大的问题是: 通过建立用户相似度与准确率的关系(线性拟合)来近似估计标注员的准确率这种方法是否有必要，
-    相比直接用准确率来判断标注员的质量，这种方法是否更加准确，这点感觉说得不是很清晰。
+    即标注员的相似度与其准确率是线性相关的。这个理论和上述基础假设(Anna Karenina principle)也是一致的。
+    也就是说，标注员的准确率越高，其相似度也就越高，反之亦然。
+    基于这个理论，我们即使没有任何先验的信息，也可以通过标注员的相似度来**近似/估计**其准确率，
+
+    基于这一理论，论文提出了一种基于标注员相似度的标注结果聚合和评估算法，
+    可以在标注过程中动态判断当前标注是否已经满足了一定的一致性要求，当判断满足要求时可以及时停止标注，
+    从而节省成本。
+
+从算法架构可以看出其确实是考虑了实际的落地情况，比如将相似度计算抽象出来以适配不同的复杂标注任务，
+评估当前标注准确率时引入$\gamma$超参数(也是为了适配不同的任务场景)等。
+另外就是算法整体流程比较清晰，实现起来也相对容易，这点在做算法落地时尤为重要。
 
 
 ## Agreement
