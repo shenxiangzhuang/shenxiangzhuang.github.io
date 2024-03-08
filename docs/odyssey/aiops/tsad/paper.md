@@ -237,11 +237,41 @@ MemStream[@bhatia2021memstream]明确地提出Memory的概念，
 相对于Matrix Profile更加的轻量，相对于其他的多指标异常检测算法具有更多的可解释性。
 
 
-### TODO: 2022-EDF-Series2Graph
+### 2022-EDF-Series2Graph
 
 Series2Graph[@boniol2022series2graph], GraphAn[@boniol2020graphan]和DADS[@schneider2021distributed]
 是Series2Graph系列的三篇文章: 其中Series2Graph是主要的算法部分([主页](https://helios2.mi.parisdescartes.fr/~themisp/series2graph/))，GraphAn强调问题与挑战，
 DADS专注于时序异常检测分布式系统的实现，具体采用Actor Programming Model实现，具体参考[Github](https://github.com/HPI-Information-Systems/DADS)。
+
+### 2024-EDF-kGraph
+!!! abstract ""
+
+    :simple-thealgorithms: 算法 ·
+    :octicons-beaker-24: 适合POC
+
+[kGraph: Graph Embedding for Interpretable Time Series Clustering](https://github.com/boniolp/kGraph)
+是一篇关于时序聚类的文章，主要是基于图嵌入的思路，对时序数据进行聚类。
+
+Series2Graph作者[Paul Boniol](https://boniolp.github.io/)最新在做的开源项目，目前还在开发中(V0.0.1版本)，
+不过核心的功能已经有了，而且还放出了一些示例数据和示例代码。
+
+个人认为Series2Graph是一种非常有前景的图嵌入算法，可以很好地对time series/sequence进行表征，
+所以下游无论是接聚类任务还是异常检测任务都能有比较好的表现。
+不过缺点就是算法还是基于sequence/subsequence的，
+所以很对实时性要求比较高的任务(这时候处理的对象更多的是point)还是不太适合。
+
+!!! tip "`point` -> `sequence`？"
+
+    `sequence = sequence[:-1] + [point]`的方法可以将point转化为sequence，
+    所以是可以强行用的，但是意义**可能**并不大。因为单个`point`带来的`sequence`的变化**可能**没有
+    那么大，除非做加权处理，但是这个权也不太好加，又引入新的复杂度，所以还是不太好处理的。
+
+另外就是Series2Graph的算法原理，个人感觉真的挺难理解的...对这个sequence嵌入的过程，看了好久都很难
+得到一些insight。个人来说，在获得一定程度的insight之前，都是不太敢用这个算法做实际的落地工作的，最多做一下POC，
+主要是担心遇到问题之后没办法改进——这点还挺重要的。
+
+尽管有这些问题存在，Series2Graph系列的算法的表现还是很不错的(之前是在生产环境的数据上粗略验证过的)， 所以还是值得一试的。
+
 
 ## Evaluation
 
