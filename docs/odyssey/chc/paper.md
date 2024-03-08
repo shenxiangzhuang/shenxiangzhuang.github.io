@@ -59,6 +59,32 @@ An evaluation of aggregation techniques in crowdsourcing[@chc-aggregation-2013].
 
 ### TODO: MACE
 
+### 2022-LA: One/Two Pass
+
+!!! abstract ""
+
+    :simple-thealgorithms: 算法 ·
+    :octicons-beaker-24: 适合POC ·
+    :material-airplane-landing: 适合落地
+
+*A Light-weight, Effective and Efficient Model for Label Aggregation in Crowdsourcing*[@yang2022lightweight]
+是一篇2022年的关于标注结果聚合的论文，论文提出了LA算法，分为OnePass, TwoPass两个衍生算法。
+
+LA算法可以认为是DS算法的简化版本，将DS算法或者说依赖EM算法系的算法进行了简化——将原来的迭代过程简化为了一次/两次迭代，
+分别对应OnePass和TwoPass算法。
+
+!!! tip "LA算法的优/劣势"
+
+    - 速度快: 从算法的Benckmark结果上来，LA算法的效果是相当不错的，且计算复杂度相对较低。
+    算法最大的可取之处在于其时间复杂度较低，计算load相比DS/类DS的EM系算法会低很对，
+    可以在实际落地中得到较好的应用。
+
+    - 可解释性强: LA相比DS，推理过程更加明确/易懂，这对于算法落地时的调试和维护也是非常重要的。
+
+    - Accuracy可能不如DS: 虽然从论文的实验结果上来看，LA算法的效果要比DS算法好，但是这不太符合
+      直觉，因为LA算法是DS算法的简化版本，因此在实际落地中，还是要先验证LA的聚合Accuracy是否真的比DS好。
+
+
 ### 2024-Meta-OAK :material-alert-decagram:{ .mdx-pulse title="Industrial" }
 
 !!! abstract ""
