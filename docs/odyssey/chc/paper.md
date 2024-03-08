@@ -1,7 +1,3 @@
----
-icon: material/format-align-bottom
----
-
 # Paper
 
 介绍数据标注/众包平台相关的论文
