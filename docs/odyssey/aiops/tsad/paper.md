@@ -254,6 +254,7 @@ DADS专注于时序异常检测分布式系统的实现，具体采用Actor Prog
 
 Series2Graph作者[Paul Boniol](https://boniolp.github.io/)最新在做的开源项目，目前还在开发中(V0.0.1版本)，
 不过核心的功能已经有了，而且还放出了一些示例数据和示例代码。
+(没看到论文，[问了下作者](https://github.com/boniolp/kGraph/issues/1)，说是还没发出来)
 
 个人认为Series2Graph是一种非常有前景的图嵌入算法，可以很好地对time series/sequence进行表征，
 所以下游无论是接聚类任务还是异常检测任务都能有比较好的表现。
