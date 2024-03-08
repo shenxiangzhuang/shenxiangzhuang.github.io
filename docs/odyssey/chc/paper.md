@@ -1,3 +1,7 @@
+---
+icon: material/format-align-bottom
+---
+
 # Paper
 
 介绍数据标注/众包平台相关的论文
@@ -59,7 +63,16 @@ An evaluation of aggregation techniques in crowdsourcing[@chc-aggregation-2013].
 
 ### TODO: MACE
 
-### 2024-Meta-OAK
+### 2024-Meta-OAK :material-alert-decagram:{ .mdx-pulse title="Industrial" }
+
+!!! abstract ""
+
+    :fontawesome-brands-meta: Meta ·
+    :simple-thealgorithms: 算法 ·
+    :octicons-beaker-24: 适合POC ·
+    :material-airplane-landing: 适合落地
+
+
 *Efficient Online Crowdsourcing with Complex Annotations*[@meta-2024-oak]
 是Meta在2024年关于复杂在线众包任务的一篇论文，主要是关于OAK算法的。
 
