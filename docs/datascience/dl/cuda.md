@@ -2,7 +2,7 @@
 
 记录在Linux(Ubuntu)上折腾CUDA环境的那些事。
 
-## NVIDIA Diver & PyTorch
+## NVIDIA Driver & PyTorch
 
 在Ubuntu20.04上安装了最新的NVIDIA Driver(550.54.14)和CUDA Toolkit(12.4)，
 然后发现在Anaconda的环境下可以正常用CUDA，但是在Python起的venv上没办法用[^1]。
