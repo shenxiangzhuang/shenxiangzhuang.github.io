@@ -158,6 +158,8 @@ nav:
         - Backpropagation:
           - datascience/dl/bp/index.md
 
+        - CUDA: datascience/dl/cuda.md
+
   - Computer Science:
     - cs/index.md
     - Programming:
