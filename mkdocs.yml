@@ -157,7 +157,6 @@ nav:
         - Papers: datascience/dl/paper.md
         - Backpropagation:
           - datascience/dl/bp/index.md
-
         - CUDA: datascience/dl/cuda.md
 
   - Computer Science:
