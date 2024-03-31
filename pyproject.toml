@@ -5,9 +5,11 @@ description = "blog"
 authors = ["Xiangzhuang Shen <datahonor@gmail.com>"]
 license = "GPL-3.0"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
+mkdocs-rss-plugin = "^1.12.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -26,7 +28,7 @@ mkdocs-git-committers-plugin-2 = "^2.2.2"
 [[tool.poetry.source]]
 name = "mirrors"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-priority = "default"
+priority = "primary"
 
 [virtualenvs]
 create = true

@@ -1,3 +1,15 @@
+---
+title: 终身学习:2023
+draft: false
+date: 2024-02-07
+authors: [mathew]
+slug: lifelong-2023
+description: >
+    终身学习！
+categories:
+  - General
+---
+
 # 终身学习: 2023
 
 !!! tip "终身学习(Lifelong learning)"
@@ -7,6 +19,8 @@
 
 
 本文主要是过去一年的学习记录，内容较为杂乱，主要是为备忘。
+
+<!-- more -->
 
 ## 个人项目进展
 

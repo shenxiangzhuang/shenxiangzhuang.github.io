@@ -1,6 +1,21 @@
+---
+title: 开源体会
+draft: false
+date: 2023-11-01
+authors: [mathew]
+slug: open-source-related
+description: >
+    记录下最近逛开源社区的体会
+categories:
+  - General
+---
+
+
 # 开源体会
 
 记录下最近逛开源社区的体会
+
+<!-- more -->
 
 ## 大部分社区都很友好
 对于反馈的问题基本都能够收到及时有效的反馈。

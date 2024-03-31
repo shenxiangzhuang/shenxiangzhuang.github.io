@@ -100,6 +100,15 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+  - blog:
+      draft: true
   - search:
       lang: zh
   - git-revision-date-localized:
@@ -281,16 +290,5 @@ nav:
     - 菜谱:
       - 煮: life/cookbook/boil.md
       - 炒: life/cookbook/saute.md
-
-    - 随笔:
-      - 终身学习:2023: life/sketch/lifelong_learning_2023.md
-      - 开源体会: life/sketch/open-source.md
-      - 十岁那年: life/sketch/ten.md
-      - 2019年: life/sketch/2019.md
-      - 所谓偶然: life/sketch/chance.md
-      - 我的大学: life/sketch/college.md
-      - 考研杂记: life/sketch/graduate.md
-      - 罪在蒙昧: life/sketch/obscurant.md
-      - 奇怪的梦: life/sketch/strange-dream.md
-      - 当我们在谈论吃饭时: life/sketch/sysu-card.md
-      - 寻找无双: life/sketch/searching.md
+  - Blog:
+    - blog/index.md
