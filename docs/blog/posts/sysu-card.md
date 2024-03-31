@@ -1,9 +1,19 @@
 ---
-date: 2021-02-28 23:41:52
+title: 奇怪的梦
+draft: false
+date: 2021-02-28
+authors: [mathew]
+slug: sysu-card
+description: >
+    　如题,仅仅是出于好奇而已. 大致分为两个部分,校园卡数据爬取与数据分析
+categories:
+  - General
 ---
 
 
 如题,仅仅是出于好奇而已. 大致分为两个部分,校园卡数据爬取与数据分析.完整项目见[Github](https://github.com/shenxiangzhuang/Sysu-Card), 请合理使用!
+
+<!-- more -->
 
 ## 数据爬取
 

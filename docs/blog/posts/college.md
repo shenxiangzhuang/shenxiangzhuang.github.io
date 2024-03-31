@@ -1,12 +1,22 @@
 ---
-date: 2019-05-20 09:06:47
+title: 我的大学
+draft: false
+date: 2019-05-20
+authors: [mathew]
+slug: college
+description: >
+    我的大学...
+categories:
+  - General
 ---
+
 
 <center>始</center>
 
 <center>某日清晨，我的大学</center>
 
 四年前，我来到小岛，来到海大。
+<!-- more -->
 
 若把城西小校门看作六点钟方向，出租车司机是把我放在大概六点半方向，并指明校门方向。而我先走到了十一点的位置，没找到校门，问路，折返，又走到两点钟方向，问路，折返，然后找到校门，至此完成我大学的“入场仪式”。
 

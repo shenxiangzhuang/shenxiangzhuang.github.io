@@ -1,9 +1,21 @@
 ---
-date: 2018-07-07 21:39:23
+title: 奇怪的梦
+draft: false
+date: 2018-07-07
+authors: [mathew]
+slug: strange-dream
+description: >
+    　他伸手把月亮关掉，只剩下自己和满天的星星。
+categories:
+  - General
 ---
 
 
+
 　他伸手把月亮关掉，只剩下自己和满天的星星。
+
+<!-- more -->
+
 
 　有些渴了，抬头，割下一小块星空，星光璀璨，成色依旧不错。
 
