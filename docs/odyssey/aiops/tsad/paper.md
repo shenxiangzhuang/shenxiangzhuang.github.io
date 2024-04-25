@@ -187,12 +187,19 @@ RRCF[@guha2016robust]较为通用的多指标异常检测算法，
 ### 2017-IRISA-SPOT
 ![Anomaly Detection Overview](images/siffer2017anomaly.png)
 
-???+ info "GitHub Resources"
+!!! abstract ""
+
+    :simple-thealgorithms: 算法 ·
+    :octicons-beaker-24: 适合POC ·
+    :material-airplane-landing: 适合落地
+
+???+ info "SPOT开源实现"
 
     - Github
         - [asiffer/libspot](https://github.com/asiffer/libspot)
         - [asiffer/python3-libspot](https://github.com/asiffer/python3-libspot)
         - [asiffer/gospot](https://github.com/asiffer/gospot)
+        - pyoats集成: [pyoats](https://github.com/georgian-io/pyoats)
 
 
 SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
@@ -214,6 +221,11 @@ SPOT[@siffer2017anomaly]是基于EVT的极值点异常检测算法,
 
 
 ### 2021-Huawei-FluxEV
+!!! abstract ""
+
+    :simple-thealgorithms: 算法 ·
+    :octicons-beaker-24: 适合POC ·
+    :material-airplane-landing: 适合落地
 
 FluxEV[@li2021fluxev]是一个波动异常检测算法，主要用于指标陡升陡降的检测。
 其本身检测准确率很高，可以精准地捕捉到指标的各种非异常的波动。
@@ -230,6 +242,10 @@ FluxEV[@li2021fluxev]是一个波动异常检测算法，主要用于指标陡�
 
     因为算法整体复杂度相比Spot会稍高一些，所以工程实现上会更加繁琐一些。
 
+!!! tip "FluxEV开源实现"
+
+    - 论文作者开源: [jlidw/FluxEV](https://github.com/jlidw/FluxEV)
+    - pyoats集成: [pyoats](https://github.com/georgian-io/pyoats)
 
 
 ### 2021-NUS-MemStream
