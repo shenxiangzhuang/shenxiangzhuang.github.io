@@ -1,5 +1,30 @@
 {% extends "base.html" %}
 
+{% block announce %}
+<center>
+You can follow <strong>@shenxiangzhuang</strong> on
+  <a href="https://github.com/shenxiangzhuang">
+    <span class="twemoji">
+      {% include ".icons/fontawesome/brands/square-github.svg" %}
+    </span>
+    <strong>GitHub</strong>
+  </a>
+  or
+  <strong>@MathewShen</strong> on
+  <a href="https://twitter.com/MathewShen42">
+    <span class="twemoji">
+      {% include ".icons/fontawesome/brands/x-twitter.svg" %}
+    </span>
+    <strong>Twitter</strong>
+  </a>
+  and
+  <a href="https://www.zhihu.com/people/shen-xiang-zhuang">
+    <strong>知乎</strong>
+  </a>
+</center>
+{% endblock %}
+
+
 {% block content %}
   {{ super() }}
 
