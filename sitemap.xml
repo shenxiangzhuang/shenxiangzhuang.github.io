@@ -421,6 +421,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/se/db/mongodb/</loc>
+         <lastmod>2024-05-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/se/db/mysql/</loc>
          <lastmod>2024-05-09</lastmod>
          <changefreq>daily</changefreq>
