@@ -88,3 +88,16 @@ Skywalking可以接ElasticSearch来收集日志，这对于日志的检索/分�
 | Testing              | Pytest(unit), Hypothesis(property), Locust(stress) |
 | Linting & Formatting | black, flake8, isort, ruff, mypy                   |
 
+
+## Tools
+
+### Retry
+
+#### Tenacity 🌟🌟🌟🌟🌟
+[tenacity](https://github.com/jd/tenacity)是普遍使用的重试库，整体功能已经比较完善，可以满足大部分的重试场景。
+
+#### stamina 🌟🌟🌟🌟
+[stamina](https://github.com/hynek/stamina): Production-grade retries for Python.
+是对tenacity的封装，目的是提供更加好用的API，更加方便的使用。
+
+
