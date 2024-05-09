@@ -1,5 +1,13 @@
 # Lifelong Learn: Elixir
 
+## 换源
+[UPYUN 支持 Elixir hex.pm 国内镜像](https://ruby-china.org/topics/31631)
+
+```shell
+export HEX_MIRROR="https://hexpm.upyun.com"
+export HEX_CDN="https://hexpm.upyun.com"
+```
+
 
 ## Books
 
