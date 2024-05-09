@@ -246,7 +246,8 @@ nav:
       - Time Series Anomaly Detection:
         - Paper: odyssey/aiops/tsad/paper.md
         - Product: odyssey/aiops/tsad/product.md
-
+      - Time Series Forecasting:
+        - Paper: odyssey/aiops/tsfcst/paper.md
       - Root Cause Analysis:
         - Paper: odyssey/aiops/rca/paper.md
       - Conference: odyssey/aiops/conference.md
