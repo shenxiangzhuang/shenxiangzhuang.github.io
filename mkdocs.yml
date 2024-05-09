@@ -222,6 +222,7 @@ nav:
       - Database:
           - se/db/index.md
           - MySQL: se/db/mysql.md
+          - MongoDB: se/db/mongodb.md
 
       - DDD:
           - se/ddd/index.md
