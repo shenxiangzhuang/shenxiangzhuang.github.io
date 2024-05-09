@@ -24,8 +24,15 @@
 
 ## ODM(Object-document mapping)
 
-### [ODMantic](https://github.com/art049/odmantic)
+### [ODMantic](https://github.com/art049/odmantic) 🌟🌟🌟🌟
 **Sync and Async** ODM (Object Document Mapper) for MongoDB based on python type hints
+
+!!! tip "FastAPI :heart: ODMantic"
+
+    FastAPI的NOSQL[文档](https://fastapi.tiangolo.com/how-to/nosql-databases-couchbase/)
+    提到说后续的Tutorail会采用ODMantic。ODMantic也给出了FastAPI中使用的[示例](https://art049.github.io/odmantic/usage_fastapi/),
+    所以如果是新的FastAPI项目，可以考虑使用ODMantic。
+
 
 ### [Beanie](https://github.com/roman-right/beanie) 🌟🌟🌟🌟
 **Asynchronous** Python ODM for MongoDB.
