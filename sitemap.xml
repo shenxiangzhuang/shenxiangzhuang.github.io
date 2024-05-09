@@ -171,6 +171,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/cs/programming/rust/</loc>
+         <lastmod>2024-05-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/cs/programming/scala/sbt_usage/</loc>
          <lastmod>2024-05-09</lastmod>
          <changefreq>daily</changefreq>
