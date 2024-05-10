@@ -62,8 +62,33 @@ nixtla_client.plot(df, timegpt_fcst_df, time_col='timestamp', target_col='value'
 论文目前透露的信息不太多，模型也是闭源的。等后面有更多的信息放出来或者有相关开源的模型时，还是值得尝试一下效果的。
 
 
-### TODO: 2024-Google-TimesFM
+### 2024-Google-TimesFM
 
 A decoder-only foundation model for time-series forecasting[@timesfm]是Google发在ICML 2024
-的一篇关于时序预测基础模型的文章。模型是在GitHub开源的: [google-research/timesfm](https://github.com/google-research/timesfm)。
+的一篇关于时序预测基础模型的文章。
+模型在GitHub开源: [google-research/timesfm](https://github.com/google-research/timesfm)。
 
+
+论文要解决的问题和TimeGPT是基本一致的(1), 主要也是zero-shot时间序列的预测问题。
+这篇文章给出的信息还是非常充分的，尤其是在数据预处理和模型架构上做的微小调整。
+{ .annotate }
+
+1. 论文中也提到了: "To the best of our knowledge, the very
+recent work in TimeGPT-1is the only other parallel work on a zero-shot foundation model for time-series
+forecasting. However the model is not public access, and several model details and the benchmark dataset have not
+been revealed."
+
+在数据预处理部分，TimesFM是围绕patch展开的。这里的patch，其实就是一段时序数据。
+patch的思想很简单，也是经过之前很多工作验证过的，这使得用patch来对标NLP里面的Token显得更加合理(1)。
+另外介绍了关于patch的masking和窗口的处理，这些都是为了提高模型的泛化能力，也是比较有意思的部分。
+{ .annotate }
+
+1. 这里的patch和NLP里面的Token是很相似的，只不过这里patch是时序数据的一段，而Token是文本的一段。
+另外，时间序列任务上拿单个时间点作为输入，就类似NLP中用character做输入，会损失很多信息。
+所以这里用patch来对应token是很自然且合理的。
+
+在模型架构方面，TimesFM是一个decoder-only的模型，这个和TimeGPT是一样的。模型的架构也是比较类似，如下:
+![](./images/timesfm.png)
+
+总的来说，TimesFM的工作是提供了一个时序预训练模型的基础，且其表现至少在benchmark上是很好的，
+是可以考虑在生产环境做进一步尝试的。
