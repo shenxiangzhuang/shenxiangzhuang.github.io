@@ -278,12 +278,6 @@ nav:
 
   - Project:
       - project/index.md
-      - PySESD: project/pysesd.md
-      - MPPT: project/mppt.md
-      - Beer: project/beer.md
-      - ToyData: project/toydata.md
-      - ToyML: project/toyml.md
-      - ToyDL: project/toydl.md
 
   - Life:
     - 前言: life/index.md
