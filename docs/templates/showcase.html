@@ -13,10 +13,10 @@
   {% for project in row %}
   <td>
     <div style="text-align: center;">
-        <p><strong><a href="/project/{{ project.link_name }}" style="font-size: 25px;">{{ project.name }}</a></strong></p>
+        <p><strong><a href="{{ project.link_url }}" style="font-size: 25px;">{{ project.name }}</a></strong></p>
         <p>{{ project.description }}</p>
     </div>
-    <a href="/project/{{ project.link_name }}"><img class="hover-grow" src="/assets/{{ project.image }}"/></a>
+    <a href="{{ project.link_url }}"><img class="hover-grow" src="/assets/{{ project.image }}"/></a>
 
   </td>
   {% endfor %}
