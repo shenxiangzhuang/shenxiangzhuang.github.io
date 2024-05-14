@@ -7,6 +7,16 @@ projects:
     description: Learning AI from scratch
     image: ai-glimpse.png
 
+  - name: BLEU Score
+    link_url: https://github.com/shenxiangzhuang/bleuscore
+    description: A fast BLEU score calculation library written in rust.
+    image: bleuscore.png
+
+  - name: CTeX Book Template
+    link_url: https://github.com/shenxiangzhuang/ctexbook-template
+    description: 为了优雅，优雅，还是优雅！
+    image: ctexbook-template.png
+
   - name: Beer
     link_url: https://datahonor.com/beer/
     description: Challenging Problems in Probability and Statistics
