@@ -61,6 +61,16 @@ nixtla_client.plot(df, timegpt_fcst_df, time_col='timestamp', target_col='value'
 
 论文目前透露的信息不太多，模型也是闭源的。等后面有更多的信息放出来或者有相关开源的模型时，还是值得尝试一下效果的。
 
+### TODO: 2024-Salesforce-MOIRAI
+*Unified Training of Universal Time Series Forecasting Transformers*[@woo2024unified]
+
+### TODO: 2024-CMU-MOMENT
+*MOMENT: A Family of Open Time-series Foundation Models*[@goswami2024moment]
+
+### TODO: 2024-Amazon-Chronos
+
+*Chronos: Learning the Language of Time Series*[@ansari2024chronos]
+
 
 ### 2024-Google-TimesFM
 
