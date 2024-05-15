@@ -5,6 +5,11 @@
 ### FastAPI 🌟🌟🌟🌟🌟
 很新也很好，对ORM，异步等的支持也更好，接口文档等也可以原生地生成，感觉后续会逐渐取代Flask。
 
+!!! tip "FastAPI Practice"
+
+    更多关于FastAPI的实践见[FastAPI Practice](./fastapi)
+
+
 ### Flask 🌟🌟🌟🌟
 轻量简便，应用较多的后端框架，比较适合简单的服务的构建。
 但是对ORM，接口文档管理等目前比较通用的需求无内部集成，需要结合很多第三方库来实现。

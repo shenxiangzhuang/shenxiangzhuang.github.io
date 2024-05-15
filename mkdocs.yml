@@ -100,6 +100,7 @@ extra_javascript:
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
+  - autorefs
   - rss:
       match_path: blog/posts/.*
       date_from_meta:
@@ -217,6 +218,7 @@ nav:
           - se/backend/index.md
           - Python:
             - se/backend/python/index.md
+            - FastAPI Practice: se/backend/python/fastapi.md
       - Frontend:
           - se/frontend/index.md
       - Database:
