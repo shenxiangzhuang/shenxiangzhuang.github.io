@@ -391,6 +391,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/se/backend/python/fastapi/</loc>
+         <lastmod>2024-05-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/se/db/</loc>
          <lastmod>2024-05-15</lastmod>
          <changefreq>daily</changefreq>
