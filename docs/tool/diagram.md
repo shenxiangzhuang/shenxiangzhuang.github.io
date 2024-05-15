@@ -1,5 +1,8 @@
 # Diagram
 
+## D2: Declarative Diagramming
+[D2](https://d2lang.com/): A modern language that turns text to diagrams
+
 ## Diagrams: Diagram as Code
 [Diagrams](https://diagrams.mingrammer.com/)
 是基于[Graphviz](https://www.graphviz.org/)
