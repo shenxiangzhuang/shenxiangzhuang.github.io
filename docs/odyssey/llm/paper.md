@@ -1,5 +1,9 @@
 # Paper Reading List
 
+## Step0: Basic Concepts
+如果之前对DL的基本概念不是很熟悉，可以先看一些基础的DL论文。
+如一些介绍性的论文，见[Deep Learning Papers](../../datascience/dl/paper.md)。
+此外，DL的一个核心是BP算法，相关的论文可以参考[Backpropagation](../../datascience/dl/bp/index.md)。
 
 ## Step1: NMT, Attention and Transformer
 
