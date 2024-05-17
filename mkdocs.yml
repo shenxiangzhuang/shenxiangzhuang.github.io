@@ -11,8 +11,10 @@ copyright: Copyright &copy; 2017 - 2024 Xiangzhuang Shen
 
 theme:
   name: material
+  favicon: assets/logo/glimpse-ai-logo-small.png
   custom_dir: docs/templates
   icon:
+    logo: material/state-machine
     repo: fontawesome/brands/github
   language: zh
   static_templates:
