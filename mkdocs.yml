@@ -4,8 +4,8 @@ site_author: Xiangzhuang Shen
 site_description: >-
   Xiangzhuang Shen's blog
 
-repo_name: Xiangzhuang Shen
-repo_url: https://github.com/shenxiangzhuang
+repo_name: Xiangzhuang Shen'S Blog
+repo_url: https://github.com/shenxiangzhuang/shenxiangzhuang.github.io
 
 copyright: Copyright &copy; 2017 - 2024 Xiangzhuang Shen
 
@@ -23,6 +23,8 @@ theme:
   search_index_only: true
 
   features:
+    - content.action.edit
+    - content.action.view
     - announce.dismiss
     - content.code.annotate
     - content.tabs.link
