@@ -1,5 +1,21 @@
 # Backend: Python
 
+## Books
+
+- [ ] [Architecture Patterns with Python](https://www.cosmicpython.com/)
+
+    ??? "实用的开发模式"
+
+        介绍了DDD, Repository Pattern, Unit of Work, Dependency injection等常见且实用的设计模式。
+
+- [ ] [Python Concurrency with asyncio](https://www.manning.com/books/python-concurrency-with-asyncio)
+
+    ??? "Python异步编程"
+
+        介绍了Python异步编程的基础知识，以及如何使用asyncio来构建异步应用。对于理解FastAPI的异步编程模型有很大帮助。
+
+
+
 ## Frameworks
 
 ### FastAPI 🌟🌟🌟🌟🌟
