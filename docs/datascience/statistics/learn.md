@@ -70,7 +70,7 @@
     后面数理统计的习题做了大部分，感觉提升了很多。另外，在习题解答的书上有额外的附加习题，难度在书上中上难度差不多，也是不错的。总之，这书很值得一看，习题最后也全做。
 
 
-- [x] *Elementary Probability Theory，Kai Lai Chung*
+- [x] *Elementary Probability Theory, Kai Lai Chung*
 
 <center>
     <img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/%E9%92%9F%E5%88%9D%E7%AD%89.jpg" width = "300" height = "300"/></center>
@@ -119,7 +119,7 @@
     这本书的课后题目有些就是根据稍微早些的论文改编，难度不是特别大，而且大多有详细的答案。有些题目没有解析解会给出数值解，也有的需要模拟的题目会给出R的代码！总之这本书有太多惊艳的地方，可以读很多遍。
 
 
-- [ ] *概率论及数理统计， 中山大学，邓集贤*
+- [ ] *概率论及数理统计，中山大学，邓集贤*
 
 <center><img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/%E4%B8%AD%E5%A4%A7%E9%82%93.jpg" width = "300" height = "300"/></center>
 
@@ -129,7 +129,7 @@
 
 
 
-- [ ] An Introduction to Probability and Statistical Inference Second Edition，George G. Roussas
+- [ ] An Introduction to Probability and Statistical Inference Second Edition, George G. Roussas
 
 <center><img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/Roussas.jpg" width = "300" height = "300"/></center>
 
@@ -141,16 +141,16 @@
 - [ ] [Computer Age Statistical Inference: Algorithms, Evidence and Data Science](http://web.stanford.edu/~hastie/CASI/index.html)
 
     ??? "统计推断演进"
-        ESL作者Trevor Hastie写的，从频率学派的经典统计到贝叶斯，再到新世纪兴起的EM,Lasso, SVM, Kernel以及NN做了介绍。感觉很不错！
+        ESL 作者 Trevor Hastie 写的，从频率学派的经典统计到贝叶斯，再到新世纪兴起的 EM,Lasso, SVM, Kernel 以及 NN 做了介绍。感觉很不错！
 
 
 ## Courses
 - [x] [Kernel Method, 李政轩](https://www.youtube.com/watch?v=p4t6O9uRX-U&list=PLt0SBi1p7xrRKE2us8doqryRou6eDYEOy)
 
-    ??? "非常好的Kernel教程"
+    ??? "非常好的 Kernel 教程"
         课程难得在数学推导极为详细，没有跳过任何关键的步骤，学习起来曲线十分平滑。
 
 - [ ] [Statistics 200: Introduction to Statistical Inference, Stanford University, Autumn 2016](https://web.stanford.edu/class/archive/stats/stats200/stats200.1172/lectures.html)
 
-    ??? "Stanford统计推断课程"
+    ??? "Stanford 统计推断课程"
         课程整体比较精简，不过统计推断中核心的知识都有涉及

@@ -9,10 +9,10 @@
 ## Courses
 - [ ] [Convex and Conic Optimization(Princeton,  ORF523 )](http://aaa.princeton.edu/orf523)
 
-    ??? note "Princeton的数学课"
+    ??? note "Princeton 的数学课"
         看了一点关于凸优化的内容，讲的比较细致，还未系统学习
 
 - [ ] [Convex Optimization: Fall 2019](https://www.stat.cmu.edu/~ryantibs/convexopt/)
 
-    ??? note "CMU凸优化课程"
+    ??? note "CMU 凸优化课程"
         优化课啃起来有点难

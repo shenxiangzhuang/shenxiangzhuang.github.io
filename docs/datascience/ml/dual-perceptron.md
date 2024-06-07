@@ -36,13 +36,13 @@ def get_train_data():
     # 为了美观，根据数据点限制之后分类线的范围
     min_x = np.min(M2)
     max_x = np.max(M1)
-    # 分隔x,方便作图
+    # 分隔 x，方便作图
     x = np.linspace(min_x, max_x, 100)
     # 此处返回 x 是为了之后作图方便
     return MA, x
 
 
-# S2-->GRAM计算
+# S2-->GRAM 计算
 def get_gram(MA):
     GRAM = np.empty(shape=(200, 200))
     for i in range(len(MA)):
@@ -61,7 +61,7 @@ def func(alpha, b, xi, yi, yN, index, GRAM):
     return num
 
 
-# 训练training data
+# 训练 training data
 def train(MA, alpha, b, GRAM, yN):
     # M 存储每次处理后依旧处于误分类的原始数据
     M = []
@@ -69,7 +69,7 @@ def train(MA, alpha, b, GRAM, yN):
         xi = sample[0:2]
         yi = sample[-2]
         index = int(sample[-1])
-        # 如果为误分类，改变alpha,b
+        # 如果为误分类，改变 alpha,b
         # n 为学习率
         if func(alpha, b, xi, yi, yN, index, GRAM) <= 0:
             alpha[index] += n
@@ -89,14 +89,14 @@ def plot_classify(w, b, x, rate0):
 
 # S4-->生成测试集并测试模型准确性
 
-# 随机生成testing data 并作图
+# 随机生成 testing data 并作图
 def get_test_data():
     M = np.random.random((50, 2))
     plt.plot(M[:, 0], M[:, 1], '*y')
     return M
 
 
-# 对传入的testing data 的单个样本进行分类
+# 对传入的 testing data 的单个样本进行分类
 def classify(w, b, test_i):
     if np.sign(np.dot(w, test_i) + b) == 1:
         return 1
@@ -142,8 +142,8 @@ if __name__ == "__main__":
     rate_l = {}
 
     #    print(alpha,b)
-    #    循环不同的学习率n,寻求最优的学习率，即最终的rate0
-    #    w0,b0为对应的最优参数
+    #    循环不同的学习率 n，寻求最优的学习率，即最终的 rate0
+    #    w0,b0 为对应的最优参数
     for i in np.linspace(0.01, 1, 1000):
         n = i
         alpha, b = train(MA, alpha, b, GRAM, yN)

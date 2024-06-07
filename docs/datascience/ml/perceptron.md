@@ -45,14 +45,14 @@ def func(w, b, xi, yi):
     num = yi * (np.dot(w, xi) + b)
     return num
 
-# 训练training data
+# 训练 training data
 def train(MA, w, b):
     # M 存储每次处理后依旧处于误分类的原始数据
     M = []
     for sample in MA:
         xi = sample[0:2]
         yi = sample[-1]
-        # 如果为误分类，更新w, b
+        # 如果为误分类，更新 w, b
         # n 为学习率
         if func(w, b, xi, yi) <= 0:
             w += n * yi * xi
@@ -71,13 +71,13 @@ def plot_classify(w, b, x, rate0):
 
 # S3-->随机生成测试集，并测试模型
 
-# 随机生成testing data 并作图
+# 随机生成 testing data 并作图
 def get_test_data():
     M = np.random.random((50, 2))
     plt.plot(M[:, 0], M[:, 1], '*y')
     return M
 
-# 对传入的testing data 的单个样本进行分类
+# 对传入的 testing data 的单个样本进行分类
 def classify(w, b, test_i):
     if np.sign(np.dot(w, test_i) + b) == 1:
         return 1
@@ -109,7 +109,7 @@ def plot_n_rate(rate_l):
 if __name__ == "__main__":
     MA, x = get_train_data()
     test_data = get_test_data()
-    # 定义初始的w,b
+    # 定义初始的 w,b
     w = [0, 0]
     b = 0
     # 初始化最优的正确率
@@ -117,8 +117,8 @@ if __name__ == "__main__":
     # rate_l 记录学习率的更新
     rate_l = {}
 
-    # 循环不同的学习率n,寻求最优的学习率，即最终的rate0
-    # w0,b0为对应的最优参数
+    # 循环不同的学习率 n，寻求最优的学习率，即最终的 rate0
+    # w0,b0 为对应的最优参数
     for i in np.linspace(0.01, 1, 1000):
         n = i
         w, b = train(MA, w, b)

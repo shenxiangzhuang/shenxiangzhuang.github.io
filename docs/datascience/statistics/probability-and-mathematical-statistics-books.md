@@ -76,7 +76,7 @@ date: 2018-12-24 10:32:29
     后面数理统计的习题做了大部分，感觉提升了很多。另外，在习题解答的书上有额外的附加习题，难度在书上中上难度差不多，也是不错的。总之，这书很值得一看，习题最后也全做。
 
 
-- [x] *Elementary Probability Theory，Kai Lai Chung*
+- [x] *Elementary Probability Theory, Kai Lai Chung*
 
 <center>
 <img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/%E9%92%9F%E5%88%9D%E7%AD%89.jpg" width = "300" height = "300"/></center>
@@ -125,7 +125,7 @@ date: 2018-12-24 10:32:29
     这本书的课后题目有些就是根据稍微早些的论文改编，难度不是特别大，而且大多有详细的答案。有些题目没有解析解会给出数值解，也有的需要模拟的题目会给出R的代码！总之这本书有太多惊艳的地方，可以读很多遍。
 
 
-- [ ] *概率论及数理统计， 中山大学，邓集贤*
+- [ ] *概率论及数理统计，中山大学，邓集贤*
 
 <center><img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/%E4%B8%AD%E5%A4%A7%E9%82%93.jpg" width = "300" height = "300"/></center>
 
@@ -135,7 +135,7 @@ date: 2018-12-24 10:32:29
 
 
 
-- [ ] An Introduction to Probability and Statistical Inference Second Edition，George G. Roussas
+- [ ] An Introduction to Probability and Statistical Inference Second Edition, George G. Roussas
 
 <center><img src="https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/201812/Roussas.jpg" width = "300" height = "300"/></center>
 

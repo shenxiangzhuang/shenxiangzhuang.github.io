@@ -17,5 +17,5 @@
 
 ## OSS: Open Source Software
 
-[OSS Insight](https://ossinsight.io/)可以对OSS项目进行统计分析，提供一些项目的数据指标。
+[OSS Insight](https://ossinsight.io/)可以对 OSS 项目进行统计分析，提供一些项目的数据指标。
 比如本项目的[OSS Insight](https://ossinsight.io/analyze/shenxiangzhuang/shenxiangzhuang.github.io#overview)。

@@ -97,7 +97,7 @@ Alembic 是使用非常广泛的数据库迁移工具，功能完善，且和 SQ
 ## Observability
 
 目前接触到的有 Skywalking 和 Sentry[^1].
-[^1]: 相关实践参考: [https://datahonor.com/se/observability/](https://datahonor.com/se/observability/)
+[^1]: 相关实践参考：[https://datahonor.com/se/observability/](https://datahonor.com/se/observability/)
 
 
 ### Sentry 🌟🌟🌟🌟🌟
@@ -109,7 +109,7 @@ Sentry 相对优于 Skywalking 的地方很多，比如在性能监控方面，S
 
 ### Skywalking 🌟🌟🌟
 Skywalking 可以接 ElasticSearch 来收集日志，这对于日志的检索/分析来说是一个很好的选择，
-相对来水Sentry对全局的日志检索/分析的支持得不够好。
+相对来水 Sentry 对全局的日志检索/分析的支持得不够好。
 
 
 ## Doc, Test, Lint & Format

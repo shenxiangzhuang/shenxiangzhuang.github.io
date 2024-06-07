@@ -10,9 +10,9 @@ categories:
   - General
 ---
 
-# 终身学习: 2023
+# 终身学习：2023
 
-!!! tip "终身学习(Lifelong learning)"
+!!! tip "终身学习 (Lifelong learning)"
 
     Lifelong learning is the "ongoing, voluntary, and self-motivated"
     pursuit of knowledge for either personal or professional reasons.[^1]
@@ -25,7 +25,7 @@ categories:
 ## 个人项目进展
 
 单独建了个[Project](https://datahonor.com/project/)页面，主要是记录一些个人项目的进展。
-这些项目有些从2020年就开始了，有些是最近才开始的。这里主要记录下这些项目的一些进展。
+这些项目有些从 2020 年就开始了，有些是最近才开始的。这里主要记录下这些项目的一些进展。
 
 !!! note "[Py]S-ESD: Seasonal Extreme Studentized Deviate(S-ESD) in Python."
 
@@ -45,26 +45,26 @@ categories:
 !!! note "Toys: ToyData -> ToyML -> ToyDL"
 
     - [ToyData](https://github.com/shenxiangzhuang/toydata):
-    ToyData是ToyX系列的第一个项目，主要是用Python来实现一些经典的数据结构，比如链表、树、图等。
-    这个项目是2019年为了学习数据结构和算法写的(2023年并未实际投入，列举用于说明ToyX系列项目初衷)，
+    ToyData 是 ToyX 系列的第一个项目，主要是用 Python 来实现一些经典的数据结构，比如链表、树、图等。
+    这个项目是 2019 年为了学习数据结构和算法写的 (2023 年并未实际投入，列举用于说明 ToyX 系列项目初衷)，
     在这个造轮子的过程中我发现自己对数据结构和算法的理解更加深入了。
-    正如Feynman's所言: "What I cannot create, I do not understand" —— 这也是ToyML和ToyDL项目的初衷，
-    本质上是用于Education的工具。
+    正如 Feynman's 所言："What I cannot create, I do not understand" —— 这也是 ToyML 和 ToyDL 项目的初衷，
+    本质上是用于 Education 的工具。
 
     - [ToyML](https://github.com/shenxiangzhuang/toyml):
-    ToyML是ToyX系列的第二个项目，主要是用Python来实现一些经典的机器学习算法，比如线性回归、逻辑回归、决策树等。
-    目前是实现了Clustering: DBSCAN, Hierarchical(Agnes&Diana), Kmeans; Classification: KNN; Ensemble: Boosting(AdaBoost).
-    (2023年也没投入，仅仅是因为强迫症，不写这里很难受)
+    ToyML 是 ToyX 系列的第二个项目，主要是用 Python 来实现一些经典的机器学习算法，比如线性回归、逻辑回归、决策树等。
+    目前是实现了 Clustering: DBSCAN, Hierarchical(Agnes&Diana), Kmeans; Classification: KNN; Ensemble: Boosting(AdaBoost).
+    (2023 年也没投入，仅仅是因为强迫症，不写这里很难受)
 
     - [ToyDL](https://github.com/shenxiangzhuang/toydl):
-    ToyDL是ToyX系列的第三个项目，主要是用Python来实现一些经典的深度学习算法。
-    这个项目的核心部分是在2023年完成，目前还是一个简单的深度学习引擎,
-    只实现了最基本的前向传播和反向传播(自动微分)。项目本身是收mini-torch的启发，
-    也是用于自身学习DL的工具。目前项目已经可以跑通XOR等简单的例子，
+    ToyDL 是 ToyX 系列的第三个项目，主要是用 Python 来实现一些经典的深度学习算法。
+    这个项目的核心部分是在 2023 年完成，目前还是一个简单的深度学习引擎，
+    只实现了最基本的前向传播和反向传播 (自动微分)。项目本身是收 mini-torch 的启发，
+    也是用于自身学习 DL 的工具。目前项目已经可以跑通 XOR 等简单的例子，
     后续重点的方向**不是**让项目更加完善，
-    而是让项目更加简单，更加易懂，让Torch不再黑盒。(免杠声明: 我是自己在开始学习
-    用pytorch的时候对自动微分十分迷惑，所以才学上了mini-torch的课，学完后发现
-    仍然没有理解地很透彻才开始写ToyDL :-)
+    而是让项目更加简单，更加易懂，让 Torch 不再黑盒。(免杠声明：我是自己在开始学习
+    用 pytorch 的时候对自动微分十分迷惑，所以才学上了 mini-torch 的课，学完后发现
+    仍然没有理解地很透彻才开始写 ToyDL :-)
 
 !!! note "[Beer: Fifty challenging problems in probability](https://github.com/shenxiangzhuang/beer)"
 
@@ -87,16 +87,16 @@ categories:
 ![Thin/Zenodia](https://datahonor-1252464519.cos.ap-beijing-1.myqcloud.com/calvino/public/city/thin/zenodia.png)
 
 
-## Blog迁移
-在2022年底将博客([datahonor.com](https://datahonor.com))从Hexo迁移到了MkDocs，主要是Hexo用起来要装很多插件，
-然后一些插件的更新后会导致博客无法正常生成，又发现MkDocs强大的工程和简单的使用，所以决定迁移。
+## Blog 迁移
+在 2022 年底将博客 ([datahonor.com](https://datahonor.com)) 从 Hexo 迁移到了 MkDocs，主要是 Hexo 用起来要装很多插件，
+然后一些插件的更新后会导致博客无法正常生成，又发现 MkDocs 强大的工程和简单的使用，所以决定迁移。
 
-MkDocs + GitHub Page是目前采取的方案，非常的方便。全部的代码和资料都在GitHub上，
-更新发布等流程可以全部在GitHub完成。
+MkDocs + GitHub Page 是目前采取的方案，非常的方便。全部的代码和资料都在 GitHub 上，
+更新发布等流程可以全部在 GitHub 完成。
 
 ## 工作漫游
-工作漫游([Career Odyssey](https://datahonor.com/careerodyssey/))
-是我在2023年开始的一个系列，主要是工作中接触到的一些算法领域的学习积累，
+工作漫游 ([Career Odyssey](https://datahonor.com/careerodyssey/))
+是我在 2023 年开始的一个系列，主要是工作中接触到的一些算法领域的学习积累，
 一般分为学术论文解读和实际工程应用两个部分[^2]。
 
 ### [AIOps: TSAD & RCA](https://datahonor.com/odyssey/aiops/)
@@ -126,11 +126,11 @@ MkDocs + GitHub Page是目前采取的方案，非常的方便。全部的代码
     但是由于实际的数据和场景的复杂性，效果并不是很好，
     感觉实际落地中还是要根据具体领域细分做专门化的处理才可以达到比较好的效果。
 
-TSAD和RCA一直是AIOps的热点，在开源社区也有很多讨论和实践。
-TSAD就不用说了，在[TSAD/Paper](https://datahonor.com/odyssey/aiops/tsad/paper/)
-部分已经充分介绍了开源社区丰富的工具和算法。RCA这块目前开源社区的讨论和实践相对较少，
-目前跟过的主要就是Salesforce的[PyRCA](https://github.com/salesforce/PyRCA),
-不过目前看PyRCA距离落地显然还有很多工作要做。
+TSAD 和 RCA 一直是 AIOps 的热点，在开源社区也有很多讨论和实践。
+TSAD 就不用说了，在[TSAD/Paper](https://datahonor.com/odyssey/aiops/tsad/paper/)
+部分已经充分介绍了开源社区丰富的工具和算法。RCA 这块目前开源社区的讨论和实践相对较少，
+目前跟过的主要就是 Salesforce 的[PyRCA](https://github.com/salesforce/PyRCA),
+不过目前看 PyRCA 距离落地显然还有很多工作要做。
 
 
 另外提下一个孵化中的项目
@@ -141,34 +141,34 @@ TSAD就不用说了，在[TSAD/Paper](https://datahonor.com/odyssey/aiops/tsad/p
 
 ### Data Centric AI: Crowdsourcing
 
-另外就是一些近期的工作，主要是在Data Centric AI方面的一些工作。
-Data Centric AI是一个很大的领域，目前接触比较多的还是在Crowdsourcing方面。
+另外就是一些近期的工作，主要是在 Data Centric AI 方面的一些工作。
+Data Centric AI 是一个很大的领域，目前接触比较多的还是在 Crowdsourcing 方面。
 在[CHC/Paper](https://datahonor.com/odyssey/chc/paper/)里面列出了一些
-Crowdsourcing相关的论文，以Label Aggregation方面的论文为主，
-其他是Data Labeling系统在落地实践中需要的其他各类算法。
+Crowdsourcing 相关的论文，以 Label Aggregation 方面的论文为主，
+其他是 Data Labeling 系统在落地实践中需要的其他各类算法。
 
 ### MLOps & LLM
-MLOps和LLM的水都太深了，还在慢慢趟...接下来一年会有一些关于MLOps和LLM的学习积累。
+MLOps 和 LLM 的水都太深了，还在慢慢趟...接下来一年会有一些关于 MLOps 和 LLM 的学习积累。
 
 ## Software Engineering
 
 最近工作做数据工程和后端开发比较多，所以也在学习一些软件工程的知识，
 记录在[Software Engineering](https://datahonor.com/se/)。
-目前主要是Backend/Python的一些学习积累。
+目前主要是 Backend/Python 的一些学习积累。
 
 ## Rust & Elixir
 
-Rust+Wasm+ML/DL和Elixir+Agent是我认为后续会有很大发展空间的方向，
+Rust+Wasm+ML/DL 和 Elixir+Agent 是我认为后续会有很大发展空间的方向，
 所以最近也在学习这两门语言。
 
-在Rust方面主要是看了看基础的语法， 另外在工作中尝试了下用Axum写后端API，虽然写起来慢一些(相比Python，用的FastAPI)，
-但是性能确实是吊打Python的。
+在 Rust 方面主要是看了看基础的语法，另外在工作中尝试了下用 Axum 写后端 API，虽然写起来慢一些 (相比 Python，用的 FastAPI)，
+但是性能确实是吊打 Python 的。
 
-在Elixir方面主要是看了看基础的语法，之后就主要学习Phoenix和LiveView了。
-不得不说通过Elixir学习Actor Model真的是非常有趣，也非常有启发性。
-Phoenix和LiveView也是足够先进和强大的Web框架，非常值得学习。
+在 Elixir 方面主要是看了看基础的语法，之后就主要学习 Phoenix 和 LiveView 了。
+不得不说通过 Elixir 学习 Actor Model 真的是非常有趣，也非常有启发性。
+Phoenix 和 LiveView 也是足够先进和强大的 Web 框架，非常值得学习。
 
-在2024年个人的[Lifelong Learning Milestones](https://github.com/users/shenxiangzhuang/projects/3/views/5)中，
+在 2024 年个人的[Lifelong Learning Milestones](https://github.com/users/shenxiangzhuang/projects/3/views/5)中，
 也将两门语言的学习作为了一个重要部分，希望今年能多一些实践，做一些有趣的项目。
 
 ## 未完待续

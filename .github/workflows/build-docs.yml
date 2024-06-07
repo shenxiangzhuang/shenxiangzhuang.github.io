@@ -15,6 +15,8 @@ jobs:
           fetch-depth: 0
           sparse-checkout: |
             docs
+      - name: AutoCorrect
+        uses: huacnlee/autocorrect-action@main
       - name: Install Python
         uses: actions/setup-python@v4
       - name: Setup pandoc
