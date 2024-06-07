@@ -12,9 +12,9 @@ date: 2017-03-03 12:38:48
 
 ![](http://dataimage-1252464519.costj.myqcloud.com/images/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/ch4/Screenshot%20from%202017-03-03%2012-46-57.png)
 
-如上所述，在lambda = 0时，贝叶斯估计就等价于极大似然估计。
+如上所述，在 lambda = 0 时，贝叶斯估计就等价于极大似然估计。
 
-## Python实现
+## Python 实现
 这里数据集用的是[数字手写体](http://download.csdn.net/detail/zouxy09/6610571).
 
 ### 手动实现算法
@@ -25,7 +25,7 @@ import pandas as pd
 import numpy as np
 
 
-## 处理单个txt文件, 将文件转化为1-d数组
+## 处理单个 txt 文件，将文件转化为 1-d 数组
 def img2vector(filename):
     rows = 32
     cols = 32
@@ -147,10 +147,10 @@ def run():
 
 
 if __name__ == '__main__':
-    # 选取合适的lamda
-    # lamda=0是为极大似然估计
-    # lamda>0是为贝叶斯估计，特别地，在其为1时，称作拉普拉斯平滑。
-    lamda = 0  # 这里lamda=0得到的准确率较高
+    # 选取合适的 lamda
+    # lamda=0 是为极大似然估计
+    # lamda>0 是为贝叶斯估计，特别地，在其为 1 时，称作拉普拉斯平滑。
+    lamda = 0  # 这里 lamda=0 得到的准确率较高
     run()
 
 ```
@@ -162,8 +162,8 @@ if __name__ == '__main__':
 本次训练预测共耗时  1.8078570365905762
 ```
 
-### 与sklearn实现对比
-为了对比，我们也用sklearn的朴素贝叶斯算法实现下。
+### 与 sklearn 实现对比
+为了对比，我们也用 sklearn 的朴素贝叶斯算法实现下。
 ```python
     import os
     import time
@@ -200,7 +200,7 @@ nb = GaussianNB()
 ```
 
 
-可以看到，sklearn的算法实现明显要快得多，在正确选择合适算法时，也能达到较高的准确率。
+可以看到，sklearn 的算法实现明显要快得多，在正确选择合适算法时，也能达到较高的准确率。
 
 
 

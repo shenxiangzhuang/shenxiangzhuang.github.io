@@ -5,7 +5,7 @@ date: 2019-11-10 15:34:22
 
 ### Overview
 
-整理下关于`Python`中`Type Checking`的资料。主要参考[realpython](https://realpython.com/python-type-checking/).关于`Type Checking`，这篇文章主要是基于`mypy`来讲的，另外微软的`pyright`用着也还可以（还是有Bug...），可以和`Vscode`一起用。
+整理下关于`Python`中`Type Checking`的资料。主要参考[realpython](https://realpython.com/python-type-checking/).关于`Type Checking`，这篇文章主要是基于`mypy`来讲的，另外微软的`pyright`用着也还可以（还是有 Bug...），可以和`Vscode`一起用。
 
 
 ### Annotations

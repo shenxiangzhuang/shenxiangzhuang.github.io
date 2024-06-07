@@ -3,13 +3,13 @@ date: 2017-09-08 12:12:34
 ---
 
 
-在看*Statistical Inference*的时候，看到Three Prisoners的问题时，没看太懂，因为问题的描述略简单.
-于是为wiki查了下，又把之前看到的Three Doors放在一起。
+在看*Statistical Inference*的时候，看到 Three Prisoners 的问题时，没看太懂，因为问题的描述略简单。
+于是为 wiki 查了下，又把之前看到的 Three Doors 放在一起。
 
 
 ## Three Doors Problems
 
-三门问题，又叫Monty Hall problem， 来自一个电视节目，规则如下（具体参见[wiki](https://en.wikipedia.org/wiki/Monty_Hall_problem)）：
+三门问题，又叫 Monty Hall problem，来自一个电视节目，规则如下（具体参见[wiki](https://en.wikipedia.org/wiki/Monty_Hall_problem)）：
 
 !!! example
     Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car;
@@ -21,8 +21,8 @@ date: 2017-09-08 12:12:34
 
 !!! tip
     按照规则，如果在主持人询问后选择转换，那么最后得到的奖品必然是和初始选择到的奖品是不同的。
-    所以只要是选择转换，那么第一次选中山羊的概率就是最后得到汽车的概率，为2/3；
-    反之，只要选择不动，那么第一次选择得到的奖品就是最后得到的，所以得到汽车的概率为1/3.
+    所以只要是选择转换，那么第一次选中山羊的概率就是最后得到汽车的概率，为 2/3；
+    反之，只要选择不动，那么第一次选择得到的奖品就是最后得到的，所以得到汽车的概率为 1/3.
     因此，选择转换，会使得得到汽车的概率提高一倍。
 
 ## Three Prisoners Problems

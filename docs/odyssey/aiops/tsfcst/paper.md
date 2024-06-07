@@ -2,7 +2,7 @@
 
 ## TS :heart: GPT
 
-GPT的风还是吹到了Time Series，看到Nixtla和Google都在做一些相关的工作，这里就一起跟进一下。
+GPT 的风还是吹到了 Time Series，看到 Nixtla 和 Google 都在做一些相关的工作，这里就一起跟进一下。
 
 ### 2023-Nixtla-TimeGPT
 
@@ -14,27 +14,27 @@ GPT的风还是吹到了Time Series，看到Nixtla和Google都在做一些相关
     and deep learning methods, demonstrating that TimeGPT zero-shot
     inference excels in **performance, efficiency, and simplicity**.
 
-简单来说，TimeGPT-1[@timegpt]是**第一个**发布的时间序列基础模型，专注于zero-shot的时序预测。
-论文的Benchmark对比了统计学，(统计)机器学习和深度学习的方法，证明了TimeGPT的优越性。
+简单来说，TimeGPT-1[@timegpt]是**第一个**发布的时间序列基础模型，专注于 zero-shot 的时序预测。
+论文的 Benchmark 对比了统计学，(统计) 机器学习和深度学习的方法，证明了 TimeGPT 的优越性。
 
 
-这里注意摘要中提到说TimeGPT是在**performance, efficiency, and simplicity**方面都全面领先的，
-这个是比较出乎意料的。首先，更好的performance是可以理解的，毕竟都上DL了，在标准数据集上跑分高还是能做的(1)。
-但是在efficiency和simplicity上怎么能做到领先的呢？
+这里注意摘要中提到说 TimeGPT 是在**performance, efficiency, and simplicity**方面都全面领先的，
+这个是比较出乎意料的。首先，更好的 performance 是可以理解的，毕竟都上 DL 了，在标准数据集上跑分高还是能做的 (1)。
+但是在 efficiency 和 simplicity 上怎么能做到领先的呢？
 { .annotate }
 
 1. 没错，言下之意就是在工业级的生产环境是很难跑到这个分数的，也很可能比其他统计学的方法更差。
 
-首先是efficiency，论文提到TimeGPT在单个序列的GPU平均推理时间是0.6ms，与此同时一些统计学方法在的训练+推理的时间会达到
-600ms, 其他像LGBM, LSTM这些方法平均每个序列的训练+推理时间为57ms，因此得出结论: TimeGPT比其他方法快好几个数量级。
-Emmm...你要真这么比也不是不行:-) 不过0.6ms的推理时间确实是很快了，完全具有批量上生成环境的可能。
+首先是 efficiency，论文提到 TimeGPT 在单个序列的 GPU 平均推理时间是 0.6ms，与此同时一些统计学方法在的训练 + 推理的时间会达到
+600ms, 其他像 LGBM, LSTM 这些方法平均每个序列的训练 + 推理时间为 57ms，因此得出结论：TimeGPT 比其他方法快好几个数量级。
+Emmm...你要真这么比也不是不行:-) 不过 0.6ms 的推理时间确实是很快了，完全具有批量上生成环境的可能。
 
-至于simplicity，文章没有提及很多。不过论文给出的模型架构确实很简单，基本就是Transformer原封不动拿过来用。
+至于 simplicity，文章没有提及很多。不过论文给出的模型架构确实很简单，基本就是 Transformer 原封不动拿过来用。
 
 ![](https://github.com/Nixtla/nixtla/raw/main/nbs/img/forecast_readme.png)
 
-另外simplicity可能也是表现在使用方式上，Nixtla给出了调用TimeGPT的[SDK](https://github.com/Nixtla/nixtla)，
-确实也是简单易用的:
+另外 simplicity 可能也是表现在使用方式上，Nixtla 给出了调用 TimeGPT 的[SDK](https://github.com/Nixtla/nixtla)，
+确实也是简单易用的：
 
 ```python
 import pandas as pd
@@ -74,31 +74,31 @@ nixtla_client.plot(df, timegpt_fcst_df, time_col='timestamp', target_col='value'
 
 ### 2024-Google-TimesFM
 
-A decoder-only foundation model for time-series forecasting[@timesfm]是Google发在ICML 2024
+A decoder-only foundation model for time-series forecasting[@timesfm]是 Google 发在 ICML 2024
 的一篇关于时序预测基础模型的文章。
-模型在GitHub开源: [google-research/timesfm](https://github.com/google-research/timesfm)。
+模型在 GitHub 开源：[google-research/timesfm](https://github.com/google-research/timesfm)。
 
 
-论文要解决的问题和TimeGPT是基本一致的(1), 主要也是zero-shot时间序列的预测问题。
+论文要解决的问题和 TimeGPT 是基本一致的 (1), 主要也是 zero-shot 时间序列的预测问题。
 这篇文章给出的信息还是非常充分的，尤其是在数据预处理和模型架构上做的微小调整。
 { .annotate }
 
-1. 论文中也提到了: "To the best of our knowledge, the very
+1. 论文中也提到了："To the best of our knowledge, the very
 recent work in TimeGPT-1is the only other parallel work on a zero-shot foundation model for time-series
 forecasting. However the model is not public access, and several model details and the benchmark dataset have not
 been revealed."
 
-在数据预处理部分，TimesFM是围绕patch展开的。这里的patch，其实就是一段时序数据。
-patch的思想很简单，也是经过之前很多工作验证过的，这使得用patch来对标NLP里面的Token显得更加合理(1)。
-另外介绍了关于patch的masking和窗口的处理，这些都是为了提高模型的泛化能力，也是比较有意思的部分。
+在数据预处理部分，TimesFM 是围绕 patch 展开的。这里的 patch，其实就是一段时序数据。
+patch 的思想很简单，也是经过之前很多工作验证过的，这使得用 patch 来对标 NLP 里面的 Token 显得更加合理 (1)。
+另外介绍了关于 patch 的 masking 和窗口的处理，这些都是为了提高模型的泛化能力，也是比较有意思的部分。
 { .annotate }
 
-1. 这里的patch和NLP里面的Token是很相似的，只不过这里patch是时序数据的一段，而Token是文本的一段。
-另外，时间序列任务上拿单个时间点作为输入，就类似NLP中用character做输入，会损失很多信息。
-所以这里用patch来对应token是很自然且合理的。
+1. 这里的 patch 和 NLP 里面的 Token 是很相似的，只不过这里 patch 是时序数据的一段，而 Token 是文本的一段。
+另外，时间序列任务上拿单个时间点作为输入，就类似 NLP 中用 character 做输入，会损失很多信息。
+所以这里用 patch 来对应 token 是很自然且合理的。
 
-在模型架构方面，TimesFM是一个decoder-only的模型，这个和TimeGPT是一样的。模型的架构也是比较类似，如下:
+在模型架构方面，TimesFM 是一个 decoder-only 的模型，这个和 TimeGPT 是一样的。模型的架构也是比较类似，如下：
 ![](./images/timesfm.png)
 
-总的来说，TimesFM的工作是提供了一个时序预训练模型的基础，且其表现至少在benchmark上是很好的，
+总的来说，TimesFM 的工作是提供了一个时序预训练模型的基础，且其表现至少在 benchmark 上是很好的，
 是可以考虑在生产环境做进一步尝试的。

@@ -18,8 +18,8 @@
 [NVIDIA: Mastering LLM Techniques: Inference Optimization](https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/)
 
 ### KV Cache
-[图解大模型推理优化之KV Cache](https://zhuanlan.zhihu.com/p/679249229)
-给出了非常详细且简洁的解释，文章中参考的HuggingFace代码来自
+[图解大模型推理优化之 KV Cache](https://zhuanlan.zhihu.com/p/679249229)
+给出了非常详细且简洁的解释，文章中参考的 HuggingFace 代码来自
 [transformers/models/decision_transformer/modeling_decision_transformer.py](https://github.com/huggingface/transformers/blob/28751958874eccb155fa2ab10a79bf8068d9ae29/src/transformers/models/decision_transformer/modeling_decision_transformer.py#L301-L318)
 
 ```python
@@ -32,7 +32,7 @@ if layer_past is not None:
     key = torch.cat((past_key, key), dim=-2)
     value = torch.cat((past_value, value), dim=-2)
 ```
-核心的逻辑就是如果有历史的key和value，就把当前的key和value拼接到历史的key和value上，以此减少计算量。
+核心的逻辑就是如果有历史的 key 和 value，就把当前的 key 和 value 拼接到历史的 key 和 value 上，以此减少计算量。
 
 
 ### MQA

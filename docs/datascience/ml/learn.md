@@ -15,15 +15,15 @@
 
 - [ ] [Chapman & Hall/CRC Data Mining and Knowledge Discovery Series](https://www.crcpress.com/Chapman--HallCRC-Data-Mining-and-Knowledge-Discovery-Series/book-series/CHDAMINODIS?page=&order=pubdate&size=48&view=list&status=published,forthcoming)
 
-    ??? "Data Mining技术的历史演进"
-        此系列包括了CRC Press自2007年以来的数据挖掘方面的书籍，从最初的EXCEL, 到SAS，再到Python和R，进行着明显的演进。
+    ??? "Data Mining 技术的历史演进"
+        此系列包括了 CRC Press 自 2007 年以来的数据挖掘方面的书籍，从最初的 EXCEL, 到 SAS，再到 Python 和 R，进行着明显的演进。
 
 
 ## Courses
 - [x] [Machine Learning(NYU, DS-GA 1003)](https://davidrosenberg.github.io/ml2019/#home)
 
-    ??? "非常好的Machine Learning课程, 力荐!"
-        这门课程没有回避任何问题，对优化问题作出了很好的解释和说明。而且课程是站在一个相当高的角度(基于Risk)来展开，很有启发性。课程资料及自己的习题解答放在Github: [NYU-ML](https://github.com/shenxiangzhuang/NYU-ML)
+    ??? "非常好的 Machine Learning 课程，力荐！"
+        这门课程没有回避任何问题，对优化问题作出了很好的解释和说明。而且课程是站在一个相当高的角度 (基于 Risk) 来展开，很有启发性。课程资料及自己的习题解答放在 Github: [NYU-ML](https://github.com/shenxiangzhuang/NYU-ML)
 
 
 - [ ] [Introduction to Data-Centric AI](https://dcai.csail.mit.edu/)
@@ -45,32 +45,32 @@
 
         这是根据*[Understanding Machine Learning: From Theory to Algorithms  ](http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/index.html)*这本书找到的课程。
 
-        这本书只看了开头几章，真的是高屋建瓴！而且对PAC理论的推导是我目前见过最为精彩而且容易懂的，所以打算把DS-GA 1003的完成度作为目标，配合课程，书籍，习题和答案将这learning theory这部分的理论补充起来！
+        这本书只看了开头几章，真的是高屋建瓴！而且对 PAC 理论的推导是我目前见过最为精彩而且容易懂的，所以打算把 DS-GA 1003 的完成度作为目标，配合课程，书籍，习题和答案将这 learning theory 这部分的理论补充起来！
 
 
 - [ ] [Introduction to Machine Learning(CMU, 10-301 + 10-601)](https://www.cs.cmu.edu/~mgormley/courses/10601-s19/schedule.html)
 
-    ??? Introduction级别好课程
+    ??? Introduction 级别好课程
 
-        CMU的ML课程。对我而言比较熟悉的算法，比如Decision Tree,看这个课的lecture notes就感觉略简单了。但是一些不是很熟悉的算法如Reinforcement Learning这些，看这种Introduction级别的还是挺不错的。
+        CMU 的 ML 课程。对我而言比较熟悉的算法，比如 Decision Tree，看这个课的 lecture notes 就感觉略简单了。但是一些不是很熟悉的算法如 Reinforcement Learning 这些，看这种 Introduction 级别的还是挺不错的。
 
 
 - [ ] [Mining Massive Data Sets(Stanford, CS246, Winter 2020)](http://web.stanford.edu/class/cs246/)
 
     ??? note "MMDS"
 
-        聚焦算法的大规模工程部署, 很值得学的课程
+        聚焦算法的大规模工程部署，很值得学的课程
 
 - [ ] [Machine Learning & Data Mining(Caltech, CS 155, Winter 2020)](http://www.yisongyue.com/courses/cs155/2020_winter/)
 
-    ??? note "Caltech机器学习"
+    ??? note "Caltech 机器学习"
 
-        Lecture notes看着还不错
+        Lecture notes 看着还不错
 
 
 - [ ] [CS 189/289A-Introduction to Machine Learning](https://people.eecs.berkeley.edu/~jrs/189/)
 
-    ??? note "Berkeley统计机器学习"
+    ??? note "Berkeley 统计机器学习"
 
         理论讲的比较深入，给了很多有用的资料。（后面需要重点看的）
 
@@ -78,11 +78,11 @@
 
 - [ ] [Foundations of Machine Learning-Fall2020](https://cs.nyu.edu/~mohri/ml20/)
 
-    ??? "硬核ML Foundation"
+    ??? "硬核 ML Foundation"
         书籍[Foundations of Machine Learning](https://cs.nyu.edu/~mohri/mlbook/)作者开设的对应的课程
 
 - [ ] [Machine Learning and Data Mining-CSC 411 Winter 2019](https://www.cs.toronto.edu/~mren/teach/csc411_19s/#overview)
 
-    ??? "Toronto大学的机器学习课程"
-     选录进入此系列是因为这个课程覆盖面较全，虽然较为精简。然后也有配套的homework。
+    ??? "Toronto 大学的机器学习课程"
+     选录进入此系列是因为这个课程覆盖面较全，虽然较为精简。然后也有配套的 homework。
 

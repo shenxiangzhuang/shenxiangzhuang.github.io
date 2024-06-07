@@ -9,10 +9,10 @@
 
 ## PART I: Strategic Design
 
-???+ "DDD方法论: 战略与战术"
+???+ "DDD 方法论：战略与战术"
 
-    - 战略层面: 回答"what"和"why?"
-    - 战术层面: "how"
+    - 战略层面：回答"what"和"why?"
+    - 战术层面："how"
 
 
 ### Chap1: Analyzing Business Domains

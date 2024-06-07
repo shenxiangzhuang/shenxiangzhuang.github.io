@@ -2,7 +2,7 @@
 date: 2019-11-01 11:37:02
 ---
 
-### 为什么需要Context Managers(Motivation)
+### 为什么需要 Context Managers(Motivation)
 
 先来看一个读写文件的例子。
 
@@ -34,13 +34,13 @@ with open('hello.txt', 'w') as f:
 
 这种写法可以保证在任何情况下`f`都可以被正常关闭，保持简洁同时代码的可读性大大提升。
 
-不仅是读写文件，其他的诸如读写数据库，线程的释放等，都是需要做类似处理的。这就催生出了我们的`with`， 它就是**专门为简化这种`try/finally`的写法而设计的，它保证在运行一段代码后我们总能进行一些操作，即使运行的那段代码出错也不影响**。
+不仅是读写文件，其他的诸如读写数据库，线程的释放等，都是需要做类似处理的。这就催生出了我们的`with`，它就是**专门为简化这种`try/finally`的写法而设计的，它保证在运行一段代码后我们总能进行一些操作，即使运行的那段代码出错也不影响**。
 
-### Context Manager是什么
+### Context Manager 是什么
 
-我们知道，Python的内部实现依赖Duck Type("If it walks like a duck and it quacks like a duck, then it must be a duck"), 所以一般要实现某种行为，我们只需要对应实现一些必须的`protocol`. 就像`str(x)`对应`__str__`， `len(x)`对应`__len__`， `in`对应`__contains__`这样，**这里的Context Manager对应`__enter__`和`__exit__`， 其表现形式一般是一个类(class)**， 后面也会介绍用已有的**装饰器工具和生成器(generator)来构造Context Manager**的例子。
+我们知道，Python 的内部实现依赖 Duck Type("If it walks like a duck and it quacks like a duck, then it must be a duck"), 所以一般要实现某种行为，我们只需要对应实现一些必须的`protocol`. 就像`str(x)`对应`__str__`， `len(x)`对应`__len__`， `in`对应`__contains__`这样，**这里的 Context Manager 对应`__enter__`和`__exit__`，其表现形式一般是一个类 (class)**，后面也会介绍用已有的**装饰器工具和生成器 (generator) 来构造 Context Manager**的例子。
 
-好了，我知道要实现这些protocol了，那么，所谓的Context Manager到底长什么样呢？下面就是一个很好的例子(来自Fluent Python)。
+好了，我知道要实现这些 protocol 了，那么，所谓的 Context Manager 到底长什么样呢？下面就是一个很好的例子 (来自 Fluent Python)。
 
 ```python
 class LookingGlass:
@@ -63,7 +63,7 @@ class LookingGlass:
 
 ```
 
-我们先来看下这个Context Manager到底是用来干什么的，之后在具体解释其背后的运行机制。
+我们先来看下这个 Context Manager 到底是用来干什么的，之后在具体解释其背后的运行机制。
 
 ```python
 >>> with LookingGlass() as what:
@@ -81,7 +81,7 @@ Hello
 
 可以看到，在`with`内打印的内容全部是其真实内容的倒序，如`Hello World`变成`dlroW olleH`, `ABCD`变成`DCBA`。退出`with`之后打印行为又恢复正常。下面我们来深入解释其背后的原理。
 
-### Context Manager运行机制
+### Context Manager 运行机制
 
 其实运行机制也非常简单，就是在`with LookingGlass() as what`时，执行`__enter__`做一些操作（比如这里更改打印行为），并将该函数的返回值赋给`as`后面的`what`。之后执行`with` 段的程序（即这里的两个`print`）。执行完之后跳出`with`段，同时调用`__exit__`函数做一些操作（这里是将打印行为恢复正常）。
 
@@ -89,11 +89,11 @@ Hello
 
 
 
-### 创建自己的Context Manager
+### 创建自己的 Context Manager
 
-前面那种基于类的方法是一种可行自定义Context Manager的方法,就是自己**定义好`__enter__`和`__exit__`方法**.此外, Python还提供了一些库函数可以帮助我们更快地创建自己的Context Manager. `contextlib`库提供了很多的帮助函数,这里我们专注于其中最重要也是最常用的**`@contextmanager`装饰器**, 其可以十分方便地将生成器转化为一个Context Manager(此处也向我们展示了生成器不是只能用于迭代,也可以用于此处,以及后面可能会涉及的协程(coroutine)).
+前面那种基于类的方法是一种可行自定义 Context Manager 的方法，就是自己**定义好`__enter__`和`__exit__`方法**.此外，Python 还提供了一些库函数可以帮助我们更快地创建自己的 Context Manager. `contextlib`库提供了很多的帮助函数，这里我们专注于其中最重要也是最常用的**`@contextmanager`装饰器**, 其可以十分方便地将生成器转化为一个 Context Manager(此处也向我们展示了生成器不是只能用于迭代，也可以用于此处，以及后面可能会涉及的协程 (coroutine)).
 
-下面我们来看一些`@contextmanager`的使用方法,先看一个例子,它用装饰器加生成器的方法实现之前基于类的Context Manager.
+下面我们来看一些`@contextmanager`的使用方法，先看一个例子，它用装饰器加生成器的方法实现之前基于类的 Context Manager.
 
 ```python
 import contextlib
@@ -111,7 +111,7 @@ def looking_glass():
     sys.stdout.write = original_write
 ```
 
-测试其行为是否和之前的实现一样.
+测试其行为是否和之前的实现一样。
 
 ```python
 >>> with looking_glass() as what:
@@ -126,15 +126,15 @@ DCBA
 Hello
 ```
 
-可以看到和之前基于类的方法调用是一样,且行为也正如我们预期的那样.
+可以看到和之前基于类的方法调用是一样，且行为也正如我们预期的那样。
 
-那么,上面的程序到底是怎么运行的呢?换句话说,我们是怎么通过生成器和库提供的装饰器结合来构造Context Manager的呢?
+那么，上面的程序到底是怎么运行的呢？换句话说，我们是怎么通过生成器和库提供的装饰器结合来构造 Context Manager 的呢？
 
-简言之,在生成器(此处是函数`looking_glass`)中`yield xxx`语句将整个函数体分割为三个部分,`yield`之前的部分相当于函数`__enter__`的内容, `yield`之后的部分相当于函数`__exit__`的内容, `yield 'ABCD'`返回的`ABCD`在执行` with looking_glass() as what`时被绑定到`what`(相当于`__enter__`中`return`的值).
+简言之，在生成器 (此处是函数`looking_glass`) 中`yield xxx`语句将整个函数体分割为三个部分，`yield`之前的部分相当于函数`__enter__`的内容，`yield`之后的部分相当于函数`__exit__`的内容，`yield 'ABCD'`返回的`ABCD`在执行` with looking_glass() as what`时被绑定到`what`(相当于`__enter__`中`return`的值).
 
-这样,在加上装饰器之后,整个函数被视作一个Context Manager, 在解释器调用`__enter__`时,它就执行`yield`之前的程序,然后将`yield`产生的内容绑定到`as`后的变量中(若`with f() as xxx`, 即绑定到`xxx`).之后执行`with`段的程序(上面例子中的两个`print`). 执行完毕后,解释器调用`__exit__`方法,此时程序去执行`yield`之后的部分.这就是使用装饰器和生成器来创建Context Manager的整个流程了.
+这样，在加上装饰器之后，整个函数被视作一个 Context Manager, 在解释器调用`__enter__`时，它就执行`yield`之前的程序，然后将`yield`产生的内容绑定到`as`后的变量中 (若`with f() as xxx`, 即绑定到`xxx`).之后执行`with`段的程序 (上面例子中的两个`print`). 执行完毕后，解释器调用`__exit__`方法，此时程序去执行`yield`之后的部分。这就是使用装饰器和生成器来创建 Context Manager 的整个流程了。
 
-需要注意的一点是,上面我们并为介绍生成器方法在此时并不完全等价于上面基于类的方法,关键在于**对异常的处理.**就内部细节来看,如果`with`语句后的内容执行出错,程序会报错一次.之后由于我们的Context Manager的实现,会在生成器内重新报错一次,在生成器内部的报错会终止我们的程序,使得Context Manager失效,资源无法释放.所以我们必须要对该错误进行处理才可以使得其完全等价于基于类的实现.
+需要注意的一点是，上面我们并为介绍生成器方法在此时并不完全等价于上面基于类的方法，关键在于**对异常的处理。**就内部细节来看，如果`with`语句后的内容执行出错，程序会报错一次。之后由于我们的 Context Manager 的实现，会在生成器内重新报错一次，在生成器内部的报错会终止我们的程序，使得 Context Manager 失效，资源无法释放。所以我们必须要对该错误进行处理才可以使得其完全等价于基于类的实现。
 
 ```python
 import contextlib
@@ -160,19 +160,19 @@ def looking_glass():
 
 ```
 
-这样修改过,才算是真正写好了一个Context Manager,其和之前基于类的方法是等价的.因为我们不知道用户会用我们写的Context Manager做什么,所以这种内部的异常处理是基于生成器写Context Manager必须付出的代价(Leonardo Rochael).
+这样修改过，才算是真正写好了一个 Context Manager，其和之前基于类的方法是等价的。因为我们不知道用户会用我们写的 Context Manager 做什么，所以这种内部的异常处理是基于生成器写 Context Manager 必须付出的代价 (Leonardo Rochael).
 
-那么,之前不是说搞Context Manager出来就是为了简化`try/finally`的写法吗,这里不是更加复杂了吗?
+那么，之前不是说搞 Context Manager 出来就是为了简化`try/finally`的写法吗，这里不是更加复杂了吗？
 
-我个人感觉这类似封装的思想,我们将资源释放和异常处理统统加到我们的Context Manager里面,在调用的时候只需要一个`with`语句,使得代码逻辑更加清晰,也更加容易维护.
+我个人感觉这类似封装的思想，我们将资源释放和异常处理统统加到我们的 Context Manager 里面，在调用的时候只需要一个`with`语句，使得代码逻辑更加清晰，也更加容易维护。
 
 ### 具体应用
 
-#### 文件修改(in-place)
+#### 文件修改 (in-place)
 
-从前的叙述中我们可以看到Context Manager的应用好像总是和资源释放等有关,其实并非如此.在Fluent Python中,作者提到Martijn Pieter的一个妙用, 他使用Context Manager来完成文件的就地(in-place)修改.
+从前的叙述中我们可以看到 Context Manager 的应用好像总是和资源释放等有关，其实并非如此。在 Fluent Python 中，作者提到 Martijn Pieter 的一个妙用，他使用 Context Manager 来完成文件的就地 (in-place) 修改。
 
-先定义好Context Manager`inplace`,之后可以通过简单的调用完成修改.
+先定义好 Context Manager`inplace`,之后可以通过简单的调用完成修改。
 
 ```python
 import csv
@@ -191,7 +191,7 @@ with inplace(csvfilename, 'r', newline='') as (infh, outfh):
 
 #### 程序计时
 
-我们知道装饰器可以用来函数的计时,我们也可以写一个Context Manager完成函数的计时,而且相对更加方便一点.
+我们知道装饰器可以用来函数的计时，我们也可以写一个 Context Manager 完成函数的计时，而且相对更加方便一点。
 
 ```python
 import time
@@ -220,19 +220,19 @@ if __name__ == '__main__':
     print(f'fib(30) = {y}')
 ```
 
-输出:
+输出：
 
 ```python
 Spend 0.5587637424468994 s
 fib(30) = 832040
 ```
 
-在[梅贾的窃魂卷(1/25)——Decorator and Closure](http://datahonor.com/2019/09/26/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-1-25-%E2%80%94%E2%80%94Decorator-and-Closure/)中我们了解到用装饰器计时大概有三个缺点:
+在[梅贾的窃魂卷 (1/25)——Decorator and Closure](http://datahonor.com/2019/09/26/%E6%A2%85%E8%B4%BE%E7%9A%84%E7%AA%83%E9%AD%82%E5%8D%B7-1-25-%E2%80%94%E2%80%94Decorator-and-Closure/)中我们了解到用装饰器计时大概有三个缺点：
 
-> 1.仅仅可以对某函数计时,对程序块计时需要先将其定义为函数
+> 1.仅仅可以对某函数计时，对程序块计时需要先将其定义为函数
 >
 > 2.对递归函数的计时需要进一步的处理
 >
-> 3.不灵活,一旦将函数"装饰"起来,一般不能去掉"装饰"
+> 3.不灵活，一旦将函数"装饰"起来，一般不能去掉"装饰"
 
-而上面基于Context Manager的计时方法更加灵活且友好.
+而上面基于 Context Manager 的计时方法更加灵活且友好。

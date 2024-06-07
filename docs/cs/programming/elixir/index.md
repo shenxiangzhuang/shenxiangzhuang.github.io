@@ -30,6 +30,6 @@ export HEX_CDN="https://hexpm.upyun.com"
     最后提一下课程的设计真的优秀，曲线非常平滑，而且比较注重工程实践，这点也非常难得。
 
 
-??? tip "B站资源"
+??? tip "B 站资源"
 
     [Elixir & OTP](https://www.bilibili.com/video/BV1944y1p7XD?p=24&vd_source=38496312658bc94e9d3106e4eb6dbc70)
