@@ -6,20 +6,29 @@
 
     ??? "实用的开发模式"
 
-        介绍了DDD, Repository Pattern, Unit of Work, Dependency injection等常见且实用的设计模式。
+        介绍了 DDD, Repository Pattern, Unit of Work, Dependency injection 等常见且实用的设计模式。
 
-- [ ] [Python Concurrency with asyncio](https://www.manning.com/books/python-concurrency-with-asyncio)
+- [x] [Python Concurrency with asyncio](https://www.manning.com/books/python-concurrency-with-asyncio) 🌟🌟🌟🌟
 
-    ??? "Python异步编程"
+    ???+ "Python 异步编程"
 
-        介绍了Python异步编程的基础知识，以及如何使用asyncio来构建异步应用。对于理解FastAPI的异步编程模型有很大帮助。
+        - 介绍了 Python 异步编程的基础知识，以及如何使用 asyncio 来构建异步应用。对于理解 FastAPI 的异步编程模型有很大帮助。
 
+        - 本书前 3 章节介绍了 Python 的异步编程基础，后面的章节介绍了如何使用 asyncio 来构建异步应用，以及如何使用 asyncio 来处理并发问题。
+        个人感觉前 3 章对了解 asyncio 的原理帮助比较大：从 scoket 讲起，之后手动实现 blocking 和 non-blocking 的 socket，
+        最后基于 non-blocking 的 socket 实现了一个简单的 web server。这里相当于手动实现了一个简单的 asyncio，清晰地展示了其主要的工作原理。
+
+        - 后面在第 9 章讲解了 WSGI (web server gateway interface) 和 ASGI (asynchronous server gateway interface) 的一些基本原理，
+        这部分背景知识也值得学习一下 (可惜的是这部分讲解比较少也比较浅显)。
+
+        - 书中对很多高阶的异步编程模式也有介绍，比如异步队列，加锁同步等，在遇到复杂异步场景时也可以作为很好的参考资料。
+        - 总的来说还是比较值得一读。
 
 
 ## Frameworks
 
 ### FastAPI 🌟🌟🌟🌟🌟
-很新也很好，对ORM，异步等的支持也更好，接口文档等也可以原生地生成，感觉后续会逐渐取代Flask。
+很新也很好，对 ORM，异步等的支持也更好，接口文档等也可以原生地生成，感觉后续会逐渐取代 Flask。
 
 !!! tip "FastAPI Practice"
 
@@ -28,7 +37,7 @@
 
 ### Flask 🌟🌟🌟🌟
 轻量简便，应用较多的后端框架，比较适合简单的服务的构建。
-但是对ORM，接口文档管理等目前比较通用的需求无内部集成，需要结合很多第三方库来实现。
+但是对 ORM，接口文档管理等目前比较通用的需求无内部集成，需要结合很多第三方库来实现。
 
 ### Django 🌟🌟🌟
 更加完善的后端框架，更“重”一些，更适合大型项目的开发。
@@ -36,11 +45,11 @@
 ## ORM(Object-relational mapping)
 
 ### SQLAlchemy 🌟🌟🌟🌟🌟
-较为流行，用的比较多的ORM框架，支持的数据库种类也比较多。
+较为流行，用的比较多的 ORM 框架，支持的数据库种类也比较多。
 
 ### SQLModel 🌟🌟🌟🌟
-很新的框架，基于SQLAlchemy和Pydantic构建，更加Modern。
-但是目前看距离1.0版本还要一段时间，文档也在完善中，所以可能还不太适合生产环境。
+很新的框架，基于 SQLAlchemy 和 Pydantic 构建，更加 Modern。
+但是目前看距离 1.0 版本还要一段时间，文档也在完善中，所以可能还不太适合生产环境。
 
 
 ## ODM(Object-document mapping)
@@ -57,24 +66,24 @@
 
 ### [Beanie](https://github.com/roman-right/beanie) 🌟🌟🌟🌟
 **Asynchronous** Python ODM for MongoDB.
-当前业务中用的最多的MongoDB ODM，支持异步，支持Pydantic。
+当前业务中用的最多的 MongoDB ODM，支持异步，支持 Pydantic。
 整体用下来也没有遇到太大的坑，还是比较推荐使用的。
 
-!!! note "大量数据Validation的性能问题"
+!!! note "大量数据 Validation 的性能问题"
 
     因为底层是用的Pydantic做数据校验，
     所以Beanie在大量数据的Validation上可能会有一些性能问题
 
 
 ### [Bunnet](https://github.com/roman-right/bunnet)
-Synchronous Python ODM for MongoDB.(Beanie的同步版本)
+Synchronous Python ODM for MongoDB.(Beanie 的同步版本)
 
 ## Database Migration
 
 ### [Alembic](https://github.com/sqlalchemy/alembic) 🌟🌟🌟🌟🌟
-Alembic是使用非常广泛的数据库迁移工具，功能完善, 且和SQLAlchemy集成得很好。
+Alembic 是使用非常广泛的数据库迁移工具，功能完善，且和 SQLAlchemy 集成得很好。
 
-!!! note "Alembic的使用场景"
+!!! note "Alembic 的使用场景"
 
     随着业务的发展，数据库的表结构和数据的变更是不可避免的，
     而数据库迁移工具就是用来管理这些变更的。
@@ -87,19 +96,19 @@ Alembic是使用非常广泛的数据库迁移工具，功能完善, 且和SQLAl
 
 ## Observability
 
-目前接触到的有Skywalking和Sentry[^1].
+目前接触到的有 Skywalking 和 Sentry[^1].
 [^1]: 相关实践参考: [https://datahonor.com/se/observability/](https://datahonor.com/se/observability/)
 
 
 ### Sentry 🌟🌟🌟🌟🌟
 
-总体用下来Sentry要好用的多，支持足够好，使用足够简单，也可以同时满足问题排查和性能监控的需求。
-Sentry相对优于Skywalking的地方很多，比如在性能监控方面，Sentry采集到的Span数据更加准确且精细，
-可以很方便地基于性能监控数据来针对性地降低服务延时，而Skywalking的性能监控数据则相对粗糙，且采集的数据和实际有一定偏差。
-另外在问题排查方面，Sentry的事件分析功能也更加强大，可以很方便地定位问题，而Skywalking的事件分析功能也相对简单。
+总体用下来 Sentry 要好用的多，支持足够好，使用足够简单，也可以同时满足问题排查和性能监控的需求。
+Sentry 相对优于 Skywalking 的地方很多，比如在性能监控方面，Sentry 采集到的 Span 数据更加准确且精细，
+可以很方便地基于性能监控数据来针对性地降低服务延时，而 Skywalking 的性能监控数据则相对粗糙，且采集的数据和实际有一定偏差。
+另外在问题排查方面，Sentry 的事件分析功能也更加强大，可以很方便地定位问题，而 Skywalking 的事件分析功能也相对简单。
 
 ### Skywalking 🌟🌟🌟
-Skywalking可以接ElasticSearch来收集日志，这对于日志的检索/分析来说是一个很好的选择，
+Skywalking 可以接 ElasticSearch 来收集日志，这对于日志的检索/分析来说是一个很好的选择，
 相对来水Sentry对全局的日志检索/分析的支持得不够好。
 
 
@@ -126,6 +135,6 @@ Skywalking可以接ElasticSearch来收集日志，这对于日志的检索/分�
 
 #### stamina 🌟🌟🌟🌟
 [stamina](https://github.com/hynek/stamina): Production-grade retries for Python.
-是对tenacity的封装，目的是提供更加好用的API，更加方便的使用。
+是对 tenacity 的封装，目的是提供更加好用的 API，更加方便的使用。
 
 
