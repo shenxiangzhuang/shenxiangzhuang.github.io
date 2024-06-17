@@ -19,6 +19,9 @@ A framework for quality assurance in crowdsourcing[@quality-assurance-framework-
 Quality Control in Crowdsourcing: A Survey of Quality Attributes, Assessment Techniques and Assurance Actions
 [@quality-control-in-crowdsourcing-2017]
 
+### TODO: 2021-Quality Enhancement Methods 
+*A Survey on Task Assignment in Crowdsourcing*
+
 
 ## Truth inference
 在标注平台上，标注者的质量参差不齐，有的标注者质量很高，有的标注者质量很差。
