@@ -291,7 +291,7 @@ Series2Graph 作者[Paul Boniol](https://boniolp.github.io/)最新在做的开�
 
 
 ## Evaluation
-TSAD评估相关的方法也是多得很呢:) 实际上在工业界评估的标准不会有太多的选择——一般都需要转换为业务指标，如MTTD(Mean time to detection), 准确率/误伤率等。
+TSAD 评估相关的方法也是多得很呢:) 实际上在工业界评估的标准不会有太多的选择——一般都需要转换为业务指标，如 MTTD(Mean time to detection), 准确率/误伤率等。
 所以这里就不继续深入对各种评估方法进行解读了 (如果大家觉着有必要的话，欢迎 PR，或者 pin 我来补也可以)。
 
 ### 2022-Theseus
