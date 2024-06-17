@@ -1,4 +1,6 @@
-# Paper
+# Time Series Anomaly Detection Paper
+
+时间序列异常检测相关论文简要解读，以工业界算法&框架为主。
 
 ## Review
 
