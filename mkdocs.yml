@@ -121,7 +121,7 @@ plugins:
   - git-committers:
       repository: shenxiangzhuang/shenxiangzhuang.github.io
       branch: master
-      cache_dir: docs/assets/git-committers
+#      cache_dir: docs/assets/git-committers
       token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
 
   - minify:
