@@ -1,3 +1,5 @@
+.cache/plugin/git-committers/
+
 .DS_Store
 .vscode/
 
