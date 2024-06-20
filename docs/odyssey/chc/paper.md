@@ -20,7 +20,7 @@ Quality Control in Crowdsourcing: A Survey of Quality Attributes, Assessment Tec
 [@quality-control-in-crowdsourcing-2017]
 
 ### TODO: 2021-Quality Enhancement Methods 
-*A Survey on Task Assignment in Crowdsourcing*
+*A Survey on Task Assignment in Crowdsourcing*[@hettiachchi2022survey]
 
 
 ## Truth inference
