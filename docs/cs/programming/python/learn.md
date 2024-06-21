@@ -8,7 +8,8 @@
 - [x] The Hitchhiker's Guide to Python
 - [x] Python Tricks: The Book
 - [x] [Architecture Patterns with Python](https://www.cosmicpython.com/book/preface.html)
-- [x] Python 工匠
+- [x] 《Python 工匠》
+- [x] Python Testing with pytest: Simple, Rapid, Effective, and Scalable
 
 - [ ] High Performance Python
 - [ ] Practice to the Python Pro
