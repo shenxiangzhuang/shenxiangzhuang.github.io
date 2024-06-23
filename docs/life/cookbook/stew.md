@@ -13,3 +13,8 @@
 
     炖: 高压锅(这里用的Instand Pot)放入牛腩，加水没过牛腩，炖35分钟；泄压后加番茄，土豆块，白萝卜，低压煮5~10分钟
 
+??? success "成品展示:)"
+
+    <p align="center">
+      <img src="../images/beef.jpg" alt="土豆牛腩" width="400" height="200">
+    </p>
