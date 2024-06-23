@@ -218,6 +218,9 @@ nav:
       - Scala:
         - SBT Usage: cs/programming/scala/sbt_usage.md
 
+      - Rust:
+        - cs/programming/rust/index.md
+
     - Algorithm:
         - cs/algorithm/learn.md
 
