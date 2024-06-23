@@ -319,5 +319,6 @@ nav:
     - 菜谱:
       - 煮: life/cookbook/boil.md
       - 炒: life/cookbook/saute.md
+      - 炖: life/cookbook/stew.md
   - Blog:
     - blog/index.md
