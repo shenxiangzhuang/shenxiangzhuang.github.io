@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/blog/2024/06/07/book_review/</loc>
+         <lastmod>2024-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/blog/2019/01/19/chance/</loc>
          <lastmod>2024-07-01</lastmod>
          <changefreq>daily</changefreq>
@@ -521,6 +526,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://shenxiangzhuang.github.io/blog/category/%E4%B9%A6%E8%AF%84/</loc>
+         <lastmod>2024-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://shenxiangzhuang.github.io/blog/category/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</loc>
+         <lastmod>2024-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://shenxiangzhuang.github.io/blog/category/%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0/</loc>
          <lastmod>2024-07-01</lastmod>
          <changefreq>daily</changefreq>
@@ -536,17 +551,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://shenxiangzhuang.github.io/blog/category/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</loc>
-         <lastmod>2024-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://shenxiangzhuang.github.io/blog/category/%E6%96%87%E5%AD%A6/</loc>
-         <lastmod>2024-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://shenxiangzhuang.github.io/blog/category/%E4%B9%A6%E8%AF%84/</loc>
          <lastmod>2024-07-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
