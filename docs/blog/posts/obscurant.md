@@ -7,7 +7,7 @@ slug: obscurant
 description: >
     尼采说：凡一切文字，我只爱以血写成的。当然，这篇文字与这句话没有太大关系，但还是希望本文能表达的东西能像鲜血一样醒目。
 categories:
-  - General
+  - 随笔
 ---
 
 

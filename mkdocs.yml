@@ -121,7 +121,7 @@ plugins:
   - git-committers:
       repository: shenxiangzhuang/shenxiangzhuang.github.io
       branch: master
-      cache_dir: docs/assets/git-committers
+#      cache_dir: docs/assets/git-committers
       token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
 
   - minify:
@@ -217,6 +217,9 @@ nav:
 
       - Scala:
         - SBT Usage: cs/programming/scala/sbt_usage.md
+
+      - Rust:
+        - cs/programming/rust/index.md
 
     - Algorithm:
         - cs/algorithm/learn.md
@@ -319,5 +322,6 @@ nav:
     - 菜谱:
       - 煮: life/cookbook/boil.md
       - 炒: life/cookbook/saute.md
+      - 炖: life/cookbook/stew.md
   - Blog:
     - blog/index.md

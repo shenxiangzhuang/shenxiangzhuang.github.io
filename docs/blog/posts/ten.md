@@ -7,7 +7,8 @@ slug: ten-years-old
 description: >
      今天是国庆节，我一大早就起了床。我拿起宝剑就在院子大开杀戒，冬青可遭了殃，我把它的头发剪得漫天飞舞...
 categories:
-  - General
+  - 回忆录
+  - 日记
 ---
 
 # 十岁那年

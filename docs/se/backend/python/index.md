@@ -32,7 +32,7 @@
 
 !!! tip "FastAPI Practice"
 
-    更多关于FastAPI的实践见[FastAPI Practice](./fastapi)
+    更多关于FastAPI的实践见[FastAPI Practice]
 
 
 ### Flask 🌟🌟🌟🌟

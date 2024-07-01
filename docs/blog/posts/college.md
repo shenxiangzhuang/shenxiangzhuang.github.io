@@ -7,7 +7,8 @@ slug: college
 description: >
     我的大学...
 categories:
-  - General
+  - 随笔
+  - 回忆录
 ---
 
 

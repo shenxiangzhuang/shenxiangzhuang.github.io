@@ -1,5 +1,5 @@
 ---
-title: 奇怪的梦
+title: 当谈论吃饭时，我们在谈论什么？关于我在 SYSU 吃饭这件事
 draft: false
 date: 2021-02-28
 authors: [mathew]
@@ -7,7 +7,8 @@ slug: sysu-card
 description: >
      如题，仅仅是出于好奇而已。大致分为两个部分，校园卡数据爬取与数据分析
 categories:
-  - General
+  - 回忆录
+  - 数据分析
 ---
 
 

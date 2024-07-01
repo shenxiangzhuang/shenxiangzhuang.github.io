@@ -1,4 +1,6 @@
-# Paper
+# Time Series Anomaly Detection Paper
+
+时间序列异常检测相关论文简要解读，以工业界算法&框架为主。
 
 ## Review
 
@@ -165,7 +167,7 @@ anomaly alerts has been improved by 29.9% (Figure 8). Online CTR indicates the p
 the system portal after receiving an anomaly alert, which reflects how much the customers trust our anomaly detection
 results. Therefore, higher CTR score indicates better user satisfaction
 
-### TODO: 2023-Amazon-Unsupervised Model Selection for Time-series Anomaly Detection
+### 2023-Amazon-Unsupervised Model Selection for Time-series Anomaly Detection
 ![The Model Selection Workflow](images/goswami2022unsupervised.png)
 CMU 和 Amazon 合作的关于时序异常检测模型选择的文章[@goswami2022unsupervised], 整体还是比较有参考意义的。
 
@@ -291,41 +293,31 @@ Series2Graph 作者[Paul Boniol](https://boniolp.github.io/)最新在做的开�
 
 
 ## Evaluation
+TSAD 评估相关的方法也是多得很呢:) 实际上在工业界评估的标准不会有太多的选择——一般都需要转换为业务指标，如 MTTD(Mean time to detection), 准确率/误伤率等。
+所以这里就不继续深入对各种评估方法进行解读了 (如果大家觉着有必要的话，欢迎 PR，或者 pin 我来补也可以)。
 
-### TODO: 2022-Theseus
+### 2022-Theseus
 *Theseus: Navigating the Labyrinth of Time-Series Anomaly  Detection*[@boniol2022theseus]
 
-### TODO: 2022-Rigorous Evaluation
+### 2022-Rigorous Evaluation
 *Towards a rigorous evaluation of time-series anomaly detection*[@kim2022towards]
 
 
-### TODO: 2022-Huawei-Local Evaluation
+### 2022-Huawei-Local Evaluation
 *Local Evaluation of Time Series Anomaly Detection Algorithms*[@huet2022local]
 
-### TODO: 2022-Volume under the surface
+### 2022-Volume under the surface
 *Volume under the surface:
 a new accuracy evaluation measure for time-series anomaly detection*[@paparrizos2022volume]
 
-### TODO: 2022-TimeEval
+### 2022-TimeEval
 *TimeEval: a benchmarking toolkit for time series anomaly detection algorithms*[@wenig2022timeeval]
 
-### TODO: 2022-TSB-UAD
+### 2022-TSB-UAD
 *TSB-UAD: an end-to-end benchmark suite for univariate time-series anomaly detection*[@paparrizos2022tsb]
 
 
-### TODO: 2023-SINTEF-TSAD Metric
+### 2023-SINTEF-TSAD Metric
 
 SINTEF Digital 关于时序异常检测算法衡量指标的分析[@sorbo2023navigating].
 
-> The field of time series anomaly detection is constantly advancing, with several methods available,
-making it a challenge to determine the most appropriate method for a specific domain. The evaluation
-of these methods is facilitated by the use of metrics, which vary widely in their properties. Despite
-the existence of new evaluation metrics, there is limited agreement on which metrics are best suited
-for specific scenarios and domain, and the most commonly used metrics have faced criticism in the
-literature. This paper provides a comprehensive overview of the metrics used for the evaluation of
-time series anomaly detection methods, and also defines a taxonomy of these based on how they are
-calculated. By defining a set of properties for evaluation metrics and a set of specific case studies and
-experiments, twenty metrics are analyzed and discussed in detail, highlighting the unique suitability
-of each for specific tasks. Through extensive experimentation and analysis, this paper argues that the
-choice of evaluation metric must be made with care, taking into account the specific requirements of
-the task at hand.
