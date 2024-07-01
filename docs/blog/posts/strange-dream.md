@@ -7,7 +7,7 @@ slug: strange-dream
 description: >
      他伸手把月亮关掉，只剩下自己和满天的星星。
 categories:
-  - General
+  - 随笔
 ---
 
 
