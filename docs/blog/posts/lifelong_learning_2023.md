@@ -7,7 +7,9 @@ slug: lifelong-2023
 description: >
     终身学习！
 categories:
-  - General
+  - 随笔
+  - 回忆录
+  - 终身学习
 ---
 
 # 终身学习：2023

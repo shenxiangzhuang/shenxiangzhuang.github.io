@@ -7,7 +7,8 @@ slug: open-source-related
 description: >
     记录下最近逛开源社区的体会
 categories:
-  - General
+  - 随笔
+  - 开源
 ---
 
 
