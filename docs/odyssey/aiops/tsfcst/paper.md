@@ -1,5 +1,37 @@
 # Paper
 
+## Time Series Forecasting Statistical Methods
+
+### 2017-Facebook-Prophet
+
+
+### 2023-AntGroup-AntTS
+
+*AntTS*[@antts]是蚂蚁根据自己的业务场景开发的一个时间序列预测框架，重点考虑 Treatment 存在时的时序预测问题。
+AntTS 要解决的问题是如何充分利用 microscopic time series 的信息来精确预测 macroscopic time series，
+同时考虑 Treatment 对 microscopic time series 的影响。
+
+AntTS 框架核心分为三个部分：Clustering Module, Natural Forecasting Module 和 Effect Module.
+首先是 Clustering Module。大致的流程是先将 microscopic time series 通过 Clustering Module 进行聚类，得到一系列的 cluster，
+
+之后是 Natural Forecasting Module。这个模块对每个 cluster 内的 microscopic time series 进行时序建模，得到 cluster 内的预测结果。
+对各个 cluster 的预测结果进行整合，得到 macroscopic time series 的之后是 Natural 预测结果。
+
+最后是针对 Treatment 的 Effect Module。这个模块主要是考虑 Treatment 对 microscopic time series 的影响。
+通过对同一个 cluster 内的 microscopic time series 进行 Treatment 的分析，得到 Treatment 对当前 cluster 预期的影响值，
+聚合各个 cluster 的影响值，得到 Effect Module 的预测结果。
+最终的 macroscopic time series 预测结果是 Natural 预测结果加上 Effect Module 的预测结果。
+
+整体来说，AntTS 的几个值得借鉴的地方在于：
+
+1. 三个模块的划分十分清晰，每个模块的功能和输入输出都很明确，且模块预测结果保持"可加"的性质，使得整个系统更加透明，整体结果的可解释性也比较强。
+2. Clustering Module 的设计其实是一个综合下来比较适合落地的方案：避免直接对 macroscopic time series 建模使得无法使用 microscopic time series 的信息；
+同时避免直接对 microscopic time series 建模带来的波动过大和计算复杂度问题。
+先聚类之后在类内进行预测的方式使得模型既能够更好地利用微观时间序列的信息，提高预测的准确性；
+又能够降低预测单个 microscopic time series 带来的误差，降低预测的波动性。
+3. Effect Module 的设计足够直观且具有说服力。
+
+
 ## TS :heart: GPT
 
 GPT 的风还是吹到了 Time Series，看到 Nixtla 和 Google 都在做一些相关的工作，这里就一起跟进一下。
