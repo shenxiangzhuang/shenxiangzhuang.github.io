@@ -291,6 +291,10 @@ Series2Graph 作者[Paul Boniol](https://boniolp.github.io/)最新在做的开�
 
 尽管有这些问题存在，Series2Graph 系列的算法的表现还是很不错的 (之前是在生产环境的数据上粗略验证过的)，所以还是值得一试的。
 
+### 2024-Microsoft-Anomaly Detector
+
+微软开源 [Anomaly Detector](https://github.com/microsoft/anomaly-detector)库，主要时间序列的异常检测。
+
 
 ## Evaluation
 TSAD 评估相关的方法也是多得很呢:) 实际上在工业界评估的标准不会有太多的选择——一般都需要转换为业务指标，如 MTTD(Mean time to detection), 准确率/误伤率等。
