@@ -22,14 +22,14 @@ AntTS 框架核心分为三个部分：Clustering Module, Natural Forecasting Mo
 聚合各个 cluster 的影响值，得到 Effect Module 的预测结果。
 最终的 macroscopic time series 预测结果是 Natural 预测结果加上 Effect Module 的预测结果。
 
-整体来说，AntTS的几个值得借鉴的地方在于：
+整体来说，AntTS 的几个值得借鉴的地方在于：
 
 1. 三个模块的划分十分清晰，每个模块的功能和输入输出都很明确，且模块预测结果保持"可加"的性质，使得整个系统更加透明，整体结果的可解释性也比较强。
-2. Clustering Module 的设计其实是一个综合下来比较适合落地的方案：避免直接对macroscopic time series建模使得无法使用microscopic time series的信息；
-同时避免直接对microscopic time series建模带来的波动过大和计算复杂度问题。
+2. Clustering Module 的设计其实是一个综合下来比较适合落地的方案：避免直接对 macroscopic time series 建模使得无法使用 microscopic time series 的信息；
+同时避免直接对 microscopic time series 建模带来的波动过大和计算复杂度问题。
 先聚类之后在类内进行预测的方式使得模型既能够更好地利用微观时间序列的信息，提高预测的准确性；
-又能够降低预测单个microscopic time series带来的误差，降低预测的波动性。
-3. Effect Module的设计足够直观且具有说服力。
+又能够降低预测单个 microscopic time series 带来的误差，降低预测的波动性。
+3. Effect Module 的设计足够直观且具有说服力。
 
 
 ## TS :heart: GPT
