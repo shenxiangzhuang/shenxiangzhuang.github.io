@@ -1,11 +1,11 @@
 ---
-title: AI Town
+title: 斯坦福小镇解读
 draft: true
 date: 2024-07-12
 authors: [mathew]
 slug: ai-town
 description: >
-    斯坦福小镇(AI-Town)系统解读
+    斯坦福小镇解读
 categories:
   - 终身学习
   - LLM
@@ -49,4 +49,4 @@ Ideas(UGC相关): 根据实际event进行re-plan
 
 ## 参考资料
 Paper: Generative Agents: Interactive Simulacra of Human Behavior
-Code: https://github.com/a16z-infra/ai-town
+Code: https://github.com/joonspk-research/generative_agents
