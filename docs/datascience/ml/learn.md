@@ -1,17 +1,57 @@
 # Lifelong Learn: Machine Learning
 
+!!! note "(Statistical)Machine Learning, Data Mining"
+
+    这里的机器学习主要是指统计机器学习，另外数据挖掘也是机器学习的一个分支，所以这里统一放在一起。
+
 
 ## Books
+
+### (Statistical)Machine Learning
+
+- [x] [Learning From Data](https://work.caltech.edu/library/index.html)
+
+    ??? "高屋建瓴之神作"
+        这本书正如其名，是介绍如何从数据中学习的书籍。
+        不说别的，仅这个书名就能看出这本书的高度。
+        如果你想要学习机器学习，这本书是一个很好的开始。
+        **本书用通俗易懂的表述讲解了机器学习最为基础最为本质的概念，这足以让读者受益终生**。
+
+- [x] [Machine Learning in Action](https://www.manning.com/books/machine-learning-in-action)
+
+    ??? "从零开始构建机器学习模型"
+
+        也是一本经典之作。不依赖任何机器学习库，从零开始构建机器学习模型。
+        这本书想要教给读者的东西是最难的，也是最宝贵最重要的：复现机器学习算法。
+        通过复现算法，我们才能真正理解算法的本质，而不是仅仅停留在调用库的层面。
+        正如Richard Feynman所说的那样：**What I cannot create, I do not understand**。
+        这本书就是通过教你Create，来让你更好地Understand，同时掌握Recreate的能力。
+
+
+- [x] [统计学习方法](https://book.douban.com/subject/10590856/)
+
+    ??? "中文机器学习书籍的经典之作"
+        这本书是我学习机器学习的第一本书，也是我认为目前国内难得的一本好书。
+        书的亮点在于对算法的推导和解释非常清晰，而且提供了一些结合具体数据的例子来作为理论知识的补充，
+        这些例子可以很大程度上加深我们对算法本地的理解。
+
+- [x] [机器学习](https://book.douban.com/subject/26708119/)
+
+    ??? "西瓜书"
+        这本书是国内机器学习领域的经典之作，也是很多人学习机器学习的第一本书。
+        但是我想说的是，这本并不是很适合作为入门书籍。
+        入门更加推荐上面的*Learning from Data*和《统计学习方法》，
+        原因很简单，西瓜书并没有大众吹捧的那么好。为什么说它不好？原因很多。最关键的一点是，
+        它专注于给你将WHAT，HOW，对最终要的WHY几乎没有涉及。
+
+
+### Data Mining
+
 - [x] [Introduction to Data Mining](https://www-users.cs.umn.edu/~kumar001/dmbook/index.php)
 
     ??? "数据挖掘导论"
         中文书名为《数据挖掘导论》，翻译的是第一版，现在又出了英文第二版。内容比较丰富，比较适合入门（因为书籍并没有刻意避开复杂的地方，所以也并没有很简单）。
 
-
-
-- [x] [Learning From Data](https://work.caltech.edu/library/index.html)
-
-    ??? "高屋建瓴之神作"
 
 - [ ] [Chapman & Hall/CRC Data Mining and Knowledge Discovery Series](https://www.crcpress.com/Chapman--HallCRC-Data-Mining-and-Knowledge-Discovery-Series/book-series/CHDAMINODIS?page=&order=pubdate&size=48&view=list&status=published,forthcoming)
 
