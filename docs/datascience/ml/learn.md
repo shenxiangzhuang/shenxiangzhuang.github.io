@@ -24,8 +24,8 @@
         也是一本经典之作。不依赖任何机器学习库，从零开始构建机器学习模型。
         这本书想要教给读者的东西是最难的，也是最宝贵最重要的：复现机器学习算法。
         通过复现算法，我们才能真正理解算法的本质，而不是仅仅停留在调用库的层面。
-        正如Richard Feynman所说的那样：**What I cannot create, I do not understand**。
-        这本书就是通过教你Create，来让你更好地Understand，同时掌握Recreate的能力。
+        正如 Richard Feynman 所说的那样：**What I cannot create, I do not understand**。
+        这本书就是通过教你 Create，来让你更好地 Understand，同时掌握 Recreate 的能力。
 
 
 - [x] [统计学习方法](https://book.douban.com/subject/10590856/)
@@ -42,7 +42,7 @@
         但是我想说的是，这本并不是很适合作为入门书籍。
         入门更加推荐上面的*Learning from Data*和《统计学习方法》，
         原因很简单，西瓜书并没有大众吹捧的那么好。为什么说它不好？原因很多。最关键的一点是，
-        它专注于给你将WHAT，HOW，对最终要的WHY几乎没有涉及。
+        它专注于给你将 WHAT，HOW，对最终要的 WHY 几乎没有涉及。
 
 
 ### Data Mining
