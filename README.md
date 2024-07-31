@@ -1,3 +1,3 @@
-# Data Honor
+# My blog
 
-My blog: [Data Honor](https://datahonor.com)
+My blog: https://datahonor.com
