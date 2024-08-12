@@ -124,5 +124,5 @@
 - [ ] [Machine Learning and Data Mining-CSC 411 Winter 2019](https://www.cs.toronto.edu/~mren/teach/csc411_19s/#overview)
 
     ??? "Toronto 大学的机器学习课程"
-     选录进入此系列是因为这个课程覆盖面较全，虽然较为精简。然后也有配套的 homework。
+        选录进入此系列是因为这个课程覆盖面较全，虽然较为精简。然后也有配套的 homework。
 
