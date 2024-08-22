@@ -15,9 +15,9 @@ categories:
 
 ![](../image/ds_position.png)
 
-Lilian在[Thinking about High-Quality Human Data | Lil'Log](https://lilianweng.github.io/posts/2024-02-05-human-data-quality/)
+Lilian 在[Thinking about High-Quality Human Data | Lil'Log](https://lilianweng.github.io/posts/2024-02-05-human-data-quality/)
 对数据标注的质量进行了一些很有远见的讨论。
-这里我们主要对标签聚合算法(真值推断) Dawid-Skene 算法进行一些较为深入讨论。
+这里我们主要对标签聚合算法 (真值推断) Dawid-Skene 算法进行一些较为深入讨论。
 
 所谓标签聚合算法，是指从多个标注者的标注结果中推断出最可靠的标签。
 
@@ -25,14 +25,14 @@ Lilian在[Thinking about High-Quality Human Data | Lil'Log](https://lilianweng.g
 
 Dawid-Skene 算法最早是应用于临床医学相关的领域，
 用于聚合多个临床专家对同一个病人的的判断结果。
-后来被广泛应用于数据标注领域， 用于聚合多个标注结果得到最可靠的标签。
+后来被广泛应用于数据标注领域，用于聚合多个标注结果得到最可靠的标签。
 
 <!-- more -->
 
 ## 算法原理
 <figure markdown="span">
   ![DS Algorithm](https://tlk.s3.yandex.net/crowd-kit/docs/ds_llm.png)
-  <figcaption>DS算法的概率图模型(Image source: Crowd-Kit)</figcaption>
+  <figcaption>DS 算法的概率图模型 (Image source: Crowd-Kit)</figcaption>
 </figure>
 
 DS 算法是一种基于 EM 算法的标签聚合算法，我们先简要介绍 EM 算法的原理，然后再介绍 DS 算法的细节。
