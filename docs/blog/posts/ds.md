@@ -45,6 +45,87 @@ DS 算法是一种基于 EM 算法的标签聚合算法，我们先简要介绍 
     ![Maximum likelihood estimation of observer error-rates using the EM algorithm](../pdf/ds_paper.pdf){ type=application/pdf style="min-height:100vh;width:100%" }
 
 
+论文本身的推导过程还算比较完善的，不过省略了较为关键的极大似然估计的推导过程，也就是通过
+**式2.2**:
+
+$$
+L = \prod_{i=1}^I \prod_{j=1}^J \left\{p_j \prod_{k=1}^K \prod_{l=1}^J (\pi_{jl}^{(k)})^{n_{il}^{(k)}}\right\}^{T_{ij}}
+$$
+
+推导出**式2.3**:
+
+$$
+\hat{\pi}_{jl}^{(k)} = \frac{\sum_{i} T_{ij} n_{il}^{(k)}}{\sum_{l} \sum_{i} T_{ij} n_{il}^{(k)}}
+$$
+
+和**式2.4**:
+
+$$
+\hat{p}_j = \frac{\sum_{i} T_{ij}}{I}
+$$
+
+所谓极大似然估计，就是先定义一个似然函数$L$，然后通过求解$L$的极值来求解参数，
+这里求解的关键其实是通过Lagrange乘子法(Lagrange multiplier)来求解。
+因为要求解的参数 $\pi_{jl}^{(k)}$ 和 $p_j$ 都是概率，所以需要满足概率的约束条件，
+我们用Lagrange乘子法来满足这个约束条件。
+这里我们主要介绍 $\pi_{jl}^{(k)}$ 的推导过程，$p_j$ 的推导过程类似。
+
+因为这里的$L$的形式存在多个乘积，所以我们可以通过对数似然函数来简化计算。
+
+$$
+\ln L = \sum_{i=1}^I \sum_{j=1}^J T_{ij} \left[\ln p_j + \sum_{k=1}^K \sum_{l=1}^J n_{il}^{(k)} \ln \pi_{jl}^{(k)}\right]
+$$
+
+作为概率的估计，$\pi_{jl}^{(k)}$的约束条件是：
+
+$$
+\sum_{l=1}^J \pi_{jl}^{(k)} = 1 \quad \text{for all } j \text{ and } k
+$$
+
+综合以上条件，我们可以得到Lagrange函数：
+
+$$
+\mathcal{L} = \ln L + \sum_{j=1}^J \sum_{k=1}^K \lambda_{jk} \left(1 - \sum_{l=1}^J \pi_{jl}^{(k)}\right)
+$$
+
+通过对 $\pi_{jl}^{(k)}$ 求偏导，我们可以得到：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \pi_{jl}^{(k)}} = \frac{\partial}{\partial \pi_{jl}^{(k)}} \left[\sum_{i=1}^I \sum_{j=1}^J T_{ij} \sum_{k=1}^K \sum_{l=1}^J n_{il}^{(k)} \ln \pi_{jl}^{(k)} - \sum_{j=1}^J \sum_{k=1}^K \lambda_{jk} \sum_{l=1}^J \pi_{jl}^{(k)}\right]
+$$
+
+化简后得到：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \pi_{jl}^{(k)}} = \frac{\partial}{\partial \pi_{jl}^{(k)}} \left[\sum_{i=1}^I T_{ij} n_{il}^{(k)} \ln \pi_{jl}^{(k)} - \lambda_{jk}  \pi_{jl}^{(k)}\right] = \sum_{i=1}^I T_{ij} \frac{n_{il}^{(k)}}{\pi_{jl}^{(k)}} - \lambda_{jk}
+$$
+
+将上式置为0，我们可以得到：
+
+$$
+\sum_{i=1}^I T_{ij} \frac{n_{il}^{(k)}}{\pi_{jl}^{(k)}} - \lambda_{jk} = 0
+$$
+
+调整一下顺序，将 $\pi_{jl}^{(k)}$ 隔离出来，我们可以得到：
+
+$$
+\sum_{i=1}^I T_{ij} n_{il}^{(k)} = \lambda_{jk} \pi_{jl}^{(k)}
+$$
+
+利用约束条件来消除 $\pi_{jl}^{(k)}$ 以求解 $\lambda_{jk}$，这里通过两边同时按照 $l$ 求和：
+
+$$
+\sum_{l=1}^J \sum_{i=1}^I T_{ij} n_{il}^{(k)} = \lambda_{jk} \sum_{l=1}^J \pi_{jl}^{(k)} = \lambda_{jk}
+$$
+
+根据上述两式，我们可以得到最终的 $\pi_{jl}^{(k)}$ 的极大似然估计，也就是**式2.3**：
+
+$$
+\hat{\pi}_{jl}^{(k)} = \frac{\sum_{i} T_{ij} n_{il}^{(k)}}{\sum_{l} \sum_{i} T_{ij} n_{il}^{(k)}}
+$$
+
+至此，我们完成了 $\pi_{jl}^{(k)}$ 的推导，$p_j$ 的推导过程类似，这里不再赘述。
+
 
 ## 工程实现
 以
