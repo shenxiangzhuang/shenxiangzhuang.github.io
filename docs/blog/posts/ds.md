@@ -1,6 +1,6 @@
 ---
 title: Dawid-Skene 算法
-draft: true
+draft: false
 date: 2024-08-21
 authors: [mathew]
 slug: ds
@@ -9,6 +9,8 @@ description: >
 categories:
   - 算法
   - 开源
+  - MLE
+  - Odyssey
 ---
 
 # Dawid-Skene 算法
