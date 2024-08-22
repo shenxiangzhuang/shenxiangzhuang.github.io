@@ -24,6 +24,7 @@ mkdocs-minify-plugin = "^0.7.2"
 neoteroi-mkdocs = "^1.0.4"
 mkdocs-git-committers-plugin-2 = "^2.2.2"
 mkdocs-autorefs = "^1.0.1"
+mkdocs-pdf = "^0.1.2"
 
 
 [[tool.poetry.source]]
