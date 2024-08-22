@@ -104,6 +104,7 @@ extra_javascript:
 
 plugins:
   - autorefs
+  - mkdocs-pdf
   - rss:
       match_path: blog/posts/.*
       date_from_meta:

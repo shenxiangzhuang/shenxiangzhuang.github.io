@@ -31,9 +31,19 @@ DS 算法是一种基于 EM 算法的标签聚合算法，我们先简要介绍 
 *The Expectation Maximization Algorithm: A short tutorial*[@borman2004em]
 给出了一个极为详细的 EM 算法推导。
 
+??? note "Read the paper right now!"
+
+    ![The Expectation Maximization Algorithm](../pdf/em_algo_intro.pdf){ type=application/pdf style="min-height:100vh;width:100%" }
+
+
 ### Dawid-Skene 算法推导
 *Maximum likelihood estimation of observer error-rates using the EM algorithm*[@dawid1979maximum]
 是 DS 算法的原始论文，给出了 DS 算法的推导。
+
+??? note "Read the paper right now!"
+
+    ![Maximum likelihood estimation of observer error-rates using the EM algorithm](../pdf/ds_paper.pdf){ type=application/pdf style="min-height:100vh;width:100%" }
+
 
 
 ## 工程实现
@@ -138,7 +148,7 @@ class DawidSkene(BaseClassificationAggregator):
 1.  `self._correct_probas_with_golden`是一个修正标签概率分布的函数，用于根据金标题真值标签修正标签的概率分布。这里是修正初始化的标签概率分布。
 2. 在每次迭代中，都会根据金标题真值标签修正标签的概率分布。
 
-#### 能力画像修正 worker 混淆矩阵
+#### 能力画像修正混淆矩阵
 在工业界的标注平台中，会对平台内的 worker 构建详细的用户画像用于刻画 worker 的能力。
 比如我们可以通过用户历史的做题记录来构建 worker 的历史混淆矩阵。
 
