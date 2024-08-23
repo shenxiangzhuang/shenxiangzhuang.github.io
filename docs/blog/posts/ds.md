@@ -5,7 +5,8 @@ date: 2024-08-21
 authors: [mathew]
 slug: ds
 description: >
-    记录下最近逛开源社区的体会
+    对标签聚合算法 (真值推断) Dawid-Skene 算法进行一些较为深入讨论。
+    所谓标签聚合算法，是指从多个标注者的标注结果中推断出最可靠的标签。
 categories:
   - 算法
   - 开源
