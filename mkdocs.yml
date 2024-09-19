@@ -237,6 +237,8 @@ nav:
         - Kubernetes:
           - cs/k8s/kubernetes/learn.md
     - Distributed System:
+      - Hive:
+        - Hive Tips: cs/distribution/hive/tips.md
       - Hadoop:
         - Hadoop on Linux: cs/distribution/hadoop/hadoop-linux.md
       - HBase:
