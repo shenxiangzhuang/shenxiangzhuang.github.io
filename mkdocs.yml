@@ -264,6 +264,10 @@ nav:
       - DDD:
           - se/ddd/index.md
           - "Book: Learning DDD": se/ddd/learning-ddd.md
+
+      - Test:
+          - "Book: Unit Testing": se/test/unit-testing.md
+
       - Observability:
           - se/observability/index.md
           - Skywalking: se/observability/skywalking.md
