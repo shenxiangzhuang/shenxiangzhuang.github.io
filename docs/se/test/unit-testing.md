@@ -79,6 +79,7 @@ The goal is to enable **sustainable** growth of the software project.
 
     - Assertion库(Assertion libraries)的使用可以使得测试代码读起来更像日常语言，进一步增加可读性。
 
+
 ## (TODO)Part2: Make your tests work for you
 
 
@@ -86,7 +87,3 @@ The goal is to enable **sustainable** growth of the software project.
 
 
 ## (TODO)Part4: Unit testing anti-patterns
-
-
-
-
