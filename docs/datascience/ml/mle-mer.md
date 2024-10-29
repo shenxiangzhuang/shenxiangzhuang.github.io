@@ -19,9 +19,10 @@ date: 2017-03-03 13:39:39
 
 ### 损失函数
 
-在模型的假设空间，我们要确定一定的准则来确定模型的好坏，即我们需要确定一定的策略[三要素之一]去衡量，所以我们引入了损失函数[loss function]或代价函数[cost function].
+在模型的假设空间，我们要确定一定的准则来确定模型的好坏，即我们需要确定一定的策略三要素之一去衡量，所以我们引入了损失函数 loss function 或代价函数 cost function.
 
 损失函数有很多种，例如 0-1 损失函数，平方损失函数等，这里我们要用的是对数损失函数。
+
 $$
 L(Y, P(Y | X)) = - \log P(Y | X)
 $$
@@ -29,21 +30,21 @@ $$
 
 ### 风险函数
 
-选定损失函数后，其值越小，模型就越好。模型的输入与输出 (X, Y) 是随机变量，遵循联合分布 P（X, Y），所以损失函数的期望为：
+选定损失函数后，其值越小，模型就越好。模型的输入与输出 $(X, Y)$ 是随机变量，遵循联合分布 $P(X, Y)$，所以损失函数的期望为：
 
 $$
 R_{exp} = E_p[L(Y, f(X))] = \int_{X \times Y} L(y, f(x))P(x, y)dxdy
 $$
 
-这就是风险函数[risk function] 或 期望损失[expected loss], 其代表理论上模型 f(X) 关于联合分布 P(X, Y) 的平均意义下的损失。
+这就是风险函数 risk function 或 期望损失 expected loss, 其代表理论上模型$f(X)$ 关于联合分布 $P(X, Y)$的平均意义下的损失。
 
 
 
 ### 经验风险
 
-关于有监督学习的病态问题[ill-formed problem]: 一方面，根据最小化风险函数确立最优的的模型需要联合分布 P(X, Y)，另一方面此联合分布又是未知的。
+关于有监督学习的病态问题 ill-formed problem: 一方面，根据最小化风险函数确立最优的的模型需要联合分布 $P(X, Y)$，另一方面此联合分布又是未知的。
 
-我们想到用样本估计整体，为此我们引入经验风险[empirical risk]或经验损失[empirical loss] ：
+我们想到用样本估计整体，为此我们引入经验风险 empirical risk 或经验损失 empirical loss：
 
 $$
 R_{emp}(f) = \frac{1}{N}\sum_{i=1}^{N}L(y_i, f(x_i))
@@ -63,7 +64,7 @@ $$
 
 ## 证明
 
-设$x_1, x_2, \cdots , x_n$为独立同分布[i.i.d., independent and identically distributed]的样本，$\theta$为模型参数，$f$为我们使用的模型。
+设$x_1, x_2, \cdots , x_n$为独立同分布 i.i.d., independent and identically distributed 的样本，$\theta$为模型参数，$f$为我们使用的模型。
 
 由 i.i.d.:
 
@@ -77,7 +78,7 @@ $$
 L(\theta|x_1, x_2, \cdots , x_n) = f(x_1, x_2, \cdots , x_n|\theta) = \coprod_{i=1}^{n}f(x_i|\theta)
 $$
 
-此为样本发生可能性的大小，而极大似然估计的核心即为，以使得当前样本发生概率最大时的参数$$\hat{\theta}$$作为真实参数$$\theta$$的一个估计值。所以此时我们要求的是$$L(\theta|x_1, x_2, \cdots , x_n)$$取得最大值时$$\theta$$的值，即为$$\hat{\theta}$$。即问题转化为求$$L(\theta|x_1, x_2, \cdots , x_n)$$的极值问题。自然想到导数，而由于连乘的存在，可利用对数函数单调递增的性质，两边取对数再求导，可以简化计算。
+此为样本发生可能性的大小，而极大似然估计的核心即为，以使得当前样本发生概率最大时的参数$\hat{\theta}$作为真实参数$\theta$的一个估计值。所以此时我们要求的是$L(\theta|x_1, x_2, \cdots , x_n)$取得最大值时$\theta$的值，即为$\hat{\theta}$。即问题转化为求$L(\theta|x_1, x_2, \cdots , x_n)$的极值问题。自然想到导数，而由于连乘的存在，可利用对数函数单调递增的性质，两边取对数再求导，可以简化计算。
 
 $$
 \ln{L(\theta|x_1, x_2, \cdots, x_n)} = \sum_{i=1}^{n}\ln{f(x_i|\theta)}
