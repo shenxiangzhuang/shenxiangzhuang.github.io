@@ -58,9 +58,9 @@ Wiki 上明确地给出我前面说的“某样东西”是一个"binary classif
 
     TP, FP, TN, FN: True Positive, False Positive, True Negative, False Negative
 
-    TPR: True Postive Rate, Recall, Sensitivity, $$TPR = \frac{TP}{TP+FN}$$
+    TPR: True Postive Rate, Recall, Sensitivity, $\text{TPR} = \frac{TP}{TP+FN}$
 
-    FPR:  False Positive Rate, Fall-out, $FPR=\frac{FP}{FP+TN}$
+    FPR:  False Positive Rate, Fall-out, $\text{FPR} = \frac{FP}{FP+TN}$
 
     预测值: Score，二分类系统给样本的打分，实数范围R
 
@@ -119,8 +119,8 @@ $$
 总而言之就是
 
 >When using normalized units, the area under the curve (often referred to
->as simply the AUC) is equal to the probability that a classifier will 
->rank a randomly chosen positive instance higher than a randomly chosen 
+>as simply the AUC) is equal to the probability that a classifier will
+>rank a randomly chosen positive instance higher than a randomly chosen
 >negative one (assuming 'positive' ranks higher than 'negative')
 
 也就是说 AUC 本质上是一个平均值，对正负样本集做笛卡尔积，然后每对样本中比较正类与负类的$Score$大小，找出那些正类得分大于负类得分的配对，其数量与总的配对数量之比就是 AUC 的值。
