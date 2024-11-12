@@ -54,6 +54,7 @@ date: 2021-02-03 16:44:15
     **Cohen's d** is an [effect size](https://en.wikiversity.org/wiki/Effect_size) used to indicate the standardised difference between two means.
 
 上述定义固然清晰简洁，但是不够具体，[Wikipedia](https://en.wikipedia.org/wiki/Effect_size#Cohen's_d)给出了具体的计算方式：
+
 $$
 d = \frac{\bar{x}_1 - \bar{x}_2}{s}
 $$
@@ -77,26 +78,33 @@ $$
 下面我将不加过多阐述地给出各个指标的计算流程，具体分析与推导见后续 What。
 
 **Overlap: overlapping coefficient (OVL):**
+
 $$
 OVL = 2 \Phi(-|\delta|/2) = 2\Phi(-0.15) = 2 \times 0.4403823 = 0.8807646 \approx 88\%
 $$
+
 也就是上面例子中重叠占比 88% 的由来。注意这里$\Phi$为标准正态分布的累积密度函数 (CDF), 这里的$\Phi(-0.15)$在 R 语言用`pnorm(-0.15)即可算得`.
 
 **Probability of superiority: common language effect size (CL)**:
+
 $$
 CL = \Phi(\frac{\delta}{\sqrt2}) = \Phi(0.3/\sqrt2) = 0.583998 \approx 58.4\%
 $$
+
 也就是上面例子中 58.4% 的由来。
 
 **Number Needed to Treat(NNT)**:
+
 $$
 NNT = \frac{1}{\Phi(\delta + \Psi(CER))- CER} = \frac{1}{\Phi(0.3 + \Psi(0.2))- 0.2} = 10.6338
 $$
+
 关于这里的 CER 参考附录 CER&EER&NNT. 这里$\Psi$函数为$\Phi$的反函数，在 R 中为`qnorm`. 上述计算就是 10.6 的由来。也就是说，那个例子的计算中是默认了 CER 为 0.2 的...
 
 **TODO**: 至于例子中这个 9.4, 我直观感觉应该是$100 \times \frac{1}{10.6}=9.433962$，但是有点绕不过来 Orz
 
 **Cohen's $U_3$**:
+
 $$
 U_3 = \Phi(\delta) = \Phi(0.3) = 0.6179114 \approx 61.8\%
 $$
@@ -131,7 +139,7 @@ $$
 
 ## 附录:CER&EER&NNT
 
-参考[bandolier](http://www.bandolier.org.uk/booth/glossary/event.html): 
+参考[bandolier](http://www.bandolier.org.uk/booth/glossary/event.html):
 
 > Event rate: The proportion of patients in a group in whom the event is observed. Thus, if out of 100 patients, the event is observed in 27, the event  rate is 0.27 or 27%.  **Control event rate (CER)** and **experimental event  rate (EER)** are used to refer to this in control and experimental groups  of patients respectively. An [example](http://www.bandolier.org.uk/booth/glossary/outputs.html) might help.
 
