@@ -1,7 +1,7 @@
 ---
 title: 斯坦福小镇解读
 draft: false
-date: 2024-07-12
+date: 2024-11-28
 authors: [mathew]
 slug: ai-town
 description: >
@@ -13,9 +13,6 @@ categories:
 ---
 
 # 斯坦福小镇 (AI-Town) 系统解读
-
-
-## 概述
 
 !!! abstract "核心要点"
     本文解读了斯坦福小镇（AI-Town）项目，重点关注其在生成式代理方面的创新架构设计。
@@ -33,6 +30,8 @@ categories:
     - 行为的真实性和可信度
     - 动态社交关系的构建
     - 环境互动的自然性
+
+<!-- more -->
 
 ## 术语解释
 
