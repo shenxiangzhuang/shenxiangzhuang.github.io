@@ -5,7 +5,7 @@ date: 2024-07-12
 authors: [mathew]
 slug: ai-town
 description: >
-    斯坦福小镇解读
+    斯坦福小镇解读：探索生成式代理的架构设计与行为模拟
 categories:
   - 终身学习
   - LLM
@@ -14,11 +14,28 @@ categories:
 
 # 斯坦福小镇 (AI-Town) 系统解读
 
-斯坦福小镇论文摘要与简单解读。
 
-<!-- more -->
+## 概述
 
-## Terminology
+!!! abstract "核心要点"
+    本文解读了斯坦福小镇（AI-Town）项目，重点关注其在生成式代理方面的创新架构设计。
+    主要包含以下几个关键部分：
+
+    1. 记忆系统（Memory Stream）：长期记忆模块
+    2. 反思机制（Reflection）：高层次推理能力
+    3. 计划系统（Planning）：行为规划与执行
+    4. 评估方法（Evaluation）：代理行为的可信度验证
+
+!!! tip "启发与应用"
+    本文的核心概念对游戏 NPC 设计具有重要的参考价值，特别是在：
+
+    - NPC 记忆系统的设计
+    - 行为的真实性和可信度
+    - 动态社交关系的构建
+    - 环境互动的自然性
+
+## 术语解释
+
 ### Believable
 
 !!! quote "Believable"
@@ -34,8 +51,7 @@ categories:
 - 可信性难以保证的原因是因为人类行为本身就具有很高的复杂度 ("due to the complexity of human behavior")
 - 过去近四十年的尝试：有限状态机，行为树...
 
-###  experiences -> action/react
-基本的逻辑都是：体验/观察 -> 记忆 -> 反思 -> 计划 -> 行动/反应
+### experiences -> action/react
 
 !!! quote "(experiences -> memory -> reflections) => plan behavior"
 
@@ -109,11 +125,11 @@ categories:
 这里的 re-plan 也比较具有启发性，比如玩家可以调整 NPC 的一些数值状态，调整后 NPC 可以根据自身的状态进行 re-plan.
 这也会使得 NPC 的行为更加贴近于真实。
 
+## 架构设计
 
-## Architecture
-
-整体分为三大部分：memory(核心), reflection, plan.
-框架的输入是"current environment and past experiences"，输出是"behavior".
+!!! info "整体架构"
+    整体分为三大部分：memory(核心), reflection, plan.
+    框架的输入是"current environment and past experiences"，输出是"behavior".
 
 ### Memory Stream
 
@@ -207,7 +223,7 @@ Reflection 的步骤如下：
 注意区分 action 和 reaction: action 是主动行为；reaction 是被动行为。
 action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及时作出 reaction，同时执行 re-planning
 
-## Evaluation
+## 评估方法
 
 !!! quote "interviewing"
 
@@ -229,7 +245,7 @@ action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及
 这里的 interviewing 类似 agent 的 debug mode. 这个对我们观察 Agent 行为是否符合预期很有用。
 比较类似西部世界中对 NPC 的"Analysis", [Google Werewolf](https://github.com/google/werewolf_arena)中的 Debug 模块。
 
-## Limitations
+## 局限性
 
 ### Overly formal
 
@@ -245,6 +261,8 @@ action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及
         可能是由于底层模型中的指令调优的结果。
         我们期望，在未来的语言模型中，写作风格将更好地可控。
 
-## References
-- Paper: Generative Agents: Interactive Simulacra of Human Behavior
-- Code: https://github.com/joonspk-research/generative_agents
+## 参考资料
+
+- Paper: [Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)
+- Code: [GitHub - joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents)
+- Demo: [AI Town Demo](https://github.com/a16z-infra/ai-town)
