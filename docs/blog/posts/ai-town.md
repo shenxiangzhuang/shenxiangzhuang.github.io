@@ -1,6 +1,6 @@
 ---
 title: 斯坦福小镇解读
-draft: true
+draft: false
 date: 2024-07-12
 authors: [mathew]
 slug: ai-town
@@ -30,7 +30,7 @@ categories:
 - 可信性难以保证的原因是因为人类行为本身就具有很高的复杂度 ("due to the complexity of human behavior")
 - 过去近四十年的尝试：有限状态机，行为树...
 
-###  (experiences/observation -> memory -> reflections) => plan behavior -> action/react
+###  experiences -> action/react
 基本的逻辑都是：体验/观察 -> 记忆 -> 反思 -> 计划 -> 行动/反应
 
 !!! quote "(experiences -> memory -> reflections) => plan behavior"
@@ -60,12 +60,15 @@ categories:
     conflicts, and events arise and **fade over** time while handling cascading social dynamics
     that unfold between multiple agents.
 
-- Ideas: Memory 应增加遗忘机制 (fade over): 设置记忆力能力值，记忆力根据记忆力进行衰减
-    - 遗忘一些细微事件有助于减少信息干扰，让 LLM 专注于重要事件，一定程度上会使得 NPC 行为更加稳定
-    - 这在一些开源框架的设计中也有体现
-        - 如 Mem0: "Recency, Relevancy, and Decay: Mem0 prioritizes recent interactions and gradually forgets outdated information, ensuring the memory remains relevant and up-to-date for more accurate responses."
-    - 可以通过查 diary 重新将已经遗忘的 Event 加入 Memory
-        - diary 是目前想到一个可能比较有趣的功能，比如玩家可以查看 Agent 写的日记等，具有一定的可玩性
+这里 Memory 的遗忘机制 (fade over) 对 NPC 的拟人化设计也很有启发性。
+比如在游戏中可以设置 NPC 的记忆力值，记忆可以根据记忆力进行衰减。
+这些设定可以让 NPC 遗忘一些细微事件有助于减少信息干扰，使其专注于重要事件，一定程度上会使得 NPC 行为更加稳定。
+另外一个方面是可以增加更多的游戏玩法，如设定 NPC 可以写日记，可以根据日记来回忆已经遗忘的事件等。
+
+!!! tip "[Mem0](https://github.com/mem0ai/mem0)的设计"
+
+    "Recency, Relevancy, and Decay: Mem0 prioritizes recent interactions and gradually forgets outdated information,
+    ensuring the memory remains relevant and up-to-date for more accurate responses."
 
 !!! quote "inference -> daily plans -> react -> re-plan"
 
@@ -76,24 +79,14 @@ categories:
     For instance, generative agents turn off the stove when they see that their breakfast is burning,
     wait outside the bathroom if it is occupied, and stop to chat when they meet another agent they want to talk to.
 
-- Ideas(UGC 相关)
-    - 根据实际 event/自身数值状态进行 re-plan
+这里的 re-plan 也比较具有启发性，比如玩家可以调整 NPC 的一些数值状态，调整后 NPC 可以根据自身的状态进行 re-plan.
+这也会使得 NPC 的行为更加贴近于真实。
 
 
 ## Architecture
-三大部分：memory, reflection, plan
 
-### Overview
-- 输入输出
-    - 输入："current environment and past experiences"
-    - 输出："behavior"
-- 三大部分
-    - memory(核心)
-    - reflection
-    - plan
-
-- 为什么需要这样的一个架构？
-    - "the resulting agents may not react based on the agent’s past experiences, may not make important inferences, and may not maintain long-term coherence"
+整体分为三大部分：memory(核心), reflection, plan.
+框架的输入是"current environment and past experiences"，输出是"behavior".
 
 ### Memory Stream
 
@@ -104,14 +97,15 @@ categories:
     and importance to surface the records needed to inform the agent’s moment-to-moment behavior.
 
 #### Seed/Initial Memory
-<figure markdown="span">
-  ![Image title](../images/dragon2_npc.png){ width="400" }
-  <figcaption>龙之信条 2 中的 NPC 信息</figcaption>
-</figure>
 
 !!! quote "Seed/Initial Memory: 初始化记忆，相当于 Agent 的基础人设"
 
     We authored one paragraph of natural language description to depict each agent’s identity, including their occupation and relationship with other agents, as seed memories
+
+<figure markdown="span">
+  ![Image title](../images/dragon2_npc.png){ width="400" }
+  <figcaption>龙之信条 2 中的 NPC 信息</figcaption>
+</figure>
 
 #### Relationship Memory
 
@@ -144,12 +138,10 @@ categories:
 </figure>
 
 Reflection 的步骤如下：
-- 圈定用于 Reflection 的 Memory Event
-    - 论文用了最近的 100 条 Memory Event
-- 对于圈定的 Memory Event，让 LLM 提出 3 个相关的问题
-    - "Given only the information above, what are 3 most salient high level questions we can answer about the subjects in the statements?"
-- 对于每个问题，索引出相关的 Memory Event 并让 LLM 总结 Insight，并给出得出此总结的 Memory Event 编号
-    - 得到的 Reflection 输出示例："Klaus Mueller is dedicated to his research on gentrification (because of 1, 2, 8, 15)"
+受限圈定用于 Reflection 的 Memory Event(论文用了最近的 100 条 Memory Event);
+之后对于圈定的 Memory Event，让 LLM 提出 3 个相关的问题 ("Given only the information above, what are 3 most salient high level questions we can answer about the subjects in the statements?");
+最后对于每个问题，索引出相关的 Memory Event 并让 LLM 总结 Insight，并给出得出此总结的 Memory Event 编号。
+得到的 Reflection 输出示例："Klaus Mueller is dedicated to his research on gentrification (because of 1, 2, 8, 15)"
 
 ### Planning
 
@@ -159,9 +151,8 @@ Reflection 的步骤如下：
     into high-level action plans and then recursively into detailed behaviors for **action and reaction**.
     These reflections and plans are fed back into the memory stream to influence the agent’s future behavior.
 
-- Ideas: 区分 action 和 reaction
-    - action 是主动行为；reaction 是被动行为
-      - action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及时作出 reaction，同时执行 re-planning
+注意区分 action 和 reaction: action 是主动行为；reaction 是被动行为。
+action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及时作出 reaction，同时执行 re-planning
 
 ## Evaluation
 
@@ -177,10 +168,8 @@ Reflection 的步骤如下：
   <figcaption>《西部世界》中对 AI 的 Analysis</figcaption>
 </figure>
 
-- Ideas: 这里的 interviewing 类似 agent 的 debug mode
-    - 这个对我们观察 Agent 行为是否符合预期很有用
-    - 类似西部世界中对 NPC 的"Analysis", [Google Werewolf](https://github.com/google/werewolf_arena)中的 Debug 模块
-
+这里的 interviewing 类似 agent 的 debug mode. 这个对我们观察 Agent 行为是否符合预期很有用。
+比较类似西部世界中对 NPC 的"Analysis", [Google Werewolf](https://github.com/google/werewolf_arena)中的 Debug 模块。
 
 ## Limitations
 
