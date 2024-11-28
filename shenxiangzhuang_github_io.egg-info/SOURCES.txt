@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-shenxiangzhuang_github_io.egg-info/PKG-INFO
-shenxiangzhuang_github_io.egg-info/SOURCES.txt
-shenxiangzhuang_github_io.egg-info/dependency_links.txt
-shenxiangzhuang_github_io.egg-info/requires.txt
-shenxiangzhuang_github_io.egg-info/top_level.txt
