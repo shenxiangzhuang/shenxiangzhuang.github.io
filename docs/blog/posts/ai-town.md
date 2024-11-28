@@ -12,7 +12,7 @@ categories:
   - Paper
 ---
 
-# 斯坦福小镇(AI-Town)系统解读
+# 斯坦福小镇 (AI-Town) 系统解读
 
 ## Terminology
 ### Believable
@@ -31,10 +31,10 @@ fully general agents that ensure long-term coherence would be better suited by a
 
 ### inference -> daily plans -> react -> re-plan
 >Generative agents draw a wide variety of inferences about themselves, other agents, and their environment; they create daily plans that reflect their characteristics and experiences, act out those plans, react, and re-plan when appropriate; they respond when the end user changes their environment or commands them in natural language. For instance, generative agents turn off the stove when they see that their breakfast is burning, wait outside the bathroom if it is occupied, and stop to chat when they meet another agent they want to talk to.
-Ideas(UGC相关): 根据实际event进行re-plan
+Ideas(UGC 相关): 根据实际 event 进行 re-plan
 
 ## Architecture
-三大部分: memory, reflection, plan
+三大部分：memory, reflection, plan
 
 ### memory stream
 >The first is the memory stream, a long-term memory module that records, in natural language, a comprehensive list of the agent’s experiences. A memory retrieval model combines relevance, recency, and importance to surface the records needed to inform the agent’s moment-to-moment behavior.
