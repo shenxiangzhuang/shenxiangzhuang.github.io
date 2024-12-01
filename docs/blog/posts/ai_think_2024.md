@@ -5,7 +5,7 @@ date: 2024-12-01
 authors: [mathew]
 slug: ai_think_2024
 description: >
-    2024 年对 AI 的一些看法, 我们正处于 AI 的黄金时代
+    2024 年对 AI 的一些看法，我们正处于 AI 的黄金时代
 categories:
   - 随笔
   - LLM
