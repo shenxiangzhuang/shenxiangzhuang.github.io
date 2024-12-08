@@ -11,9 +11,10 @@ categories:
   - 开源
 ---
 
+## Why
 
 在日常工作的少数的场景，我需要用 Python 画一些包含中文的图，一般为了简单快捷都会使用 matplotlib。
-半分钟不到写完画图代码后，发现图片的文字部分一堆方框后是真的很无奈...
+在半分钟写完画图代码后，发现图片的文字部分一堆方框后是真的很无奈...
 是的，中文字体的支持并不在很多开源库的考虑范围内，这是事实，在社区搜一下能看到一大把的图片显示中文的 issue。
 
 我本来只是想画个图而已，但是我现在需要去搜索怎么安装中文字体，怎么让这些开源库能够找到自己安装的字体...本来半分钟搞定的事情，
@@ -26,15 +27,18 @@ categories:
 ## 大家的评价
 在完成[zhplot](https://github.com/shenxiangzhuang/zhplot) 0.1.0 版本后
 我把这个项目分享到了[V2EX](https://www.v2ex.com/t/1093996)，稍有些意外的发现挺多人都觉着有帮助：
-![](../images/zhplot_comment.jpg)
 
+<figure markdown="span">
+  ![Image title](../images/zhplot_comment.jpg){ width="400" }
+  <figcaption>V2EX 评论区</figcaption>
+</figure>
 
 ## 极简使用
 
 zhplot 的使用很简单，通过`pip install zhplot`之后，在做图前`import zhplot`即可。
 
 这里采用`zhplot`命名最大的原因就是好记，我希望用户在使用这个库的时候可以做到最小的记忆负担。
-另外希望这个库的使用可以最大限度的简单，所以你只需要 import 即可。
+另外希望这个库的使用可以最大限度的简单，所以你只需要 `import zhplot` 即可。
 
 ## 简单实现
 zhplot 的方案很简单，就是内置一个中文字体，在使用 pip 安装这个库的时候会把这个字体下载下来，之后`import zhplot`就会指定使用此字体。
