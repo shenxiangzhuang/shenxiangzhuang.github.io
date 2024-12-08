@@ -1,6 +1,6 @@
 ---
 title: "zhplot: 让 Python 中文做图变得简单"
-draft: true
+draft: false
 date: 2024-12-08
 authors: [mathew]
 slug: zhplot
