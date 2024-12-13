@@ -64,7 +64,6 @@ theme:
     text: Roboto
     code: Roboto Mono
 
-
 markdown_extensions:
   - tables
   - neoteroi.timeline
@@ -98,9 +97,9 @@ extra_css:
   - css/neoteroi-mkdocs.css
 
 extra_javascript:
-- javascripts/mathjax.js
-- https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-- https://polyfill.io/v3/polyfill.min.js?features=es6
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
 
 plugins:
   - autorefs
@@ -121,7 +120,7 @@ plugins:
   - git-committers:
       repository: shenxiangzhuang/shenxiangzhuang.github.io
       branch: master
-#      cache_dir: docs/assets/git-committers
+      #      cache_dir: docs/assets/git-committers
       token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
 
   - minify:
@@ -143,20 +142,20 @@ extra:
   analytics:
     provider: google
     property: G-KEEHE7VY5K
-#    feedback:
-#      title: Was this page helpful?
-#      ratings:
-#        - icon: material/emoticon-happy-outline
-#          name: This page was helpful
-#          data: 1
-#          note: >-
-#            Thanks for your feedback!
-#        - icon: material/emoticon-sad-outline
-#          name: This page could be improved
-#          data: 0
-#          note: >-
-#            Thanks for your feedback! Help us improve this page by
-#            using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+  #    feedback:
+  #      title: Was this page helpful?
+  #      ratings:
+  #        - icon: material/emoticon-happy-outline
+  #          name: This page was helpful
+  #          data: 1
+  #          note: >-
+  #            Thanks for your feedback!
+  #        - icon: material/emoticon-sad-outline
+  #          name: This page could be improved
+  #          data: 0
+  #          note: >-
+  #            Thanks for your feedback! Help us improve this page by
+  #            using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
 
   social:
     - icon: fontawesome/brands/github
@@ -171,89 +170,91 @@ extra:
     - icon: fontawesome/solid/paper-plane
       link: mailto:datahonor@gmail.com
 
-
 nav:
   - About: index.md
   - Data Science:
-    - datascience/index.md
-    - Math:
-        - datascience/math/learn.md
-    - Statistics:
-      - datascience/statistics/learn.md
-      - Probability and mathematical statistics books recommendation: datascience/statistics/probability-and-mathematical-statistics-books.md
-      - Three doors and three prisoners: datascience/statistics/three-doors-and-three-prisoners.md
-      - ROC-AUC: datascience/statistics/roc-auc.md
-      - P value or Effect size: datascience/statistics/effect-size.md
+      - datascience/index.md
+      - Math:
+          - datascience/math/learn.md
+      - Statistics:
+          - datascience/statistics/learn.md
+          - Probability and mathematical statistics books recommendation: datascience/statistics/probability-and-mathematical-statistics-books.md
+          - Three doors and three prisoners: datascience/statistics/three-doors-and-three-prisoners.md
+          - ROC-AUC: datascience/statistics/roc-auc.md
+          - P value or Effect size: datascience/statistics/effect-size.md
 
-    - Statistical Machine Learning:
-      - datascience/ml/learn.md
-      - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
-      - 原始感知机算法实现: datascience/ml/perceptron.md
-      - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
-      - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
+      - Statistical Machine Learning:
+          - datascience/ml/learn.md
+          - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
+          - 原始感知机算法实现: datascience/ml/perceptron.md
+          - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
+          - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
 
-    - Deep Learning:
-        - datascience/dl/index.md
-        - Papers: datascience/dl/paper.md
-        - Backpropagation:
-          - datascience/dl/bp/index.md
-        - CUDA: datascience/dl/cuda.md
+      - Deep Learning:
+          - datascience/dl/index.md
+          - Papers: datascience/dl/paper.md
+          - Backpropagation:
+              - datascience/dl/bp/index.md
+          - CUDA: datascience/dl/cuda.md
 
   - Computer Science:
-    - cs/index.md
-    - Programming:
-      - cs/programming/general/learn.md
-      - Python:
-        - cs/programming/python/learn.md
-        - How to build a Python Package: cs/programming/python/build_python_pkg.md
-        - The Art of Python Programming(TAPP): cs/programming/python/tapp_0_motivation.md
-        - "TAPP1: Decorator and Closure": cs/programming/python/tapp_1_decorator.md
-        - "TAPP2: Context Managers": cs/programming/python/tapp_2_context_manager.md
-        - "TAPP3: Annotations": cs/programming/python/tapp_3_annotations.md
-        - Python与数据分析: cs/programming/python/python_data_analysis.md
+      - cs/index.md
+      - Programming:
+          - cs/programming/general/learn.md
+          - Python:
+              - cs/programming/python/learn.md
+              - How to build a Python Package: cs/programming/python/build_python_pkg.md
+              - The Art of Python Programming(TAPP): cs/programming/python/tapp_0_motivation.md
+              - "TAPP1: Decorator and Closure": cs/programming/python/tapp_1_decorator.md
+              - "TAPP2: Context Managers": cs/programming/python/tapp_2_context_manager.md
+              - "TAPP3: Annotations": cs/programming/python/tapp_3_annotations.md
+              - Python与数据分析: cs/programming/python/python_data_analysis.md
 
-      - Elixir:
-        - cs/programming/elixir/index.md
+          - Rust:
+              - cs/programming/rust/index.md
 
-      - Scala:
-        - SBT Usage: cs/programming/scala/sbt_usage.md
+          - JS&TS:
+              - cs/programming/js/index.md
 
-      - Rust:
-        - cs/programming/rust/index.md
+          - Elixir:
+              - cs/programming/elixir/index.md
 
-    - Algorithm:
-        - cs/algorithm/learn.md
+          - Scala:
+              - SBT Usage: cs/programming/scala/sbt_usage.md
 
-    - OS:
-        - cs/os/learn.md
-        - Ubuntu Usage: cs/os/ubuntu-usage.md
-    - DB:
-        - cs/db/learn.md
-    - Network:
-        - cs/network/learn.md
-    - K8S:
-        - Docker:
-          - cs/k8s/docker/learn.md
-        - Kubernetes:
-          - cs/k8s/kubernetes/learn.md
-    - Distributed System:
-      - Hive:
-        - Hive Tips: cs/distribution/hive/tips.md
-      - Hadoop:
-        - Hadoop on Linux: cs/distribution/hadoop/hadoop-linux.md
-      - HBase:
-        - HBase on Linux: cs/distribution/hbase/hbase-linux.md
-      - Spark:
-        - Spark on Linux: cs/distribution/spark/spark-linux.md
-        - Spark on Cloud: cs/distribution/spark/spark-cloud.md
+      - Algorithm:
+          - cs/algorithm/learn.md
+
+      - OS:
+          - cs/os/learn.md
+          - Ubuntu Usage: cs/os/ubuntu-usage.md
+      - DB:
+          - cs/db/learn.md
+      - Network:
+          - cs/network/learn.md
+      - K8S:
+          - Docker:
+              - cs/k8s/docker/learn.md
+          - Kubernetes:
+              - cs/k8s/kubernetes/learn.md
+      - Distributed System:
+          - Hive:
+              - Hive Tips: cs/distribution/hive/tips.md
+          - Hadoop:
+              - Hadoop on Linux: cs/distribution/hadoop/hadoop-linux.md
+          - HBase:
+              - HBase on Linux: cs/distribution/hbase/hbase-linux.md
+          - Spark:
+              - Spark on Linux: cs/distribution/spark/spark-linux.md
+              - Spark on Cloud: cs/distribution/spark/spark-cloud.md
 
   - Software Engineering:
       - se/index.md
       - Backend:
           - se/backend/index.md
           - Python:
-            - se/backend/python/index.md
-            - FastAPI Practice: se/backend/python/fastapi.md
+              - se/backend/python/index.md
+              - FastAPI Practice: se/backend/python/fastapi.md
       - Frontend:
           - se/frontend/index.md
       - Database:
@@ -278,56 +279,54 @@ nav:
           - se/devops/index.md
           - Vercel Domain: se/devops/vercel.md
 
-
-
   - Career Odyssey:
-    - odyssey/index.md
-    - AIOps:
-      - odyssey/aiops/index.md
-      - Time Series Anomaly Detection:
-        - Paper: odyssey/aiops/tsad/paper.md
-        - Product: odyssey/aiops/tsad/product.md
-      - Time Series Forecasting:
-        - Paper: odyssey/aiops/tsfcst/paper.md
-      - Root Cause Analysis:
-        - Paper: odyssey/aiops/rca/paper.md
-      - Conference: odyssey/aiops/conference.md
+      - odyssey/index.md
+      - AIOps:
+          - odyssey/aiops/index.md
+          - Time Series Anomaly Detection:
+              - Paper: odyssey/aiops/tsad/paper.md
+              - Product: odyssey/aiops/tsad/product.md
+          - Time Series Forecasting:
+              - Paper: odyssey/aiops/tsfcst/paper.md
+          - Root Cause Analysis:
+              - Paper: odyssey/aiops/rca/paper.md
+          - Conference: odyssey/aiops/conference.md
 
-    - MLSys:
-      - odyssey/mlsys/index.md
-      - Learn: odyssey/mlsys/learn.md
-      - MLOps:
-        - Tools: odyssey/mlsys/mlops/tool.md
-      - Research:
-        - Paper: odyssey/mlsys/research/paper.md
+      - MLSys:
+          - odyssey/mlsys/index.md
+          - Learn: odyssey/mlsys/learn.md
+          - MLOps:
+              - Tools: odyssey/mlsys/mlops/tool.md
+          - Research:
+              - Paper: odyssey/mlsys/research/paper.md
 
-    - Crowdsourcing and Human Computation:
-        - odyssey/chc/index.md
-        - Learn: odyssey/chc/learn.md
-        - Paper: odyssey/chc/paper.md
-        - Product: odyssey/chc/product.md
+      - Crowdsourcing and Human Computation:
+          - odyssey/chc/index.md
+          - Learn: odyssey/chc/learn.md
+          - Paper: odyssey/chc/paper.md
+          - Product: odyssey/chc/product.md
 
-    - Large Language Model:
-      - odyssey/llm/index.md
-      - Paper: odyssey/llm/paper.md
-      - Engineering: odyssey/llm/engineering.md
+      - Large Language Model:
+          - odyssey/llm/index.md
+          - Paper: odyssey/llm/paper.md
+          - Engineering: odyssey/llm/engineering.md
 
   - Tool:
-    - tool/index.md
-    - Diagram: tool/diagram.md
-    - Latex: tool/latex.md
-    - Disk: tool/disk.md
+      - tool/index.md
+      - Diagram: tool/diagram.md
+      - Latex: tool/latex.md
+      - Disk: tool/disk.md
 
   - Project:
       - project/index.md
 
   - Life:
-    - 前言: life/index.md
-    - 文史哲:
-      - 书单: life/literature/books.md
-    - 菜谱:
-      - 煮: life/cookbook/boil.md
-      - 炒: life/cookbook/saute.md
-      - 炖: life/cookbook/stew.md
+      - 前言: life/index.md
+      - 文史哲:
+          - 书单: life/literature/books.md
+      - 菜谱:
+          - 煮: life/cookbook/boil.md
+          - 炒: life/cookbook/saute.md
+          - 炖: life/cookbook/stew.md
   - Blog:
-    - blog/index.md
+      - blog/index.md
