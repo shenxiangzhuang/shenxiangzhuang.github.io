@@ -60,8 +60,8 @@
 
 ### [FastAPI](https://github.com/tiangolo/fastapi)
 
-- [ ] Learn about
-- [ ] Deploy & Test
+- [x] Learn about
+- [x] Deploy & Test
 
 
 ## Model monitoring
