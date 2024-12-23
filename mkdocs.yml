@@ -313,6 +313,7 @@ nav:
 
   - Tool:
       - tool/index.md
+      - Linux(Ubuntu): tool/ubuntu.md
       - Diagram: tool/diagram.md
       - Latex: tool/latex.md
       - Disk: tool/disk.md
