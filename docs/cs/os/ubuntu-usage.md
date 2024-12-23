@@ -9,7 +9,7 @@
 ### 输入法
 - [Rime](https://rime.im/)
     - [rime-ice](https://github.com/iDvel/rime-ice): 雾凇拼音
-        - [rime-auto-deploy](https://github.com/Mark24Code/rime-auto-deploy): 自动部署
+    - [rime-auto-deploy](https://github.com/Mark24Code/rime-auto-deploy): 自动部署
 
 ## 终端
 ### Zsh & Oh-My-Zsh
@@ -17,7 +17,7 @@
 - [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 
 ### Atuin: Magical shell history
-- https://github.com/atuinsh/atuin
+- [atuinsh/atuin](https://github.com/atuinsh/atuin)
 
 ### Starship: Customizable prompt
 - [https://starship.rs/](https://starship.rs/)
@@ -30,11 +30,11 @@
 
 ## GitHub 配置
 ### GitHub SSH Key
-- [https://docs.github.com/en/authentication/connecting-to-github-with-ssh](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+- [/connecting-to-github-with-ssh](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 
 ## 代理配置
 
-### (新) Clash & Proxy
+### Clash & Proxy
 - [GUI: mihomo-party](https://github.com/mihomo-party-org/mihomo-party)
 ```bash
 # clash in terminal
@@ -50,52 +50,59 @@ function proxy_off(){
 }
 ```
 
-### (旧) SSR & Proxy
-```bash
-# set proxy
-function setproxy() {
-    export http_proxy=socks5://127.0.0.1:1080
-    export https_proxy=socks5://127.0.0.1:1080
-}
+??? "(旧) SSR & Proxy"
 
-# unset proxy
-function unsetproxy() {
-    unset http_proxy https_proxy
-}
-```
+    ```bash
+    # set proxy
+    function setproxy() {
+        export http_proxy=socks5://127.0.0.1:1080
+        export https_proxy=socks5://127.0.0.1:1080
+    }
+
+    # unset proxy
+    function unsetproxy() {
+        unset http_proxy https_proxy
+    }
+    ```
 
 ## 编程环境配置
 
 ### IDE: Jetbrains Toolbox
 - [https://www.jetbrains.com/toolbox-app/](https://www.jetbrains.com/toolbox-app/)
 
-??? "可以打开同步"
-    同步插件等各种配置信息。目前主要是Latex环境的配置。
 
 ### IDE: Vscode
 - [https://code.visualstudio.com/](https://code.visualstudio.com/)
 
-??? "可以打开同步"
-    同步各种配置信息
 
 ### IDE: Zed
 - [Zed](https://zed.dev/)
 
 
-### Anaconda
-- [https://docs.anaconda.com/anaconda/install/linux/](https://docs.anaconda.com/anaconda/install/linux/)
-- [https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
+### Python
 
-### SDKMAN: JVM
+???+ "UV"
+    - [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
+
+
+??? "Anaconda"
+
+    - [https://docs.anaconda.com/anaconda/install/linux/](https://docs.anaconda.com/anaconda/install/linux/)
+    - [https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
+
+
+### Java & Scala: SDKMAN
 - [https://sdkman.io/](https://sdkman.io/)
 
-### NVM & NRM: Node.js
+
+### JS: NVM & NRM:
 
 - [NVM](https://github.com/nvm-sh/nvm)
 - [NRM](https://github.com/Pana/nrm)
 
-### hex.pm: Elixir
+### Elixir: Hex
 - [UPYUN 支持 Elixir hex.pm 国内镜像](https://ruby-china.org/topics/31631)
+
 
 ```shell
 export HEX_MIRROR="https://hexpm.upyun.com"
@@ -105,7 +112,7 @@ export HEX_CDN="https://hexpm.upyun.com"
 ### Latex
 - [https://www.tug.org/texlive/quickinstall.html](https://www.tug.org/texlive/quickinstall.html)
 - [ctexbook-template](https://github.com/shenxiangzhuang/ctexbook-template)
-  - 包含 VSCode 配置文件，可以直接使用 VSCode 进行 Latex 编写
+    - 包含 VSCode 配置流程，可以直接使用 VSCode 进行 Latex 编写
 
 ### WakaTime
 - [https://wakatime.com/](https://wakatime.com/)
@@ -122,7 +129,3 @@ export HEX_CDN="https://hexpm.upyun.com"
 
 ### Firefox
 - [https://www.mozilla.org/en-US/firefox/new/](https://www.mozilla.org/en-US/firefox/new/)
-
-??? "可以打开同步"
-    同步插件等各种配置信息
-
