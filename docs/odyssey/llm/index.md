@@ -5,7 +5,7 @@
 ## Books
 
 
-- [ ] Natural Language Processing with Transformers
+- [x] Natural Language Processing with Transformers
 
 <p align="center">
     <img src="./images/nlp_with_transformer.png" width = "300" height = "300"/>
