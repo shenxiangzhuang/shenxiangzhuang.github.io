@@ -230,6 +230,9 @@ nav:
           - Ubuntu Usage: cs/os/ubuntu-usage.md
       - DB:
           - cs/db/learn.md
+          - ClickHouse:
+              - 自建ClickHouse: cs/db/clickhouse/self-host.md
+              - ClickHouse使用: cs/db/clickhouse/usage.md
       - Network:
           - cs/network/learn.md
       - K8S:
