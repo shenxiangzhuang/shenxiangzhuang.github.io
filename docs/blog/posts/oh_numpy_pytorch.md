@@ -12,7 +12,7 @@ categories:
   - 终身学习
 ---
 
-# Oh-Numpy & Oh-Pytorch
+# Oh-Numpy & Oh-PyTorch
 
 100 道 Numpy 练习题的 Numpy 和 PyTorch 解答：[Oh-Numpy](https://datahonor.com/Oh-Numpy/100-Numpy-Exercises/), [Oh-PyTorch](https://datahonor.com/Oh-PyTorch/100-PyTorch-Exercises/).
 
