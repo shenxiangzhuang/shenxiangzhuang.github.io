@@ -30,7 +30,7 @@ categories:
   <figcaption>Oh-Numpy</figcaption>
 </figure>
 
-一次偶然的机会在知乎看到已经有比较多的资源，不过还是贴了下项目的链接，有位热心大哥的话让我甚至感动：
+一次偶然的机会在知乎看到已经有比较多的资源，不过还是贴了下项目的链接，有位热心大哥的话让我甚是感动：
 
 <figure markdown="span">
   ![Image title](../images/oh_numpy_pytorch/zhihu.png){ width="600" }
