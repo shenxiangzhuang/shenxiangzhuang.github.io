@@ -13,7 +13,7 @@ categories:
 
 ## 前言
 
-之前在朋友圈/推特上推荐的几本NLP/LLM的书大家都比较喜欢，这里为了方便大家查阅，统一整理了一下(另外加上了一些深度学习基础知识学习的书籍)，
+之前在朋友圈/推特上推荐的几本 NLP/LLM 的书大家都比较喜欢，这里为了方便大家查阅，统一整理了一下 (另外加上了一些深度学习基础知识学习的书籍)，
 同时也发在公众号上方便大家收藏查阅。
 
 <!-- more -->
@@ -27,14 +27,14 @@ categories:
 </figure>
 
 如果说本期所有的书只推荐一本的话，我会推荐这一本。
-这是真正教你从零开始构建GPT模型的书。全书以GPT-2模型为例，用PyTorch从头实现了GPT-2模型网络，
-对Tokenizer，Embedding，Transformer等部分都做了极为详细的介绍。
-同时载入OpenAI开源的GPT-2模型的权重以验证当前实现的正确性。
+这是真正教你从零开始构建 GPT 模型的书。全书以 GPT-2 模型为例，用 PyTorch 从头实现了 GPT-2 模型网络，
+对 Tokenizer，Embedding，Transformer 等部分都做了极为详细的介绍。
+同时载入 OpenAI 开源的 GPT-2 模型的权重以验证当前实现的正确性。
 
-因为GPT-2模型很小，所以即使是8G的显卡也能跑得动(没显卡用CPU跑也不会太慢)，非常适合新手入门。
-书籍相关代码开源在GitHub(4万Star), 也是很好的学习资料: [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).
-我强烈建议大家跟着仓库内的直到一步一步跑一遍代码，这样会对LLM的原理有更深刻的理解。
-比如我自己在学习的时候就将代码进行了一些整理并封装成一个Python库，有兴趣的可以参考看下: [https://github.com/ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm).
+因为 GPT-2 模型很小，所以即使是 8G 的显卡也能跑得动 (没显卡用 CPU 跑也不会太慢)，非常适合新手入门。
+书籍相关代码开源在 GitHub(4 万 Star), 也是很好的学习资料：[https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).
+我强烈建议大家跟着仓库内的直到一步一步跑一遍代码，这样会对 LLM 的原理有更深刻的理解。
+比如我自己在学习的时候就将代码进行了一些整理并封装成一个 Python 库，有兴趣的可以参考看下：[https://github.com/ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm).
 
 
 ### Super Study Guide: Transformers & Large Language Models
@@ -43,9 +43,9 @@ categories:
   ![](../images/dl_book/super_llm.png){ width="300" height="300" }
 </figure>
 
-如果你只想快速了解LLM相关的**理论知识**，那么这本书可能是目前最好的一本。
-本书虽然没什么代码供读者去实践，但是对NLP/Transformer/LLM的核心概念都给出了非常简明的介绍， 可以让读者快速建立对LLM理论的认知。
-另外本书有大量的图表来帮助读者理解，对于理解Transformer的原理和LLM的训练过程非常有帮助。
+如果你只想快速了解 LLM 相关的**理论知识**，那么这本书可能是目前最好的一本。
+本书虽然没什么代码供读者去实践，但是对 NLP/Transformer/LLM 的核心概念都给出了非常简明的介绍，可以让读者快速建立对 LLM 理论的认知。
+另外本书有大量的图表来帮助读者理解，对于理解 Transformer 的原理和 LLM 的训练过程非常有帮助。
 
 这本书远虽然没有上面 *Build a Large Language Model (From Scratch)* 有名，但是论内容，我认为这本是有过之而无不及的。
 
@@ -56,15 +56,15 @@ categories:
   ![](../images/dl_book/nlp_with_transformer.png){ width="300" height="300" }
 </figure>
 
-上面两本书都是直接面向LLM的书，也都是2024年的新书。
-如果你和我一样没什么NLP的基础，那么这本书可能更适合你作为入门的第一本书。
+上面两本书都是直接面向 LLM 的书，也都是 2024 年的新书。
+如果你和我一样没什么 NLP 的基础，那么这本书可能更适合你作为入门的第一本书。
 
-本书从NLP的基础知识开始讲起，依托Huggingface的transformer库对NLP&Transformer模型做了非常详尽的介绍。
+本书从 NLP 的基础知识开始讲起，依托 Huggingface 的 transformer 库对 NLP&Transformer 模型做了非常详尽的介绍。
 书中提供了很多的代码用例，适合初学者夯实基础。
 
 ## 深度学习基础
 
-上面的几本书是和NLP/LLM相关的，如果大家看着比较吃力，那么千万别沮丧，这很正常。
+上面的几本书是和 NLP/LLM 相关的，如果大家看着比较吃力，那么千万别沮丧，这很正常。
 
 !!! quote "It just means you don't know it"
 
@@ -92,7 +92,7 @@ Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksandd
 本书先是从理论上把基于梯度下降的优化过程讲清楚，之后写代码从零开始构建神经网络。
 条理清晰，层次分明，没有回避任何问题。
 
-另外附上当初我第一次看完这本书时候的感想，希望大家在学习路上都能找到属于自己的NNDL!
+另外附上当初我第一次看完这本书时候的感想，希望大家在学习路上都能找到属于自己的 NNDL!
 
 !!! note
 
@@ -119,11 +119,11 @@ Chap4 A visual proof that neural nets can compute any function 的内容。
 两者可以互为参考; Chap9 Backpropagation 写的极为细致清晰，应该是我目前看到的最为清晰的 BP 讲解与实现，层层递进，引人入胜;
 Chap10 Optimizers 算是差强人意，对各个优化器 motivation 的讲解较为清晰，代码写的也比较好。
 比较可惜的是没有放任何公式...这些公式又不难，贴上来对着代码讲一下会好很多;
-Chap18 Model Object，Chap21 Saving and Loading Models and Their Parameters 都写的不错，条理清晰， 代码也是一步步地讲解
+Chap18 Model Object，Chap21 Saving and Loading Models and Their Parameters 都写的不错，条理清晰，代码也是一步步地讲解
 
 **缺点**: Chap6,7,8 中对 Calculus(Derivative, Gradient 等) 的讲解有些繁琐，且稍显粗浅;
 Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章几页草草了事，大可不必...
-不过能提到 data leakage 也算是弥补回来一点.
+不过能提到 data leakage 也算是弥补回来一点。
 
 ### Dive into Deep Learning(D2L)
 
@@ -145,8 +145,8 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 </figure>
 
 如果你的数学和我一样都不太好，而且上面的书看起来还是比较吃力，那么从这本书入手可能比较好。
-先说重点，建议只看前六章。 本书前 6 章写的极其友好，很适合没有任何 DL 基础的人从零开始学起。
-印象比较深刻的就是把 NN 比作一个机器， NN 中各个参数比作一个个的旋钮，我们的任务其实就是不断调节各个旋钮的值使得机器按照我们预期的方式工作。
+先说重点，建议只看前六章。本书前 6 章写的极其友好，很适合没有任何 DL 基础的人从零开始学起。
+印象比较深刻的就是把 NN 比作一个机器，NN 中各个参数比作一个个的旋钮，我们的任务其实就是不断调节各个旋钮的值使得机器按照我们预期的方式工作。
 这是一个非常恰当的例子，也几乎贯穿整本书的介绍。
 
 !!! note "LLM in 2024"
@@ -163,8 +163,8 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 
 个人的看法是，深度学习本身是一门和工程绑定很深的学科，所以工程实践就显得尤为重要。
 不同于统计机器学习主要处理二维表格数据，深度学习更多的是处理图像，文本，序列等数据，这些数据的特点是更加复杂，更加难以直观理解。
-同样地，深度学习的模型相较于统计机器学习也更加难以直观理解，更不用说训练DL模型需要一系列的Tricks。
-这一系列问题就导致DL的insight更加难以获得，而这些insight往往是我们在落地实践中最需要的。
+同样地，深度学习的模型相较于统计机器学习也更加难以直观理解，更不用说训练 DL 模型需要一系列的 Tricks。
+这一系列问题就导致 DL 的 insight 更加难以获得，而这些 insight 往往是我们在落地实践中最需要的。
 所以看书的时候最好还是多动手写一写代码，多实践一下比较好。
 
 
