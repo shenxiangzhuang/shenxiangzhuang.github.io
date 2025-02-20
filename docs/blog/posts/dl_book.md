@@ -75,6 +75,11 @@ categories:
 
 ### Neural Networks and Deep Learning(NNDL)
 
+<figure markdown="span">
+  ![](../images/dl_book/nndl.png){ width="400" height="400" }
+</figure>
+
+
 Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksanddeeplearning.com/index.html)
 至今仍然是我推荐入门学习深度学习的第一选择，本书高屋建瓴，有着对深度学习的真正理解。
 
@@ -98,6 +103,11 @@ Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksandd
 
 ### Neural Networks from Scratch in Python(NNFS)
 
+<figure markdown="span">
+  ![](../images/dl_book/nnfs.png){ width="800" height="800" }
+</figure>
+
+
 如果说 Michael Nielsen 的 NNDL 是高屋建瓴，站在足够的高度为读者展示整个 NN 的蓝图，
 那么这本 [NNFS](https://nnfs.io/) 就是踩在坚实的大地上，为读者提供蓝图中的每一处事物并带领你亲身去体验。
 其实 NNDL 本身也已经包含了很多 NNFS 提供的内容，但是后者更加具体一些。
@@ -117,6 +127,10 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 
 ### Dive into Deep Learning(D2L)
 
+<figure markdown="span">
+  ![](../images/dl_book/d2l.png){ width="300" height="300" }
+</figure>
+
 这本书我看的版本比较早，大概 2021 年前后读完此书，当时还是 0.7.1 版本，代码全是 MXNet 实现的。
 当时给这本书的评价是“非常全面的一本书，深入浅出，通俗易懂，值得多翻。”
 
@@ -125,6 +139,10 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 
 
 ### Grokking Deep Learning
+
+<figure markdown="span">
+  ![](../images/dl_book/grokking_dl.png){ width="300" height="300" }
+</figure>
 
 如果你的数学和我一样都不太好，而且上面的书看起来还是比较吃力，那么从这本书入手可能比较好。
 先说重点，建议只看前六章。 本书前 6 章写的极其友好，很适合没有任何 DL 基础的人从零开始学起。
