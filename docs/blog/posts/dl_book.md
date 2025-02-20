@@ -141,7 +141,7 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 ### Grokking Deep Learning
 
 <figure markdown="span">
-  ![](../images/dl_book/grokking_dl.png){ width="300" height="300" }
+  ![](../images/dl_book/grokking_dl.jpg){ width="300" height="300" }
 </figure>
 
 如果你的数学和我一样都不太好，而且上面的书看起来还是比较吃力，那么从这本书入手可能比较好。
