@@ -16,7 +16,7 @@ categories:
 
 # Dawid-Skene 算法
 
-![](../image/ds_position.png)
+![](../images/ds_position.png)
 
 Lilian 在[Thinking about High-Quality Human Data | Lil'Log](https://lilianweng.github.io/posts/2024-02-05-human-data-quality/)
 对数据标注的质量进行了一些很有远见的讨论。

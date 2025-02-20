@@ -12,7 +12,7 @@
     ??? "一些碎碎念:-)"
 
         不知道具体什么原因，以前一直对 DL 喜欢不起来，所以也就随便看看，没有系统地去学。现在看来，主要的原因还是在于没有好的引导资料，
-        像 Berkley 的 DL 课程，李沐的《深度学习》，我怎么看不下去...转折点是在一本书，Michael Nielson 的[*Neural Network and Deep Learning* ](http://neuralnetworksanddeeplearning.com/)。
+        像 Berkley 的 DL 课程，李沐的《深度学习》，我怎么看不下去...转折点是在一本书，Michael Nielsen 的[*Neural Network and Deep Learning* ](http://neuralnetworksanddeeplearning.com/)。
         初读这本书时，直接被震撼到了，明白了何谓高屋建瓴。
 
         > You need to understand the durable, lasting insights underlying how neural networks work. Technologies come and technologies go, but insight is forever.
