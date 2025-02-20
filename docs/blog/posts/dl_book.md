@@ -16,6 +16,8 @@ categories:
 之前在朋友圈/推特上推荐的几本NLP/LLM的书大家都比较喜欢，这里为了方便大家查阅，统一整理了一下，
 同时也发在公众号上方便大家收藏查阅。
 
+<!-- more -->
+
 ## 大语言模型三剑客
 
 ### Build a Large Language Model (From Scratch)
@@ -85,7 +87,7 @@ Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksandd
 本书先是从理论上把基于梯度下降的优化过程讲清楚，之后写代码从零开始构建神经网络。
 条理清晰，层次分明，没有回避任何问题。
 
-另外附上当初我第一次看完这本书时候的感想：
+另外附上当初我第一次看完这本书时候的感想，希望大家在学习路上都能找到属于自己的NNDL!
 
 !!! note
 
@@ -93,7 +95,6 @@ Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksandd
     现在看来，主要的原因还是在于没有好的引导资料， 像 Berkley 的 DL 课程，李沐的《深度学习》，我怎么看不下去...
     转折点是在一本书，Michael Nielsen 的Neural Network and Deep Learning.
 
-希望大家在学习路上都能找到属于自己的NNDL!
 
 ### Neural Networks from Scratch in Python(NNFS)
 
@@ -139,3 +140,5 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 本书的第 7, 8 章写的还算可以，中规中矩。
 但是从第 9 章开始这书开始错误频出，而且概念也描述得不清楚，不建议继续往下看。不论怎样，前 6 章值得一读。
 
+
+## 当我们谈论读书时
