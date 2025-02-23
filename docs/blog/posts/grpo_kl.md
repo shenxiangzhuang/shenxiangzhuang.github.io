@@ -79,7 +79,7 @@ $$
 p(x) =  \pi_{ref}(o_{i,t}|q,o_{i,<t})
 $$
 
-到这里为止，论文中KL散度的推导的就完成了，一切都很清晰。后来我又读了几篇关于KL散度不对称性的博客，比如这篇[Reverse vs Forward KL](https://www.tuananhle.co.uk/notes/reverse-forward-kl.html), 里面提到Reverse KL Divergence是类似$\mathbb{D}_{KL}\left[q_{\phi} || p\right]$的形式(这里的$\phi$是参数)，所以很自然地我认为$\mathbb{D}_{KL}\left[\pi_{\theta} || \pi_{ref}\right]$就是Reverse KL Divergence的形式...直到我在Twitter/X上刷到一个帖子说GRPO用的是Forward KL：
+到这里为止，论文中 KL 散度的推导的就完成了，一切都很清晰。后来我又读了几篇关于 KL 散度不对称性的博客，比如这篇[Reverse vs Forward KL](https://www.tuananhle.co.uk/notes/reverse-forward-kl.html), 里面提到 Reverse KL Divergence 是类似$\mathbb{D}_{KL}\left[q_{\phi} || p\right]$的形式 (这里的$\phi$是参数)，所以很自然地我认为$\mathbb{D}_{KL}\left[\pi_{\theta} || \pi_{ref}\right]$就是 Reverse KL Divergence 的形式...直到我在 Twitter/X 上刷到一个帖子说 GRPO 用的是 Forward KL：
 
 ![](https://fastly.jsdelivr.net/gh/bucketio/img10@main/2025/02/23/1740278807255-48049077-6226-48fd-abc7-35e098f878b8.png)
 
@@ -103,9 +103,9 @@ $$
 
 ![](https://fastly.jsdelivr.net/gh/bucketio/img10@main/2025/02/23/1740280595594-c846160a-262b-4d23-9a2f-eed88519a711.png)
 
-其中实线代表$\mathbb{D}_{KL}\left[q_{\phi} || p\right]$中$p$的分布，表示待逼近的分布。而$q_{\phi}$则表示参数化的分布(分布由$\phi$决定)。最小化 DL 散度其实就是优化参数$\phi$，使得最终的 KL 散度最小。下面长虚线是 Forward KL Divergence 为优化目标时的拟合结果；短虚线是 Reverse KL Divergence 为优化目标时的拟合结果。注意这里在模拟的时候，$p(x)$为混合高斯分布 (单峰或者双峰)，$q(x)$为普通的高斯分布 (单峰)，详见博客，此处不展开。
+其中实线代表$\mathbb{D}_{KL}\left[q_{\phi} || p\right]$中$p$的分布，表示待逼近的分布。而$q_{\phi}$则表示参数化的分布 (分布由$\phi$决定)。最小化 DL 散度其实就是优化参数$\phi$，使得最终的 KL 散度最小。下面长虚线是 Forward KL Divergence 为优化目标时的拟合结果；短虚线是 Reverse KL Divergence 为优化目标时的拟合结果。注意这里在模拟的时候，$p(x)$为混合高斯分布 (单峰或者双峰)，$q(x)$为普通的高斯分布 (单峰)，详见博客，此处不展开。
 
-对于两者的区别，结论是：Reverse KL的行为是Zero-Forcing/Mode-Seeking；Forward KL是Mass-Covering/Mean-Seeking。
+对于两者的区别，结论是：Reverse KL 的行为是 Zero-Forcing/Mode-Seeking；Forward KL 是 Mass-Covering/Mean-Seeking。
 
 Reverse KL 的公式如下
 
@@ -127,7 +127,7 @@ KL[p, q] &=\sum\limits _{x}p(x)\log\frac {p(x)}{q(x)}  \\
 \end{align}
 $$
 
-因为是$p(x)$加权的，所以当$p(x) = 0$的时候，随便$q(x)$呈现什么形态都不影响，因为对最终的 KL 散度贡献始终为 0，所以重点就就集中在$p(x) \neq  0$的部分。在$p(x) \neq  0$的部分尽可能地让两个分布的差距比较小，就诱导出了 Forward KL的Mass-Covering/Mean-Seeking模式。
+因为是$p(x)$加权的，所以当$p(x) = 0$的时候，随便$q(x)$呈现什么形态都不影响，因为对最终的 KL 散度贡献始终为 0，所以重点就就集中在$p(x) \neq  0$的部分。在$p(x) \neq  0$的部分尽可能地让两个分布的差距比较小，就诱导出了 Forward KL 的 Mass-Covering/Mean-Seeking 模式。
 
 回到在 LLM 训练中，用 Reverse KL 和 Forward KL 有什么差别吗？Unsloth 其实给出了实验的分析，其实看结果似乎并没有太大的区别：
 
