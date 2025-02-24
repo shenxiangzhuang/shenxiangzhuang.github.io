@@ -26,6 +26,8 @@ $$
 \end{aligned}
 $$
 
+<!-- more -->
+
 这里我们只看最后的 KL Divergence(KL 散度) 部分。关于最后 KL 散度的实现，论文特别做了说明：
 
 >And different from the KL penalty term used in PPO, we estimate the KL divergence with the following unbiased estimator (Schulman, 2020), which is guaranteed to be positive.
@@ -83,7 +85,7 @@ $$
 
 ![](https://fastly.jsdelivr.net/gh/bucketio/img10@main/2025/02/23/1740278807255-48049077-6226-48fd-abc7-35e098f878b8.png)
 
-<!-- more -->
+
 
 ## 承
 看到帖子的时候我就在想，这不可能啊，这么明显的错误评论区肯定有一堆人指正的。但事实是没有人反对，而且有两个哥们让人印象深刻：其中一个说，啊对对对，我们之前一篇论文也证明了 Forward 比 Reverse 更好；另外一个哥们是吟唱流，连发七八条帖子去分析。
