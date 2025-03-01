@@ -52,10 +52,10 @@ categories:
 |-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | ![Tiffany Blue Cover](../images/presentia/screenshots/typst-touying/stargazer/tiffany_blue_cover.png) | ![Tiffany Blue Inner](../images/presentia/screenshots/typst-touying/stargazer/tiffany_blue_inner.png) |
 
-#### Sunbrella Yellow
-| Cover                                                                                                         | Inner                                                                                                         |
-|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| ![Sunbrella Yellow Cover](../images/presentia/screenshots/typst-touying/stargazer/sunbrella_yellow_cover.png) | ![Sunbrella Yellow Inner](../images/presentia/screenshots/typst-touying/stargazer/sunbrella_yellow_inner.png) |
+#### Schenbrunn Yellow
+| Cover                                                                                                           | Inner                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| ![Schenbrunn Yellow Cover](../images/presentia/screenshots/typst-touying/stargazer/schenbrunn_yellow_cover.png) | ![Schenbrunn Yellow Inner](../images/presentia/screenshots/typst-touying/stargazer/schenbrunn_yellow_inner.png) |
 
 ### LaTeX Beamer: Frankfurt
 
