@@ -5,7 +5,7 @@ date: 2025-03-01
 authors: [mathew]
 slug: presentia
 description: >
-    介绍一个Presentation开源模板集合，让Presentation变得简单而不失优雅。
+    介绍一个 Presentation 开源模板集合，让 Presentation 变得简单而不失优雅。
 categories:
   - Project
   - 开源
