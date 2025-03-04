@@ -22,11 +22,11 @@
 - DeepMind: *Accelerating large language model decoding with speculative sampling*@[sps_deepmind]
 - Google: *Fast inference from transformers via speculative decoding*@[sps_google]
 
-DeepMind 和 Google 前后分别发了一篇 Speculative Sampling的文章，内容比较相似(还是有些许不同)。
+DeepMind 和 Google 前后分别发了一篇 Speculative Sampling 的文章，内容比较相似 (还是有些许不同)。
 
-- [feifeibear/LLMSpeculativeSampling](https://github.com/feifeibear/LLMSpeculativeSampling) 给出了两个算法的PyTorch实现
-- [jaymody/speculative-sampling](https://github.com/jaymody/speculative-sampling) 给出了DeepMind算法的Jax实现
-- [ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm) 给出了DeepMind算法的PyTorch实现(基于GPT2做验证)
+- [feifeibear/LLMSpeculativeSampling](https://github.com/feifeibear/LLMSpeculativeSampling) 给出了两个算法的 PyTorch 实现
+- [jaymody/speculative-sampling](https://github.com/jaymody/speculative-sampling) 给出了 DeepMind 算法的 Jax 实现
+- [ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm) 给出了 DeepMind 算法的 PyTorch 实现 (基于 GPT2 做验证)
 
 
 ### KV Cache
