@@ -19,8 +19,8 @@
 
 ### Speculative Sampling
 
-- DeepMind: *Accelerating large language model decoding with speculative sampling*@[sps_deepmind]
-- Google: *Fast inference from transformers via speculative decoding*@[sps_google]
+- DeepMind: *Accelerating large language model decoding with speculative sampling*[@sps_deepmind]
+- Google: *Fast inference from transformers via speculative decoding*[@sps_google]
 
 DeepMind 和 Google 前后分别发了一篇 Speculative Sampling 的文章，内容比较相似 (还是有些许不同)。
 
