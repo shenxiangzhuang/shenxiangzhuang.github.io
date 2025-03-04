@@ -93,9 +93,6 @@ which is jointly trained with all the other components of the proposed system.
 ### 2020-OpenAI-GPT3.0
 *Language models are few-shot learners*
 
-## Step3: Engineering in LLM
-TBD
-
 
 # Reference
 - [Understanding Large Language Models -- A Transformative Reading List](https://sebastianraschka.com/blog/2023/llm-reading-list.html)
