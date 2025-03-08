@@ -192,7 +192,7 @@ if all_accept:
 
 至此，算法全部的流程就全部走完一遍了。此时再回顾一下之前的问题——为什么 draft model 生成$K$个 token 的过程叫作 lookahead(前瞻)？答案就比较显然了，其实就是预先推测的意思，这也是推测采样 (Speculative Sampling) 内在的含义。
 
-## 完整算法代码实现
+## 完整算法代码
 
 ![](../images/llm_sps/full_code.png)
 
@@ -200,11 +200,10 @@ if all_accept:
 ## 复杂度分析
 
 
-## 效果展示
-
-
 ## Insight
 
 - Temperature = 0，退化为 Matching 的模式：拒绝采样的直观理解
 - 调节$r$的分布以降智
 
+
+## 参考文献
