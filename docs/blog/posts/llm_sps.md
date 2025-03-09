@@ -61,6 +61,8 @@ Draft Model 和 Target Model 具有较高的相似性。在后续的介绍中我
 接下来我们来梳理一下算法的流程。
 本文中的实验全部基于 GPT2 模型完成，其中 Target Model 为 GPT2-XLARGE，Draft Model 为 GPT2-SMALL。算法实现的全部代码开源在 GitHub: [ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm)
 
+<!-- more -->
+
 ## 算法原理
 
 
