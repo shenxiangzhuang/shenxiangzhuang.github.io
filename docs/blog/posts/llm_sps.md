@@ -132,7 +132,7 @@ $$
 r < \min\left(1, \frac{q(x|x_1, \cdots, x_n)}{p(x|x_1, \cdots, x_n)}\right)
 $$
 
-其实就是给定当前已经生成的 token，比较 target model 和 draft model 在 token $\tilde{x}_1$上的概率值是不是大于$r$, 其中$r \sim U[0, 1]$，服从0到1的均匀分布。如果条件成立，那么就直接采纳当前token $\tilde{x}_1$作为算法的正式输出；否则就拒绝采纳当前token，并从下面的分布中采样出当前步骤要生成的token，同时跳出此for循环，即结束当前的推测检验过程：
+其实就是给定当前已经生成的 token，比较 target model 和 draft model 在 token $\tilde{x}_1$上的概率值是不是大于$r$, 其中$r \sim U[0, 1]$，服从 0 到 1 的均匀分布。如果条件成立，那么就直接采纳当前 token $\tilde{x}_1$作为算法的正式输出；否则就拒绝采纳当前 token，并从下面的分布中采样出当前步骤要生成的 token，同时跳出此 for 循环，即结束当前的推测检验过程：
 
 $$
 q(x|x_1, \cdots, x_n) - p(x|x_1, \cdots, x_n))_{+}
