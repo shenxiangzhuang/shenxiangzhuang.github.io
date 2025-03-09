@@ -118,7 +118,7 @@ for _ in range(self.lookahead):
 之后是同时计算 target model 的$K+1$份 logits(这里具体是用的归一化之后的 logits，也就是概率，后续我均默认其为概率)。
 ![](../images/llm_sps/target_forward.png)
 
-这里其实我们在 taraget model 进行**一次 Forward**就可以得到全部的需要的$K+1$份概率分布：
+这里其实我们在 target model 进行**一次 Forward**就可以得到全部的需要的$K+1$份概率分布：
 ```python
 target_model_probs = self.target_model.inference(draft_prompt_tokens, config)
 ```
