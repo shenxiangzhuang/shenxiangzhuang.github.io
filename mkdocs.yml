@@ -158,6 +158,9 @@ extra:
   #            using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
 
   social:
+    - icon: material/rss
+      link: https://datahonor.com/feed_rss_created
+
     - icon: fontawesome/brands/github
       link: https://github.com/shenxiangzhuang
 
@@ -167,8 +170,16 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/mathewshen
 
-    - icon: fontawesome/solid/paper-plane
+    - icon: material/email
       link: mailto:datahonor@gmail.com
+
+    - icon: simple/wechat
+      link: https://mp.weixin.qq.com/s/wOqp6nHBAenK9wP2vIUS9g
+
+    - icon: simple/zhihu
+      link: https://www.zhihu.com/people/shen-xiang-zhuang
+
+
 
 nav:
   - About: index.md
