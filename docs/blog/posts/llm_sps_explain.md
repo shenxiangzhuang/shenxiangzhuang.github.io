@@ -3,7 +3,7 @@ title: Implementing LLM Speculative Sampling in Under 100 Lines of Code
 draft: false
 date: 2025-03-13
 authors: [mathew]
-slug: llm_speculative_sampling
+slug: llm_sps_en
 description: >
     A practical implementation of DeepMind's paper on Accelerating Large Language Model Inference with Speculative Sampling, achieving over 2x speedup
 categories:
