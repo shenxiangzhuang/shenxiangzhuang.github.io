@@ -24,7 +24,6 @@ categories:
 ```python
 import redis
 
-# Create Redis client
 r = redis.Redis()
 lock_name = "lock:example"
 
@@ -46,8 +45,8 @@ def thread2_function():
 ```
 
 之后我们启动这两个线程，先启动线程 1，过 1 秒再启动线程 2，保证线程 1 可以先拿到锁：
+
 ```python
-# Create and start threads
 t1 = threading.Thread(target=thread1_function)
 t2 = threading.Thread(target=thread2_function)
 
@@ -55,7 +54,6 @@ t1.start()
 time.sleep(1)
 t2.start()
 
-# Wait for threads to complete
 t1.join()
 t2.join()
 ```
@@ -72,5 +70,11 @@ Thread 2: Lock error: Cannot release an unlocked lock
 ```
 
 这里的奇怪的地方在于，当线程 2 试图去释放一个不属于自己的锁的时候，报的错是`Cannot release an unlocked lock`。
-这就很奇怪，因为此时对应的锁并不是`unlocked`，它目前仍然是 `locked` 的状态，且被线程 1 持有。
+这里报错信息就很奇怪，因为此时对应的锁并不是`unlocked`，它目前仍然是 `locked` 的状态，且被线程 1 持有。
+后面我提了一个 PR 来解决这里的问题 (redis-py [#3535](https://github.com/redis/redis-py/issues/3535))。
+在介绍这个 PR 之前，让我们先来简单了解下 redis-py 中锁机制的实现逻辑。
+
+
+## redis-py 中的锁
+
 
