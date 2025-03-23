@@ -15,6 +15,8 @@ categories:
 
 今天我们分析一下 redis-py 一个奇怪的报错并据此简单聊一下 Redis 的锁机制。
 
+<!-- more -->
+
 ## 奇怪的报错
 
 我们采用 redis-py 最新的 [5.3.0b5](https://github.com/redis/redis-py/tree/v5.3.0b5) 版本来测试下面的逻辑。
