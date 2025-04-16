@@ -1,9 +1,9 @@
 ---
 title: "LLM KV Cache: A Simple Implementation"
 draft: false
-date: 2025-03-08
+date: 2025-04-16
 authors: [mathew]
-slug: llm_sps
+slug: llm_kv_cache
 description: >
     LLM KV Cache 代码实现
 categories:
@@ -85,11 +85,6 @@ class KVCache(nn.Module):
     def update(self, k_val: torch.Tensor, v_val: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         """Update KV cache with the new ``k_val``, ``v_val`` and return the updated cache.
 
-        Note:
-            When updating the KV cache, it is assumed that subsequent updates should update key-value
-            positions in consecutive sequence positions. If you wish to update cache values which have
-            already been filled, use ``.reset()``, which will reset the cache to the zero-th position.
-
         Args:
             k_val (torch.Tensor): Current key tensor with shape [B, H, S, D]
             v_val (torch.Tensor): Current value tensor with shape [B, H, S, D]
@@ -118,12 +113,17 @@ class KVCache(nn.Module):
     答案很简单，通过`register_buffer`注册的buffer可以随着`model.to(device)`的调用而自动转移到指定的设备上，而后一种方式则不会。
 
     >In essence, PyTorch buffers are tensor attributes associated with a PyTorch module or model similar to parameters,
-    >but unlike parameters, buffers are not updated during training. Buffers in PyTorch are particularly useful
-    >when dealing with GPU computations, as they need to be transferred between devices (like from CPU to GPU) alongside the model's parameters. Unlike parameters, buffers do not require gradient computation, but they still need to be on the correct device to ensure that all computations are performed correctly.
+    >but unlike parameters, buffers are not updated during training.
+
+    >Buffers in PyTorch are particularly useful when dealing with GPU computations, as they need to be transferred
+    >between devices (like from CPU to GPU) alongside the model's parameters. Unlike parameters, buffers do not require gradient computation, but they still need to be on the correct device to ensure that all computations are performed correctly.
 
     更多的细节可以参考以下链接：
+
     - [PyTorch register_buffer](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_buffer)
+
     - [LLMs-from-scratch explain](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch03/03_understanding-buffers/understanding-buffers.ipynb)
+
 
 注意这里`KVCache`内部`cache`的维度：`cache_shape = (batch_size, num_kv_heads, max_seq_len, head_dim)`.
 其中，`batch_size`是模型的 batch size，`num_kv_heads`是模型的 kv head 的数量，`max_seq_len`是模型的最大序列长度，`head_dim`是每个 kv head 的维度。
