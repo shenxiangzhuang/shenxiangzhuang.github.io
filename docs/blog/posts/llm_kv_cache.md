@@ -14,7 +14,7 @@ categories:
 ## Introduction
 
 在看很多大语言模型的推理代码时，发现有一个非常重要的概念，就是 KV Cache。
-这里我们简要介绍一下KV Cache的核心原理并给出一个简单的代码实现。
+这里我们简要介绍一下 KV Cache 的核心原理并给出一个简单的代码实现。
 相关的实验和测试代码同样开源在[toyllm](https://github.com/ai-glimpse/toyllm).
 
 
@@ -125,12 +125,12 @@ class KVCache(nn.Module):
     - [PyTorch register_buffer](https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_buffer)
     - [LLMs-from-scratch explain](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch03/03_understanding-buffers/understanding-buffers.ipynb)
 
-注意这里`KVCache`内部`cache`的维度: `cache_shape = (batch_size, num_kv_heads, max_seq_len, head_dim)`.
-其中，`batch_size`是模型的batch size，`num_kv_heads`是模型的kv head的数量，`max_seq_len`是模型的最大序列长度，`head_dim`是每个kv head的维度。
-也就是说，这里会缓存**batch中每个样本的每个kv head在每个位置上的key和value(两者均为维度等于`head_dim`的向量)**。
+注意这里`KVCache`内部`cache`的维度：`cache_shape = (batch_size, num_kv_heads, max_seq_len, head_dim)`.
+其中，`batch_size`是模型的 batch size，`num_kv_heads`是模型的 kv head 的数量，`max_seq_len`是模型的最大序列长度，`head_dim`是每个 kv head 的维度。
+也就是说，这里会缓存**batch 中每个样本的每个 kv head 在每个位置上的 key 和 value(两者均为维度等于`head_dim`的向量)**。
 
 `KVCache`的`update`方法会将当前的`k_val`和`v_val`更新到缓存中，并返回更新后的缓存。
-更新时的操作也很简单，就是把当前的`k_val`和`v_val`更新到缓存中对应的位置上:
+更新时的操作也很简单，就是把当前的`k_val`和`v_val`更新到缓存中对应的位置上：
 
 ```python
 k_out[:, :, self.cache_pos : self.cache_pos + seq_len] = k_val
