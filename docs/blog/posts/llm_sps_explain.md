@@ -17,6 +17,8 @@ categories:
 Today we'll explore and implement DeepMind's paper: *Accelerating large language model decoding with speculative sampling* [@sps_deepmind].
 I'll demonstrate how to reproduce this technique in less than 100 lines of code while achieving more than 2x speedup in inference time.
 
+<!-- more -->
+
 For example, using the following prompt (with temperature set to 0 to ensure deterministic results):
 ```bash
 Prompt: Alan Turing theorized that computers would one day become
@@ -60,7 +62,7 @@ There are two key factors that make speculative sampling effective:
 I'll explain both of these factors in detail below.
 All experiments in this article are based on GPT2 models, with GPT2-XLARGE as the Target Model and GPT2-SMALL as the Draft Model. The complete implementation code is available on GitHub: [ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm)
 
-<!-- more -->
+
 
 ## Algorithm Principles
 
