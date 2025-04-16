@@ -17,6 +17,8 @@ categories:
 今天我们将介绍并复现 Deepmind 的一篇关于 LLM Speculative Sampling 的论文：*Accelerating large language model decoding with speculative sampling*[@sps_deepmind].
 我们将用不到 100 行代码来复现这篇论文，并得到 2 倍以上的速度提升。
 
+<!-- more -->
+
 比如以当前的 Prompt 为例 (试验采用的 temperature 为 0 以保证确定性)：
 ```bash
 Prompt: Alan Turing theorized that computers would one day become
@@ -61,7 +63,6 @@ Draft Model 和 Target Model 具有较高的相似性。在后续的介绍中我
 接下来我们来梳理一下算法的流程。
 本文中的实验全部基于 GPT2 模型完成，其中 Target Model 为 GPT2-XLARGE，Draft Model 为 GPT2-SMALL。算法实现的全部代码开源在 GitHub: [ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm)
 
-<!-- more -->
 
 ## 算法原理
 
