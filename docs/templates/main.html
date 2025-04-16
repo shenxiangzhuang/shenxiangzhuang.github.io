@@ -2,41 +2,33 @@
 
 {% block announce %}
 <center>
-You can follow by
-  <a href="https://datahonor.com/feed_rss_created">
-    <strong>RSS</strong>
-  </a>
-  or <strong>@shenxiangzhuang</strong> on
-  <a href="https://github.com/shenxiangzhuang">
+    You can follow by
+    <a href="https://datahonor.com/feed_rss_created">
+        <strong>RSS</strong>
+    </a>
+    or
+    <a href="https://github.com/shenxiangzhuang">
     <span class="twemoji">
       {% include ".icons/fontawesome/brands/square-github.svg" %}
     </span>
-    <strong>GitHub</strong>
-  </a>
-  <strong>@MathewShen</strong> on
-  <a href="https://twitter.com/MathewShen42">
-    <span class="twemoji">
-      {% include ".icons/fontawesome/brands/x-twitter.svg" %}
-    </span>
-    <strong>Twitter</strong>
-  </a>
-  and
-  <a href="https://www.zhihu.com/people/shen-xiang-zhuang">
-    <strong>知乎</strong>
-  </a>
-  or
-  <strong>AI Glimpse</strong> on
-  <!--暂时用 LLM in 2024 文章链接作为入口-->
-  <a href="https://mp.weixin.qq.com/s/wOqp6nHBAenK9wP2vIUS9g">
+        <strong>GitHub(<strong>shenxiangzhuang</strong>)</strong>
+    </a>
+    <!--  or-->
+    <!--  <a href="https://www.zhihu.com/people/shen-xiang-zhuang">-->
+    <!--    <strong>知乎</strong>-->
+    <!--  </a>-->
+    or
+    <!--暂时用 LLM in 2024 文章链接作为入口-->
+    <a href="https://mp.weixin.qq.com/s/wOqp6nHBAenK9wP2vIUS9g">
     <span class="twemoji">
       {% include ".icons/fontawesome/brands/wechat.svg" %}
     </span>
-    <strong>WeChat</strong>
-  </a>
+        <strong>WeChat(<strong>AI Glimpse</strong>)</strong>
+    </a>
 </center>
 {% endblock %}
 
 
 {% block content %}
-  {{ super() }}
+{{ super() }}
 {% endblock %}
