@@ -1,8 +1,10 @@
 # How to build a python package
 
-> 本文写作于2021年前后，近几年 Python 生态发展迅速，很多工具和库都在更新迭代，很难在一篇文章中涵盖所有的细节和最新的工具。
-> 本文仅供参考，具体请参考笔者的开源项目[MPPT: A Modern Python Package Template](https://github.com/shenxiangzhuang/mppt),
-> 这个项目是一个现代化的 Python 库模板，包含了最新的工具和最佳实践。
+!!! note "最新实践请参考 MPPT"
+
+    本文写作于2021年前后，近几年 Python 生态发展迅速，很多工具和库都在更新迭代，很难在一篇文章中涵盖所有的细节和最新的工具。
+    本文仅供参考，具体请参考笔者的开源项目[MPPT: A Modern Python Package Template](https://github.com/shenxiangzhuang/mppt),
+    这个项目是一个现代化的 Python 库模板，包含了最新的工具和最佳实践。
 
 这里记录下如何将自己写的 Python 程序打包成库，并安装，参考官方文档[Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)。
 
