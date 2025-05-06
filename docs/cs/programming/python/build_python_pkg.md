@@ -1,5 +1,10 @@
 # How to build a python package
 
+!!! note "最新实践请参考 MPPT"
+
+    本文写作于2021年前后，近几年 Python 生态发展迅速，很多工具和库都在更新迭代，很难在一篇文章中涵盖所有的细节和最新的工具。
+    本文仅供参考，具体请参考笔者的开源项目[MPPT: A Modern Python Package Template](https://github.com/shenxiangzhuang/mppt),
+    这个项目是一个现代化的 Python 库模板，包含了最新的工具和最佳实践。
 
 这里记录下如何将自己写的 Python 程序打包成库，并安装，参考官方文档[Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)。
 
@@ -240,12 +245,6 @@ In [2]: h = Hello()
 In [3]: h.sayHello()
 Hello World!
 ```
-
-## 后记
-
-用 MkDocs 替换 Sphinx 其实有个问题，那就是没办法自动化生成 API Doc，就是 Python 的 Docstring 不能直接生成文档。(暂时没找到好的插件可以做到这一点)
-
-所以用 MkDocs 在不需要对源码做大量解释的情况下还是很方便的，如果要对源码做更多的介绍，可能还是 Sphinx 好一些？
 
 
 
