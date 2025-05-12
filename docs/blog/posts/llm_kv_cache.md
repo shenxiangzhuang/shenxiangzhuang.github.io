@@ -14,7 +14,7 @@ categories:
 ## Introduction
 
 在看很多大语言模型的推理代码时，发现有一个非常重要的概念，就是 KV Cache。
-这里我们简要介绍一下 KV Cache 的核心原理并给出一个简单的代码实现。
+这里我们简要介绍一下 KV Cache 的核心原理并给出基于 GPT-2 的代码实现以便于本地复现。
 相关的实验和测试代码同样开源在[toyllm](https://github.com/ai-glimpse/toyllm).
 
 <!-- more -->
@@ -28,15 +28,32 @@ categories:
 
 ## Why & How
 
-现在 LLM 的核心架构是基于 Transformer 的 Decoder Only 结构，Transformer 的核心结构是基于 Attention 的，
-而 Attention 的核心计算是基于`query`，`key`和`value`的矩阵运算。也就是说，KV Cache 主要用于加速 Attention 的计算，从而加速整个模型的推理速度。
+目前 LLM 的核心架构都是 Decoder Only 结构 (只用了原始 Transformer 的 Decoder 部分)，其核心结构是基于 Attention 的，
+而 Attention 的核心计算是基于`query`，`key`和`value`的矩阵运算。而 KV Cache 就是通过加速 Attention 的矩阵计算来加速整个模型的推理速度。具体来说，是通过缓存`key`和`value`的值来避免重复计算，从而减少计算量。那么一个核心的问题就是原始的 Attention 计算中存在哪些重复计算？下面我们将通过数学推导凸显 LLM **推理阶段原始 Attention 的重复计算问题**。
+在重复计算的问题被凸显出来之后，KV Cache 的实现原理也就显而易见了。
+下面的推导主要参考了 Lei Mao 的博客： [Transformer Autoregressive Inference Optimization](https://leimao.github.io/article/Transformer-Autoregressive-Inference-Optimization/).
 
-让我们从数学上推导为什么需要 KV Cache。我们将**通过数学推导凸显 LLM 推理阶段原始 Attention 的重复计算问题**。在重复计算的问题被凸显出来之后，KV Cache 的实现原理也就显而易见了。下面的推导主要参考了 Lei Mao 的博客[Transformer Autoregressive Inference Optimization](https://leimao.github.io/article/Transformer-Autoregressive-Inference-Optimization/).
 
-
-在自回归生成过程中，假设我们已经生成了 n 个 token，现在要生成第 n+1 个 token。在时间步 n，输入张量$X_n \in \mathbb{R}^{n \times d_{\text{model}}}$，其中$d_{\text{model}}$是模型的隐藏维度。通过线性变换，我们可以得到：
+我们先简要回顾一下原始的 Attention 计算过程：
 
 $$
+\begin{align}
+Attention(Q, K, V) = \text{softmax}(\text{Mask}(\frac{QK^T}{\sqrt{d_k}}))V
+\end{align}
+$$
+
+
+<figure markdown="span">
+  ![](../images/llm_kv_cache/attention.png){ width="800" }
+  <figcaption>原始 Attention 计算过程。图片来源：<cite>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models</cite></figcaption>
+</figure>
+
+
+
+
+在 LLM 推理阶段 (自回归生成，Auto-regressive Generation)，在第 $n+1$ 个 token 的生成过程中会做如下计算：
+
+$$ 
 \begin{align}
 Q_n = X_n W^Q \in \mathbb{R}^{n \times d_k}
 \end{align}
@@ -54,7 +71,7 @@ V_n = X_n W^V \in \mathbb{R}^{n \times d_v}
 \end{align}
 $$
 
-其中$W^Q \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$分别是 query、key、value 的权重矩阵。
+其中$W^Q \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$分别是 query，key 和 value 的权重矩阵。
 
 我们将此时的 Attention 结果记为$Y_n$，则有：
 
@@ -62,7 +79,8 @@ $$
 Y_n = \text{softmax}(\text{Mask}(\frac{Q_nK_n^T}{\sqrt{d_k}}))V_n
 $$
 
-在时间步 n+1，新的输入 token $x_{n+1} \in \mathbb{R}^{1 \times d_{\text{model}}}$进入模型，此时输入张量变为$X_{n+1} \in \mathbb{R}^{(n+1) \times d_{\text{model}}}$:
+在生成第 $n+1$ 个 token 后，其作为新的输入 $x_{n+1} \in \mathbb{R}^{1 \times d_{\text{model}}}$进入模型 (自回归生成)，
+此时输入张量变为$X_{n+1} \in \mathbb{R}^{(n+1) \times d_{\text{model}}}$:
 
 $$
 \begin{align}
@@ -73,9 +91,9 @@ X_{n+1} = \left [
     \end{array}
 \right ]
 \end{align}
-$$
+$$Attentio
 
-在时间步 n+1，我们需要计算 $Y_{n+1}$，其计算公式为：
+此时为了计算下一个生成的 token，我们需要计算 Attention 结果 $Y_{n+1}$：
 
 $$
 \begin{align}
@@ -306,28 +324,111 @@ $$
 
 从上面的推导我们可以看到，$Y_{n+1}$可以分解为两部分：
 
-1. 历史 token 的 attention 结果$Y_n$，这部分在时间步 n 已经计算过
+1. 历史 token 的 attention 结果$Y_n$，这部分在之前已经计算过
 2. 新 token 的 attention 结果$y_{n+1}$，这部分需要重新计算
 
-可以看到，在从第 n 步到第 n+1 步的过程中，我们只需要计算新 token 的 attention 结果$y_{n+1}$，而$Y_n$已经计算过了，所以不需要重新计算。
+可以看到，在拿到第$n+1$个 token 后，我们只需要计算这个新 token 的 attention 结果$y_{n+1}$，
+因为$Y_n$已经计算过了，不需要重新计算。也就是说，在不使用 KV Cache 时，每次生成一个新 token 时，我们都需要：
 
-在不使用 KV Cache 时，每次生成新 token 时，我们都需要：
-
-1. 计算 attention 矩阵$Q_{n+1}K_{n+1}^T$，计算复杂度为$O(n^2)$
-2. 对 n 个 token 重复这个过程，总计算复杂度为$O(n^3)$
+1. 计算当前输入序列$X_{n+1}$完整的 attention 矩阵$Q_{n+1}K_{n+1}^T$，计算复杂度为$O(n^2)$
+2. 对 $n$ 个 token 重复这个过程，总计算复杂度为$O(n^3)$
 
 **KV Cache 避免重复计算的方式是缓存数据和变更计算流程：缓存数据就是指缓存$K_n$和$V_n$，变更计算流程就是指在生成新 token 时，只需要计算新 token 的 query 与所有 key 的点积。前者避免了$K_n$和$V_n$的重复计算，后者避免了$Y_n$的重复计算**。
 
-使用 KV Cache 后：
 
-1. 计算 attention 矩阵时，只需要计算新 token 的 query 与所有 key 的点积，计算复杂度为$O(n)$
-2. 对 n 个 token 重复这个过程，总计算复杂度为$O(n^2)$
+<figure markdown="span">
+  ![](../images/llm_kv_cache/attention_kv.png){ width="800" }
+  <figcaption>KV Cache 计算过程。图片来源：<cite>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models</cite></figcaption>
+</figure>
 
-这样，我们避免了重复计算，将计算复杂度从$O(n^3)$降低到了$O(n^2)$。这就是为什么 KV Cache 对于加速 LLM 推理如此重要。
+所以在使用 KV Cache 后：
+
+1. 计算 attention 矩阵时，只需要计算新 token 的 query 向量与所有 key 向量的点积，再乘以 value 向量，计算复杂度为$O(n)$
+2. 对 $n$ 个 token 重复这个过程，总计算复杂度为$O(n^2)$
+
+如此一来，我们就将计算复杂度从$O(n^3)$降低到了$O(n^2)$，这里的$n$是输入序列的长度，$n$越大，推理加速效果越明显 (当然显存占用也会增加)。
 
 ## Code
 
-代码的实现其实也很简单，首先我们来实现一个简单的 `KVCache` class：
+代码的实现其实也很简单，我们先来如何变更计算流程来使用 KV Cache。
+首先是 `generate` 方法的变更，这里我们只展示关键的变更部分。
+可以看到，这里每次传入的 `model_input_tokens` 是当前的输入序列，除了首次传入的长度为 `prompt_tokens.shape[1]` 的序列外，之后每次传入的序列长度均为`cur_pos - prev_pos = 1`。
+
+
+```python
+    def generate(
+        self,
+        prompt: str,
+        config: GenerationConfig | None = None,
+    ) -> str:
+        ...
+
+        prompt_tokens = ...
+        prev_pos = 0
+        for cur_pos in range(prompt_tokens.shape[1], 
+                             prompt_tokens.shape[1] + config.max_new_tokens,
+                             ):
+            model_input_tokens = prompt_tokens[:, prev_pos:cur_pos]
+            with torch.inference_mode():
+                # shape: (batch_size, n_tokens, vocab_size)
+                logits = self.gpt_model(model_input_tokens, prev_pos)
+            logits = logits[:, -1, :]  # shape: (batch_size, vocab_size)
+            
+            ...
+
+            next_token_id = ...
+
+            prompt_tokens = torch.cat((prompt_tokens, next_token_id), dim=1)
+            # Update the previous position
+            prev_pos = cur_pos
+
+        generate_text = token_ids_to_text(prompt_tokens)
+        return generate_text
+```
+
+之后我们再深入这里`self.gpt_model`的实现，这里我们只展示关键的变更部分。
+
+```python
+class MultiHeadAttention(nn.Module):
+    def __init__(
+        ...
+    ) -> None:
+        super().__init__()
+        ...
+        self.use_kv_cache = use_kv_cache
+        if use_kv_cache:
+            self.kv_cache = KVCache(
+                batch_size=1,
+                max_seq_len=ctx_len,
+                num_kv_heads=n_heads,
+                head_dim=self.head_dim,
+                dtype=torch.float32,
+            )
+
+    def forward(self, x: GPTInnerType) -> GPTInnerType:
+        batch_size, num_tokens, _d_in = x.shape
+
+        queries = self.W_query(x)
+        keys = self.W_key(x)
+        values = self.W_value(x)
+
+        queries = queries.view(batch_size, num_tokens, self.n_heads, self.head_dim)
+        keys = keys.view(batch_size, num_tokens, self.n_heads, self.head_dim)
+        values = values.view(batch_size, num_tokens, self.n_heads, self.head_dim)
+
+        queries = queries.transpose(1, 2)
+        keys = keys.transpose(1, 2)
+        values = values.transpose(1, 2)
+
+        if self.use_kv_cache:
+            self.kv_cache.update(keys, values)
+            keys = self.kv_cache.k_cache[:, :, : self.kv_cache.size, :]
+            values = self.kv_cache.v_cache[:, :, : self.kv_cache.size, :]
+        ...
+
+```
+
+最后我们来看 `KVCache` 的具体实现：
 
 ```python
 import torch
@@ -335,8 +436,7 @@ from torch import nn
 
 
 class KVCache(nn.Module):
-    """Standalone ``nn.Module`` containing a kv-cache to cache past key and values during inference.
-
+    """
     Args:
         batch_size (int): batch size model will be run with
         max_seq_len (int): maximum sequence length model will be run with
