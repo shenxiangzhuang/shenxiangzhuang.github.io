@@ -28,13 +28,13 @@ categories:
 
 ## Why & How
 
-现在LLM的核心架构是基于Transformer的Decoder Only结构，Transformer的核心结构是基于Attention的，
-而Attention的核心计算是基于`query`，`key`和`value`的矩阵运算。也就是说，KV Cache 主要用于加速Attention的计算，从而加速整个模型的推理速度。
+现在 LLM 的核心架构是基于 Transformer 的 Decoder Only 结构，Transformer 的核心结构是基于 Attention 的，
+而 Attention 的核心计算是基于`query`，`key`和`value`的矩阵运算。也就是说，KV Cache 主要用于加速 Attention 的计算，从而加速整个模型的推理速度。
 
-让我们从数学上推导为什么需要KV Cache。我们将**通过数学推导凸显LLM推理阶段原始Attention的重复计算问题**。在重复计算的问题被凸显出来之后，KV Cache的实现原理也就显而易见了。下面的推导主要参考了Lei Mao的博客[Transformer Autoregressive Inference Optimization](https://leimao.github.io/article/Transformer-Autoregressive-Inference-Optimization/).
+让我们从数学上推导为什么需要 KV Cache。我们将**通过数学推导凸显 LLM 推理阶段原始 Attention 的重复计算问题**。在重复计算的问题被凸显出来之后，KV Cache 的实现原理也就显而易见了。下面的推导主要参考了 Lei Mao 的博客[Transformer Autoregressive Inference Optimization](https://leimao.github.io/article/Transformer-Autoregressive-Inference-Optimization/).
 
 
-在自回归生成过程中，假设我们已经生成了n个token，现在要生成第n+1个token。在时间步n，输入张量$X_n \in \mathbb{R}^{n \times d_{\text{model}}}$，其中$d_{\text{model}}$是模型的隐藏维度。通过线性变换，我们可以得到：
+在自回归生成过程中，假设我们已经生成了 n 个 token，现在要生成第 n+1 个 token。在时间步 n，输入张量$X_n \in \mathbb{R}^{n \times d_{\text{model}}}$，其中$d_{\text{model}}$是模型的隐藏维度。通过线性变换，我们可以得到：
 
 $$
 \begin{align}
@@ -54,15 +54,15 @@ V_n = X_n W^V \in \mathbb{R}^{n \times d_v}
 \end{align}
 $$
 
-其中$W^Q \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$分别是query、key、value的权重矩阵。
+其中$W^Q \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$分别是 query、key、value 的权重矩阵。
 
-我们将此时的Attention结果记为$Y_n$，则有：
+我们将此时的 Attention 结果记为$Y_n$，则有：
 
 $$
 Y_n = \text{softmax}(\text{Mask}(\frac{Q_nK_n^T}{\sqrt{d_k}}))V_n
 $$
 
-在时间步n+1，新的输入token $x_{n+1} \in \mathbb{R}^{1 \times d_{\text{model}}}$进入模型，此时输入张量变为$X_{n+1} \in \mathbb{R}^{(n+1) \times d_{\text{model}}}$:
+在时间步 n+1，新的输入 token $x_{n+1} \in \mathbb{R}^{1 \times d_{\text{model}}}$进入模型，此时输入张量变为$X_{n+1} \in \mathbb{R}^{(n+1) \times d_{\text{model}}}$:
 
 $$
 \begin{align}
@@ -75,7 +75,7 @@ X_{n+1} = \left [
 \end{align}
 $$
 
-在时间步n+1，我们需要计算 $Y_{n+1}$，其计算公式为：
+在时间步 n+1，我们需要计算 $Y_{n+1}$，其计算公式为：
 
 $$
 \begin{align}
@@ -306,24 +306,24 @@ $$
 
 从上面的推导我们可以看到，$Y_{n+1}$可以分解为两部分：
 
-1. 历史token的attention结果$Y_n$，这部分在时间步n已经计算过
-2. 新token的attention结果$y_{n+1}$，这部分需要重新计算
+1. 历史 token 的 attention 结果$Y_n$，这部分在时间步 n 已经计算过
+2. 新 token 的 attention 结果$y_{n+1}$，这部分需要重新计算
 
-可以看到，在从第n步到第n+1步的过程中，我们只需要计算新token的attention结果$y_{n+1}$，而$Y_n$已经计算过了，所以不需要重新计算。
+可以看到，在从第 n 步到第 n+1 步的过程中，我们只需要计算新 token 的 attention 结果$y_{n+1}$，而$Y_n$已经计算过了，所以不需要重新计算。
 
-在不使用KV Cache时，每次生成新token时，我们都需要：
+在不使用 KV Cache 时，每次生成新 token 时，我们都需要：
 
-1. 计算attention矩阵$Q_{n+1}K_{n+1}^T$，计算复杂度为$O(n^2)$
-2. 对n个token重复这个过程，总计算复杂度为$O(n^3)$
+1. 计算 attention 矩阵$Q_{n+1}K_{n+1}^T$，计算复杂度为$O(n^2)$
+2. 对 n 个 token 重复这个过程，总计算复杂度为$O(n^3)$
 
-**KV Cache避免重复计算的方式是缓存数据和变更计算流程：缓存数据就是指缓存$K_n$和$V_n$，变更计算流程就是指在生成新token时，只需要计算新token的query与所有key的点积。前者避免了$K_n$和$V_n$的重复计算，后者避免了$Y_n$的重复计算**。
+**KV Cache 避免重复计算的方式是缓存数据和变更计算流程：缓存数据就是指缓存$K_n$和$V_n$，变更计算流程就是指在生成新 token 时，只需要计算新 token 的 query 与所有 key 的点积。前者避免了$K_n$和$V_n$的重复计算，后者避免了$Y_n$的重复计算**。
 
-使用KV Cache后：
+使用 KV Cache 后：
 
-1. 计算attention矩阵时，只需要计算新token的query与所有key的点积，计算复杂度为$O(n)$
-2. 对n个token重复这个过程，总计算复杂度为$O(n^2)$
+1. 计算 attention 矩阵时，只需要计算新 token 的 query 与所有 key 的点积，计算复杂度为$O(n)$
+2. 对 n 个 token 重复这个过程，总计算复杂度为$O(n^2)$
 
-这样，我们避免了重复计算，将计算复杂度从$O(n^3)$降低到了$O(n^2)$。这就是为什么KV Cache对于加速LLM推理如此重要。
+这样，我们避免了重复计算，将计算复杂度从$O(n^3)$降低到了$O(n^2)$。这就是为什么 KV Cache 对于加速 LLM 推理如此重要。
 
 ## Code
 
