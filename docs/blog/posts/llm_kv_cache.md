@@ -1,11 +1,11 @@
 ---
 title: "LLM KV Cache: A Simple Implementation"
 draft: false
-date: 2025-04-16
+date: 2025-05-12
 authors: [mathew]
 slug: llm_kv_cache
 description: >
-    LLM KV Cache 代码实现
+    介绍 LLM KV Cache 的原理和实现
 categories:
   - 终身学习
   - LLM
@@ -17,30 +17,318 @@ categories:
 这里我们简要介绍一下 KV Cache 的核心原理并给出一个简单的代码实现。
 相关的实验和测试代码同样开源在[toyllm](https://github.com/ai-glimpse/toyllm).
 
-
 <!-- more -->
 
 ## What
 
-- KV Cache 的全称是 Key-Value Cache
-- KV Cache 是一种用于加速大语言模型推理的技术
-- KV Cache 是一种空间换时间的优化策略，主要是为了加速模型的推理速度
-- KV Cache 的作用是缓存模型在推理过程中计算出的中间结果，以便在后续的推理中复用这些结果，从而减少计算量
+- 全称是 Key-Value Cache
+- 这里的 Key 和 Value 是 Transformer/Attention 中的 Key 和 Value
+- 一种空间换时间的优化策略，主要是为了加速大语言模型推理速度
+- 作用是缓存模型在推理过程中计算出的中间结果，以便在后续的推理中复用这些结果，从而减少计算量
 
-## Why
+## Why & How
 
-在大语言模型中，推理过程通常涉及大量的计算和内存访问。每次输入时，模型都需要重新计算所有的中间结果，这会导致性能瓶颈。
-LLM KV Cache 通过缓存这些中间结果，可以显著减少计算量，提高推理速度。
+现在LLM的核心架构是基于Transformer的Decoder Only结构，Transformer的核心结构是基于Attention的，
+而Attention的核心计算是基于`query`，`key`和`value`的矩阵运算。也就是说，KV Cache 主要用于加速Attention的计算，从而加速整个模型的推理速度。
 
-TODO: 给出一个例子，说明在不做 KV Cache 的情况下，模型推理存在重复计算的问题。
+让我们从数学上推导为什么需要KV Cache。我们将**通过数学推导凸显LLM推理阶段原始Attention的重复计算问题**。在重复计算的问题被凸显出来之后，KV Cache的实现原理也就显而易见了。下面的推导主要参考了Lei Mao的博客[Transformer Autoregressive Inference Optimization](https://leimao.github.io/article/Transformer-Autoregressive-Inference-Optimization/).
 
-## How
 
-TODO: 说明 KV Cache 是通过缓存来减少计算量的
+在自回归生成过程中，假设我们已经生成了n个token，现在要生成第n+1个token。在时间步n，输入张量$X_n \in \mathbb{R}^{n \times d_{\text{model}}}$，其中$d_{\text{model}}$是模型的隐藏维度。通过线性变换，我们可以得到：
 
-## Talk is Cheap
+$$
+\begin{align}
+Q_n = X_n W^Q \in \mathbb{R}^{n \times d_k}
+\end{align}
+$$
+
+$$
+\begin{align}
+K_n = X_n W^K \in \mathbb{R}^{n \times d_k}
+\end{align}
+$$
+
+$$
+\begin{align}
+V_n = X_n W^V \in \mathbb{R}^{n \times d_v}
+\end{align}
+$$
+
+其中$W^Q \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^K \in \mathbb{R}^{d_{\text{model}} \times d_k}$, $W^V \in \mathbb{R}^{d_{\text{model}} \times d_v}$分别是query、key、value的权重矩阵。
+
+我们将此时的Attention结果记为$Y_n$，则有：
+
+$$
+Y_n = \text{softmax}(\text{Mask}(\frac{Q_nK_n^T}{\sqrt{d_k}}))V_n
+$$
+
+在时间步n+1，新的输入token $x_{n+1} \in \mathbb{R}^{1 \times d_{\text{model}}}$进入模型，此时输入张量变为$X_{n+1} \in \mathbb{R}^{(n+1) \times d_{\text{model}}}$:
+
+$$
+\begin{align}
+X_{n+1} = \left [
+    \begin{array}{c|c}
+        X_{n} \\
+        x_{n+1} \\
+    \end{array}
+\right ]
+\end{align}
+$$
+
+在时间步n+1，我们需要计算 $Y_{n+1}$，其计算公式为：
+
+$$
+\begin{align}
+Y_{n+1} = \text{softmax}(\text{Mask}(\frac{Q_{n+1}K_{n+1}^T}{\sqrt{d_k}}))V_{n+1}
+\end{align}
+$$
+
+其中，
+
+$$
+\begin{align}
+Q_{n+1}
+&= X_{n+1} W^{Q} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} \\
+        x_{n+1} \\
+    \end{array}
+\right ] W^{Q} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} W^{Q} \\
+        x_{n+1} W^{Q} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+        Q_{n} \\
+        q_{n+1} \\
+    \end{array}
+\right ] \\
+\end{align}
+$$
+
+$$
+\begin{align}
+K_{n+1}
+&= X_{n+1} W^{K} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} \\
+        x_{n+1} \\
+    \end{array}
+\right ] W^{K} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} W^{K} \\
+        x_{n+1} W^{K} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+        K_{n} \\
+        k_{n+1} \\
+    \end{array}
+\right ] \\
+\end{align}
+$$
+
+$$
+\begin{align}
+V_{n+1}
+&= X_{n+1} W^{V} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} \\
+        x_{n+1} \\
+    \end{array}
+\right ] W^{V} \\
+&=
+\left [
+    \begin{array}{c|c}
+        X_{n} W^{V} \\
+        x_{n+1} W^{V} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+\end{align}
+$$
+
+
+
+$Y_{n+1}$的计算过程如下：
+
+$$
+\begin{align}
+Y_{n+1}
+&= \text{softmax} \left( \text{Mask} \left( \frac{ Q_{n+1} K_{n+1}^{\top}}{\sqrt{d_k}} \right) \right) V_{n+1} \\
+&= \text{softmax} \left( \text{Mask} \left(
+\frac{1}{\sqrt{d_k}}
+\left [
+    \begin{array}{c|c}
+        Q_{n} \\
+        q_{n+1} \\
+    \end{array}
+\right ]
+\left [
+    \begin{array}{c|c}
+        K_{n} \\
+        k_{n+1} \\
+    \end{array}
+\right ]^{\top} \right) \right)
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+&= \text{softmax} \left( \text{Mask} \left(
+\frac{1}{\sqrt{d_k}}
+\left [
+    \begin{array}{c|c}
+        Q_{n} \\
+        q_{n+1} \\
+    \end{array}
+\right ]
+\left [
+    \begin{array}{c|c}
+        K_{n}^{\top} & k_{n+1}^{\top} \\
+    \end{array}
+\right ] \right) \right)
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+&= \text{softmax} \left( \text{Mask} \left(
+\frac{1}{\sqrt{d_k}}
+\left [
+    \begin{array}{c|c}
+        Q_{n}K_{n}^{\top} & Q_{n}k_{n+1}^{\top} \\
+        \hline
+        q_{n+1}K_{n}^{\top} & q_{n+1}k_{n+1}^{\top} \\
+    \end{array}
+\right ]
+\right) \right)
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+&= \text{softmax} \left(
+\left [
+    \begin{array}{c|c}
+        \text{Mask} \left( \frac{1}{\sqrt{d_k}} Q_{n}K_{n}^{\top}\right) & -\infty \\
+        \hline
+        \frac{1}{\sqrt{d_k}} q_{n+1}K_{n}^{\top} & \frac{1}{\sqrt{d_k}} q_{n+1}k_{n+1}^{\top} \\
+    \end{array}
+\right ]
+\right)
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+    \left [
+        \begin{array}{c|c}
+            \text{softmax} \left(\text{Mask} \left( \frac{1}{\sqrt{d_k}} Q_{n}K_{n}^{\top}\right) \right) & 0 \\
+        \end{array}
+    \right ] \\
+    \hline
+    \text{softmax}
+    \left(
+    \frac{1}{\sqrt{d_k}}q_{n+1}
+        \left [
+                \begin{array}{c|c}
+                    K_{n}^{\top} & k_{n+1}^{\top} \\
+                \end{array}
+        \right ]
+    \right) \\
+    \end{array}
+\right ]
+\left [
+    \begin{array}{c|c}
+        V_{n} \\
+        v_{n+1} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+        \text{softmax} \left(\text{Mask} \left( \frac{1}{\sqrt{d_k}} Q_{n}K_{n}^{\top}\right) \right) V_{n} \\
+    \hline
+    \text{softmax}
+    \left(
+        \frac{1}{\sqrt{d_k}}q_{n+1} K_{n+1}^{\top}
+    \right) V_{n + 1} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+    Y_{n} \\
+    \text{softmax}
+    \left(
+        \frac{1}{\sqrt{d_k}}q_{n+1} K_{n+1}^{\top}
+    \right) V_{n + 1} \\
+    \end{array}
+\right ] \\
+&=
+\left [
+    \begin{array}{c|c}
+    Y_{n} \\
+    y_{n+1} \\
+    \end{array}
+\right ] \\
+\end{align}
+$$
+
+从上面的推导我们可以看到，$Y_{n+1}$可以分解为两部分：
+
+1. 历史token的attention结果$Y_n$，这部分在时间步n已经计算过
+2. 新token的attention结果$y_{n+1}$，这部分需要重新计算
+
+可以看到，在从第n步到第n+1步的过程中，我们只需要计算新token的attention结果$y_{n+1}$，而$Y_n$已经计算过了，所以不需要重新计算。
+
+在不使用KV Cache时，每次生成新token时，我们都需要：
+
+1. 计算attention矩阵$Q_{n+1}K_{n+1}^T$，计算复杂度为$O(n^2)$
+2. 对n个token重复这个过程，总计算复杂度为$O(n^3)$
+
+**KV Cache避免重复计算的方式是缓存数据和变更计算流程：缓存数据就是指缓存$K_n$和$V_n$，变更计算流程就是指在生成新token时，只需要计算新token的query与所有key的点积。前者避免了$K_n$和$V_n$的重复计算，后者避免了$Y_n$的重复计算**。
+
+使用KV Cache后：
+
+1. 计算attention矩阵时，只需要计算新token的query与所有key的点积，计算复杂度为$O(n)$
+2. 对n个token重复这个过程，总计算复杂度为$O(n^2)$
+
+这样，我们避免了重复计算，将计算复杂度从$O(n^3)$降低到了$O(n^2)$。这就是为什么KV Cache对于加速LLM推理如此重要。
+
+## Code
 
 代码的实现其实也很简单，首先我们来实现一个简单的 `KVCache` class：
+
 ```python
 import torch
 from torch import nn
@@ -124,7 +412,6 @@ class KVCache(nn.Module):
 
     - [LLMs-from-scratch explain](https://github.com/rasbt/LLMs-from-scratch/blob/main/ch03/03_understanding-buffers/understanding-buffers.ipynb)
 
-
 注意这里`KVCache`内部`cache`的维度：`cache_shape = (batch_size, num_kv_heads, max_seq_len, head_dim)`.
 其中，`batch_size`是模型的 batch size，`num_kv_heads`是模型的 kv head 的数量，`max_seq_len`是模型的最大序列长度，`head_dim`是每个 kv head 的维度。
 也就是说，这里会缓存**batch 中每个样本的每个 kv head 在每个位置上的 key 和 value(两者均为维度等于`head_dim`的向量)**。
@@ -139,5 +426,3 @@ self.cache_pos += seq_len
 ```
 
 这里的`self.cache_pos`表示当前缓存的最后一个位置，`seq_len`表示当前输入的序列长度。
-
-
