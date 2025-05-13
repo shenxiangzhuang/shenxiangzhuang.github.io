@@ -53,7 +53,7 @@ $$
 
 在 LLM 推理阶段 (自回归生成，Auto-regressive Generation)，在第 $n+1$ 个 token 的生成过程中会做如下计算：
 
-$$ 
+$$
 \begin{align}
 Q_n = X_n W^Q \in \mathbb{R}^{n \times d_k}
 \end{align}
@@ -91,7 +91,7 @@ X_{n+1} = \left [
     \end{array}
 \right ]
 \end{align}
-$$Attentio
+$$
 
 此时为了计算下一个生成的 token，我们需要计算 Attention 结果 $Y_{n+1}$：
 
@@ -103,89 +103,10 @@ $$
 
 其中，
 
-$$
-\begin{align}
-Q_{n+1}
-&= X_{n+1} W^{Q} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} \\
-        x_{n+1} \\
-    \end{array}
-\right ] W^{Q} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} W^{Q} \\
-        x_{n+1} W^{Q} \\
-    \end{array}
-\right ] \\
-&=
-\left [
-    \begin{array}{c|c}
-        Q_{n} \\
-        q_{n+1} \\
-    \end{array}
-\right ] \\
-\end{align}
-$$
 
-$$
-\begin{align}
-K_{n+1}
-&= X_{n+1} W^{K} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} \\
-        x_{n+1} \\
-    \end{array}
-\right ] W^{K} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} W^{K} \\
-        x_{n+1} W^{K} \\
-    \end{array}
-\right ] \\
-&=
-\left [
-    \begin{array}{c|c}
-        K_{n} \\
-        k_{n+1} \\
-    \end{array}
-\right ] \\
-\end{align}
-$$
-
-$$
-\begin{align}
-V_{n+1}
-&= X_{n+1} W^{V} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} \\
-        x_{n+1} \\
-    \end{array}
-\right ] W^{V} \\
-&=
-\left [
-    \begin{array}{c|c}
-        X_{n} W^{V} \\
-        x_{n+1} W^{V} \\
-    \end{array}
-\right ] \\
-&=
-\left [
-    \begin{array}{c|c}
-        V_{n} \\
-        v_{n+1} \\
-    \end{array}
-\right ] \\
-\end{align}
-$$
+|                                                                                                                                                   $Q_{n+1}$                                                                                                                                                    |                                                                                                                                                   $K_{n+1}$                                                                                                                                                    |                                                                                                                                                   $V_{n+1}$                                                                                                                                                    |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| $$ \begin{align} Q_{n+1} &= X_{n+1} W^{Q} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{Q} \\ &= \left [ \begin{array}{c} X_{n} W^{Q} \\ \hline x_{n+1} W^{Q} \end{array} \right ] \\ &= \left [ \begin{array}{c} Q_{n} \\ \hline q_{n+1} \end{array} \right ] \end{align} $$ | $$ \begin{align} K_{n+1} &= X_{n+1} W^{K} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{K} \\ &= \left [ \begin{array}{c} X_{n} W^{K} \\ \hline x_{n+1} W^{K} \end{array} \right ] \\ &= \left [ \begin{array}{c} K_{n} \\ \hline k_{n+1} \end{array} \right ] \end{align} $$ | $$ \begin{align} V_{n+1} &= X_{n+1} W^{V} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{V} \\ &= \left [ \begin{array}{c} X_{n} W^{V} \\ \hline x_{n+1} W^{V} \end{array} \right ] \\ &= \left [ \begin{array}{c} V_{n} \\ \hline v_{n+1} \end{array} \right ] \end{align} $$ |
 
 
 
@@ -365,7 +286,7 @@ $$
 
         prompt_tokens = ...
         prev_pos = 0
-        for cur_pos in range(prompt_tokens.shape[1], 
+        for cur_pos in range(prompt_tokens.shape[1],
                              prompt_tokens.shape[1] + config.max_new_tokens,
                              ):
             model_input_tokens = prompt_tokens[:, prev_pos:cur_pos]
@@ -373,7 +294,7 @@ $$
                 # shape: (batch_size, n_tokens, vocab_size)
                 logits = self.gpt_model(model_input_tokens, prev_pos)
             logits = logits[:, -1, :]  # shape: (batch_size, vocab_size)
-            
+
             ...
 
             next_token_id = ...
@@ -436,15 +357,6 @@ from torch import nn
 
 
 class KVCache(nn.Module):
-    """
-    Args:
-        batch_size (int): batch size model will be run with
-        max_seq_len (int): maximum sequence length model will be run with
-        num_kv_heads (int): number of key/value heads.
-        head_dim (int): per-attention head embedding dimension
-        dtype (torch.dtype): dtype for the caches
-    """
-
     def __init__(
         self,
         batch_size: int,
