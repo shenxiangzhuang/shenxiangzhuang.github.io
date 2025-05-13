@@ -103,11 +103,96 @@ $$
 
 其中，
 
-
-|                                                                                                                                                   $Q_{n+1}$                                                                                                                                                    |                                                                                                                                                   $K_{n+1}$                                                                                                                                                    |                                                                                                                                                   $V_{n+1}$                                                                                                                                                    |
-|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| $$ \begin{align} Q_{n+1} &= X_{n+1} W^{Q} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{Q} \\ &= \left [ \begin{array}{c} X_{n} W^{Q} \\ \hline x_{n+1} W^{Q} \end{array} \right ] \\ &= \left [ \begin{array}{c} Q_{n} \\ \hline q_{n+1} \end{array} \right ] \end{align} $$ | $$ \begin{align} K_{n+1} &= X_{n+1} W^{K} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{K} \\ &= \left [ \begin{array}{c} X_{n} W^{K} \\ \hline x_{n+1} W^{K} \end{array} \right ] \\ &= \left [ \begin{array}{c} K_{n} \\ \hline k_{n+1} \end{array} \right ] \end{align} $$ | $$ \begin{align} V_{n+1} &= X_{n+1} W^{V} \\ &= \left [ \begin{array}{c} X_{n} \\ \hline x_{n+1} \end{array} \right ] W^{V} \\ &= \left [ \begin{array}{c} X_{n} W^{V} \\ \hline x_{n+1} W^{V} \end{array} \right ] \\ &= \left [ \begin{array}{c} V_{n} \\ \hline v_{n+1} \end{array} \right ] \end{align} $$ |
-
+$$
+\begin{array}{ccc}
+  \begin{aligned}
+    Q_{n+1}
+    &= X_{n+1} W^{Q} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} \\
+            \hline
+            x_{n+1} \\
+        \end{array}
+    \right ] W^{Q} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} W^{Q} \\
+            \hline
+            x_{n+1} W^{Q} \\
+        \end{array}
+    \right ] \\
+    &=
+    \left [
+        \begin{array}{c}
+            Q_{n} \\
+            \hline
+            q_{n+1} \\
+        \end{array}
+    \right ]
+  \end{aligned}
+  &
+  \begin{aligned}
+    K_{n+1}
+    &= X_{n+1} W^{K} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} \\
+            \hline
+            x_{n+1} \\
+        \end{array}
+    \right ] W^{K} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} W^{K} \\
+            \hline
+            x_{n+1} W^{K} \\
+        \end{array}
+    \right ] \\
+    &=
+    \left [
+        \begin{array}{c}
+            K_{n} \\
+            \hline
+            k_{n+1} \\
+        \end{array}
+    \right ]
+  \end{aligned}
+  &
+  \begin{aligned}
+    V_{n+1}
+    &= X_{n+1} W^{V} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} \\
+            \hline
+            x_{n+1} \\
+        \end{array}
+    \right ] W^{V} \\
+    &=
+    \left [
+        \begin{array}{c}
+            X_{n} W^{V} \\
+            \hline
+            x_{n+1} W^{V} \\
+        \end{array}
+    \right ] \\
+    &=
+    \left [
+        \begin{array}{c}
+            V_{n} \\
+            \hline
+            v_{n+1} \\
+        \end{array}
+    \right ]
+  \end{aligned}
+\end{array}
+$$
 
 
 $Y_{n+1}$的计算过程如下：
