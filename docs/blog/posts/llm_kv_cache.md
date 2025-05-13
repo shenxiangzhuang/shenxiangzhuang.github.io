@@ -361,40 +361,40 @@ $$
 可以看到，这里每次传入的 `model_input_tokens` 是当前的输入序列，除了首次传入的长度为 `prompt_tokens.shape[1]` 的序列外，之后每次传入的序列长度均为`cur_pos - prev_pos = 1`。
 
 
-```python
-    def generate(
-        self,
-        prompt: str,
-        config: GenerationConfig | None = None,
-    ) -> str:
+```python linenums="1" hl_lines="9 10 13 16 25"
+def generate(
+    self,
+    prompt: str,
+    config: GenerationConfig | None = None,
+) -> str:
+    ...
+
+    prompt_tokens = ...
+    prev_pos = 0
+    for cur_pos in range(prompt_tokens.shape[1],
+                         prompt_tokens.shape[1] + config.max_new_tokens,
+                         ):
+        model_input_tokens = prompt_tokens[:, prev_pos:cur_pos]
+        with torch.inference_mode():
+            # shape: (batch_size, n_tokens, vocab_size)
+            logits = self.gpt_model(model_input_tokens, prev_pos)
+        logits = logits[:, -1, :]  # shape: (batch_size, vocab_size)
+
         ...
 
-        prompt_tokens = ...
-        prev_pos = 0
-        for cur_pos in range(prompt_tokens.shape[1],
-                             prompt_tokens.shape[1] + config.max_new_tokens,
-                             ):
-            model_input_tokens = prompt_tokens[:, prev_pos:cur_pos]
-            with torch.inference_mode():
-                # shape: (batch_size, n_tokens, vocab_size)
-                logits = self.gpt_model(model_input_tokens, prev_pos)
-            logits = logits[:, -1, :]  # shape: (batch_size, vocab_size)
+        next_token_id = ...
 
-            ...
+        prompt_tokens = torch.cat((prompt_tokens, next_token_id), dim=1)
+        # Update the previous position
+        prev_pos = cur_pos
 
-            next_token_id = ...
-
-            prompt_tokens = torch.cat((prompt_tokens, next_token_id), dim=1)
-            # Update the previous position
-            prev_pos = cur_pos
-
-        generate_text = token_ids_to_text(prompt_tokens)
-        return generate_text
+    generate_text = token_ids_to_text(prompt_tokens)
+    return generate_text
 ```
 
 之后我们再深入这里`self.gpt_model`的实现，这里我们只展示关键的变更部分。
 
-```python
+```python linenums="1" hl_lines="7-15 32-35"
 class MultiHeadAttention(nn.Module):
     def __init__(
         ...
