@@ -184,36 +184,26 @@ extra:
 nav:
   - About: index.md
   - Data Science:
-      - datascience/index.md
-      - Math:
-          - datascience/math/learn.md
-      - Statistics:
-          - datascience/statistics/learn.md
+      - Math & Statistics:
+          - datascience/statistics/index.md
           - Probability and mathematical statistics books recommendation: datascience/statistics/probability-and-mathematical-statistics-books.md
           - Three doors and three prisoners: datascience/statistics/three-doors-and-three-prisoners.md
           - ROC-AUC: datascience/statistics/roc-auc.md
           - P value or Effect size: datascience/statistics/effect-size.md
 
       - Statistical Machine Learning:
-          - datascience/ml/learn.md
+          - datascience/ml/index.md
           - 最大似然估计与经验风险最小化: datascience/ml/mle-mer.md
-          - 原始感知机算法实现: datascience/ml/perceptron.md
-          - 对偶感知机算法实现: datascience/ml/dual-perceptron.md
-          - 朴素贝叶斯算法实现: datascience/ml/naive-bayes.md
-
       - Deep Learning:
           - datascience/dl/index.md
           - Papers: datascience/dl/paper.md
-          - Backpropagation:
-              - datascience/dl/bp/index.md
           - CUDA: datascience/dl/cuda.md
 
   - Computer Science:
-      - cs/index.md
       - Programming:
-          - cs/programming/general/learn.md
+          - cs/programming/index.md
           - Python:
-              - cs/programming/python/learn.md
+              - cs/programming/python/index.md
               - How to build a Python Package: cs/programming/python/build_python_pkg.md
               - The Art of Python Programming(TAPP): cs/programming/python/tapp_0_motivation.md
               - "TAPP1: Decorator and Closure": cs/programming/python/tapp_1_decorator.md
@@ -222,42 +212,37 @@ nav:
               - Python与数据分析: cs/programming/python/python_data_analysis.md
 
           - Rust:
-              - cs/programming/rust/index.md
+            - cs/programming/rust/index.md
 
           - JS&TS:
-              - cs/programming/js/index.md
+            - cs/programming/js/index.md
 
           - Elixir:
-              - cs/programming/elixir/index.md
+            - cs/programming/elixir/index.md
 
           - Scala:
-              - SBT Usage: cs/programming/scala/sbt_usage.md
+            - SBT Usage: cs/programming/scala/sbt_usage.md
 
       - Algorithm:
-          - cs/algorithm/learn.md
+        - cs/algorithm/index.md
 
       - OS:
-          - cs/os/learn.md
-          - Ubuntu Usage: cs/os/ubuntu-usage.md
+        - cs/os/index.md
+        - Ubuntu Usage: cs/os/ubuntu-usage.md
       - DB:
-          - cs/db/learn.md
-          - ClickHouse:
-              - 自建ClickHouse: cs/db/clickhouse/self-host.md
-              - ClickHouse使用: cs/db/clickhouse/usage.md
+        - cs/db/index.md
+        - ClickHouse:
+            - 自建ClickHouse: cs/db/clickhouse/self-host.md
+            - ClickHouse使用: cs/db/clickhouse/usage.md
       - Network:
-          - cs/network/learn.md
-      - K8S:
-          - Docker:
-              - cs/k8s/docker/learn.md
-          - Kubernetes:
-              - cs/k8s/kubernetes/learn.md
+        - cs/network/index.md
+      - Docker:
+        - cs/docker/index.md
       - Distributed System:
           - Hive:
               - Hive Tips: cs/distribution/hive/tips.md
           - Hadoop:
               - Hadoop on Linux: cs/distribution/hadoop/hadoop-linux.md
-          - HBase:
-              - HBase on Linux: cs/distribution/hbase/hbase-linux.md
           - Spark:
               - Spark on Linux: cs/distribution/spark/spark-linux.md
               - Spark on Cloud: cs/distribution/spark/spark-cloud.md
@@ -308,17 +293,11 @@ nav:
 
       - MLSys:
           - odyssey/mlsys/index.md
-          - Learn: odyssey/mlsys/learn.md
-          - MLOps:
-              - Tools: odyssey/mlsys/mlops/tool.md
           - Research:
               - Paper: odyssey/mlsys/research/paper.md
 
       - Crowdsourcing and Human Computation:
-          - odyssey/chc/index.md
-          - Learn: odyssey/chc/learn.md
           - Paper: odyssey/chc/paper.md
-          - Product: odyssey/chc/product.md
 
       - Large Language Model:
           - odyssey/llm/index.md
