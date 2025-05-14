@@ -1,7 +1,13 @@
-# Lifelong Learn: Statistics
+# Lifelong Learn: Math & Statistics
 
 
 ## Books
+
+- [x] [Linear Algebra Done Right](https://linear.axler.net/)
+
+!!! tip 线性代数唯一真神
+
+    看过的都说好:-)
 
 
 - [x] 《概率论基础》，复旦大学，李贤平，第三版
@@ -154,3 +160,13 @@
 
     ??? "Stanford 统计推断课程"
         课程整体比较精简，不过统计推断中核心的知识都有涉及
+
+- [ ] [Convex and Conic Optimization(Princeton,  ORF523 )](http://aaa.princeton.edu/orf523)
+
+    ??? note "Princeton 的数学课"
+        看了一点关于凸优化的内容，讲的比较细致，还未系统学习
+
+- [ ] [Convex Optimization: Fall 2019](https://www.stat.cmu.edu/~ryantibs/convexopt/)
+
+    ??? note "CMU 凸优化课程"
+        优化课啃起来有点难

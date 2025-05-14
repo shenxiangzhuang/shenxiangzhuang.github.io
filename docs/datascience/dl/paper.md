@@ -22,3 +22,15 @@ Deep Learning[@lecun2015deep]是三位大佬的综述，对 DL 的发展做了�
 最后是关于 unsupervised learning 的两个比较感兴趣的地方。For smaller data sets, unsupervised pre-training helps to prevent over-fitting, leading to significantly better generalization when the number of labelled examples is small, or in a transfer setting where we have lots of examples for some 'source' tasks but very few for some 'target' tasks. (给出了参考文献，后面打算看一下)。
 另外就是文末的一句：Human and animal learning is largely unsupervised: we discover the structure of the world by observing it, not by being told the name of every object.
 
+
+## Backpropagation
+
+### 1986-Learning representations by back-propagating errors
+*Learning representations by back-propagating errors*[@1986-bp].
+通过 BP 进行梯度下降更新来训练 NN 的开山之作。
+
+
+### 2023-The Backpropagation algorithm for a math student
+*The Backpropagation algorithm for a math student*[@2023-bp-math].
+文章通过 Jacobian Matrix 来阐述反向传播中梯度的计算和更新，这种方法相比直接从矩阵/向量求导入手更加容易理解。
+此外论文从简单到复杂，一步步的推导过程让论文理解起来更加容易。
