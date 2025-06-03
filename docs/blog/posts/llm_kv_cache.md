@@ -358,7 +358,8 @@ $$
 
 代码的实现其实也很简单，我们先来如何变更计算流程来使用 KV Cache。
 首先是 `generate` 方法的变更，这里我们只展示关键的变更部分。
-可以看到，这里每次传入的 `model_input_tokens` 是当前的输入序列，除了首次传入的长度为 `prompt_tokens.shape[1]` 的序列外，之后每次传入的序列长度均为`cur_pos - prev_pos = 1`。
+可以看到，这里每次传入的 `model_input_tokens` 是当前的输入序列，除了首次传入的长度为 `prompt_tokens.shape[1]` 的序列外，
+之后每次传入的序列长度均为`cur_pos - prev_pos = 1`:
 
 
 ```python linenums="1" hl_lines="9 10 13 16 25"
@@ -523,3 +524,18 @@ self.cache_pos += seq_len
 ```
 
 这里的`self.cache_pos`表示当前缓存的最后一个位置，`seq_len`表示当前输入的序列长度。
+
+???+ note "和 torchtune 实现的些许差别"
+
+    如果你之前看过torchtune的KV Cache实现，那么你会发现这里KV Cache的实现和torchtune基本是一样的——除了`cache_pos`的实现。
+    在torchtune最在的实现中`cache_pos`就是上面的这种形式，不过后续为了兼容`torch.compile`将其实现为一个向量而不是一个整数。
+    具体参考对应issue: [#2564](https://github.com/pytorch/torchtune/issues/2564), [#1663](https://github.com/pytorch/torchtune/issues/1663).
+
+
+## The end
+
+KV Cache 作为一项核心的 LLM 推理优化技术已经在很多框架中应用，而且在相关的优化还在持续进行中，
+本文很难进行详尽的介绍，故从其原始形态管窥一二。
+
+最后，此篇文章笔者花费很多时间去构思以使其更加简单易懂，但发现始终难以达到自己理想的状态。
+但由于本文实在拖了太久，所以决定先行发出，待后续有时间再进行补充修改。
