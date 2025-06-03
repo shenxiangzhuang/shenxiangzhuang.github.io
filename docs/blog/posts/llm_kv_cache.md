@@ -528,14 +528,12 @@ self.cache_pos += seq_len
 ???+ note "和 torchtune 实现的些许差别"
 
     如果你之前看过torchtune的KV Cache实现，那么你会发现这里KV Cache的实现和torchtune基本是一样的——除了`cache_pos`的实现。
-    在torchtune最在的实现中`cache_pos`就是上面的这种形式，不过后续为了兼容`torch.compile`将其实现为一个向量而不是一个整数。
+    在torchtune最早的实现中`cache_pos`就是上面的这种形式，不过后续为了兼容`torch.compile`将其实现为一个向量而不是一个整数。
     具体参考对应issue: [#2564](https://github.com/pytorch/torchtune/issues/2564), [#1663](https://github.com/pytorch/torchtune/issues/1663).
 
 
 ## The end
 
-KV Cache 作为一项核心的 LLM 推理优化技术已经在很多框架中应用，而且在相关的优化还在持续进行中，
-本文很难进行详尽的介绍，故从其原始形态管窥一二。
+KV Cache 作为一项核心的 LLM 推理优化技术，已经在很多框架中应用，相关优化也在持续进行中。本文难以详尽介绍，故仅从其原始形态管窥一二。
 
-最后，此篇文章笔者花费很多时间去构思以使其更加简单易懂，但发现始终难以达到自己理想的状态。
-但由于本文实在拖了太久，所以决定先行发出，待后续有时间再进行补充修改。
+最后，笔者花费了大量时间构思本文，力求简明易懂，但仍未达到理想状态。因拖延已久，决定先行发布，后续有时间再补充修改。
