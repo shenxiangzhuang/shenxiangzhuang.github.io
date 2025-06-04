@@ -296,7 +296,8 @@ nav:
           - Research:
               - Paper: odyssey/mlsys/research/paper.md
 
-      - Crowdsourcing and Human Computation:
+      - Crowdsourcing:
+          - odyssey/chc/index.md
           - Paper: odyssey/chc/paper.md
 
       - Large Language Model:
