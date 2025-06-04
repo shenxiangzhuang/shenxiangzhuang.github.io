@@ -3,9 +3,11 @@
 介绍数据标注/众包平台相关的论文
 
 ## Overview
+
 Topics: 真值推断，用户一致性，用户画像，异常检测
 
 ## Quality Control General
+
 标注平台的质量控制是平台的核心竞争力，因为数据标注的好坏直接影响到后续模型的好坏，
 这是平台需求方最为关注的问题。
 
@@ -13,18 +15,22 @@ Topics: 真值推断，用户一致性，用户画像，异常检测
 因此，在质量控制的全流程涉及较多的子问题，如真值推断，标注一致性，标注异常检测等。
 
 ### 2013-HKU&NYU-Quality Assurance Framework
+
 A framework for quality assurance in crowdsourcing[@quality-assurance-framework-2013]
 
 ### 2017-Quality Control in Crowdsourcing
+
 Quality Control in Crowdsourcing: A Survey of Quality Attributes, Assessment Techniques and Assurance Actions
 [@quality-control-in-crowdsourcing-2017]
 
 ### 2021-Quality Enhancement Methods 
+
 *A Survey on Task Assignment in Crowdsourcing*[@hettiachchi2022survey].
 虽然是论文是以任务分配为主要的对象，但是论文中提到了很多用于改善标注数据质量的方法，对实际落地实践具有很大的参考意义。
 
 
 ## Truth inference
+
 在标注平台上，标注者的质量参差不齐，有的标注者质量很高，有的标注者质量很差。
 如何将不同质量的标注者的标注结果进行合理的融合，就成了一个很重要的问题。
 而真值推断解决的就是这一问题，即从 worker annotations/answers中找出真正的truth label。
@@ -49,6 +55,7 @@ DS 算法的计算复杂度相对较高，有些研究重点在于 DS 算法的�
 
 
 ### 2009-GLAD
+
 *Whose vote should count more: Optimal integration of labels from labelers of unknown expertise*
 [@glad-2009].
 
@@ -126,10 +133,12 @@ LA 算法可以认为是 DS 算法的简化版本，将 DS 算法或者说依赖
 
 
 ## Agreement
+
 这里的 Agreement 是指标注者之间的一致性，即标注者对于同一个标注任务的标注结果是否一致。
 目前看到的相关研究比较少，主要是围绕 Kappa 值展开的。
 
 ### 1960-Cohen's Kappa
+
 Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scales*[@cohen-kappa-1960].
 论文引入了 Kappa 值的定义。
 
@@ -139,12 +148,14 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
 是对 Cohen's Kappa 的推广。
 
 ### 2005-Kappa Statistic in Reliability Studies
+
 *The kappa statistic in reliability studies: use, interpretation, and sample size requirements*[@sim2005kappa]
 对 Kappa 值进行了进一步的解释说明。
 
 
 
 ## Persona
+
 在上述 Truth inference 中，可以看到标注员的质量一般是根据其历史标注结果计算出其准确率/混淆矩阵，
 平台可以通过这些信息来判断标注员的质量，进而进行用户的筛选。
 
@@ -174,6 +185,13 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
 这里给出了工人分类的定性标准，可以很好地对当前的工人群体做划分。但是论文并没有给出定量标准，因此无法直接使用。
 我们结合下面的这篇论文来对工人进行定量分类。
 
+### 2011-NIPS-Spammer score
+
+论文*Ranking annotators for crowdsourced labeling tasks*[@raykar2012eliminating]
+给出了 Spammer score 的定义，用于衡量标注员是否为 Spammer。
+
+
+
 ### 2014-Reputation
 
 *Reputation-based Worker Filtering in Crowdsourcing*[@jagabathula2014reputation].
@@ -197,6 +215,7 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
 总体来看，前四种工人类型较为普遍，分类的依据也更加具有说服了，后面三类有些过于细化，且定义不够明确，因此我们只采用前四种工人类型。
 
 ### 2019-Extracting experts
+
 ![](images/2019-expert.png)
 
 *Graph mining meets crowdsourcing: Extracting experts for answer aggregation*[@kawase2019graph].
@@ -226,6 +245,7 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
 *Detecting Non-Adversarial Collusion in Crowdsourcing*[@cmu-collusion-2014]
 
 ### 2017-THU-Sybil defense
+
 ![](images/2017-thu-sybil.png)
 
 *Sybil defense in crowdsourcing platforms*[@thu-sybil-2017]
@@ -244,6 +264,7 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
     - 剔除：可以剔除的更多一些，保证不误伤
 
 ### 2023-ACCD
+
 *ACCD: An Adaptive Clustering-Based Collusion Detector in Crowdsourcing (Student Abstract)*
 [@xu2023accd]
 
@@ -252,6 +273,7 @@ Kappa 的起源最早可以追溯到*A coefficient of agreement for nominal scal
 ## Industrial Applications
 
 ### 2023-Toloka-Crowd-Kit
+
   [Crowd-Kit](https://github.com/Toloka/crowd-kit)[@crowdkit]是发布的开源库，用于控制数据打标质量。
   目前该库已经覆盖了相当丰富的算法实现。
 
