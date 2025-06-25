@@ -1,7 +1,7 @@
 ---
 title: "Rust ♥️ Python: Rust 做底层实现的高效 Python 库"
 draft: false
-date: 2025-06-24
+date: 2025-06-25
 authors: [mathew]
 slug: rust_and_python
 description: >
