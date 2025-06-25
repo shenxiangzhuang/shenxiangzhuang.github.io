@@ -12,8 +12,6 @@ categories:
   - Engineering
 ---
 
-## Rust ♥️ Python
-
 Rust 和 Python 结合的生态这几年发展的越来越好，很多高性能的 Python 库都是用 Rust 作为底层实现。
 本文推荐一些优秀的 Rust 实现的 Python 库，希望能够帮到大家。
 
