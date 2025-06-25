@@ -42,7 +42,7 @@ Pandas 曾引领一个时代，但是随着数据量的增加，Pandas 的性能
 
 [Whenever](https://github.com/ariebovenberg/whenever) 是一个基于 Rust 的 Python 库，用于处理日期和时间。它主要用于处理日期和时间，解决了 Python 标准库`datetime`中日期和时间处理的很多[痛点](https://dev.arie.bovenberg.net/blog/python-datetime-pitfalls/)。
 
-同样地它也很快，而且使用相比标准库也更加简单。准确来说，是心智负担小很多，这点从下面这个例子就可以看出来: `Instant.now()` 就是获取当前时间，这个时间就是真实世界当前时间的抽象，没有时区，没有各种奇怪的内部实现，没有任何歧义，就只是当前时间。(听起来好像没什么，但是做到这点并不容易:)
+同样地它也很快，而且使用相比标准库也更加简单。准确来说，是心智负担小很多，这点从下面这个例子就可以看出来：`Instant.now()` 就是获取当前时间，这个时间就是真实世界当前时间的抽象，没有时区，没有各种奇怪的内部实现，没有任何歧义，就只是当前时间。(听起来好像没什么，但是做到这点并不容易:)
 
 ```python
 >>> from whenever import (
@@ -59,3 +59,12 @@ Instant(2024-07-04 10:36:56Z)
 ZonedDateTime(2024-07-04 12:36:56+02:00[Europe/Paris])
 ```
 
+为什么说做到这点并不容易呢？让我们看下 Python 标准库的操作：你认为`datetime.datetime.utcnow().timestamp()` 会返回什么？
+就看这个 API 名称，`utcnow` 是获取当前的 UTC 时间，`timestamp` 是获取其时间戳。
+但是，实际上，`datetime.datetime.utcnow().timestamp()` 返回的是 local 时间的时间戳，而不是 UTC 时间的时间戳。
+结果就是，如果运行代码的机器是 0 时区，那么返回的时间戳就是对的，但是如果是其他时区，那么返回的时间戳就是错的😭😭😭。
+这个东西直到 Python3.12 才会弹出来一个 `DeprecationWarning`，在这之前，你只能祈祷你的代码运行在 0 时区:D
+
+## 结语
+
+抛砖引玉，欢迎补充！
