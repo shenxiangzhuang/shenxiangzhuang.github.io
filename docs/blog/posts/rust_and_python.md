@@ -26,7 +26,7 @@ Rust 和 Python 结合的生态这几年发展的越来越好，很多高性能�
 [Ty](https://github.com/astral-sh/ty)
 出现之前，想要构建一个较为合格的 Python 项目，你需要组合使用一堆来自不同年代和不同风格的工具：Flake8, Isort, Black, Mypy, Poetry 等。
 这些工具有各种问题，不过最大的问题还是太慢了。
-Ruff 作为 Linter 和 Formater，采用 Rust 作为底层实现，以其超快的速度和超高的准确率得到了很多开发者的认可。在生态逐渐取代了上述的 Flake8, Isort, Black 等工具。
+Ruff 作为 Linter 和 Formatter，采用 Rust 作为底层实现，以其超快的速度和超高的准确率得到了很多开发者的认可。在生态逐渐取代了上述的 Flake8, Isort, Black 等工具。
 接着，Uv 作为 Python 的包管理器，目标直指 Poetry，同样地比 Poetry 快太多了 (尤其是较早版本的 Poetry，依赖解析速度极慢)。最近出现的 Ty 作为 Python 的类型检查器，目标直指 Mypy，同样地比 Mypy 快很多，虽然 Ty 目前还处于早期阶段，不过未来可期。这几个工具给 Python 社区带来的影响是深远的，它们让 Python 的开发体验变得比之前好很多。
 
 笔者在 23 年早期搞了一个 Python 项目模板 ([MPPT](https://github.com/shenxiangzhuang/mppt), Modern Python Project Template)，最早还是使用 Flake8, Isort, Black, Mypy, Poetry 等工具，目前已经逐渐被 Ruff, Uv, Ty 取代。
