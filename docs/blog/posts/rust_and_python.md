@@ -59,9 +59,7 @@ ZonedDateTime(2024-07-04 12:36:56+02:00[Europe/Paris])
 
 为什么说做到这点并不容易呢？让我们看下 Python 标准库的操作：你认为`datetime.datetime.utcnow().timestamp()` 会返回什么？
 就看这个 API 名称，`utcnow` 是获取当前的 UTC 时间，`timestamp` 是获取其时间戳。
-但是，实际上，`datetime.datetime.utcnow().timestamp()` 返回的是 local 时间的时间戳，而不是 UTC 时间的时间戳。
-结果就是，如果运行代码的机器是 0 时区，那么返回的时间戳就是对的，但是如果是其他时区，那么返回的时间戳就是错的😭😭😭。
-这个东西直到 Python3.12 才会弹出来一个 `DeprecationWarning`，在这之前，你只能祈祷你的代码运行在 0 时区:D
+但实际上，如果运行代码的机器是 0 时区，那么`datetime.datetime.utcnow().timestamp()`返回的时间戳就是对的;如果是其他时区，那么返回的时间戳就是错的😭😭😭。这个东西直到 Python3.12 才会弹出来一个 `DeprecationWarning`，在这之前，你只能祈祷你的代码运行在 0 时区:D
 
 ## 最后
 
