@@ -22,7 +22,7 @@
     - Business domain: A business domain defines a company's main area of activity.
         - Starbucks is best known for its coffee
 
-    - Subdomain: A subdomain is a fine-grained area of bussiness activity
+    - Subdomain: A subdomain is a fine-grained area of business activity
         - All of a company's subdomains form its business domain: the service it provides to its customers.
 
 
@@ -38,12 +38,12 @@
         - Change often and continuously: the solution must be maintainable and easy to evolve.
           Thus, core subdomains require implementation of the most advanced engineering techniques
 
-    - Generic subdomain: businness activities that all companies are performing in the same way
+    - Generic subdomain: business activities that all companies are performing in the same way
         - Complex and hard to implement
         - Do **NOT** provide any competitive edge for the company
 
     - Supporting subdomian: support the company's business.
-        - Simple: ETL(extract, transform, load), CRUD(createm read, update, delete) and so on
+        - Simple: ETL(extract, transform, load), CRUD(create, read, update, delete) and so on
         - Do **NOT** provide any competitive advantage
 
 
@@ -57,7 +57,7 @@
 
 !!! tip "Software development is a learning process"
 
-    Software development is a learning proces; working code is a side effect.
+    Software development is a learning process; working code is a side effect.
 
 
 #### Communication with the ubiquitous language
@@ -91,14 +91,14 @@
       emphasizes certain aspects while ignoring others. Abstraction with a specific use in mind.
       ——Rebecca Wirfs-Brock
 
-    - A model is not a copy of a real world but a human constract that helps use make sense
-      of real-world systems...An effective model contains only the details needed to fulfill its perpose...
+    - A model is not a copy of a real world but a human construct that helps us make sense
+      of real-world systems...An effective model contains only the details needed to fulfill its purpose...
       A model is intended to solve a problem, and it should provide just enough information for that purpose.
 
     - All model are wrong, but some are useful.  ——**George Box**
 
     - In its essence, a model is an abstraction. The notion of abstraction allows us to handle complexity by
-      omitting unnecessary details and leaving only what's needed for solving the probelm at hand.
+      omitting unnecessary details and leaving only what's needed for solving the problem at hand.
 
     - The purpose of abstracting is not to be vague but to create a new semantic level in which one can be
       absolutely precise.  ——**Edsger W. Dijkstra**
