@@ -1,5 +1,5 @@
 
-### 为什么需要装饰器 (MotivaMotion)
+### 为什么需要装饰器 (Motivation)
 
 存在即合理。在开始之前，我们必须先搞清楚我们为什么需要装饰器，亦即我们可以用它来做什么。总的来说用处很多，下面我们举几个例子。
 
@@ -192,7 +192,7 @@ def make_averager():
     def averager(new_value):
         count += 1
         total += new_value
-        reutrn total / count
+        return total / count
     return averager
 
 ```
