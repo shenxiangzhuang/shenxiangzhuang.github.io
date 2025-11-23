@@ -27,11 +27,11 @@ categories:
 所谓“学而不思则罔”，所以今年决定多做一些实践来巩固所学知识。
 
 个人作为造轮子爱好者，决定延续之前的”传统“
-([ai-glimpse/toyml](https://github.com/ai-glimpse/toyml), 
-[ai-glimpse/toydl](https://github.com/ai-glimpse/toydl), 
-[ai-glimpse/toyllm](https://github.com/ai-glimpse/toyllm)
-[ai-glimpse/toyrl](https://github.com/ai-glimpse/toyrl)
-)，自己从零实现一些经典的 NLP 模型，这便是[ai-glimpse/toynlp](https://github.com/ai-glimpse/toynlp)的由来。
+([toyml](https://github.com/ai-glimpse/toyml), 
+[toydl](https://github.com/ai-glimpse/toydl), 
+[toyllm](https://github.com/ai-glimpse/toyllm),
+[toyrl](https://github.com/ai-glimpse/toyrl)
+)，自己从零实现一些经典的 NLP 模型，这便是[toynlp](https://github.com/ai-glimpse/toynlp)的由来。
 
 
 ## ToyNLP
