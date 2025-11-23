@@ -1,7 +1,7 @@
 ---
 title: "ToyNLP: 从零实现自然语言处理经典模型"
 draft: false
-date: 2025-05-08
+date: 2025-11-23
 authors: [mathew]
 slug: toynlp
 description: >
