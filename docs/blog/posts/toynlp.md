@@ -24,9 +24,7 @@ categories:
 ## Motivation
 
 去年在学习 NLP 时以读书为主 ([大语言模型与深度学习书籍推荐](https://datahonor.com/blog/2025/02/20/dl_book/))，但是实践偏少。
-所谓“学而不思则罔”，所以今年决定多做一些实践来巩固所学知识。
-
-个人作为造轮子爱好者，决定延续之前的”传统“
+所谓“学而不思则罔”，所以今年决定多做一些实践来巩固所学知识。个人作为造轮子爱好者，决定延续之前的”传统“
 ([toyml](https://github.com/ai-glimpse/toyml), 
 [toydl](https://github.com/ai-glimpse/toydl), 
 [toyllm](https://github.com/ai-glimpse/toyllm),
@@ -64,14 +62,14 @@ Toy 系项目作为学习性质的项目，主要目标是帮助我更好地理�
 └── train.py
 ```
 
-可以看到，GPT 模型的实现包含了配置文件 (config.py)、数据集处理 (dataset.py)、评估 (evaluation.py)、推理 (inference.py)、模型定义 (model.py)、分词器 (tokenizer.py) 和训练 (train.py) 等模块。每个模块都专注于特定的功能，便于理解和维护。
+可以看到，GPT 模型的实现包含了配置文件 (`config.py`)、数据集处理 (`dataset.py`)、评估 (`evaluation.py`)、推理 (`inference.py`)、模型定义 (`model.py`)、分词器 (`tokenizer.py`) 和训练 (`train.py`) 等模块。每个模块都专注于特定的功能，便于理解和维护。
 
 
 ### 训练细节
 
 由于算力有限，ToyNLP 的训练过程主要依赖于单卡 GPU(40 系显卡) 进行训练。为了在有限的算力下完成训练，我们对模型规模和训练参数进行了适当的调整。
 具体可以参考每个模型的 README 文件，里面详细记录了训练参数和模型结果等信息。之前介绍的[BERT 论文复现](https://datahonor.com/blog/2025/11/02/bert/)
-其实就是基于 ToyNLP 项目中的 BERT 模型的训练过程 (记录在`toynlp/bert/README.md`中) 整理而来。
+其实就是基于 ToyNLP 项目中的 BERT 模型的训练过程 (记录在`toynlp/bert/README.md`) 整理而来。
 
 另外需要注意的是，目前各模型的复现文档还不完善，基本只有 BERT 和 GPT 模型的训练细节比较完整，后续我会逐步完善其他模型的文档。
 
