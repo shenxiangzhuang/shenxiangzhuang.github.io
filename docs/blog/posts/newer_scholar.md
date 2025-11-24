@@ -61,4 +61,4 @@ Google Scholar Blog 在[2025/11/10](https://scholar.googleblog.com/2025/11/mark-
 
 ## 最后
 
-总的来说，Google Scholar PDF Reader 的引用文献快速查看功能非常实用。最近的Hilight & Comment 和 Scholar Labs也都是很好用的工具，强烈推荐！
+总的来说，Google Scholar PDF Reader 的引用文献快速查看功能非常实用。最近的Highlight & Comment 和 Scholar Labs也都是很好用的工具，强烈推荐！
