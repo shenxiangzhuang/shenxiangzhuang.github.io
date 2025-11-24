@@ -1,7 +1,7 @@
 ---
 title: 新时代的Google Scholar
 draft: false
-date: 2024-12-08
+date: 2025-11-24
 authors: [mathew]
 slug: google_scholar_new_features
 description: >
