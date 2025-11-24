@@ -10,10 +10,14 @@ categories:
   - Good stuff
 ---
 
+介绍下 Google Scholar 最近更新的一些好用的新功能，比如 AI 导航栏，引用文献快速查看和这几天推出的 Highlight&Comment 和 Scholar Labs.
+
+<!-- more -->
 
 ## TL;DR
 
 直接 Chrome web store 搜索 [Google Scholar PDF Reader](https://chromewebstore.google.com/detail/google-scholar-pdf-reader/dahenjhkoodjbpjheillcadbppiidmhp?utm_medium=blog&utm_source=scholar.googleblog.com&utm_campaign=kp&utm_content=bottom) 安装试用即可。
+
 
 
 ## 去年的更新
