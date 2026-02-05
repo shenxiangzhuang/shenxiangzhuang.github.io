@@ -10,9 +10,10 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   class?: string
+  pagefind?: boolean
 }
 
-const { class: className } = Astro.props
+const { class: className, pagefind = false } = Astro.props
 ---
 
 <!doctype html>
@@ -23,7 +24,10 @@ const { class: className } = Astro.props
   <Head>
     <slot name="head" />
   </Head>
-  <body class="flex h-fit min-h-screen flex-col gap-y-6 font-sans">
+  <body
+    class="flex h-fit min-h-screen flex-col gap-y-6 font-sans"
+    data-pagefind-ignore={pagefind ? undefined : 'all'}
+  >
     <header
       class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:divide-none"
     >
@@ -31,9 +35,7 @@ const { class: className } = Astro.props
       <slot name="subposts-navigation" />
       <slot name="table-of-contents" />
     </header>
-    <main
-      class={cn('w-full mx-auto flex grow flex-col gap-y-6 px-4', className)}
-    >
+    <main class={cn('w-full mx-auto flex grow flex-col gap-y-6 px-4', className)}>
       <slot />
     </main>
     <Footer />

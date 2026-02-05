@@ -59,7 +59,7 @@ const combinedReadingTime =
 const tocSections = await getTOCSections(currentPostId)
 ---
 
-<Layout>
+<Layout pagefind>
   <PostHead slot="head" post={post} />
   {
     (hasChildPosts || isCurrentSubpost) && (
@@ -126,9 +126,17 @@ const tocSections = await getTOCSections(currentPostId)
         <h1
           class="mb-2 scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
           id="post-title"
+          data-pagefind-meta="title"
         >
           {post.data.title}
         </h1>
+        <time
+          class="sr-only"
+          datetime={post.data.date.toISOString()}
+          data-pagefind-meta="date"
+        >
+          {post.data.date.toISOString()}
+        </time>
 
         <div
           class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
@@ -225,7 +233,7 @@ const tocSections = await getTOCSections(currentPostId)
     }
 
     <section class="col-start-2 flex flex-col gap-y-6">
-      <article class="prose max-w-none">
+      <article class="prose max-w-none" data-pagefind-body>
         <Content />
       </article>
     </section>

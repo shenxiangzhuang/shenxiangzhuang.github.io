@@ -1,0 +1,439 @@
+---
+import Link from '@/components/Link.astro'
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+const baseUrl = import.meta.env.BASE_URL ?? '/'
+---
+
+<div
+  class={`relative items-center ${className ?? ''}`}
+  data-nav-search
+  data-base-url={baseUrl}
+>
+  <label class="sr-only" for="nav-search">Search</label>
+  <Icon
+    name="lucide:search"
+    class="text-muted-foreground absolute left-3 size-4"
+  />
+  <input
+    id="nav-search"
+    type="search"
+    placeholder="Search"
+    autocomplete="off"
+    class="border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 h-8 w-44 rounded-md border pr-3 pl-9 text-sm outline-none focus-visible:ring-2"
+    data-nav-search-input
+  />
+  <div
+    class="bg-background border-input absolute top-10 left-0 z-50 hidden w-80 rounded-md border p-2 shadow-lg"
+    data-nav-search-panel
+  >
+    <div
+      class="text-muted-foreground px-2 py-1 text-xs"
+      data-nav-search-summary
+    >
+      Type to search.
+    </div>
+    <div class="mt-1 flex flex-col gap-1" data-nav-search-results></div>
+    <div class="border-input mt-2 border-t pt-2">
+      <Link
+        href="/search"
+        class="text-muted-foreground hover:text-foreground block px-2 py-1 text-xs"
+        data-nav-search-viewall
+      >
+        View all results
+      </Link>
+    </div>
+  </div>
+</div>
+
+<script>
+  type PagefindModule = {
+    search: (query: string) => Promise<{
+      results: Array<{ data: () => Promise<PagefindResult> }>
+    }>
+  }
+  type PagefindResult = {
+    url: string
+    title?: string
+    excerpt?: string
+    meta?: {
+      title?: string
+      date?: string
+    }
+  }
+
+  // 全局缓存 pagefind 模块
+  let pagefind: PagefindModule | null = null
+  let pagefindPromise: Promise<PagefindModule> | null = null
+
+  const initNavSearch = () => {
+    const container = document.querySelector('[data-nav-search]')
+    if (!container) return
+
+    const input = container.querySelector(
+      '[data-nav-search-input]',
+    ) as HTMLInputElement | null
+    const panel = container.querySelector(
+      '[data-nav-search-panel]',
+    ) as HTMLDivElement | null
+    const summary = container.querySelector(
+      '[data-nav-search-summary]',
+    ) as HTMLDivElement | null
+    const resultsEl = container.querySelector(
+      '[data-nav-search-results]',
+    ) as HTMLDivElement | null
+    const baseUrl = container.getAttribute('data-base-url') || '/'
+
+    if (!(input && panel && summary && resultsEl)) return
+
+    // 检查是否已初始化，避免重复绑定事件
+    if (container.hasAttribute('data-initialized')) return
+    container.setAttribute('data-initialized', 'true')
+
+    let timer: number | null = null
+    let activeQueryId = 0
+
+    const toUrl = (path: string) => {
+      if (!path) return '/'
+      if (path.startsWith('http')) return path
+      const normalizedBase =
+        typeof baseUrl === 'string' ? baseUrl : String(baseUrl)
+      return `${normalizedBase.replace(/\/$/, '')}${
+        path.startsWith('/') ? '' : '/'
+      }${path}`
+    }
+
+    const loadPagefind = () => {
+      if (pagefind) return Promise.resolve(pagefind)
+      if (pagefindPromise) return pagefindPromise
+
+      const normalizedBase =
+        typeof baseUrl === 'string' ? baseUrl : String(baseUrl)
+      const bundleUrl = `${normalizedBase.replace(/\/$/, '')}/pagefind/pagefind.js`
+
+      pagefindPromise = import(/* @vite-ignore */ bundleUrl)
+        .then((module) => {
+          pagefind = module as PagefindModule
+          return pagefind
+        })
+        .catch((error) => {
+          pagefindPromise = null
+          throw error
+        })
+
+      return pagefindPromise
+    }
+
+    const clearResults = () => {
+      resultsEl.innerHTML = ''
+    }
+
+    const hidePanel = () => {
+      panel.classList.add('hidden')
+    }
+
+    const showPanel = () => {
+      panel.classList.remove('hidden')
+    }
+
+    const escapeHtml = (value: string) =>
+      value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+
+    const highlightText = (value: string, query: string) => {
+      const terms = query
+        .split(/\s+/)
+        .map((term) => term.trim())
+        .filter(Boolean)
+      if (terms.length === 0) return escapeHtml(value)
+      const escapedTerms = terms.map((term) =>
+        term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      )
+      const regex = new RegExp(`(${escapedTerms.join('|')})`, 'gi')
+      return escapeHtml(value).replace(regex, '<mark>$1</mark>')
+    }
+
+    const isPostPath = (url: string) => {
+      const absolute = new URL(toUrl(url), window.location.origin)
+      return /^\/blog\/\d{4}\//.test(absolute.pathname)
+    }
+
+    const formatDate = (value?: string) => {
+      if (!value) return ''
+      const date = new Date(value)
+      if (Number.isNaN(date.getTime())) return ''
+      return date.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+      })
+    }
+
+    const stripTags = (value: string) => value.replace(/<[^>]*>/g, '')
+
+    const renderResults = (results: PagefindResult[], query: string) => {
+      clearResults()
+      if (!query.trim()) {
+        summary.textContent = 'Type to search.'
+        return
+      }
+
+      if (results.length === 0) {
+        summary.textContent = 'No results found.'
+        return
+      }
+
+      summary.textContent = `${results.length} result${
+        results.length === 1 ? '' : 's'
+      }`
+      const fragment = document.createDocumentFragment()
+      results.forEach((item: PagefindResult, index: number) => {
+        const link = document.createElement('a')
+        link.href = toUrl(item.url)
+        link.className =
+          'hover:bg-muted flex flex-col gap-1 rounded-md px-2 py-2 text-sm transition-colors cursor-pointer'
+        link.setAttribute('data-search-result', String(index))
+        // 确保链接可点击
+        link.addEventListener('click', (e) => {
+          e.stopPropagation()
+          hidePanel()
+        })
+
+        const title = document.createElement('span')
+        title.className = 'text-foreground font-medium'
+        const titleText = item.meta?.title || item.title || 'Untitled'
+        title.innerHTML = highlightText(titleText, query)
+
+        const dateText = formatDate(item.meta?.date)
+        let meta: HTMLSpanElement | null = null
+        if (dateText) {
+          meta = document.createElement('span')
+          meta.className = 'text-muted-foreground text-xs'
+          meta.textContent = dateText
+        }
+
+        const excerpt = document.createElement('span')
+        excerpt.className = 'text-muted-foreground text-xs line-clamp-2'
+        // 优先使用 pagefind 返回的高亮摘要
+        if (item.excerpt) {
+          excerpt.innerHTML = item.excerpt
+        } else {
+          excerpt.textContent = ''
+        }
+
+        if (meta) {
+          link.append(title, meta, excerpt)
+        } else {
+          link.append(title, excerpt)
+        }
+        fragment.appendChild(link)
+      })
+      resultsEl.appendChild(fragment)
+    }
+
+    const search = async (query: string) => {
+      const trimmed = query.trim()
+      if (!trimmed) {
+        renderResults([], '')
+        return
+      }
+
+      const queryId = (activeQueryId += 1)
+      try {
+        const pagefindApi = await loadPagefind()
+        if (!pagefindApi || !pagefindApi.search) return
+        const response = await pagefindApi.search(trimmed)
+        const data = await Promise.all(
+          response.results.slice(0, 6).map((result) => result.data()),
+        )
+        if (queryId !== activeQueryId) return
+        const filtered = data.filter((item) => isPostPath(item.url))
+        renderResults(filtered, trimmed)
+      } catch (error) {
+        console.error('Search error:', error)
+      }
+    }
+
+    const updateViewAllLink = (value: string) => {
+      const link = container.querySelector(
+        '[data-nav-search-viewall]',
+      ) as HTMLAnchorElement | null
+      if (!link) return
+      const query = value.trim()
+      const target = query
+        ? `/search?q=${encodeURIComponent(query)}`
+        : '/search'
+      link.href = toUrl(target)
+    }
+
+    const onInput = (event: Event) => {
+      const target = event.target as HTMLInputElement | null
+      const value = target?.value ?? ''
+      showPanel()
+      resetSelection()
+      if (timer) window.clearTimeout(timer)
+      updateViewAllLink(value)
+      timer = window.setTimeout(() => search(value), 120)
+    }
+
+    const onFocus = () => {
+      showPanel()
+      updateViewAllLink(input.value)
+      if (!input.value) {
+        summary.textContent = 'Type to search.'
+      }
+    }
+
+    const onClickOutside = (event: MouseEvent) => {
+      if (!container.contains(event.target as Node)) {
+        hidePanel()
+      }
+    }
+
+    // 键盘导航：上下箭头切换搜索结果
+    let selectedIndex = -1
+
+    const getResultLinks = () =>
+      Array.from(resultsEl.querySelectorAll('[data-search-result]')) as HTMLAnchorElement[]
+
+    const updateSelection = (newIndex: number) => {
+      const links = getResultLinks()
+      if (links.length === 0) return
+
+      // 移除旧的选中状态
+      links.forEach((link) => link.classList.remove('bg-primary/15'))
+
+      // 更新索引，循环选择
+      if (newIndex < 0) {
+        selectedIndex = links.length - 1
+      } else if (newIndex >= links.length) {
+        selectedIndex = 0
+      } else {
+        selectedIndex = newIndex
+      }
+
+      // 添加新的选中状态
+      const selectedLink = links[selectedIndex]
+      if (selectedLink) {
+        selectedLink.classList.add('bg-primary/15')
+        selectedLink.scrollIntoView({ block: 'nearest' })
+      }
+    }
+
+    const navigateToSelected = () => {
+      const links = getResultLinks()
+      if (selectedIndex >= 0 && selectedIndex < links.length) {
+        const selectedLink = links[selectedIndex]
+        if (selectedLink) {
+          hidePanel()
+          window.location.href = selectedLink.href
+        }
+      }
+    }
+
+    const resetSelection = () => {
+      selectedIndex = -1
+      const links = getResultLinks()
+      links.forEach((link) => link.classList.remove('bg-primary/15'))
+    }
+
+    // 清空之前的状态
+    input.value = ''
+    clearResults()
+    summary.textContent = 'Type to search.'
+    hidePanel()
+
+    input.addEventListener('input', onInput)
+    input.addEventListener('focus', onFocus)
+    document.addEventListener('click', onClickOutside)
+
+    // 输入框键盘事件：上下箭头导航和回车确认
+    input.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        updateSelection(selectedIndex + 1)
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault()
+        updateSelection(selectedIndex - 1)
+      } else if (event.key === 'Enter') {
+        if (selectedIndex >= 0) {
+          event.preventDefault()
+          navigateToSelected()
+        }
+      }
+    })
+
+    // 全局键盘事件：Escape 关闭和 '/' 聚焦
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        hidePanel()
+        input.blur()
+        resetSelection()
+      }
+
+      // '/' 键快速聚焦搜索框（不在输入框或编辑器中时）
+      if (
+        event.key === '/' &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.altKey
+      ) {
+        const activeEl = document.activeElement
+        const isEditing =
+          activeEl instanceof HTMLInputElement ||
+          activeEl instanceof HTMLTextAreaElement ||
+          (activeEl instanceof HTMLElement && activeEl.isContentEditable)
+
+        if (!isEditing) {
+          event.preventDefault()
+          input.focus()
+          input.select()
+        }
+      }
+    })
+
+    // View all 链接点击处理
+    const viewAllLink = container.querySelector('[data-nav-search-viewall]')
+    if (viewAllLink) {
+      viewAllLink.addEventListener('click', () => {
+        hidePanel()
+      })
+    }
+
+    updateViewAllLink('')
+  }
+
+  // 初始化和页面切换时重新初始化
+  document.addEventListener('astro:page-load', () => {
+    // 移除旧的 initialized 标记，允许重新初始化
+    const container = document.querySelector('[data-nav-search]')
+    if (container) {
+      container.removeAttribute('data-initialized')
+    }
+    initNavSearch()
+  })
+
+  // 首次加载
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavSearch)
+  } else {
+    initNavSearch()
+  }
+
+  // 页面切换前隐藏面板
+  document.addEventListener('astro:before-swap', () => {
+    const panel = document.querySelector('[data-nav-search-panel]')
+    if (panel) {
+      panel.classList.add('hidden')
+    }
+  })
+</script>

@@ -23,7 +23,17 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://mathewshen.me',
   base: '/',
-  integrations: [mdx(), react(), sitemap(), icon(), pagefind()],
+  integrations: [
+    mdx(),
+    react(),
+    sitemap(),
+    icon(),
+    pagefind({
+      indexConfig: {
+        forceLanguage: 'zh-cn',
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

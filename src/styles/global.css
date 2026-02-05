@@ -74,4 +74,13 @@
   ::file-selector-button {
     @apply border-border outline-ring/50 tracking-tight;
   }
+
+  /* 搜索结果高亮样式 */
+  mark {
+    @apply bg-yellow-200 text-foreground rounded-sm px-0.5;
+  }
+
+  [data-theme='dark'] mark {
+    @apply bg-yellow-500/40;
+  }
 }
