@@ -1,0 +1,19 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true,
+  "files.watcherExclude": {
+    "**/node_modules/**": true
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "astro.typescript.allowArbitraryExtensions": true
+}
