@@ -140,21 +140,27 @@
     }
 
     :where(img):not(:where(.not-prose, .not-prose *)) {
-      @apply max-w-full h-auto;
+      @apply h-auto max-w-full;
       max-width: min(100%, 500px);
       max-height: 600px;
       object-fit: contain;
     }
 
     /* 图片说明文字样式 - 紧跟在图片后的斜体文字 */
-    :where(img + br + em, p:has(> img) + p > em:only-child, p > img + em):not(:where(.not-prose, .not-prose *)),
-    :where(p:has(> img:only-child) + p:has(> em:only-child) > em):not(:where(.not-prose, .not-prose *)) {
-      @apply block text-center text-sm text-muted-foreground mt-2 not-italic;
+    :where(img + br + em, p:has(> img) + p > em:only-child, p > img + em):not(
+      :where(.not-prose, .not-prose *)
+    ),
+    :where(p:has(> img:only-child) + p:has(> em:only-child) > em):not(
+      :where(.not-prose, .not-prose *)
+    ) {
+      @apply text-muted-foreground mt-2 block text-center text-sm not-italic;
     }
 
     /* 图片后紧跟的单独段落作为说明 */
-    :where(p:has(> img:only-child) + p:has(> em:first-child:last-child)):not(:where(.not-prose, .not-prose *)) {
-      @apply text-center mt-0 mb-6;
+    :where(p:has(> img:only-child) + p:has(> em:first-child:last-child)):not(
+      :where(.not-prose, .not-prose *)
+    ) {
+      @apply mt-0 mb-6 text-center;
     }
 
     :where(pre):not(:where(.not-prose, .not-prose *)) {
@@ -173,7 +179,9 @@
       @apply text-foreground/80 my-6 overflow-x-auto overflow-y-hidden py-2 tracking-normal;
       scrollbar-width: none;
     }
-    :where(.katex-display):not(:where(.not-prose, .not-prose *))::-webkit-scrollbar {
+    :where(.katex-display):not(
+        :where(.not-prose, .not-prose *)
+      )::-webkit-scrollbar {
       display: none;
     }
   }

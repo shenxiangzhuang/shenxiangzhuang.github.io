@@ -303,7 +303,9 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
     let selectedIndex = -1
 
     const getResultLinks = () =>
-      Array.from(resultsEl.querySelectorAll('[data-search-result]')) as HTMLAnchorElement[]
+      Array.from(
+        resultsEl.querySelectorAll('[data-search-result]'),
+      ) as HTMLAnchorElement[]
 
     const updateSelection = (newIndex: number) => {
       const links = getResultLinks()

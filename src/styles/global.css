@@ -77,7 +77,7 @@
 
   /* 搜索结果高亮样式 */
   mark {
-    @apply bg-yellow-200 text-foreground rounded-sm px-0.5;
+    @apply text-foreground rounded-sm bg-yellow-200 px-0.5;
   }
 
   [data-theme='dark'] mark {

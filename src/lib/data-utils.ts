@@ -195,7 +195,12 @@ export function isSubpost(postId: string): boolean {
   if (YEAR_SEGMENT.test(segments[0])) {
     // If there are only 2 segments (year + slug) or 3 with index.md, it's a parent
     // Subposts would have more segments: 2024/ai-town/part-1/index.md
-    return segments.length > 3 || (segments.length === 3 && segments[2] !== 'index.md' && segments[2] !== 'index.mdx')
+    return (
+      segments.length > 3 ||
+      (segments.length === 3 &&
+        segments[2] !== 'index.md' &&
+        segments[2] !== 'index.mdx')
+    )
   }
 
   return true
