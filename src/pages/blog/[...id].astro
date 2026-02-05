@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Giscus from '@/components/Giscus.astro'
 import Link from '@/components/Link.astro'
 import PostHead from '@/components/PostHead.astro'
 import PostNavigation from '@/components/PostNavigation.astro'
@@ -223,9 +224,11 @@ const tocSections = await getTOCSections(currentPostId)
       )
     }
 
-    <article class="prose col-start-2 max-w-none">
-      <Content />
-    </article>
+    <section class="col-start-2 flex flex-col gap-y-6">
+      <article class="prose max-w-none">
+        <Content />
+      </article>
+    </section>
 
     {
       (hasChildPosts || isCurrentSubpost) && (
@@ -238,11 +241,17 @@ const tocSections = await getTOCSections(currentPostId)
       )
     }
 
-    <PostNavigation
-      newerPost={navigation.newer}
-      olderPost={navigation.older}
-      parentPost={isCurrentSubpost ? navigation.parent : undefined}
-    />
+    <section class="col-start-2 flex flex-col gap-y-6 border-t pt-8">
+      <PostNavigation
+        newerPost={navigation.newer}
+        olderPost={navigation.older}
+        parentPost={isCurrentSubpost ? navigation.parent : undefined}
+      />
+    </section>
+
+    <section class="col-start-2 flex flex-col gap-y-6 border-t pt-8">
+      <Giscus />
+    </section>
   </section>
 
   <Button

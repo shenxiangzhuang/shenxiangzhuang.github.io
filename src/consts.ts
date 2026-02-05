@@ -56,3 +56,19 @@ export const ICON_MAP: IconMap = {
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }
+
+export const GISCUS = {
+  enabled: true,
+  repo: 'shenxiangzhuang/shenxiangzhuang.github.io',
+  repoId: 'MDEwOlJlcG9zaXRvcnk4MjU0MjM1OQ==',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOBOt_F84CTHBH',
+  mapping: 'pathname',
+  strict: '0',
+  reactionsEnabled: '1',
+  emitMetadata: '1',
+  inputPosition: 'top',
+  theme: 'preferred_color_scheme',
+  lang: 'en',
+  loading: 'lazy',
+}

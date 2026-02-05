@@ -1,0 +1,86 @@
+---
+import { GISCUS } from '@/consts'
+
+const hasGiscusConfig =
+  GISCUS.enabled &&
+  GISCUS.repo &&
+  GISCUS.repoId &&
+  GISCUS.category &&
+  GISCUS.categoryId
+---
+
+{
+  hasGiscusConfig && (
+    <>
+      <div class="giscus" data-giscus-container />
+      <script is:inline define:vars={{ giscusConfig: GISCUS }}>
+        const config = giscusConfig
+
+        const getTheme = () =>
+          document.documentElement.getAttribute('data-theme') === 'dark'
+            ? 'dark'
+            : 'light'
+
+        const ensureGiscus = () => {
+          const container = document.querySelector('[data-giscus-container]')
+          if (!container) return
+          if (container.querySelector('iframe.giscus-frame')) return
+          if (container.querySelector('script[data-giscus-script]')) return
+
+          const script = document.createElement('script')
+          script.src = 'https://giscus.app/client.js'
+          script.async = true
+          script.crossOrigin = 'anonymous'
+          script.setAttribute('data-giscus-script', 'true')
+          script.setAttribute('data-repo', config.repo)
+          script.setAttribute('data-repo-id', config.repoId)
+          script.setAttribute('data-category', config.category)
+          script.setAttribute('data-category-id', config.categoryId)
+          script.setAttribute('data-mapping', config.mapping)
+          script.setAttribute('data-strict', config.strict)
+          script.setAttribute('data-reactions-enabled', config.reactionsEnabled)
+          script.setAttribute('data-emit-metadata', config.emitMetadata)
+          script.setAttribute('data-input-position', config.inputPosition)
+          script.setAttribute('data-lang', config.lang)
+          script.setAttribute('data-loading', config.loading)
+          script.setAttribute('data-theme', config.theme || getTheme())
+          container.appendChild(script)
+        }
+
+        const updateTheme = () => {
+          const iframe = document.querySelector('iframe.giscus-frame')
+          if (!iframe) return
+          iframe.contentWindow?.postMessage(
+            {
+              giscus: {
+                setConfig: {
+                  theme: config.theme || getTheme(),
+                },
+              },
+            },
+            'https://giscus.app',
+          )
+        }
+
+        const setupThemeObserver = () => {
+          if (window.__giscusThemeObserver) return
+          const observer = new MutationObserver(() => updateTheme())
+          observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme'],
+          })
+          window.__giscusThemeObserver = observer
+        }
+
+        const init = () => {
+          ensureGiscus()
+          setupThemeObserver()
+          updateTheme()
+        }
+
+        document.addEventListener('astro:page-load', init)
+        init()
+      </script>
+    </>
+  )
+}
