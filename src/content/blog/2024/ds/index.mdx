@@ -7,6 +7,8 @@ authors: ['mathew']
 draft: false
 ---
 
+import Callout from '@/components/Callout.astro'
+
 # Dawid-Skene 算法
 
 ![](./images/ds_position.png)
@@ -195,10 +197,9 @@ class DawidSkene(BaseClassificationAggregator):
 通过上面的代码可以看到，在没有真值标签的情况下，`priors`的初始值是通过多数投票算法得到的。
 这里我们可以通过这些真值标签来修正`priors`。
 
-!!! note "PR 链接"
-
-    [#109: ds support golden question](https://github.com/Toloka/crowd-kit/pull/109)
-
+<Callout variant="note" title="PR 链接">
+[#109: ds support golden question](https://github.com/Toloka/crowd-kit/pull/109)
+</Callout>
 
 ```python linenums="1" hl_lines="13-14 24-25"
 class DawidSkene(BaseClassificationAggregator):
@@ -241,10 +242,9 @@ class DawidSkene(BaseClassificationAggregator):
 通过上面的代码可以看到，在没有历史混淆矩阵的情况下，`errors`的初始值是将多数投票的结果作为真值算出来的。
 这里我们可以通过这些历史混淆矩阵来修正`errors`。
 
-!!! note "PR 链接"
-
-    [#114: add init_error for worker init error matrix](https://github.com/Toloka/crowd-kit/pull/114)
-
+<Callout variant="note" title="PR 链接">
+[#114: add init_error for worker init error matrix](https://github.com/Toloka/crowd-kit/pull/114)
+</Callout>
 
 ```python linenums="1" hl_lines="3 9 18"
 class DawidSkene(BaseClassificationAggregator):
@@ -277,10 +277,9 @@ class DawidSkene(BaseClassificationAggregator):
 通过上面的实现可以到历史混淆矩阵仅仅影响 worker 混淆矩阵的初始化，而不会影响后续的迭代更新。
 算法的逻辑是在`_m_step`内部通过一行的函数调用实现：
 
-!!! tip "保持核心代码的整洁"
-
-    这里通过函数调用的方式，使得核心代码的逻辑更加清晰(保证可读性)，也方便后续的维护和扩展。
-
+<Callout variant="tip" title="保持核心代码的整洁">
+这里通过函数调用的方式，使得核心代码的逻辑更加清晰(保证可读性)，也方便后续的维护和扩展。
+</Callout>
 
 ```python linenums="1" hl_lines="18"
 class DawidSkene(BaseClassificationAggregator):
