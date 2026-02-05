@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import icon from 'astro-icon'
+import pagefind from 'astro-pagefind'
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import rehypeExpressiveCode from 'rehype-expressive-code'
@@ -22,7 +23,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://mathewshen.me',
   base: '/',
-  integrations: [mdx(), react(), sitemap(), icon()],
+  integrations: [mdx(), react(), sitemap(), icon(), pagefind()],
   vite: {
     plugins: [tailwindcss()],
   },

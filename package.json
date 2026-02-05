@@ -27,6 +27,7 @@
     "@types/react-dom": "19.2.3",
     "astro": "^5.17.1",
     "astro-icon": "^1.1.5",
+    "astro-pagefind": "^1.8.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.563.0",

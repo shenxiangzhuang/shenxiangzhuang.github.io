@@ -3,6 +3,7 @@ import Link from '@/components/Link.astro'
 import ThemeToggle from '@/components/ThemeToggle.astro'
 import { NAV_LINKS, SITE } from '@/consts'
 import { Image } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
 import logo from '../../public/static/logo.svg'
 ---
 
@@ -30,6 +31,32 @@ import logo from '../../public/static/logo.svg'
           ))
         }
       </nav>
+      <form
+        action="/search"
+        method="get"
+        class="relative hidden items-center sm:flex"
+      >
+        <label class="sr-only" for="nav-search">Search</label>
+        <Icon
+          name="lucide:search"
+          class="text-muted-foreground absolute left-3 size-4"
+        />
+        <input
+          id="nav-search"
+          name="q"
+          type="search"
+          placeholder="Search"
+          class="border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 h-8 w-40 rounded-md border pr-3 pl-9 text-sm outline-none focus-visible:ring-2"
+        />
+      </form>
+      <Link
+        href="/search"
+        class="border-input bg-background text-muted-foreground hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 inline-flex size-8 items-center justify-center rounded-md border sm:hidden"
+        aria-label="Search"
+        title="Search"
+      >
+        <Icon name="lucide:search" class="size-4" />
+      </Link>
       <ThemeToggle transition:persist />
     </div>
   </div>
