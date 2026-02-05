@@ -7,6 +7,8 @@ authors: ['mathew']
 draft: false
 ---
 
+import Callout from '@/components/Callout.astro'
+
 ![管窥精密机器内部核心组件 (GPT 模型的内部构造 Transformer 部分)](./images/nano_gpt_viz_qkv.png)
 *From [bbycroft.net/llm](https://bbycroft.net/llm)*
 
@@ -16,7 +18,6 @@ draft: false
 尽管如此，我仍然认为我们正处于一个人工智能的黄金时代，一个 AI 可以大放异彩，可以很大程度上改变我们的未来生活方式的时代！
 
 
-<!-- more -->
 
 
 ## 对 LLM 的基本认识
@@ -87,27 +88,27 @@ Redis 的作者 Salvatore Sanfilippo 在年初写过一篇博客
 博客中介绍了 LLM 在编程领域的一些应用，他认为 LLM 很适合用来替代一些琐碎的工作，比如用来写一些一次性的脚本，做一些数据分析等，
 这样可以让程序员们更专注于更有意义的工作，比如设计架构，优化性能等。文章另外还有很多有有趣的观点：
 
-!!! quote "LLMs and Programming in the first days of 2024"
-
-    In the field of programming, perhaps their ability would have been of very little interest up to
-    twenty or thirty years ago. Back then you had to know a couple of programming languages,
-    the classic algorithms, and those ten fundamental libraries. The rest you had to add yourself,
-    your own intelligence, expertise, design skills.
-    If you had these ingredients you were an expert programmer, able to do more or less everything.
-    Over time, we have witnessed an explosion of frameworks, programming languages, libraries of all kinds.
-    An explosion of complexity often completely unnecessary and unjustified,
-    but the truth is that things are what they are. **And in such a context,
-    an idiot who knows everything is a precious ally**.
+<Callout variant="remark" title="LLMs and Programming in the first days of 2024">
+In the field of programming, perhaps their ability would have been of very little interest up to
+twenty or thirty years ago. Back then you had to know a couple of programming languages,
+the classic algorithms, and those ten fundamental libraries. The rest you had to add yourself,
+your own intelligence, expertise, design skills.
+If you had these ingredients you were an expert programmer, able to do more or less everything.
+Over time, we have witnessed an explosion of frameworks, programming languages, libraries of all kinds.
+An explosion of complexity often completely unnecessary and unjustified,
+but the truth is that things are what they are. **And in such a context,
+an idiot who knows everything is a precious ally**.
+</Callout>
 
 
 下面是这段话的中文翻译 (来自[宝玉](https://baoyu.io/translations/llm/llms-and-programming-in-the-first-days-of-2024)):
 
-!!! quote "LLMs and Programming in the first days of 2024"
-
-    在编程领域，直到二十或三十年前，这些能力可能还不太引人注目。那时，你需要掌握几种编程语言、经典算法以及那些基本的库。
-    其余的则依靠你自己的智慧、专业知识和设计能力。具备这些素质，你就能成为一名全能的专家级程序员。
-    然而，随着时间的推移，我们见证了框架、编程语言、各种库的大量涌现。这种复杂性通常是不必要的，甚至无法自圆其说，但事实就是如此。
-    **在这样的情况下，一个无所不知的“白痴”成了宝贵的盟友。**.
+<Callout variant="remark" title="LLMs and Programming in the first days of 2024">
+在编程领域，直到二十或三十年前，这些能力可能还不太引人注目。那时，你需要掌握几种编程语言、经典算法以及那些基本的库。
+其余的则依靠你自己的智慧、专业知识和设计能力。具备这些素质，你就能成为一名全能的专家级程序员。
+然而，随着时间的推移，我们见证了框架、编程语言、各种库的大量涌现。这种复杂性通常是不必要的，甚至无法自圆其说，但事实就是如此。
+**在这样的情况下，一个无所不知的"白痴"成了宝贵的盟友。**
+</Callout>
 
 
 这里点明了一个事实：现在的编程环境变得越来越复杂，这也意味着程序员需要掌握更多的知识，花费更多的时间来学习和工作，
@@ -131,22 +132,22 @@ LLM 就会帮我们生成符合描述的代码。
 
 另外 Salvatore 提到了另外一个值得思考的问题：
 
-!!! quote "LLMs and Programming in the first days of 2024"
-
-    I regret to say it, but it's true: most of today's programming consists of regurgitating
-    the same things in slightly different forms. High levels of reasoning are not required.
-    LLMs are quite good at doing this, although they remain strongly limited by the maximum size of their context.
-    This should really make programmers think. Is it worth writing programs of this kind? Sure, you get paid,
-    and quite handsomely, but if an LLM can do part of it, maybe it's not the best place to be in five or ten years.
+<Callout variant="remark" title="LLMs and Programming in the first days of 2024">
+I regret to say it, but it's true: most of today's programming consists of regurgitating
+the same things in slightly different forms. High levels of reasoning are not required.
+LLMs are quite good at doing this, although they remain strongly limited by the maximum size of their context.
+This should really make programmers think. Is it worth writing programs of this kind? Sure, you get paid,
+and quite handsomely, but if an LLM can do part of it, maybe it's not the best place to be in five or ten years.
+</Callout>
 
 
 下面是这段话的中文翻译 (来自[宝玉](https://baoyu.io/translations/llm/llms-and-programming-in-the-first-days-of-2024)):
 
-!!! quote "LLMs and Programming in the first days of 2024"
-
-    不得不说，这是一个事实：现今的编程大多是在微调同样的内容，只是形式略有变化。这种工作并不需要太高的推理能力。
-    大语言模型在这方面表现出色，尽管它们的能力仍然受限于上下文长度。这个现象应该引起程序员的深思：真的值得去编写这类程序吗？
-    虽然可以赚到不错的收入，但如果大语言模型也能完成其中一部分工作，那么在未来五到十年，这可能并非最佳的职业发展方向。
+<Callout variant="remark" title="LLMs and Programming in the first days of 2024">
+不得不说，这是一个事实：现今的编程大多是在微调同样的内容，只是形式略有变化。这种工作并不需要太高的推理能力。
+大语言模型在这方面表现出色，尽管它们的能力仍然受限于上下文长度。这个现象应该引起程序员的深思：真的值得去编写这类程序吗？
+虽然可以赚到不错的收入，但如果大语言模型也能完成其中一部分工作，那么在未来五到十年，这可能并非最佳的职业发展方向。
+</Callout>
 
 
 我个人非常赞同这个观点，也认为这个问题提的非常好： "Is it worth writing programs of this kind?"

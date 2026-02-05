@@ -7,9 +7,9 @@ authors: ['mathew']
 draft: false
 ---
 
-今天我们分析一下 redis-py 一个奇怪的报错并据此简单聊一下 Redis 的锁机制。
+import Callout from '@/components/Callout.astro'
 
-<!-- more -->
+今天我们分析一下 redis-py 一个奇怪的报错并据此简单聊一下 Redis 的锁机制。
 
 ## 奇怪的报错
 
@@ -76,9 +76,9 @@ Thread 2: Lock error: Cannot release an unlocked lock
 我们先来看下目前 redis-py 中锁的实现。
 首先是锁获取 (acquire) 的[实现](https://github.com/redis/redis-py/blob/28964c1ec4fc481141f6025248845c5e22588a41/redis/lock.py#L173-L228)：
 
-!!! note "省略部分代码"
-
-    为了便于阅读，这里我们省略部分与当前逻辑关系不大的代码，用`# skip`占位。
+<Callout variant="note" title="省略部分代码">
+为了便于阅读，这里我们省略部分与当前逻辑关系不大的代码，用`# skip`占位。
+</Callout>
 
 
 ```python
