@@ -1,0 +1,13 @@
+---
+import { SOCIAL_LINKS } from '@/consts'
+import SocialIcons from './SocialIcons.astro'
+---
+
+<footer
+  class="mx-auto mb-8 flex w-full max-w-3xl items-center justify-between px-4 sm:mb-4"
+>
+  <span class="text-muted-foreground text-sm">
+    &copy; 2017~{new Date().getFullYear()} All rights reserved.
+  </span>
+  <SocialIcons links={SOCIAL_LINKS} />
+</footer>

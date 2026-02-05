@@ -1,0 +1,68 @@
+{
+  "name": "astro-erudite",
+  "type": "module",
+  "version": "1.6.3",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/markdown-remark": "^6.3.10",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@expressive-code/plugin-collapsible-sections": "^0.41.6",
+    "@expressive-code/plugin-line-numbers": "^0.41.6",
+    "@iconify-json/lucide": "^1.2.88",
+    "@shikijs/rehype": "^3.22.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "19.2.11",
+    "@types/react-dom": "19.2.3",
+    "astro": "^5.17.1",
+    "astro-icon": "^1.1.5",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
+    "radix-ui": "^1.4.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "rehype-expressive-code": "^0.41.6",
+    "rehype-external-links": "^3.0.0",
+    "rehype-katex": "^7.0.1",
+    "remark-emoji": "^5.0.2",
+    "remark-math": "^6.0.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-astro-organize-imports": "^0.4.11",
+    "prettier-plugin-tailwindcss": "^0.7.2"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "plugins": [
+      "prettier-plugin-astro",
+      "prettier-plugin-tailwindcss",
+      "prettier-plugin-astro-organize-imports"
+    ],
+    "overrides": [
+      {
+        "files": "*.astro",
+        "options": {
+          "parser": "astro"
+        }
+      }
+    ]
+  }
+}

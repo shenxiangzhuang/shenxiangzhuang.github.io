@@ -1,3 +1,9 @@
-# MathewShen's website
+# Blog
 
-[https://datahonor.com](https://datahonor.com)
+MathewShen's Personal Blog.
+
+
+
+## References
+
+[astro-erudite](https://github.com/jktrn/astro-erudite)
