@@ -20,24 +20,15 @@ draft: false
 
 所以我就将自己的笔记整理了下，另外加上题干的翻译放到一个[Oh-Numpy](https://github.com/shenxiangzhuang/Oh-Numpy)项目底下。
 
-<figure markdown="span">
-  <img src="./images/oh-numpy.png" alt="Image title" width="800" />
-  <figcaption>Oh-Numpy</figcaption>
-</figure>
+![Oh-Numpy](./images/oh-numpy.png)
 
 一次偶然的机会在知乎看到已经有比较多的资源，不过还是贴了下项目的链接，有位热心大哥的话让我甚是感动：
 
-<figure markdown="span">
-  <img src="./images/zhihu.png" alt="Image title" width="600" />
-  <figcaption>知乎评论区</figcaption>
-</figure>
+![知乎评论区](./images/zhihu.png)
 
 ## Oh-PyTorch
 
 最近又把这些题目用 PyTorch 做了一下，所以也就有了[Oh-PyTorch](https://github.com/shenxiangzhuang/Oh-PyTorch)。
 目前已经把两个项目通过静态文档站关联起来，可以直接在网页 ([Oh-Numpy](https://datahonor.com/Oh-Numpy/100-Numpy-Exercises/), [Oh-PyTorch](https://datahonor.com/Oh-PyTorch/100-PyTorch-Exercises/)) 上丝滑跳转：
 
-<figure markdown="span">
-  <img src="./images/web.png" alt="Image title" width="600" />
-  <figcaption>文档关联</figcaption>
-</figure>
+![文档关联](./images/web.png)

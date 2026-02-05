@@ -23,10 +23,7 @@ draft: false
 
 ![](./images/nav.png)
 
-<!-- <figure markdown="span">
-  <img src="./images/nav.png" alt="" width="800" />
-  <figcaption>Google Scholar AI 导航栏</figcaption>
-</figure> -->
+![Google Scholar AI 导航栏](./images/nav.png)
 
 
 对于一些比较长且复杂的文档/论文，这个导航栏确实可以帮助我们快速定位到文档的不同部分，但是对于大部分普通论文来说，这个功能的实用性并不高，毕竟大部分论文的结构都比较简单，章节也不会太多。所以这个功能的实用性因人而异。

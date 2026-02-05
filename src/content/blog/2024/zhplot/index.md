@@ -24,10 +24,7 @@ draft: false
 在完成[zhplot](https://github.com/shenxiangzhuang/zhplot) 0.1.0 版本后
 我把这个项目分享到了[V2EX](https://www.v2ex.com/t/1093996)，稍有些意外的发现挺多人都觉着有帮助：
 
-<figure markdown="span">
-  <img src="./images/zhplot_comment.jpg" alt="Image title" width="400" />
-  <figcaption>V2EX 评论区</figcaption>
-</figure>
+![V2EX 评论区](./images/zhplot_comment.jpg)
 
 ## 极简使用
 

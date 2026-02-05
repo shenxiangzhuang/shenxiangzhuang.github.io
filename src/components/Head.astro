@@ -41,6 +41,10 @@ import Favicons from './Favicons.astro'
     title={SITE.title}
     href={new URL('rss.xml', Astro.site)}
   />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+  />
 
   <Favicons />
   <ClientRouter />

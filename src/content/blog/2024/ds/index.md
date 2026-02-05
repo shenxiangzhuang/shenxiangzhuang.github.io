@@ -26,10 +26,8 @@ Dawid-Skene 算法最早是应用于临床医学相关的领域，
 <!-- more -->
 
 ## 算法原理
-<figure markdown="span">
-  ![DS Algorithm](https://tlk.s3.yandex.net/crowd-kit/docs/ds_llm.png)
-  <figcaption>DS 算法的概率图模型 (Image source: Crowd-Kit)</figcaption>
-</figure>
+![DS 算法的概率图模型](https://tlk.s3.yandex.net/crowd-kit/docs/ds_llm.png)
+*Image source: Crowd-Kit*
 
 DS 算法是一种基于 EM 算法的标签聚合算法，我们先简要介绍 EM 算法的原理，然后再介绍 DS 算法的细节。
 

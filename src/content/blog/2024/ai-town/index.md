@@ -147,10 +147,7 @@ draft: false
     === "中文"
         我们编写了一段自然语言描述来描述每个代理的身份，包括他们的职业和与其他代理的关系，作为种子记忆
 
-<figure markdown="span">
-  <img src="./images/dragon2_npc.png" alt="Image title" width="400" />
-  <figcaption>龙之信条 2 中的 NPC 信息</figcaption>
-</figure>
+![龙之信条 2 中的 NPC 信息](./images/dragon2_npc.png)
 
 #### Relationship Memory
 
@@ -162,10 +159,7 @@ draft: false
     === "中文"
         小镇代理随着时间的推移形成新的关系，并记住与其他代理的交互。
 
-<figure markdown="span">
-  <img src="./images/dragon2_npc_history.png" alt="Image title" width="800" />
-  <figcaption>龙之信条 2 中的 NPC 人物关系信息</figcaption>
-</figure>
+![龙之信条 2 中的 NPC 交互历史](./images/dragon2_npc_history.png)
 
 #### Plan Memory
 
@@ -190,10 +184,7 @@ draft: false
         使代理能够对自己和他人得出结论，以更好地指导其行为。
         **反思是代理生成的更高层次、更抽象的思想**
 
-<figure markdown="span">
-  <img src="./images/ai_reflection.png" alt="Image title" width="800" />
-  <figcaption>摘自斯坦福小镇论文</figcaption>
-</figure>
+![AI 的反思过程](./images/ai_reflection.png)
 
 Reflection 的步骤如下：
 受限圈定用于 Reflection 的 Memory Event(论文用了最近的 100 条 Memory Event);
@@ -231,10 +222,7 @@ action 时如果观测到新事件 (打招呼，发现紧急情况等) 需要及
         在技术评估中，我们利用方法论机会来评估代理的知识和行为，通过用自然语言“采访”它，
         来探测代理保持角色、记忆、计划、反应和反思的准确性的能力。
 
-<figure markdown="span">
-  <img src="./images/west_world.png" alt="Image title" width="600" />
-  <figcaption>《西部世界》中对 AI 的 Analysis</figcaption>
-</figure>
+![西部世界](./images/west_world.png)
 
 这里的 interviewing 类似 agent 的 debug mode. 这个对我们观察 Agent 行为是否符合预期很有用。
 比较类似西部世界中对 NPC 的"Analysis", [Google Werewolf](https://github.com/google/werewolf_arena)中的 Debug 模块。

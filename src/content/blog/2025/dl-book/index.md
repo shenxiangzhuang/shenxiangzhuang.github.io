@@ -18,9 +18,7 @@ draft: false
 
 ### Build a Large Language Model (From Scratch)
 
-<figure markdown="span">
-  <img src="./images/llm_from_scratch.png" alt="Image" width="300" height="300" />
-</figure>
+![Build a Large Language Model (From Scratch)](./images/llm_from_scratch.png)
 
 如果说本期所有的书只推荐一本的话，我会推荐这一本。
 这是真正教你从零开始构建 GPT 模型的书。全书以 GPT-2 模型为例，用 PyTorch 从头实现了 GPT-2 模型网络，
@@ -35,9 +33,7 @@ draft: false
 
 ### Super Study Guide: Transformers & Large Language Models
 
-<figure markdown="span">
-  <img src="./images/super_llm.png" alt="" width="300" height="300" />
-</figure>
+![超级大语言模型](./images/super_llm.png)
 
 如果你只想快速了解 LLM 相关的**理论知识**，那么这本书可能是目前最好的一本。
 本书虽然没什么代码供读者去实践，但是对 NLP/Transformer/LLM 的核心概念都给出了非常简明的介绍，可以让读者快速建立对 LLM 理论的认知。
@@ -48,9 +44,7 @@ draft: false
 ### Natural Language Processing with Transformers
 
 
-<figure markdown="span">
-  <img src="./images/nlp_with_transformer.png" alt="" width="300" height="300" />
-</figure>
+![Natural Language Processing with Transformers](./images/nlp_with_transformer.png)
 
 上面两本书都是直接面向 LLM 的书，也都是 2024 年的新书。
 如果你和我一样没什么 NLP 的基础，那么这本书可能更适合你作为入门的第一本书。
@@ -71,9 +65,7 @@ draft: false
 
 ### Neural Networks and Deep Learning(NNDL)
 
-<figure markdown="span">
-  <img src="./images/nndl.png" alt="" width="400" height="400" />
-</figure>
+![神经网络与深度学习](./images/nndl.png)
 
 
 Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksanddeeplearning.com/index.html)
@@ -99,9 +91,7 @@ Michael Nielsen 的 [Neural Network and Deep Learning](http://neuralnetworksandd
 
 ### Neural Networks from Scratch in Python(NNFS)
 
-<figure markdown="span">
-  <img src="./images/nnfs.png" alt="" width="800" height="800" />
-</figure>
+![Neural Networks from Scratch](./images/nnfs.png)
 
 
 如果说 Michael Nielsen 的 NNDL 是高屋建瓴，站在足够的高度为读者展示整个 NN 的蓝图，
@@ -123,9 +113,7 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 
 ### Dive into Deep Learning(D2L)
 
-<figure markdown="span">
-  <img src="./images/d2l.png" alt="" width="300" height="300" />
-</figure>
+![Dive into Deep Learning](./images/d2l.png)
 
 这本书我看的版本比较早，大概 2021 年前后读完此书，当时还是 0.7.1 版本，代码全是 MXNet 实现的。
 当时给这本书的评价是“非常全面的一本书，深入浅出，通俗易懂，值得多翻。”
@@ -136,9 +124,7 @@ Chap11, 12, 13 分三章讲 Testing Data/Validation Data/Training Data, 每章�
 
 ### Grokking Deep Learning
 
-<figure markdown="span">
-  <img src="./images/grokking_dl.jpg" alt="" width="300" height="300" />
-</figure>
+![Grokking Deep Learning](./images/grokking_dl.jpg)
 
 如果你的数学和我一样都不太好，而且上面的书看起来还是比较吃力，那么从这本书入手可能比较好。
 先说重点，建议只看前六章。本书前 6 章写的极其友好，很适合没有任何 DL 基础的人从零开始学起。

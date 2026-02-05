@@ -39,10 +39,8 @@ Attention(Q, K, V) = \text{softmax}(\text{Mask}(\frac{QK^T}{\sqrt{d_k}}))V
 $$
 
 
-<figure markdown="span">
-  <img src="./images/attention.png" alt="" width="800" />
-  <figcaption>原始 Attention 计算过程。图片来源：<cite>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models</cite></figcaption>
-</figure>
+![原始 Attention 计算过程](./images/attention.png)
+*图片来源：Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models*
 
 
 
@@ -338,10 +336,8 @@ $$
 **KV Cache 避免重复计算的方式是缓存数据和变更计算流程：缓存数据就是指缓存$K_n$和$V_n$，变更计算流程就是指在生成新 token 时，只需要计算新 token 的 query 与所有 key 的点积。前者避免了$K_n$和$V_n$的重复计算，后者避免了$Y_n$的重复计算**。
 
 
-<figure markdown="span">
-  <img src="./images/attention_kv.png" alt="" width="800" />
-  <figcaption>KV Cache 计算过程。图片来源：<cite>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models</cite></figcaption>
-</figure>
+![KV Cache 计算过程](./images/attention_kv.png)
+*图片来源：Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models*
 
 所以在使用 KV Cache 后：
 

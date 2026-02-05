@@ -9,10 +9,8 @@ draft: false
 
 # 2024
 
-<figure markdown="span">
-  <img src="./images/cover.png" alt="Image title" width="800" />
-  <figcaption>“悟已往之不谏，知来者之可追；实迷途其未远，觉今是而昨非。”</figcaption>
-</figure>
+![2024 年总结](./images/cover.png)
+*“悟已往之不谏，知来者之可追；实迷途其未远，觉今是而昨非。”*
 
 <!-- more -->
 
@@ -109,10 +107,7 @@ Rust 的学习和实践过程是比较令我惊喜的。久闻 Rust 有着极为
 实践方面主要是对[shinstagram](https://github.com/shenxiangzhuang/shinstagram)(一个 LLM 驱动的仿 Instagram 的平台) 进行改造：
 将 LLM 替换为 Qwen，将对象存储换为 Tencent COS 等。
 
-<figure markdown="span">
-  <img src="./images/shinstagram.png" alt="Image title" width="500" />
-  <figcaption>shinstagram: Qwen & Tencent COS</figcaption>
-</figure>
+![Shin.stagram](./images/shinstagram.png)
 
 另外写了一个 Elixir 库：[qwen](https://github.com/shenxiangzhuang/qwen)。
 这个库是一个简单的 Qwen 的 API 封装，主要是为了方便在 Elixir 项目中使用 Qwen 系列的大模型。
@@ -250,10 +245,7 @@ Save image to ./旅夜书怀.png
 并且已经在 AI Glimpse 上使用了 ([Kmeans Algorithm in Rust(WASM)](https://aiglimpse.datahonor.com/docs/ml/kmeans#kmeans-algorithm-in-rustwasm))，
 效果还不错：
 
-<figure markdown="span">
-  <img src="./images/kmeans-wasm.png" alt="Image title" width="500" />
-  <figcaption>Kmeans Algorithm in Rust(WASM)</figcaption>
-</figure>
+![K-means WASM](./images/kmeans-wasm.png)
 
 因为对 WASM 和 JS 都不太熟悉，所以这个项目的进展并不顺利，最终完成 POC 达到自己预期效果时真的很开心。
 
@@ -261,10 +253,7 @@ Save image to ./旅夜书怀.png
 ### CTeX Book Template
 [ctexbook-template](https://github.com/shenxiangzhuang/ctexbook-template): 一个不太复杂的中文书籍 LaTeX 模板。
 主要是提供一个模板可以快速开始写中文书籍。
-<figure markdown="span">
-  <img src="./images/ctexbook-template-toc.png" alt="Image title" width="500" />
-  <figcaption>CTeX Book Template 目录</figcaption>
-</figure>
+![CTeX Book Template](./images/ctexbook-template-toc.png)
 
 ### Typst CN Book Template
 [typst-cn-book](https://github.com/shenxiangzhuang/typst-cn-book): 一个简单的中文书籍 Typst 模板。

@@ -7,11 +7,8 @@ authors: ['mathew']
 draft: false
 ---
 
-<figure markdown="span">
-  <img src="./images/nano_gpt_viz_qkv.png" alt="Image title" width="800" />
-  <figcaption>管窥精密机器内部核心组件 (GPT 模型的内部构造 Transformer 部分)<br>
-    (From <a href="https://bbycroft.net/llm">bbycroft.net/llm</a>)</figcaption>
-</figure>
+![管窥精密机器内部核心组件 (GPT 模型的内部构造 Transformer 部分)](./images/nano_gpt_viz_qkv.png)
+*From [bbycroft.net/llm](https://bbycroft.net/llm)*
 
 我个人对 AI(人工智能)/LLM(Large Language Model, 大语言模型) 是完全祛魅的。即使是在 ChatGPT 问世之后，即使是在 LLM 在各个领域掀起热潮的今天，
 我也仍然认为这里并没有什么所谓“智能”的东西——我个人不认为现在的 LLM 会思考，不认为它能真正地创作等等。
@@ -24,12 +21,8 @@ draft: false
 
 ## 对 LLM 的基本认识
 
-<figure markdown="span">
-  <img src="./images/brain_and_ann.png" alt="Image title" width="800" />
-  <figcaption>人工神经网络是受大脑工作方式激发的模型<br>
-    (From <a href="https://superstudy.guide/transformers-large-language-models/">Super Study Guide: Transformers & Large Language Models
-</a>)</figcaption>
-</figure>
+![大脑与人工神经网络](./images/brain_and_ann.png)
+*人工神经网络是受大脑工作方式激发的模型 - From [Super Study Guide: Transformers & Large Language Models](https://superstudy.guide/transformers-large-language-models/)*
 
 人类的大脑是一个复杂的系统，它内部有着数以百亿计的神经元，这些神经元之间通过突触连接在一起，形成了一个庞大的神经网络。
 我们依赖这个神经网络可以处理各种各样的信息，可以完成各种各样的任务。
@@ -40,10 +33,7 @@ draft: false
 人工神经网络也是类似，首先接收输入数据，之后将输入的数据在神经网络中进行计算，最终输出结果数据。
 
 
-<figure markdown="span">
-  <img src="./images/radio.png" alt="Image title" width="500" />
-  <figcaption>收音机</figcaption>
-</figure>
+![无线电发展史](./images/radio.png)
 
 如果你觉着人工神经网络难以理解，那么你可以将它想象成一个老式的收音机
 (尽管收音机和人工神经网络之间有很多不同，但是这个类比可以帮助你建立对神经网络一个大概的认识)：
@@ -60,39 +50,24 @@ LLM 被称为“大语言模型”，这里的“大”指的是模型参数的�
 
 如果你对想象这台巨大的机器感到困难，那么让我们稍微回顾一下历史，看看世界上第一台计算机 ENIAC：
 
-<figure markdown="span">
-  <img src="./images/eniac.png" alt="Image title" width="500" />
-  <figcaption>世界上第一台通用计算机：ENIAC。ENIAC 包含了 17468 个真空管、7200 个晶体二极管、1500 个继电器、10000 个电容器，
+![ENIAC](./images/eniac.png)
             还有大约五百万个手工焊接头。它的重量达 27 吨（30 美吨），体积大约是 2.4m×6m×30.48m（8×30×100 英尺），占地 167 平方米（1800 平方英尺），
-            重 30 英吨，耗电 150 千瓦</figcaption>
-</figure>
 
 
 到这里相信你已经对 LLM 有了一个大致的认识，接下来我们将看看 LLM 的内部构造，看看这个庞大而又精密的机器是如何工作的。
 LLM 的内部计算过程则是通过神经网络来完成的，如下图所示 (可以看到其核心是基于 Transformer 来构建)：
-<figure markdown="span">
-  <img src="./images/llm_arch.png" alt="Image title" width="400" />
-  <figcaption>LLM 的 神经网络骨架图<br>
-    (From <a href="https://bbycroft.net/llm">bbycroft.net/llm</a>)</figcaption>
-</figure>
+![LLM 架构](./images/llm_arch.png)
 
 我们将其中的 Transformer 部分放大，其结构如下图所示 (可以看到整体的结构还是比较复杂的)：
 
-<figure markdown="span">
-  <img src="./images/nano_gpt_viz_qkv.png" alt="Image title" width="800" />
-  <figcaption>管窥精密机器内部核心组件 (GPT 模型的内部构造 Transformer 部分)<br>
-    (From <a href="https://bbycroft.net/llm">bbycroft.net/llm</a>)</figcaption>
-</figure>
+![管窥精密机器内部核心组件 (GPT 模型的内部构造 Transformer 部分)](./images/nano_gpt_viz_qkv.png)
+*From [bbycroft.net/llm](https://bbycroft.net/llm)*
 
 
 总而言之，LLM 的输入输出理解起来并不困难，但是它内部的计算过程是非常复杂的，这里面涉及到了大量的数学知识，如线性代数，微积分，概率论等等。
 
-<figure markdown="span">
-  <img src="./images/llm_io.png" alt="Image title" width="500" />
-  <figcaption>LLM 的输入和输出<br>
-    (From <a href="https://superstudy.guide/transformers-large-language-models/">Super Study Guide: Transformers & Large Language Models
-</a>)</figcaption>
-</figure>
+![LLM 输入输出](./images/llm_io.png)
+*LLM 的输入和输出 - From [Super Study Guide: Transformers & Large Language Models](https://superstudy.guide/transformers-large-language-models/)*
 
 我们对 LLM 的简单介绍就到这里了[^1]，接下来我们将来探讨一下它将如何改变我们的未来。
 
@@ -189,10 +164,7 @@ AI 辅助搜索是另外一个 AI 领域的热点，这里的 AI 辅助搜索指
 我们不确定电影中 Mr.Pink 的演员是不是在《杀死比尔》(*Kill Bill*) 中也有出现。
 现在 Google 基于 LLM(Gemini) 的搜索引擎就可以很好地解决这个问题：
 
-<figure markdown="span">
-  <img src="./images/gemini_search.png" alt="Image title" width="800" />
-  <figcaption>Google Gemini</figcaption>
-</figure>
+![Gemini 搜索](./images/gemini_search.png)
 
 那么假如我想搜索一下《落水狗》中所有 Mr.Pink 的镜头呢？假如我们想根据几个关键词来搜索一部几百集的动漫中的一个特定场景呢？
 现在好像还没有这样的搜索引擎，而现在一些视频网站似乎也没有这样的功能——但是我相信这样的搜索功会在不久的将来出现。
