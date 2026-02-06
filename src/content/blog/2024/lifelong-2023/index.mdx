@@ -24,18 +24,18 @@ pursuit of knowledge for either personal or professional reasons.[^1]
 这些项目有些从 2020 年就开始了，有些是最近才开始的。这里主要记录下这些项目的一些进展。
 
 <Callout variant="note" title="[Py]S-ESD: Seasonal Extreme Studentized Deviate(S-ESD) in Python.">
-[shenxiangzhuang/pysesd](https://github.com/shenxiangzhuang/pysesd)是
-今年写的一个TSAD领域经典算法的Python实现。
+[shenxiangzhuang/pysesd](https://github.com/shenxiangzhuang/pysesd) 是
+今年写的一个 TSAD 领域经典算法的 Python 实现。
 
 目前已经完成了基本的算法实现和测试，可以直接`pip install pysesd`一键启动:-)
 </Callout>
 
 <Callout variant="note" title="MPPT: A Modern Python Package Template">
 [shenxiangzhuang/mppt](https://github.com/shenxiangzhuang/mppt)
-是一个Python库的模板，也是一个简单的小项目，最初是为了在团队内做工程实践的分享。
-项目主要介绍现代Python库的一些最佳实践，包括项目结构、文档、测试、发布等。
+是一个 Python 库的模板，也是一个简单的小项目，最初是为了在团队内做工程实践的分享。
+项目主要介绍现代 Python 库的一些最佳实践，包括项目结构、文档、测试、发布等。
 
-目前已经完成了基本的模板，后续会不断更新完善，可能会考虑加一些CLI来支持模版动态生成。
+目前已经完成了基本的模板，后续会不断更新完善，可能会考虑加一些 CLI 来支持模版动态生成。
 </Callout>
 
 <Callout variant="note" title="Toys: ToyData -> ToyML -> ToyDL">
@@ -63,20 +63,20 @@ ToyDL 是 ToyX 系列的第三个项目，主要是用 Python 来实现一些经
 </Callout>
 
 <Callout variant="note" title="[Beer: Fifty challenging problems in probability](https://github.com/shenxiangzhuang/beer)">
-受George E. P. Box的[the Monday night beer and statistics sessions](https://news.wisc.edu/renowned-statistician-george-box-dies-at-93/)影响，
+受 George E. P. Box 的[the Monday night beer and statistics sessions](https://news.wisc.edu/renowned-statistician-george-box-dies-at-93/)影响，
 一直想记录一些概率论/统计学相关的有趣问题，让其他领域的朋友们也能感受下概率统计的魅力。
 恰逢看到*Fifty challenging problems in probability*这本书，所以就有了这个项目。
 项目本身是一个简单的概率论/统计学的问题集，目前已经写了*Fifty challenging problems in probability*的前六个问题的答案解析，后续会不断更新。
-这里更新比较慢的原因是每道题目的工序都比较长: 翻译成中文，推导出解析解，给出(甚至多种)编程模拟求解方案。
+这里更新比较慢的原因是每道题目的工序都比较长：翻译成中文，推导出解析解，给出 (甚至多种) 编程模拟求解方案。
 希望后续能有更多的朋友参与进来，一起来解决这些有趣的问题。
 </Callout>
 
 <Callout variant="note" title="[LLM: Calvino's Invisible Cities](https://calvino.datahonor.com/)">
-卡尔维诺(Italo Calvino), 一位意大利作家，他的作品《看不见的城市》是我非常喜欢的一本书。
-书中描述了55个虚构的城市，项目用DALL·E 3生成了55个城市的图片。
+卡尔维诺 (Italo Calvino), 一位意大利作家，他的作品《看不见的城市》是我非常喜欢的一本书。
+书中描述了 55 个虚构的城市，项目用 DALL·E 3 生成了 55 个城市的图片。
 部分城市的生成结果大大地超出了我的预期，只能用惊艳来形容。比如下图给出的**轻盈的城市之珍诺比亚**。
 
-严格来说这是我写的第一个前端项目，用的是练习时长两个月半的TypeScript/React/NextJs.
+严格来说这是我写的第一个前端项目，用的是练习时长两个月半的 TypeScript/React/NextJs.
 </Callout>
 
 
@@ -99,24 +99,24 @@ MkDocs + GitHub Page 是目前采取的方案，非常的方便。全部的代�
 
 <Callout variant="note" title="TSAD(Time Series Anomaly Detection)">
 时间序列异常检测是之前主要的工作方向，在
-[TASD/Paper](https://datahonor.com/odyssey/aiops/tsad/paper/)部分，
-记录了目前工业界(主要)和学术界的一些时间序列异常检测的论文解读，
+[TASD/Paper](https://datahonor.com/odyssey/aiops/tsad/paper/) 部分，
+记录了目前工业界 (主要) 和学术界的一些时间序列异常检测的论文解读，
 并对一些关键算法给出落地实践时的一些思考。
 
-目前将总体分为了四个部分: Review/Systems/Algorithms/Evaluation.
-其中Review就是介绍了几篇综述论文，Evaluation主要是记录了一些评价指标和评价方法。
-比较重要的是Systems和Algorithms部分，
-这两部分选择的Paper大多都是出自工业界大厂(Twitter/Amazon/IBM/Miscrosoft/Salesforce等),
-对落地实践具有非常大的参考意义。另外这里分为了两个部分: 一个是System部分，这部分的论文更加
-偏重时序异常检测的算法体系或通用框架，另一个是Algorithms部分，这部分的论文更加偏重于算法本身的细节。
+目前将总体分为了四个部分：Review/Systems/Algorithms/Evaluation.
+其中 Review 就是介绍了几篇综述论文，Evaluation 主要是记录了一些评价指标和评价方法。
+比较重要的是 Systems 和 Algorithms 部分，
+这两部分选择的 Paper 大多都是出自工业界大厂 (Twitter/Amazon/IBM/Miscrosoft/Salesforce 等),
+对落地实践具有非常大的参考意义。另外这里分为了两个部分：一个是 System 部分，这部分的论文更加
+偏重时序异常检测的算法体系或通用框架，另一个是 Algorithms 部分，这部分的论文更加偏重于算法本身的细节。
 当然这两部分的论文都是有交叉的，但是这样分开有助于更好的理解和学习。
 </Callout>
 
 <Callout variant="note" title="RCA(Root Cause Analysis)">
-根因分析([RCA/paper](https://datahonor.com/odyssey/aiops/rca/paper/))是在TSAD的基础上的一个延伸，
+根因分析 ([RCA/paper](https://datahonor.com/odyssey/aiops/rca/paper/)) 是在 TSAD 的基础上的一个延伸，
 主要是在异常检测的基础上进一步做故障的根因分析。这方面的论文没有特别繁杂，
 整体的脉络相对比较清晰，但是因为问题本身的复杂性，实际落地的时候会更加困难。
-工作中曾经POC过一些通用的RCA算法(大致是基于Event Stream的Frequent Pattern Mining)，
+工作中曾经 POC 过一些通用的 RCA 算法 (大致是基于 Event Stream 的 Frequent Pattern Mining)，
 但是由于实际的数据和场景的复杂性，效果并不是很好，
 感觉实际落地中还是要根据具体领域细分做专门化的处理才可以达到比较好的效果。
 </Callout>
