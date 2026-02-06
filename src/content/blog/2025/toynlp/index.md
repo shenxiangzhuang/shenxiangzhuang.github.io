@@ -2,7 +2,7 @@
 title: 'ToyNLP: 从零实现自然语言处理经典模型'
 description: '基于 PyTorch 从零实现自然语言处理经典模型的开源库 ToyNLP. 实现了 2003 年至 2018 年间共计 8 个经典的 NLP 模型：NNLM, Word2Vec, Seq2Seq, Attention, FastText, Transformer, BERT, GPT.'
 date: 2025-11-23
-tags: ['项目', 'NLP']
+tags: ['项目', 'AI', 'NLP']
 authors: ['mathew']
 draft: false
 ---
