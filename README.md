@@ -1,1 +1,1 @@
-MathewShen's blog: [mathewshen.me](https://mathewshen.me)
+MathewShen's Blog: [mathewshen.me](https://mathewshen.me)
