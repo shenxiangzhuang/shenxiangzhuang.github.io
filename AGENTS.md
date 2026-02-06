@@ -64,6 +64,52 @@ linkedin: 'https://...'       # 可选
 
 ## 图片规范
 
+### 图片引用
+
+博客文章中的图片必须使用 **Markdown 语法**，不能使用 HTML `<img>` 标签（Astro content 目录中 HTML 标签无法正确解析本地相对路径）。
+
+```markdown
+<!-- ✅ 正确 -->
+![图片描述](./images/example.png)
+
+<!-- ❌ 错误 - 图片无法显示 -->
+<img src="./images/example.png" alt="图片描述" />
+```
+
+### 图片存放位置
+
+图片应存放在对应博客文章目录下的 `images/` 文件夹中：
+
+```
+src/content/blog/2024/my-post/
+├── index.md
+└── images/
+    └── example.png
+```
+
+### 图片说明（Caption）
+
+图片说明使用 **紧跟图片的斜体文字** 格式，CSS 会自动将其渲染为居中、小字号、淡色的说明文字样式。
+
+**格式要求：**
+
+1. 图片说明必须紧跟在图片后的下一行
+2. 使用 Markdown 斜体语法 `*说明文字*`
+3. 说明文字独占一行
+
+**示例：**
+
+```markdown
+![GPT 模型的内部构造](./images/nano_gpt_viz_qkv.png)
+*From [bbycroft.net/llm](https://bbycroft.net/llm)*
+
+![大脑与人工神经网络](./images/brain_and_ann.png)
+*人工神经网络是受大脑工作方式激发的模型 - From [Super Study Guide](https://superstudy.guide/)*
+```
+
+**渲染效果：** 图片说明会自动居中显示，字体变小，颜色变淡，与正文形成视觉区分。
+
+
 ### 图片尺寸限制
 
 CSS 已设置图片的最大尺寸限制：
