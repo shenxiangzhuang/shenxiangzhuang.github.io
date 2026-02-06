@@ -32,25 +32,15 @@ Dawid-Skene 算法最早是应用于临床医学相关的领域，
 DS 算法是一种基于 EM 算法的标签聚合算法，我们先简要介绍 EM 算法的原理，然后再介绍 DS 算法的细节。
 
 ### EM 算法推导
-*The Expectation Maximization Algorithm: A short tutorial*[@borman2004em]
-给出了一个极为详细的 EM 算法推导。
+*The Expectation Maximization Algorithm: A short tutorial*
+给出了一个极为详细的 EM 算法推导。这里我们就不再进行赘述。
 
-> **Note: Read the paper right now!**
->
->
-> <iframe src="./pdf/em_algo_intro.pdf" title="The Expectation Maximization Algorithm" style="min-height:100vh;width:100%"></iframe>
->
->
+
 ### Dawid-Skene 算法推导
-*Maximum likelihood estimation of observer error-rates using the EM algorithm*[@dawid1979maximum]
+*Maximum likelihood estimation of observer error-rates using the EM algorithm*
 是 DS 算法的原始论文，给出了 DS 算法的推导。
 
-> **Note: Read the paper right now!**
->
->
-> <iframe src="./pdf/ds_paper.pdf" title="Maximum likelihood estimation of observer error-rates using the EM algorithm" style="min-height:100vh;width:100%"></iframe>
->
->
+
 论文本身的推导过程还算比较完善的，不过省略了较为关键的极大似然估计的推导过程，也就是通过
 **式 2.2**:
 
@@ -278,7 +268,7 @@ class DawidSkene(BaseClassificationAggregator):
 算法的逻辑是在`_m_step`内部通过一行的函数调用实现：
 
 <Callout variant="tip" title="保持核心代码的整洁">
-这里通过函数调用的方式，使得核心代码的逻辑更加清晰(保证可读性)，也方便后续的维护和扩展。
+这里通过函数调用的方式，使得核心代码的逻辑更加清晰 (保证可读性)，也方便后续的维护和扩展。
 </Callout>
 
 ```python linenums="1" hl_lines="18"

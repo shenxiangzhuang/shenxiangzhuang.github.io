@@ -34,13 +34,13 @@ pnpm prettier       # 格式化所有文件
 
 ```yml
 ---
-title: 'Your Post Title'        # 必填，≤60字符
-description: 'A brief desc'     # 必填，≤155字符
-date: 2024-01-01               # 必填，YYYY-MM-DD格式
+title: 'Your Post Title'        # 必填，≤60 字符
+description: 'A brief desc'     # 必填，≤155 字符
+date: 2024-01-01               # 必填，YYYY-MM-DD 格式
 tags: ['tag1', 'tag2']         # 可选
 image: './image.png'           # 可选，1200x630px
 authors: ['author-id']         # 可选，对应 authors/ 下的文件名
-draft: false                   # 可选，默认false
+draft: false                   # 可选，默认 false
 order: 0                       # 可选，同日期子文章排序
 ---
 ```
@@ -49,7 +49,7 @@ order: 0                       # 可选，同日期子文章排序
 
 本博客采用两层标签体系，每篇文章使用 **2 个标签**：1 个 General Tag + 1 个细分 Tag。
 
-### General Tags（5 个）
+### General Tags
 
 | Tag | 定位 |
 |-----|------|
@@ -59,7 +59,7 @@ order: 0                       # 可选，同日期子文章排序
 | **AI** | 人工智能、机器学习 |
 | **项目** | 开源项目、个人作品 |
 
-### 细分 Tags（10 个）
+### 细分 Tags
 
 | Tag | 说明 | 常配合的 General Tag |
 |-----|------|---------------------|
@@ -67,7 +67,6 @@ order: 0                       # 可选，同日期子文章排序
 | **回忆** | 回忆性文章 | 生活 |
 | **书评** | 读书笔记 | 文学、AI |
 | **算法** | 算法相关 | 技术 |
-| **系统** | 后端、分布式 | 技术 |
 | **LLM** | 大语言模型 | AI |
 | **NLP** | 自然语言处理 | AI |
 | **RL** | 强化学习 | AI |
@@ -98,7 +97,7 @@ order: 0                       # 可选，同日期子文章排序
 ---
 name: 'Author Name'           # 必填
 pronouns: 'he/him'            # 可选
-avatar: 'url or /path'        # 必填，URL或/开头的路径
+avatar: 'url or /path'        # 必填，URL 或/开头的路径
 bio: 'Short bio'              # 可选
 mail: 'email@example.com'     # 可选
 website: 'https://...'        # 可选

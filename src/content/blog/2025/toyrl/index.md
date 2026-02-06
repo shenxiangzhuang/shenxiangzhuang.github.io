@@ -11,7 +11,7 @@ draft: false
 
 在看 LLM + RL 的一些论文时，发现对于一些 RL 概念 (比如 GAE) 的理解还是有所欠缺，
 所以就系统地学习了一遍深度强化学习（Deep Reinforcement Learning）相关的知识。选的书是
-[*Foundations of Deep Reinforcement Learning*](https://slm-lab.gitbook.io/slm-lab/publications-and-talks/instruction-for-the-book-+-intro-to-rl-section)[@drlbook].
+[*Foundations of Deep Reinforcement Learning*](https://slm-lab.gitbook.io/slm-lab/publications-and-talks/instruction-for-the-book-+-intro-to-rl-section).
 
 在阅读过程中，将书中介绍的一些算法（REINFORCE、SARSA、DQN（Double DQN）、A2C、PPO）用 PyTorch 从头实现了一遍，统一整理到了开源库，
 也就是今天要介绍的 [ToyRL](https://github.com/ai-glimpse/toyrl)。
