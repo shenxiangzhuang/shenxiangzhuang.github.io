@@ -296,6 +296,58 @@ const tocSections = await getTOCSections(currentPostId)
           )
         })
       }
+
+      // 清理连续脚注之间的逗号等分隔符
+      document
+        .querySelectorAll('sup:has(> a[data-footnote-ref])')
+        .forEach((sup) => {
+          let node = sup.nextSibling
+          while (node) {
+            const next = node.nextSibling
+            if (node.nodeType === Node.TEXT_NODE) {
+              // 移除仅包含逗号/顿号/空格等分隔符的文本节点
+              const trimmed = node.textContent?.replace(/[\s,，、;；]+/g, '') ?? ''
+              if (trimmed === '') {
+                // 下一个有意义的元素是 sup 脚注时才移除
+                const nextEl = sup.nextElementSibling
+                if (
+                  nextEl?.tagName === 'SUP' &&
+                  nextEl.querySelector('a[data-footnote-ref]')
+                ) {
+                  node.remove()
+                }
+              }
+              break
+            } else {
+              break
+            }
+          }
+        })
+
+      // 脚注 tooltip：提取底部脚注内容，写入行内引用的 data-tooltip
+      document
+        .querySelectorAll('a[data-footnote-ref]')
+        .forEach((ref) => {
+          const href = ref.getAttribute('href')
+          if (!href) return
+          const targetId = href.replace('#', '')
+          const footnoteLi = document.getElementById(targetId)
+          if (!footnoteLi) return
+
+          // 克隆节点，移除回退链接后取纯文本
+          const clone = footnoteLi.cloneNode(true) as HTMLElement
+          clone
+            .querySelectorAll('a[data-footnote-backref]')
+            .forEach((el) => el.remove())
+          const text = clone.textContent?.trim().replace(/\s+/g, ' ') ?? ''
+          if (text) {
+            // 限制 tooltip 长度，过长时截断
+            ref.setAttribute(
+              'data-tooltip',
+              text.length > 150 ? text.slice(0, 147) + '…' : text,
+            )
+          }
+        })
     })
   </script>
 </Layout>
