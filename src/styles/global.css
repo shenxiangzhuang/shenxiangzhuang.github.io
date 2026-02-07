@@ -66,33 +66,36 @@
   --ring: oklch(0.556 0 0);
 }
 
-@keyframes logo-pulse {
+/* --- Loading overlay: 流觞曲水 flowing water animation --- */
+
+/* 水波：缓慢向下流淌 */
+@keyframes water-flow {
+  from {
+    mask-position: 0 0;
+  }
+  to {
+    mask-position: 0 -100%;
+  }
+}
+
+/* 呼吸：极轻微，仅透明度微变，不做缩放 */
+@keyframes logo-breathe {
   0%, 100% {
-    transform: scale(0.85);
-    opacity: 0.4;
+    opacity: 0.85;
   }
   50% {
-    transform: scale(1.15);
     opacity: 1;
   }
 }
 
 @keyframes overlay-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes overlay-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .loading-overlay {
@@ -104,18 +107,37 @@
   justify-content: center;
   background: oklch(from var(--background) l c h / 80%);
   backdrop-filter: blur(4px);
-  animation: overlay-fade-in 0.15s ease-out;
+  animation: overlay-fade-in 0.2s ease-out;
 }
 
 .loading-overlay.fade-out {
-  animation: overlay-fade-out 0.2s ease-in forwards;
+  animation: overlay-fade-out 0.3s ease-in forwards;
 }
 
 .loading-overlay svg {
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
   color: var(--foreground);
-  animation: logo-pulse 1.2s ease-in-out infinite;
+  animation: logo-breathe 5s ease-in-out infinite;
+}
+
+.loading-overlay svg path {
+  /* 水光流淌：明暗对比加大、波段更窄，流动更可感知 */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.85) 8%,
+    rgba(0, 0, 0, 0.2) 18%,
+    rgba(0, 0, 0, 0.9) 28%,
+    rgba(0, 0, 0, 0.15) 40%,
+    rgba(0, 0, 0, 0.85) 52%,
+    rgba(0, 0, 0, 0.2) 63%,
+    rgba(0, 0, 0, 0.9) 75%,
+    rgba(0, 0, 0, 0.2) 87%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  mask-size: 100% 300%;
+  animation: water-flow 4s ease-in-out infinite;
 }
 
 @layer base {
