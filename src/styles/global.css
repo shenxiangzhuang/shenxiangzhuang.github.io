@@ -140,6 +140,36 @@
   animation: water-flow 4s ease-in-out infinite;
 }
 
+/* --- Expressive Code: 复制按钮优化 --- */
+
+/* 移动端：复制按钮缩小并降低可见度，点击时才高亮 */
+@media (max-width: 640px) {
+  .expressive-code .copy {
+    opacity: 0.25;
+    scale: 0.75;
+    transform-origin: top right;
+    transition: opacity 0.2s ease;
+  }
+
+  .expressive-code .copy:active,
+  .expressive-code .copy:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* 桌面端：默认隐藏，悬停代码块时显示 */
+@media (min-width: 641px) {
+  .expressive-code .copy {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .expressive-code:hover .copy,
+  .expressive-code .copy:focus-visible {
+    opacity: 1;
+  }
+}
+
 @layer base {
   *,
   ::after,
