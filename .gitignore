@@ -9,5 +9,6 @@ pnpm-debug.log*
 .env.production
 .DS_Store
 .idea/
+.playwright-mcp/
 teaser.pptx
 ~$teaser.pptx
