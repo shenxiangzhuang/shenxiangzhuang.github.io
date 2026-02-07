@@ -198,6 +198,104 @@
         padding-left: 1em;
       }
     }
+
+    /* --- 脚注样式 --- */
+
+    /* 行内脚注：带编号的圆形 badge */
+    :where(sup):not(:where(.not-prose, .not-prose *)):has(
+        > a[data-footnote-ref]
+      ) {
+      @apply relative align-baseline text-[length:inherit] top-0;
+    }
+
+    :where(a[data-footnote-ref]):not(:where(.not-prose, .not-prose *)) {
+      @apply inline-flex items-center justify-center min-w-5 min-h-5 px-0.5 rounded-full text-[0.7rem] font-semibold leading-none align-middle no-underline! bg-border text-foreground transition-all duration-200 ease-in-out;
+    }
+
+    :where(a[data-footnote-ref]):not(:where(.not-prose, .not-prose *)):hover {
+      @apply bg-muted-foreground text-background;
+    }
+
+    /* 连续脚注间距 */
+    :where(sup + sup):not(:where(.not-prose, .not-prose *)):has(
+        > a[data-footnote-ref]
+      ) {
+      @apply ml-0.5;
+    }
+
+    /* 脚注 tooltip */
+    :where(a[data-footnote-ref][data-tooltip]):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply relative;
+    }
+
+    :where(a[data-footnote-ref][data-tooltip]):not(
+        :where(.not-prose, .not-prose *)
+      )::after {
+      content: attr(data-tooltip);
+      @apply absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 translate-y-1 max-w-70 min-w-30 w-max px-3 py-2 rounded-lg bg-foreground text-background text-xs font-normal leading-normal text-left whitespace-normal break-words shadow-lg opacity-0 pointer-events-none transition-all duration-200 ease-in-out z-50;
+    }
+
+    /* Tooltip 小三角 */
+    :where(a[data-footnote-ref][data-tooltip]):not(
+        :where(.not-prose, .not-prose *)
+      )::before {
+      content: '';
+      @apply absolute bottom-[calc(100%+2px)] left-1/2 -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-200 ease-in-out z-50;
+      border: 5px solid transparent;
+      border-top-color: var(--foreground);
+    }
+
+    :where(a[data-footnote-ref][data-tooltip]):not(
+        :where(.not-prose, .not-prose *)
+      ):hover::after {
+      @apply opacity-100 translate-y-0 -translate-x-1/2;
+    }
+
+    :where(a[data-footnote-ref][data-tooltip]):not(
+        :where(.not-prose, .not-prose *)
+      ):hover::before {
+      @apply opacity-100;
+    }
+
+    /* 底部脚注区域 */
+    :where(section.footnotes[data-footnotes]):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply mt-12 pt-6 border-t border-border text-sm leading-relaxed text-muted-foreground;
+    }
+
+    :where(section.footnotes[data-footnotes] ol):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply mt-0;
+    }
+
+    :where(section.footnotes[data-footnotes] li):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply text-muted-foreground;
+    }
+
+    :where(section.footnotes[data-footnotes] a):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply text-muted-foreground decoration-border;
+    }
+
+    :where(section.footnotes[data-footnotes] a):not(
+        :where(.not-prose, .not-prose *)
+      ):hover {
+      @apply text-foreground;
+    }
+
+    /* 隐藏脚注区域的 "Footnotes" 标题（已有 sr-only） */
+    :where(section.footnotes[data-footnotes] h2#footnote-label):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+      @apply sr-only;
+    }
   }
 }
 

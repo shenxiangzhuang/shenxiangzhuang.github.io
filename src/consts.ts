@@ -5,8 +5,8 @@ export const SITE: Site = {
   description: "Mathew Shen's personal blog.",
   href: 'https://datahonor.com',
   author: 'mathew',
-  locale: 'en-US',
-  featuredPostCount: 3,
+  locale: 'zh-CN',
+  featuredPostCount: 4,
   postsPerPage: 6,
 }
 
@@ -38,6 +38,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
   //   href: 'https://twitter.com/enscry',
   //   label: 'Twitter',
   // },
+  {
+    href: 'https://www.linkedin.com/in/mathewshen/',
+    label: 'LinkedIn',
+  },
   {
     href: 'mailto:datahonor@gmail.com',
     label: 'Email',
