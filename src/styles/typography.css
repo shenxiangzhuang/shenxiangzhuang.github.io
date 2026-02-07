@@ -184,6 +184,20 @@
       )::-webkit-scrollbar {
       display: none;
     }
+
+    /* 编号公式在移动端避免重叠：编号跟在公式末尾，随公式一起横向滚动 */
+    @media (max-width: 640px) {
+      :where(.katex-display .katex-html):not(:where(.not-prose, .not-prose *)) {
+        width: fit-content;
+        min-width: 100%;
+      }
+      :where(.katex-display .tag):not(:where(.not-prose, .not-prose *)) {
+        position: static !important;
+        display: inline-block;
+        vertical-align: bottom;
+        padding-left: 1em;
+      }
+    }
   }
 }
 
