@@ -49,5 +49,71 @@ import Favicons from './Favicons.astro'
   <Favicons />
   <ClientRouter />
 
+  <script is:inline>
+    ;(() => {
+      let timer = null
+      let overlay = null
+
+      const LOGO_SVG = `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M68 25 C 55 18, 35 25, 38 45 C 40 60, 65 55, 62 75 C 60 88, 35 82, 28 75 L 32 72 C 40 80, 55 80, 56 73 C 58 62, 35 65, 32 45 C 30 25, 55 20, 68 25 Z" fill="currentColor"/>
+      </svg>`
+
+      function createOverlay() {
+        const el = document.createElement('div')
+        el.className = 'loading-overlay'
+        el.setAttribute('aria-hidden', 'true')
+        el.innerHTML = LOGO_SVG
+        document.body.appendChild(el)
+        return el
+      }
+
+      function removeOverlay() {
+        if (!overlay) return
+        overlay.classList.add('fade-out')
+        const el = overlay
+        overlay = null
+        el.addEventListener('animationend', () => el.remove(), { once: true })
+        // Fallback removal in case animationend doesn't fire
+        setTimeout(() => { if (el.parentNode) el.remove() }, 300)
+      }
+
+      function clearTimer() {
+        if (timer !== null) {
+          clearTimeout(timer)
+          timer = null
+        }
+      }
+
+      document.addEventListener('astro:before-preparation', (event) => {
+        clearTimer()
+        // Skip same-page anchor navigation
+        const from = new URL(event.from)
+        const to = new URL(event.to)
+        if (from.pathname === to.pathname) return
+
+        // Delay showing overlay by 200ms to avoid flash on fast navigations
+        timer = setTimeout(() => {
+          overlay = createOverlay()
+        }, 200)
+      })
+
+      document.addEventListener('astro:after-preparation', () => {
+        // Page content loaded — if overlay hasn't shown yet, cancel it
+        clearTimer()
+      })
+
+      document.addEventListener('astro:after-swap', () => {
+        clearTimer()
+        removeOverlay()
+      })
+
+      // Fallback cleanup on full page load
+      document.addEventListener('astro:page-load', () => {
+        clearTimer()
+        if (overlay) removeOverlay()
+      })
+    })()
+  </script>
+
   <slot />
 </head>
