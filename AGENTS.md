@@ -117,3 +117,63 @@ CSS 已设置图片的最大尺寸限制：
 - 最大高度：`600px`
 
 图片会自动缩放并保持比例（`object-fit: contain`）。
+
+## Git 提交规范
+
+使用 [Conventional Commits](https://www.conventionalcommits.org/) 格式：
+
+```
+<type>: <description>
+
+[optional body]
+```
+
+### 常用 type
+
+| Type       | 用途               |
+| ---------- | ------------------ |
+| `feat`     | 新功能             |
+| `fix`      | 修复 Bug           |
+| `docs`     | 文档变更           |
+| `style`    | 样式调整（非逻辑） |
+| `refactor` | 重构               |
+| `chore`    | 构建/工具链变更     |
+| `content`  | 博客文章内容变更    |
+
+### 示例
+
+```bash
+git commit -m "feat: add footnote tooltip on hover"
+git commit -m "fix: correct image path in blog post"
+git commit -m "content: add new blog post about KV cache"
+git commit -m "style: adjust footnote badge sizing"
+```
+
+## PR 工作流
+
+使用 `gh` CLI 创建 PR：
+
+```bash
+# 1. 创建分支
+git checkout -b feat/my-feature
+
+# 2. 提交变更
+git add .
+git commit -m "feat: description of changes"
+
+# 3. 推送分支
+git push --set-upstream origin feat/my-feature
+
+# 4. 创建 PR
+gh pr create --title "feat: description of changes" --body "## Changes
+- Change 1
+- Change 2" --base master
+```
+
+### 分支命名
+
+- `feat/xxx` — 新功能
+- `fix/xxx` — Bug 修复
+- `docs/xxx` — 文档
+- `style/xxx` — 样式
+- `content/xxx` — 博客内容
