@@ -66,6 +66,58 @@
   --ring: oklch(0.556 0 0);
 }
 
+@keyframes logo-pulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlay-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: oklch(from var(--background) l c h / 80%);
+  backdrop-filter: blur(4px);
+  animation: overlay-fade-in 0.15s ease-out;
+}
+
+.loading-overlay.fade-out {
+  animation: overlay-fade-out 0.2s ease-in forwards;
+}
+
+.loading-overlay svg {
+  width: 48px;
+  height: 48px;
+  color: var(--foreground);
+  animation: logo-pulse 1.2s ease-in-out infinite;
+}
+
 @layer base {
   *,
   ::after,
