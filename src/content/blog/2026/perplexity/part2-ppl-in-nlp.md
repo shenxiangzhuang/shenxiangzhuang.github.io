@@ -1,6 +1,6 @@
 ---
 title: 'NLP中的Perplexity'
-description: 'NLP中的Perplexity'
+description: '引入 NLP：从分布到序列'
 date: 2026-02-08
 tags: ['AI', 'NLP']
 authors: ['mathew']
@@ -9,12 +9,17 @@ order: 2
 ---
 
 
-## 2. 引入 NLP：从分布到序列
+## 历史：Jelinek 的贡献
 
-在第一部分，我们讨论的是“单个随机变量”的不确定性。
-而 NLP 的对象是**序列**，我们需要把“一个句子”当成一个随机事件来建模。
+Perplexity 并不是一开始就生长在 NLP 里的。它是在 1970 年代末被引入语音识别（Automatic Speech Recognition, ASR）领域的。這一概念最早可以追溯到 IBM T.J. Watson 研究中心的经典工作：
 
-### 2.1 定义样本空间与分布
+> **Paper:** [Jelinek, F., Mercer, R. L., Bahl, L. R., & Baker, J. K. (1977). *Perplexity—a measure of the difficulty of speech recognition tasks.*](https://asa.scitation.org/doi/abs/10.1121/1.2016299)
+
+**核心动机：解耦。**
+当时，研究人员主要关注词错率（WER）。但这不仅取决于**语言模型**（预测下一个词的能力），还取决于**声学模型**（听清声音的能力）。Fred Jelinek 等人提出 PPL，旨在衡量**语言任务本身的难度**，从而能独立地优化和评估语言模型。
+
+
+## 定义样本空间与分布
 
 为了复用第一章的数学工具，我们需要明确 $P$ 和 $Q$ 到底是在什么东西上的分布。关键在于视角的转换：**不要把单个“词”看作样本，要把“整句话”看作一个独立的随机事件。**
 
@@ -75,7 +80,7 @@ order: 2
     $$
     在真实评估中，我们对整个测试集取平均，形式上只是在求和里加入更多样本而已，推导不变。
 
-### 2.2 推导序列的交叉熵
+## 推导序列的交叉熵
 
 回到第一章的交叉熵定义：
 $$
@@ -90,7 +95,7 @@ $$
 
 这就是整个序列的总惊诧度。
 
-### 2.3 从总熵到“每个词的平均熵”
+## 从总熵到“每个词的平均熵”
 
 但是，总惊诧度与序列长度 $N$ 正相关。如果不做归一化，长句子的 Loss 永远比短句子大。
 为了衡量模型在**“单个词”**层面的平均预测能力，我们需要计算**每个 Token 的平均交叉熵**（Average Cross Entropy per Token）：
@@ -106,7 +111,7 @@ $$
 
 这正是我们在训练代码中经常看到的 `CrossEntropyLoss`。
 
-### 2.4 定义 NLP 中的 PPL
+## 定义 NLP 中的 PPL
 
 现在，逻辑闭环了。
 既然 $PP = e^{H(P,Q)}$，那么在 NLP 中，我们同样使用平均熵的指数形式：
@@ -133,7 +138,7 @@ $$
 
 *(注：这里的 Loss 需基于自然对数 $e$ 计算；如果是以 2 为底，则是 $2^{\text{Loss}}$)*
 
-### 2.5 物理意义：平均候选词数
+## 物理意义：平均候选词数
 
 在语言模型中，PPL 表示**“模型在每一步预测时，平均以为有多少个合理的候选词”**。
 
@@ -147,11 +152,3 @@ $$
 
 模型 B 的 PPL 更低，说明它更确定，也就是更好。
 
-### 2.6 历史：Jelinek 的贡献
-
-Perplexity 并不是一开始就生长在 NLP 里的。它是在 1970 年代末被引入语音识别（Automatic Speech Recognition, ASR）领域的。這一概念最早可以追溯到 IBM T.J. Watson 研究中心的经典工作：
-
-> **Paper:** [Jelinek, F., Mercer, R. L., Bahl, L. R., & Baker, J. K. (1977). *Perplexity—a measure of the difficulty of speech recognition tasks.*](https://asa.scitation.org/doi/abs/10.1121/1.2016299)
-
-**核心动机：解耦。**
-当时，研究人员主要关注词错率（WER）。但这不仅取决于**语言模型**（预测下一个词的能力），还取决于**声学模型**（听清声音的能力）。Fred Jelinek 等人提出 PPL，旨在衡量**语言任务本身的难度**，从而能独立地优化和评估语言模型。
