@@ -127,9 +127,18 @@ $$
 
 ## 2. 熵 (Entropy)：不确定性的标尺
 
-现在我们可以自然地引出**熵**的定义了。
+现在我们可以自然地引出**熵**的定义了:
 
-什么是熵？**熵就是我们在“上帝视角”下，为了描述该随机变量所需的“最小平均编码长度”。**
+> The entropy of a random variable is 
+> a lower bound on the average number of bits required to represent the
+> random variable and also on the average number of questions needed to
+> identify the variable in a game of “20 questions.”
+> 
+> — Cover & Thomas, *Elements of Information Theory*
+
+
+简言之，**熵是描述随机变量所需的“最小平均编码长度”。**
+
 
 对于分布 $P(x)$，既然每个事件 $x$ 的理想编码长度是 $-\log P(x)$，那么总体的平均长度就是：
 
@@ -138,14 +147,13 @@ H(P) = \mathbb{E}_{x \sim P} [-\log P(x)] = -\sum_{x} P(x) \log_2 P(x)
 $$
 
 回到赛马的例子：
-- **场景一（均匀）**：$H(P) = 3 \text{ bits}$。不确定性最大，废话最多。
+- **场景一（均匀）**：$H(P) = 3 \text{ bits}$。不确定性最大，编码长度最长。
 - **场景二（偏斜）**：$H(P) = 2 \text{ bits}$。因为有了确定性偏向，不确定性降低，编码变短。
 
-**一句话总结**：熵是对**信息本身复杂程度**的度量。
+由此可见，熵是对**信息本身复杂程度**的度量。
+
 
 ## 3. 交叉熵 (Cross-Entropy)：认知的代价
-
-如果说熵是上帝的视角，那么**交叉熵**就是我们凡人的视角。
 
 在现实中，我们往往不知道真实的马匹胜率 $P(x)$。博彩公司会根据经验估计出一个概率分布 $Q(x)$（即**模型分布**）。
 
