@@ -1,4 +1,4 @@
-import { SITE } from '@/consts'
+import { RSS_FOLLOW_CHALLENGE, SITE } from '@/consts'
 import rss from '@astrojs/rss'
 import type { APIContext } from 'astro'
 import { getAllPosts } from '@/lib/data-utils'
@@ -11,6 +11,12 @@ export async function GET(context: APIContext) {
       title: SITE.title,
       description: SITE.description,
       site: context.site ?? SITE.href,
+      customData: [
+        '<follow_challenge>',
+        `    <feedId>${RSS_FOLLOW_CHALLENGE.feedId}</feedId>`,
+        `    <userId>${RSS_FOLLOW_CHALLENGE.userId}</userId>`,
+        '</follow_challenge>',
+      ].join('\n'),
       items: posts.map((post) => ({
         title: post.data.title,
         description: post.data.description,
