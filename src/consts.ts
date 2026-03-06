@@ -10,6 +10,11 @@ export const SITE: Site = {
   postsPerPage: 6,
 }
 
+export const RSS_FOLLOW_CHALLENGE = {
+  feedId: '242234111295813632',
+  userId: '41781781100792832',
+}
+
 export const NAV_LINKS: SocialLink[] = [
   {
     href: '/blog',
