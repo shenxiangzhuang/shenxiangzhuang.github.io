@@ -4,7 +4,7 @@ export type Site = {
   href: string
   author: string
   locale: string
-  featuredPostCount: number
+  recentPostCount: number
   postsPerPage: number
 }
 
