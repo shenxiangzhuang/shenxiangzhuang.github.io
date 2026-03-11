@@ -6,7 +6,7 @@ export const SITE: Site = {
   href: 'https://datahonor.com',
   author: 'mathew',
   locale: 'zh-CN',
-  featuredPostCount: 4,
+  recentPostCount: 4,
   postsPerPage: 6,
 }
 

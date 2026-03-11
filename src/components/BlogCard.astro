@@ -8,6 +8,7 @@ import {
   isSubpost,
   parseAuthors,
 } from '@/lib/data-utils'
+import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
@@ -16,9 +17,10 @@ import Link from './Link.astro'
 
 interface Props {
   entry: CollectionEntry<'blog'>
+  compact?: boolean
 }
 
-const { entry } = Astro.props
+const { entry, compact = false } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
@@ -26,7 +28,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
 <div
-  class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
+  class={cn(
+    'hover:bg-muted/50 rounded-xl border transition-colors duration-300 ease-in-out',
+    compact ? 'p-3' : 'p-4',
+  )}
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
@@ -47,38 +52,50 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
+      <h3 class={cn('font-medium', compact ? 'mb-0.5 text-base leading-snug' : 'mb-1 text-lg')}>
+        {entry.data.title}
+      </h3>
+      <p
+        class={cn(
+          'text-muted-foreground text-sm',
+          compact ? 'mb-1.5 line-clamp-2 leading-snug' : 'mb-2',
+        )}
+      >
+        {entry.data.description}
+      </p>
 
       <div
-        class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
+        class={cn(
+          'text-muted-foreground flex flex-wrap items-center text-xs',
+          compact ? 'mb-1.5 gap-x-1.5 gap-y-1' : 'mb-2 gap-x-2',
+        )}
       >
         {
           authors.length > 0 && (
             <>
               {authors.map((author) => (
-                <div class="flex items-center gap-x-1.5">
+                <div class={cn('flex items-center', compact ? 'gap-x-1' : 'gap-x-1.5')}>
                   <AvatarComponent
                     client:load
                     src={author.avatar}
                     alt={author.name}
                     fallback={author.name[0]}
-                    className="size-5 rounded-full"
+                    className={compact ? 'size-4 rounded-full' : 'size-5 rounded-full'}
                   />
                   <span>{author.name}</span>
                 </div>
               ))}
-              <Separator orientation="vertical" className="h-4!" />
+              <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
             </>
           )
         }
         <span>{formattedDate}</span>
-        <Separator orientation="vertical" className="h-4!" />
+        <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
         <span>{readTime}</span>
         {
           subpostCount > 0 && (
             <>
-              <Separator orientation="vertical" className="h-4!" />
+              <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
               <span class="flex items-center gap-1">
                 <Icon name="lucide:file-text" class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
@@ -90,9 +107,15 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 
       {
         entry.data.tags && (
-          <div class="flex flex-wrap gap-2">
+          <div class={cn('flex flex-wrap', compact ? 'gap-1.5' : 'gap-2')}>
             {entry.data.tags.map((tag) => (
-              <Badge variant="muted" className="flex items-center gap-x-1">
+              <Badge
+                variant="muted"
+                className={cn(
+                  'flex items-center gap-x-1',
+                  compact && 'px-1.5 py-0 text-[11px] leading-5',
+                )}
+              >
                 <Icon name="lucide:hash" class="size-3" />
                 {tag}
               </Badge>
