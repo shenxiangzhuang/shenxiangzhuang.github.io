@@ -4,7 +4,7 @@
 
 @theme inline {
   --font-sans:
-    Geist, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Zhuque Fangsong', Geist, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-mono:
     Geist Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -24,6 +24,15 @@
 
   --color-border: var(--border);
   --color-ring: var(--ring);
+}
+
+@font-face {
+  font-family: 'Zhuque Fangsong';
+  src: url('/fonts/ZhuqueFangsong-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 110%;
 }
 
 @font-face {
