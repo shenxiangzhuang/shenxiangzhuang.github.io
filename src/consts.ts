@@ -77,7 +77,7 @@ export const GISCUS = {
   reactionsEnabled: '1',
   emitMetadata: '1',
   inputPosition: 'top',
-  theme: 'preferred_color_scheme',
+  theme: '',
   lang: 'en',
   loading: 'lazy',
 }
