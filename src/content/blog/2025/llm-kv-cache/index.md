@@ -80,7 +80,7 @@ $$
 $$
 \begin{align}
 X_{n+1} = \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         X_{n} \\
         x_{n+1} \\
     \end{array}
@@ -199,19 +199,19 @@ Y_{n+1}
 &= \text{softmax} \left( \text{Mask} \left(
 \frac{1}{\sqrt{d_k}}
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         Q_{n} \\
         q_{n+1} \\
     \end{array}
 \right ]
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         K_{n} \\
         k_{n+1} \\
     \end{array}
 \right ]^{\top} \right) \right)
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         V_{n} \\
         v_{n+1} \\
     \end{array}
@@ -219,18 +219,19 @@ Y_{n+1}
 &= \text{softmax} \left( \text{Mask} \left(
 \frac{1}{\sqrt{d_k}}
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         Q_{n} \\
         q_{n+1} \\
     \end{array}
 \right ]
 \left [
-    \begin{array}{c|c}
-        K_{n}^{\top} & k_{n+1}^{\top} \\
+    \begin{array}{c}
+        K_{n}^{\top} \\
+        k_{n+1}^{\top} \\
     \end{array}
 \right ] \right) \right)
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         V_{n} \\
         v_{n+1} \\
     \end{array}
@@ -246,7 +247,7 @@ Y_{n+1}
 \right ]
 \right) \right)
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         V_{n} \\
         v_{n+1} \\
     \end{array}
@@ -261,14 +262,14 @@ Y_{n+1}
 \right ]
 \right)
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         V_{n} \\
         v_{n+1} \\
     \end{array}
 \right ] \\
 &=
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
     \left [
         \begin{array}{c|c}
             \text{softmax} \left(\text{Mask} \left( \frac{1}{\sqrt{d_k}} Q_{n}K_{n}^{\top}\right) \right) & 0 \\
@@ -287,14 +288,14 @@ Y_{n+1}
     \end{array}
 \right ]
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         V_{n} \\
         v_{n+1} \\
     \end{array}
 \right ] \\
 &=
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
         \text{softmax} \left(\text{Mask} \left( \frac{1}{\sqrt{d_k}} Q_{n}K_{n}^{\top}\right) \right) V_{n} \\
     \hline
     \text{softmax}
@@ -305,7 +306,7 @@ Y_{n+1}
 \right ] \\
 &=
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
     Y_{n} \\
     \text{softmax}
     \left(
@@ -315,7 +316,7 @@ Y_{n+1}
 \right ] \\
 &=
 \left [
-    \begin{array}{c|c}
+    \begin{array}{c}
     Y_{n} \\
     y_{n+1} \\
     \end{array}
