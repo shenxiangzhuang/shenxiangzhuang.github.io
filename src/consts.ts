@@ -3,10 +3,10 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: "MathewShen's Blog",
   description: "Mathew Shen's personal blog.",
-  href: 'https://datahonor.com',
+  href: 'https://mathewshen.me',
   author: 'mathew',
   locale: 'zh-CN',
-  recentPostCount: 4,
+  recentPostCount: 5,
   postsPerPage: 6,
 }
 

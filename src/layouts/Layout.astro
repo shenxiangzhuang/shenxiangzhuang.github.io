@@ -25,7 +25,7 @@ const { class: className, pagefind = false } = Astro.props
     <slot name="head" />
   </Head>
   <body
-    class="flex h-fit min-h-screen flex-col gap-y-6 font-sans"
+    class="flex h-fit min-h-screen flex-col gap-y-4 font-sans"
     data-pagefind-ignore={pagefind ? undefined : 'all'}
   >
     <header
@@ -36,7 +36,7 @@ const { class: className, pagefind = false } = Astro.props
       <slot name="table-of-contents" />
     </header>
     <main
-      class={cn('w-full mx-auto flex grow flex-col gap-y-6 px-4', className)}
+      class={cn('w-full mx-auto flex grow flex-col gap-y-4 px-4', className)}
     >
       <slot />
     </main>
