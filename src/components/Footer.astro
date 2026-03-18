@@ -4,11 +4,11 @@ import SocialIcons from './SocialIcons.astro'
 ---
 
 <footer
-  class="mx-auto mb-8 flex w-full max-w-3xl items-center justify-between px-4 sm:mb-4"
+  class="mx-auto mb-8 flex w-full max-w-3xl flex-col items-center gap-4 px-4 sm:mb-4 sm:flex-row sm:justify-between"
   data-pagefind-ignore
 >
+  <SocialIcons links={SOCIAL_LINKS} />
   <span class="text-muted-foreground text-sm">
     &copy; 2017~{new Date().getFullYear()} All rights reserved.
   </span>
-  <SocialIcons links={SOCIAL_LINKS} />
 </footer>
