@@ -13,11 +13,11 @@
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore --ignore-path .prettierignore"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.8",
     "@astrojs/markdown-remark": "^6.3.10",
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
-    "@astrojs/rss": "^4.0.15",
+    "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.0",
     "@expressive-code/plugin-collapsible-sections": "^0.41.6",
     "@expressive-code/plugin-line-numbers": "^0.41.6",
@@ -26,7 +26,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "19.2.11",
     "@types/react-dom": "19.2.3",
-    "astro": "^5.17.1",
+    "astro": "^5.18.1",
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.5",
     "class-variance-authority": "^0.7.1",
@@ -51,6 +51,15 @@
     "prettier-plugin-astro-organize-imports": "^0.4.11",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "sharp": "^0.34.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "fast-xml-parser": "5.5.6",
+      "rollup": "4.59.0",
+      "@iconify/tools>svgo": "3.3.3",
+      "@iconify/tools>tar": "7.5.11",
+      "cheerio>undici": "7.24.0"
+    }
   },
   "prettier": {
     "semi": false,
