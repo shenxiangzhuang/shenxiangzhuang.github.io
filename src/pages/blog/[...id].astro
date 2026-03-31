@@ -24,6 +24,7 @@ import {
   isSubpost,
   parseAuthors,
 } from '@/lib/data-utils'
+import { getDisplayCoverImage } from '@/lib/post-images'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
@@ -57,6 +58,7 @@ const combinedReadingTime =
     : null
 
 const tocSections = await getTOCSections(currentPostId)
+const coverImage = getDisplayCoverImage(post)
 ---
 
 <Layout pagefind>
@@ -110,14 +112,16 @@ const tocSections = await getTOCSections(currentPostId)
     </div>
 
     {
-      post.data.image && (
-        <Image
-          src={post.data.image}
-          alt={post.data.title}
-          width={1200}
-          height={630}
-          class="col-span-full mx-auto w-full max-w-5xl object-cover"
-        />
+      coverImage && (
+        <div class="bg-muted/25 border-border/60 col-span-full mx-auto w-full max-w-3xl rounded-xl border p-2.5 shadow-sm">
+          <Image
+            src={coverImage}
+            alt={post.data.title}
+            width={1200}
+            height={630}
+            class="bg-background/80 aspect-[1200/630] w-full rounded-lg object-contain"
+          />
+        </div>
       )
     }
 
