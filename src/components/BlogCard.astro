@@ -8,6 +8,7 @@ import {
   isSubpost,
   parseAuthors,
 } from '@/lib/data-utils'
+import { getDisplayCoverImage } from '@/lib/post-images'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
@@ -25,6 +26,7 @@ const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
+const coverImage = getDisplayCoverImage(entry)
 ---
 
 <div
@@ -35,22 +37,8 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row"
+    class="flex flex-col gap-4 sm:flex-row sm:items-start"
   >
-    {
-      entry.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0">
-          <Image
-            src={entry.data.image}
-            alt={entry.data.title}
-            width={1200}
-            height={630}
-            class="object-cover"
-          />
-        </div>
-      )
-    }
-
     <div class="grow">
       <h3 class={cn('font-medium', compact ? 'mb-0.5 text-base leading-snug' : 'mb-1 text-lg')}>
         {entry.data.title}
@@ -124,5 +112,21 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
         )
       }
     </div>
+
+    {
+      coverImage && (
+        <div class="w-full sm:w-44 sm:shrink-0">
+          <div class="bg-muted/25 border-border/60 rounded-xl border p-2.5 shadow-sm">
+            <Image
+              src={coverImage}
+              alt={entry.data.title}
+              width={1200}
+              height={630}
+              class="bg-background/80 aspect-[1200/630] w-full rounded-lg object-contain"
+            />
+          </div>
+        </div>
+      )
+    }
   </Link>
 </div>

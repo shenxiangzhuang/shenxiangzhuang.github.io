@@ -3,13 +3,15 @@ title: '俟河之清，人寿几何'
 description: '“俟河之清，人寿几何？君为思想家，鄙人乃实行家也。”'
 date: 2026-03-08
 tags: ['随笔', 'AI', '教育']
+# imageWithText: 'images/yan_sun.jpg'
+imageWithoutText: 'images/yan_sun.jpg'
 authors: ['mathew']
 draft: false
 ---
 
 26 年初，去了趟福州，在三坊七巷参观了严复故居。看到严复和中山先生之间的对话后，大感震撼，心情久久不能平复。
 
-![](./images/yan_sun.jpg)
+<!--![](./images/yan_sun.jpg)-->
 
 [严复认为](https://gb.china-embassy.gov.cn/dssghd/2014/201411/t20141114_3376404.htm)：“为今之计，唯急从教育上着手，庶几逐渐更新乎”，即中国的根本问题在于教育，革命非当务之急。而中山先生的回应是：“俟河之清，人寿几何？君为思想家，鄙人乃实行家也。”
 
