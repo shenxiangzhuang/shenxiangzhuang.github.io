@@ -1,12 +1,10 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
-import Link from '@/components/Link.astro'
-import PageHead from '@/components/PageHead.astro'
-import ProjectCard from '@/components/ProjectCard.astro'
-import Layout from '@/layouts/Layout.astro'
-import { getAllProjects } from '@/lib/data-utils'
 
-const projects = await getAllProjects()
+import PageHead from '@/components/PageHead.astro'
+
+import Layout from '@/layouts/Layout.astro'
+
 ---
 
 <Layout class="max-w-3xl">

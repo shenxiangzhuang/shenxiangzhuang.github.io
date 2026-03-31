@@ -307,7 +307,6 @@ const coverImage = getDisplayCoverImage(post)
         .forEach((sup) => {
           let node = sup.nextSibling
           while (node) {
-            const next = node.nextSibling
             if (node.nodeType === Node.TEXT_NODE) {
               // 移除仅包含逗号/顿号/空格等分隔符的文本节点
               const trimmed = node.textContent?.replace(/[\s,，、;；]+/g, '') ?? ''
