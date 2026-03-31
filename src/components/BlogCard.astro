@@ -1,6 +1,6 @@
 ---
+import TagBadge from '@/components/TagBadge.astro'
 import AvatarComponent from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
@@ -9,8 +9,7 @@ import {
   parseAuthors,
 } from '@/lib/data-utils'
 import { getDisplayCoverImage } from '@/lib/post-images'
-import { cn } from '@/lib/utils'
-import { formatDate } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
@@ -31,17 +30,24 @@ const coverImage = getDisplayCoverImage(entry)
 
 <div
   class={cn(
-    'hover:bg-muted/50 rounded-xl border transition-colors duration-300 ease-in-out',
+    'hover:bg-muted/50 relative rounded-xl border transition-colors duration-300 ease-in-out',
     compact ? 'p-3' : 'p-4',
   )}
 >
-  <Link
-    href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row sm:items-start"
-  >
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
     <div class="grow">
-      <h3 class={cn('font-medium', compact ? 'mb-0.5 text-base leading-snug' : 'mb-1 text-lg')}>
-        {entry.data.title}
+      <h3
+        class={cn(
+          'font-medium',
+          compact ? 'mb-0.5 text-base leading-snug' : 'mb-1 text-lg',
+        )}
+      >
+        <Link
+          href={`/${entry.collection}/${entry.id}`}
+          class="before:absolute before:inset-0 before:z-0 before:content-['']"
+        >
+          {entry.data.title}
+        </Link>
       </h3>
       <p
         class={cn(
@@ -62,28 +68,44 @@ const coverImage = getDisplayCoverImage(entry)
           authors.length > 0 && (
             <>
               {authors.map((author) => (
-                <div class={cn('flex items-center', compact ? 'gap-x-1' : 'gap-x-1.5')}>
+                <div
+                  class={cn(
+                    'flex items-center',
+                    compact ? 'gap-x-1' : 'gap-x-1.5',
+                  )}
+                >
                   <AvatarComponent
                     client:load
                     src={author.avatar}
                     alt={author.name}
                     fallback={author.name[0]}
-                    className={compact ? 'size-4 rounded-full' : 'size-5 rounded-full'}
+                    className={
+                      compact ? 'size-4 rounded-full' : 'size-5 rounded-full'
+                    }
                   />
                   <span>{author.name}</span>
                 </div>
               ))}
-              <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
+              <Separator
+                orientation="vertical"
+                className={compact ? 'h-3!' : 'h-4!'}
+              />
             </>
           )
         }
         <span>{formattedDate}</span>
-        <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
+        <Separator
+          orientation="vertical"
+          className={compact ? 'h-3!' : 'h-4!'}
+        />
         <span>{readTime}</span>
         {
           subpostCount > 0 && (
             <>
-              <Separator orientation="vertical" className={compact ? 'h-3!' : 'h-4!'} />
+              <Separator
+                orientation="vertical"
+                className={compact ? 'h-3!' : 'h-4!'}
+              />
               <span class="flex items-center gap-1">
                 <Icon name="lucide:file-text" class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
@@ -95,18 +117,14 @@ const coverImage = getDisplayCoverImage(entry)
 
       {
         entry.data.tags && (
-          <div class={cn('flex flex-wrap', compact ? 'gap-1.5' : 'gap-2')}>
+          <div
+            class={cn(
+              'relative z-10 flex flex-wrap',
+              compact ? 'gap-1.5' : 'gap-2',
+            )}
+          >
             {entry.data.tags.map((tag) => (
-              <Badge
-                variant="muted"
-                className={cn(
-                  'flex items-center gap-x-1',
-                  compact && 'px-1.5 py-0 text-[11px] leading-5',
-                )}
-              >
-                <Icon name="lucide:hash" class="size-3" />
-                {tag}
-              </Badge>
+              <TagBadge tag={tag} compact={compact} />
             ))}
           </div>
         )
@@ -128,5 +146,5 @@ const coverImage = getDisplayCoverImage(entry)
         </div>
       )
     }
-  </Link>
+  </div>
 </div>
