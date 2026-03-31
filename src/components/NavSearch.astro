@@ -178,8 +178,6 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
       })
     }
 
-    const stripTags = (value: string) => value.replace(/<[^>]*>/g, '')
-
     const renderResults = (results: PagefindResult[], query: string) => {
       clearResults()
       if (!query.trim()) {
