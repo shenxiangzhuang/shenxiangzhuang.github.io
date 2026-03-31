@@ -38,12 +38,15 @@ title: 'Your Post Title'        # 必填，≤60 字符
 description: 'A brief desc'     # 必填，≤155 字符
 date: 2024-01-01               # 必填，YYYY-MM-DD 格式
 tags: ['tag1', 'tag2']         # 可选
-image: './image.png'           # 可选，1200x630px
+imageWithText: 'images/cover.png'    # 可选，带标题的封面图（用于社交分享 OG image）
+imageWithoutText: 'images/cover.png' # 可选，纯图片封面（用于博客卡片显示）
 authors: ['author-id']         # 可选，对应 authors/ 下的文件名
 draft: false                   # 可选，默认 false
 order: 0                       # 可选，同日期子文章排序
 ---
 ```
+
+> **双封面图片说明：** 可以只提供其中一个字段。博客卡片优先显示 `imageWithoutText`，社交分享优先使用 `imageWithText`。
 
 
 ## 作者 Frontmatter
@@ -59,6 +62,7 @@ website: 'https://...'        # 可选
 github: 'https://github.com/...'  # 可选
 twitter: 'https://twitter.com/...' # 可选
 linkedin: 'https://...'       # 可选
+discord: 'https://...'        # 可选
 ---
 ```
 
@@ -177,3 +181,7 @@ gh pr create --title "feat: description of changes" --body "## Changes
 - `docs/xxx` — 文档
 - `style/xxx` — 样式
 - `content/xxx` — 博客内容
+
+## 注意事项
+
+⚠️ **保持 AGENTS.md 同步：** 当项目结构、配置、规范等发生变更时，请及时更新本文件，以确保文档始终反映项目的最新状态。
