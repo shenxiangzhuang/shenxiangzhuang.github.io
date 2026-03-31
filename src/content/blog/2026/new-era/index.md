@@ -3,6 +3,7 @@ title: 'AI Native 的来时路'
 description: '在现在的这个时间节点上，我想我们可以相当肯定地说新时代 (AI Native) 已经来临了。'
 date: 2026-03-10
 tags: ['AI', '随笔']
+imageWithoutText: 'images/ai_native.png'
 authors: ['mathew']
 draft: false
 ---

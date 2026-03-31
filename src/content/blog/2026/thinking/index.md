@@ -3,6 +3,7 @@ title: '思考就是我的抵抗'
 description: '无所作为，则人生太长；欲有所为，则人生太短？'
 date: 2026-03-20
 tags: ['随笔']
+imageWithoutText: 'images/woolf.jpg'
 authors: ['mathew']
 draft: false
 ---

@@ -3,6 +3,7 @@ title: '王二下班之后'
 description: '南方六月的傍晚，天气已经比较热了。终于挺到下班的王二，感觉自己像是又活过来了一样。王二住的地方离公司不远，他一般都是骑自行车回家。'
 date: 2025-12-27
 tags: ['生活', '随笔']
+imageWithoutText: 'images/wang.png'
 authors: ['mathew']
 draft: false
 ---
