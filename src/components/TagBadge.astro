@@ -1,0 +1,25 @@
+---
+import { badgeVariants } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  tag: string
+  compact?: boolean
+}
+
+const { tag, compact = false } = Astro.props
+---
+
+<a
+  href={`/tags/${tag}`}
+  class={cn(
+    badgeVariants({ variant: 'muted' }),
+    'cursor-pointer transition-all duration-200',
+    'hover:bg-primary/10 hover:border-primary/30 hover:text-primary hover:scale-105 hover:shadow-sm',
+    compact && 'px-1.5 py-0 text-[11px] leading-5',
+  )}
+>
+  <Icon name="lucide:hash" class="size-3" />
+  {tag}
+</a>
