@@ -1,5 +1,22 @@
 @reference './global.css';
 
+@keyframes footnote-ref-highlight {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 oklch(from var(--foreground) l c h / 0);
+  }
+
+  35% {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 0.4rem oklch(from var(--foreground) l c h / 0.16);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 oklch(from var(--foreground) l c h / 0);
+  }
+}
+
 @layer base {
   p,
   h1,
@@ -205,15 +222,25 @@
     :where(sup):not(:where(.not-prose, .not-prose *)):has(
         > a[data-footnote-ref]
       ) {
-      @apply relative align-baseline text-[length:inherit] top-0;
+      @apply relative align-baseline text-[length:inherit] top-0 scroll-mt-32 xl:scroll-mt-20;
     }
 
     :where(a[data-footnote-ref]):not(:where(.not-prose, .not-prose *)) {
-      @apply inline-flex items-center justify-center min-w-5 min-h-5 px-0.5 rounded-full text-[0.7rem] font-semibold leading-none align-middle no-underline! bg-border text-foreground transition-all duration-200 ease-in-out;
+      @apply inline-flex items-center justify-center min-w-5 min-h-5 px-0.5 rounded-full text-[0.7rem] font-semibold leading-none align-middle no-underline! bg-border text-foreground transition-all duration-200 ease-in-out scroll-mt-32 xl:scroll-mt-20;
     }
 
     :where(a[data-footnote-ref]):not(:where(.not-prose, .not-prose *)):hover {
       @apply bg-muted-foreground text-background;
+    }
+
+    :where(a[data-footnote-ref]:target):not(:where(.not-prose, .not-prose *)) {
+      animation: footnote-ref-highlight 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :where(a[data-footnote-ref]:target):not(:where(.not-prose, .not-prose *)) {
+        animation: none;
+      }
     }
 
     /* 连续脚注间距 */
