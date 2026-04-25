@@ -25,6 +25,7 @@ pnpm prettier       # 格式化所有文件
 - `src/consts.ts` - 站点配置、导航链接、社交链接
 - `src/styles/global.css` - 全局样式，颜色定义（OKLCH 格式，shadcn/ui 约定）
 - `src/content/blog/` - 博客文章（MDX 格式）
+- `src/content/references.bib` - 全局 BibTeX 文献库，博客文中引用统一从这里读取
 - `src/content/authors/` - 作者信息
 - `src/content/projects/` - 项目信息
 - `src/components/` - Astro/React 组件
@@ -47,6 +48,16 @@ order: 0                       # 可选，同日期子文章排序
 ```
 
 > **双封面图片说明：** 可以只提供其中一个字段。博客卡片优先显示 `imageWithoutText`，社交分享优先使用 `imageWithText`。
+
+## 文献引用
+
+博客文章支持使用 Pandoc 风格的 citation 语法来引用全局 BibTeX 文献库中的条目：
+
+```md
+这是一个引用 [@cite_key]。
+```
+
+这类引用会直接按脚注（footnote）形式渲染到文章末尾。
 
 
 ## 作者 Frontmatter

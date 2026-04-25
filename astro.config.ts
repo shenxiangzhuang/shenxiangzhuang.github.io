@@ -7,6 +7,7 @@ import icon from 'astro-icon'
 import pagefind from 'astro-pagefind'
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import rehypeCitation from 'rehype-citation'
 import rehypeExpressiveCode from 'rehype-expressive-code'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeKatex from 'rehype-katex'
@@ -50,6 +51,15 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
+      [
+        rehypeCitation,
+        {
+          bibliography: 'src/content/references.bib',
+          csl: 'src/content/chicago-fullnote-bibliography.csl',
+          lang: 'en-US',
+          suppressBibliography: true,
+        },
+      ],
       [
         rehypeExternalLinks,
         {

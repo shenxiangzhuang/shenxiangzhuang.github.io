@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 astro check && NODE_OPTIONS=--max-old-space-size=8192 astro build",
     "preview": "astro preview",
     "astro": "astro",
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore --ignore-path .prettierignore"
@@ -35,6 +35,7 @@
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "rehype-citation": "^2.3.2",
     "rehype-expressive-code": "^0.41.7",
     "rehype-external-links": "^3.0.0",
     "rehype-katex": "^7.0.1",
