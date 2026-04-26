@@ -302,7 +302,7 @@
     :where(section.footnotes[data-footnotes] li):not(
         :where(.not-prose, .not-prose *)
       ) {
-      @apply text-muted-foreground;
+      @apply text-muted-foreground scroll-mt-32 xl:scroll-mt-20;
     }
 
     :where(section.footnotes[data-footnotes] a):not(
