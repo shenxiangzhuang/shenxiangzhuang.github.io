@@ -31,6 +31,10 @@ pnpm prettier       # 格式化所有文件
 - `src/components/` - Astro/React 组件
 - `src/pages/` - 页面路由
 
+## 搜索说明
+
+- 搜索使用 Pagefind，索引语言为 `zh`。`NavSearch.astro` 和 `search.astro` 初始化 Pagefind 搜索实例时会短暂将 `<html lang>` 设为 `en`，这是为了绕开 Pagefind/浏览器 CJK 查询分词把“无双”等短词拆开的行为；该处理只影响查询解析，索引仍是中文 Pagefind 索引。
+
 ## 博客文章 Frontmatter
 
 ```yml

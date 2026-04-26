@@ -53,6 +53,11 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
 
 <script>
   type PagefindModule = {
+    createInstance?: () => PagefindSearchApi
+    search: PagefindSearchApi['search']
+  }
+  type PagefindSearchApi = {
+    init?: () => Promise<void>
     search: (query: string) => Promise<{
       results: Array<{ data: () => Promise<PagefindResult> }>
     }>
@@ -68,8 +73,8 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
   }
 
   // 全局缓存 pagefind 模块
-  let pagefind: PagefindModule | null = null
-  let pagefindPromise: Promise<PagefindModule> | null = null
+  let pagefind: PagefindSearchApi | null = null
+  let pagefindPromise: Promise<PagefindSearchApi> | null = null
 
   const initNavSearch = () => {
     const container = document.querySelector('[data-nav-search]')
@@ -108,6 +113,25 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
       }${path}`
     }
 
+    const createSearchInstance = async (module: PagefindModule) => {
+      if (!module.createInstance) return module
+
+      const html = document.documentElement
+      const originalLang = html.getAttribute('lang')
+      // Hack: Pagefind reads html lang to choose query segmentation; using "en"
+      // here avoids splitting short Chinese terms like "无双". The index remains zh.
+      html.setAttribute('lang', 'en')
+      const instance = module.createInstance()
+      if (originalLang) {
+        html.setAttribute('lang', originalLang)
+      } else {
+        html.removeAttribute('lang')
+      }
+      await instance.init?.()
+
+      return instance
+    }
+
     const loadPagefind = () => {
       if (pagefind) return Promise.resolve(pagefind)
       if (pagefindPromise) return pagefindPromise
@@ -117,8 +141,8 @@ const baseUrl = import.meta.env.BASE_URL ?? '/'
       const bundleUrl = `${normalizedBase.replace(/\/$/, '')}/pagefind/pagefind.js`
 
       pagefindPromise = import(/* @vite-ignore */ bundleUrl)
-        .then((module) => {
-          pagefind = module as PagefindModule
+        .then(async (module) => {
+          pagefind = await createSearchInstance(module as PagefindModule)
           return pagefind
         })
         .catch((error) => {
