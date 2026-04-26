@@ -31,7 +31,7 @@ export default defineConfig({
     icon(),
     pagefind({
       indexConfig: {
-        forceLanguage: 'zh-cn',
+        forceLanguage: 'zh',
       },
     }),
   ],

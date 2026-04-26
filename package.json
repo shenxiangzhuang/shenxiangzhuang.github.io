@@ -64,7 +64,8 @@
       "yaml": "2.8.3",
       "@iconify/tools>svgo": "3.3.3",
       "@iconify/tools>tar": "7.5.11",
-      "cheerio>undici": "7.24.0"
+      "cheerio>undici": "7.24.0",
+      "pagefind": "1.5.2"
     }
   },
   "prettier": {
