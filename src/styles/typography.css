@@ -17,6 +17,23 @@
   }
 }
 
+@keyframes footnote-item-highlight {
+  0% {
+    background-color: oklch(from var(--foreground) l c h / 0);
+    box-shadow: 0 0 0 0 oklch(from var(--foreground) l c h / 0);
+  }
+
+  25% {
+    background-color: oklch(from var(--foreground) l c h / 0.06);
+    box-shadow: 0 0 0 0.35rem oklch(from var(--foreground) l c h / 0.06);
+  }
+
+  100% {
+    background-color: oklch(from var(--foreground) l c h / 0);
+    box-shadow: 0 0 0 0 oklch(from var(--foreground) l c h / 0);
+  }
+}
+
 @layer base {
   p,
   h1,
@@ -234,7 +251,7 @@
     }
 
     :where(a[data-footnote-ref]:target):not(:where(.not-prose, .not-prose *)) {
-      animation: footnote-ref-highlight 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: footnote-ref-highlight 1.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -304,7 +321,22 @@
     :where(section.footnotes[data-footnotes] li):not(
       :where(.not-prose, .not-prose *)
     ) {
-      @apply text-muted-foreground scroll-mt-32 xl:scroll-mt-20;
+      @apply text-muted-foreground scroll-mt-32 rounded-sm xl:scroll-mt-20;
+    }
+
+    :where(section.footnotes[data-footnotes] li:target):not(
+      :where(.not-prose, .not-prose *)
+    ) {
+      animation: footnote-item-highlight 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :where(section.footnotes[data-footnotes] li:target):not(
+        :where(.not-prose, .not-prose *)
+      ) {
+        animation: none;
+        @apply bg-muted/50;
+      }
     }
 
     :where(section.footnotes[data-footnotes] a):not(
