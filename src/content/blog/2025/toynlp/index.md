@@ -2,7 +2,7 @@
 title: 'ToyNLP: 从零实现自然语言处理经典模型'
 description: '基于 PyTorch 从零实现自然语言处理经典模型的开源库 ToyNLP. 实现了 2003 年至 2018 年间共计 8 个经典的 NLP 模型：NNLM, Word2Vec, Seq2Seq, Attention, FastText, Transformer, BERT, GPT.'
 date: 2025-11-23
-tags: ['项目', 'AI', 'NLP']
+tags: ['项目', 'AI']
 authors: ['mathew']
 draft: false
 ---
@@ -14,7 +14,7 @@ draft: false
 
 ## Motivation
 
-去年在学习 NLP 时以读书为主 ([大语言模型与深度学习书籍推荐](https://datahonor.com/blog/2025/02/20/dl_book/))，但是实践偏少。
+去年在学习 NLP 时以读书为主 ([大语言模型与深度学习书籍推荐](/blog/2025/books/ai-llm-dl/))，但是实践偏少。
 所谓“学而不思则罔”，所以今年决定多做一些实践来巩固所学知识。个人作为造轮子爱好者，决定延续之前的”传统“
 ([toyml](https://github.com/ai-glimpse/toyml), 
 [toydl](https://github.com/ai-glimpse/toydl), 
@@ -77,4 +77,3 @@ Toy 系项目作为学习性质的项目，主要目标是帮助我更好地理�
 ToyNLP 项目和我其他的 Toy 系项目一样，基本都是个人学习和兴趣驱动的产物。
 但我仍然希望它们能够对其他学习 NLP 和深度学习的同学有所帮助，提供一些实践上的参考和借鉴。
 如果有对项目的建议或者想法，欢迎留言讨论或在 GitHub 上提 issue 或者 PR 来交流！
-
