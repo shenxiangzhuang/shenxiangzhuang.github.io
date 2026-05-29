@@ -125,7 +125,7 @@ const coverImage = getDisplayCoverImage(post)
       )
     }
 
-    <section class="col-start-2 flex flex-col gap-y-6">
+    <section class="col-start-2 flex flex-col gap-y-6 text-center">
       <div class="flex flex-col">
         <h1
           class="mb-3 scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
@@ -143,7 +143,7 @@ const coverImage = getDisplayCoverImage(post)
         </time>
 
         <div
-          class="text-muted-foreground mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm"
+          class="text-muted-foreground mb-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm"
         >
           {
             authors.length > 0 && (
@@ -202,7 +202,7 @@ const coverImage = getDisplayCoverImage(post)
             )
           }
         </div>
-        <div class="flex flex-wrap gap-x-3 gap-y-1">
+        <div class="flex flex-wrap justify-center gap-x-3 gap-y-1">
           {
             post.data.tags &&
               post.data.tags.length > 0 &&

@@ -7,7 +7,7 @@ export const SITE: Site = {
   author: 'mathew',
   locale: 'zh-CN',
   recentPostCount: 5,
-  postsPerPage: 6,
+  postsPerPage: 10,
 }
 
 export const RSS_FOLLOW_CHALLENGE = {
