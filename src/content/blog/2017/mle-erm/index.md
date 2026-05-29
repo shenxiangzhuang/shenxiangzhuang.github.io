@@ -2,7 +2,7 @@
 title: '最大似然估计与经验风险最小化'
 description: '从经验风险最小化推导极大似然估计。'
 date: 2017-03-03
-tags: ['统计学', '机器学习']
+tags: ['统计学', '笔记']
 authors: ['mathew']
 draft: false
 ---

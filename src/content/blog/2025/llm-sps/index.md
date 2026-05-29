@@ -2,7 +2,7 @@
 title: 'LLM Speculative Sampling'
 description: 'LLM Speculative Sampling 论文复现'
 date: 2025-03-08
-tags: ['AI', 'LLM']
+tags: ['AI', '教程']
 authors: ['mathew']
 draft: false
 ---

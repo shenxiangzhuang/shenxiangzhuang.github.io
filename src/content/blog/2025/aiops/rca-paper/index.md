@@ -2,7 +2,7 @@
 title: 'Root Cause Analysis Papers'
 description: '根因分析相关论文资料整理。'
 date: 2025-01-01
-tags: ['AIOps', 'RCA', '论文']
+tags: ['AI', '论文']
 authors: ['mathew']
 draft: false
 order: 3
