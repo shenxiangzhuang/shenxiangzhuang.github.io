@@ -30,8 +30,8 @@ const coverImage = getDisplayCoverImage(entry)
 
 <div
   class={cn(
-    'hover:bg-muted/50 relative rounded-xl border transition-colors duration-300 ease-in-out',
-    compact ? 'p-3' : 'p-4',
+    'border-border/70 relative border-b transition-colors duration-200 ease-in-out hover:border-foreground/25',
+    compact ? 'py-3' : 'py-5',
   )}
 >
   <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -133,14 +133,14 @@ const coverImage = getDisplayCoverImage(entry)
 
     {
       coverImage && (
-        <div class="w-full sm:w-44 sm:shrink-0">
-          <div class="bg-muted/25 border-border/60 rounded-xl border p-2.5 shadow-sm">
+        <div class="w-full sm:w-40 sm:shrink-0">
+          <div class="border-border/60 bg-muted/20 overflow-hidden rounded-md border">
             <Image
               src={coverImage}
               alt={entry.data.title}
               width={1200}
               height={630}
-              class="bg-background/80 aspect-[1200/630] w-full rounded-lg object-cover"
+              class="aspect-[1200/630] w-full object-cover"
             />
           </div>
         </div>

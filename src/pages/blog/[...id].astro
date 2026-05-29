@@ -86,7 +86,7 @@ const coverImage = getDisplayCoverImage(post)
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/blog', label: 'Blog', icon: 'lucide:library-big' },
+          { href: '/blog', label: '文章', icon: 'lucide:library-big' },
           ...(isCurrentSubpost && parentPost
             ? [
                 {
@@ -113,22 +113,22 @@ const coverImage = getDisplayCoverImage(post)
 
     {
       coverImage && (
-        <div class="bg-muted/25 border-border/60 col-span-full mx-auto w-full max-w-3xl rounded-xl border p-2.5 shadow-sm">
+        <div class="border-border/60 bg-muted/20 col-span-full mx-auto w-full max-w-3xl overflow-hidden rounded-md border">
           <Image
             src={coverImage}
             alt={post.data.title}
             width={1200}
             height={630}
-            class="bg-background/80 aspect-[1200/630] w-full rounded-lg object-contain"
+            class="aspect-[1200/630] w-full object-contain"
           />
         </div>
       )
     }
 
-    <section class="col-start-2 flex flex-col gap-y-6 text-center">
+    <section class="col-start-2 flex flex-col gap-y-6">
       <div class="flex flex-col">
         <h1
-          class="mb-2 scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
+          class="mb-3 scroll-mt-31 text-3xl leading-tight font-medium sm:text-4xl"
           id="post-title"
           data-pagefind-meta="title"
         >
@@ -143,11 +143,11 @@ const coverImage = getDisplayCoverImage(post)
         </time>
 
         <div
-          class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
+          class="text-muted-foreground mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm"
         >
           {
             authors.length > 0 && (
-              <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <div class="flex items-center gap-x-2">
                 {authors.map((author) => (
                   <div class="flex items-center gap-x-1.5">
                     <Image
@@ -174,15 +174,11 @@ const coverImage = getDisplayCoverImage(post)
             )
           }
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="flex items-center gap-2">
             <span>{formatDate(post.data.date)}</span>
           </div>
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="flex items-center gap-2">
             <span>
               {postReadingTime}
               {
@@ -199,14 +195,14 @@ const coverImage = getDisplayCoverImage(post)
 
           {
             subpostCount > 0 && (
-              <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <div class="flex items-center gap-1">
                 <Icon name="lucide:file-text" class="size-3" />
-                {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
+                {subpostCount} 篇子文章
               </div>
             )
           }
         </div>
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="flex flex-wrap gap-x-3 gap-y-1">
           {
             post.data.tags &&
               post.data.tags.length > 0 &&

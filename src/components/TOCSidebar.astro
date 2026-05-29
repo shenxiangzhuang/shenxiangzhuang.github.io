@@ -27,7 +27,7 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
         data-toc-scroll-area
       >
         <div class="flex flex-col gap-2 px-4">
-          <span class="text-lg font-medium">Table of Contents</span>
+          <span class="text-muted-foreground text-sm font-medium">目录</span>
           {sections.map((section, index) => {
             const isFirstSubpost =
               section.type === 'subpost' &&
@@ -39,7 +39,7 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                   <div class="mt-2 flex items-center gap-2">
                     <div class="bg-border h-px flex-1" />
                     <span class="text-muted-foreground text-xs font-medium">
-                      Subposts
+                      子文章
                     </span>
                     <div class="bg-border h-px flex-1" />
                   </div>
