@@ -205,7 +205,7 @@ if all_accept:
 
 - $t_{\text{target}}$: target model 一次推理 (产生一个 token) 需要的时间。论文中的 target model 为 DeepMind 的 **70B** Chinchilla 模型，推理一个 token 的耗时为 14.1ms
 - $t_{\text{draft}}$: draft model 一次推理需要的时间。论文中的 target model 为 DeepMind 的 **7B** Chinchilla 模型，推理一个 token 的耗时为 1.8ms
-- $r’$: Acceptance rate, 接受率。其计算方式为每轮推测采样 (while 循环内) 生成的 token 数量除以$K+1$.
+- $r'$: Acceptance rate, 接受率。其计算方式为每轮推测采样 (while 循环内) 生成的 token 数量除以$K+1$.
 
 因此，不采用推测采样的情况下，target model 进行自回归产生$N$个 token 的时间复杂度为$N \cdot {t_{\text{target}}}$.
 

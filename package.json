@@ -5,10 +5,10 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 astro check && NODE_OPTIONS=--max-old-space-size=8192 astro build",
-    "preview": "astro preview",
+    "dev": "NODE_OPTIONS=--disable-warning=DEP0040 astro dev",
+    "start": "pnpm dev",
+    "build": "NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro check && NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro build",
+    "preview": "NODE_OPTIONS=--disable-warning=DEP0040 astro preview",
     "astro": "astro",
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore --ignore-path .prettierignore"
   },
@@ -52,21 +52,6 @@
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "sharp": "^0.34.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "fast-xml-parser": "5.5.7",
-      "rollup": "4.59.0",
-      "h3": "1.15.9",
-      "picomatch": "4.0.4",
-      "anymatch>picomatch": "2.3.2",
-      "smol-toml": "1.6.1",
-      "yaml": "2.8.3",
-      "@iconify/tools>svgo": "3.3.3",
-      "@iconify/tools>tar": "7.5.11",
-      "cheerio>undici": "7.24.0",
-      "pagefind": "1.5.2"
-    }
   },
   "prettier": {
     "semi": false,
