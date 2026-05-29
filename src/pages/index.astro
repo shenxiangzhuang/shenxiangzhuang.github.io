@@ -22,11 +22,11 @@ const blog = await getRecentPosts(SITE.recentPostCount)
         ))
       }
     </ul>
-    <div class="flex justify-start">
+    <div class="flex justify-center">
       <Link
         href="/blog"
         class={buttonVariants({ variant: 'ghost' }) +
-          ' group text-muted-foreground px-0 hover:bg-transparent hover:text-foreground'}
+          ' group text-muted-foreground hover:bg-transparent hover:text-foreground'}
       >
         全部文章 <span
           class="ml-1.5 transition-transform group-hover:translate-x-1"
