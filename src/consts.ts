@@ -1,8 +1,8 @@
 import type { IconMap, SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
-  title: "MathewShen's Blog",
-  description: "Mathew Shen's personal blog.",
+  title: 'Mathew Shen',
+  description: 'Mathew Shen 的个人博客。',
   href: 'https://mathewshen.me',
   author: 'mathew',
   locale: 'zh-CN',
@@ -18,11 +18,11 @@ export const RSS_FOLLOW_CHALLENGE = {
 export const NAV_LINKS: SocialLink[] = [
   {
     href: '/blog',
-    label: 'blog',
+    label: '文章',
   },
   {
     href: '/tags',
-    label: 'tags',
+    label: '标签',
   },
   // {
   //   href: '/authors',
@@ -78,6 +78,6 @@ export const GISCUS = {
   emitMetadata: '1',
   inputPosition: 'top',
   theme: '',
-  lang: 'en',
+  lang: 'zh-CN',
   loading: 'lazy',
 }

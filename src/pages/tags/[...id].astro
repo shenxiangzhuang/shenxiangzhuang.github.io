@@ -29,18 +29,18 @@ const { tag, posts } = Astro.props
 <Layout class="max-w-3xl">
   <PageHead
     slot="head"
-    title={`Posts tagged with "${tag}"`}
-    description={`A collection of posts tagged with ${tag}.`}
+    title={`标签：${tag}`}
+    description={`标签 ${tag} 下的文章。`}
     noindex
   />
   <Breadcrumbs
     items={[
-      { href: '/tags', label: 'Tags', icon: 'lucide:tags' },
+      { href: '/tags', label: '标签', icon: 'lucide:tags' },
       { label: tag, icon: 'lucide:tag' },
     ]}
   />
 
-  <ul class="flex flex-col gap-y-4">
+  <ul class="flex flex-col">
     {
       posts.map((post) => (
         <li>
