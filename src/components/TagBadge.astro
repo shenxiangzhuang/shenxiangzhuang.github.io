@@ -15,7 +15,7 @@ const { tag, compact = false } = Astro.props
   href={`/tags/${tag}`}
   class={cn(
     badgeVariants({ variant: 'muted' }),
-    'text-muted-foreground cursor-pointer border-transparent bg-transparent px-0 transition-colors duration-150 hover:text-foreground',
+    'text-muted-foreground hover:border-border hover:bg-muted/60 hover:text-foreground cursor-pointer border-transparent bg-transparent transition-colors duration-150',
     compact && 'px-1.5 py-0 text-[11px] leading-5',
   )}
 >
