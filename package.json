@@ -5,7 +5,7 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "dev": "NODE_OPTIONS=--disable-warning=DEP0040 astro dev",
+    "dev": "NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro dev",
     "start": "pnpm dev",
     "build": "NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro check && NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro build",
     "preview": "NODE_OPTIONS=--disable-warning=DEP0040 astro preview",
