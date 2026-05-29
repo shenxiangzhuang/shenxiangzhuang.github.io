@@ -14,6 +14,11 @@ const title = post.data.title || SITE.title
 const description = post.data.description || SITE.description
 const fallbackImage = new URL('/static/1200x630.png', Astro.site)
 const coverImage = getPostSocialImage(post)
+const image = coverImage?.src
+  ? new URL(coverImage.src, Astro.site)
+  : fallbackImage
+const imageWidth = String(coverImage?.width ?? 1200)
+const imageHeight = String(coverImage?.height ?? 630)
 const author =
   post.data.authors && post.data.authors.length > 0
     ? post.data.authors.join(', ')
@@ -29,12 +34,10 @@ const author =
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta
-  property="og:image"
-  content={coverImage?.src
-    ? `${SITE.href}${coverImage.src}`
-    : fallbackImage}
-/>
+<meta property="og:image" content={image.href} />
+<meta property="og:image:secure_url" content={image.href} />
+<meta property="og:image:width" content={imageWidth} />
+<meta property="og:image:height" content={imageHeight} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content={SITE.locale} />
@@ -44,12 +47,7 @@ const author =
 
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta
-  property="twitter:image"
-  content={coverImage?.src
-    ? `${SITE.href}${coverImage.src}`
-    : fallbackImage}
-/>
+<meta name="twitter:image" content={image.href} />
 <meta name="twitter:image:alt" content={title} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content={author} />
