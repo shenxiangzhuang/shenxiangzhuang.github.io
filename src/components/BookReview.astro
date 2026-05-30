@@ -1,0 +1,564 @@
+---
+interface Props {
+  title: string
+  author?: string
+  rating?: number
+  note?: string
+  meta?: string
+  cover?: string
+  coverAlt?: string
+}
+
+const { title, author, rating, note, meta, cover, coverAlt } = Astro.props
+const resolvedCoverAlt = coverAlt ?? `${title} cover`
+const normalizedRating =
+  typeof rating === 'number' ? Math.max(0, Math.min(5, rating)) : undefined
+const stars =
+  normalizedRating === undefined
+    ? ''
+    : `${'★'.repeat(normalizedRating)}${'☆'.repeat(5 - normalizedRating)}`
+const fallbackMeta = author ?? meta ?? ''
+const fallbackLogoGray = cover
+  ? undefined
+  : `oklch(${
+      24 +
+      (Array.from(`${title}${fallbackMeta}`).reduce(
+        (hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0,
+        0,
+      ) %
+        38)
+    }% 0 0)`
+---
+
+<article
+  class="book-review not-prose"
+  style={fallbackLogoGray && `--book-review-logo-gray: ${fallbackLogoGray}`}
+>
+  <div class="book-review-cover">
+    <button
+      type="button"
+      data-book-review-cover={cover ? true : undefined}
+      data-cover-src={cover}
+      data-cover-alt={resolvedCoverAlt}
+      aria-label={cover ? `放大查看${title}封面` : `${title}封面`}
+      tabindex={cover ? undefined : -1}
+    >
+      {
+        cover ? (
+          <>
+            <img
+              class="book-review-cover-thumb"
+              src={cover}
+              alt={resolvedCoverAlt}
+              loading="lazy"
+            />
+            <span class="book-review-cover-preview" aria-hidden="true">
+              <img src={cover} alt="" loading="lazy" />
+            </span>
+          </>
+        ) : (
+          <>
+            <span class="book-review-cover-thumb book-review-fallback-cover">
+              <span class="book-review-fallback-title">{title}</span>
+              <span class="book-review-fallback-logo" aria-hidden="true" />
+              {fallbackMeta && (
+                <span class="book-review-fallback-meta">{fallbackMeta}</span>
+              )}
+            </span>
+            <span
+              class="book-review-cover-preview book-review-cover-preview--fallback"
+              aria-hidden="true"
+            >
+              <span class="book-review-fallback-cover book-review-fallback-cover--preview">
+                <span class="book-review-fallback-title">{title}</span>
+                <span class="book-review-fallback-logo" aria-hidden="true" />
+                {fallbackMeta && (
+                  <span class="book-review-fallback-meta">{fallbackMeta}</span>
+                )}
+              </span>
+            </span>
+          </>
+        )
+      }
+    </button>
+  </div>
+  <div class="book-review-content">
+    <header class="book-review-header">
+      <p class="book-review-title">{title}</p>
+      {
+        (meta || author || stars) && (
+          <p class="book-review-meta">
+            {meta && <span>{meta}</span>}
+            {!meta && author && <span>{author}</span>}
+            {stars && (
+              <>
+                {(meta || author) && (
+                  <span class="book-review-meta-separator" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <span
+                  class="book-review-rating"
+                  aria-label={`${normalizedRating} / 5`}
+                >
+                  {stars}
+                </span>
+              </>
+            )}
+          </p>
+        )
+      }
+    </header>
+    {note && <p class="book-review-summary">{note}</p>}
+    <div class="book-review-body">
+      <slot />
+    </div>
+  </div>
+</article>
+
+<style>
+  .book-review {
+    display: grid;
+    grid-template-columns: 5.25rem minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid color-mix(in oklch, var(--border) 62%, transparent);
+  }
+
+  .book-review:first-of-type {
+    padding-top: 0.4rem;
+  }
+
+  .book-review:last-of-type {
+    border-bottom: 0;
+  }
+
+  .book-review-cover {
+    position: relative;
+    padding-top: 0.2rem;
+  }
+
+  .book-review-cover button {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+  }
+
+  .book-review-cover button:not([data-book-review-cover]) {
+    cursor: default;
+  }
+
+  .book-review-cover button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  .book-review-cover-thumb {
+    width: 5.25rem;
+    border-radius: 2px;
+    object-fit: contain;
+  }
+
+  img.book-review-cover-thumb {
+    max-height: 7.4rem;
+  }
+
+  .book-review-fallback-cover {
+    position: relative;
+    display: flex;
+    height: 7.4rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    border: 1px solid color-mix(in oklch, var(--border) 72%, transparent);
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--foreground) 10%, transparent) 0 0.35rem,
+        transparent 0.35rem
+      ),
+      linear-gradient(
+        145deg,
+        color-mix(in oklch, var(--background) 94%, #d6d0c2 6%),
+        color-mix(in oklch, var(--background) 82%, #9ca58d 18%)
+      );
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, white 30%, transparent);
+  }
+
+  .book-review-fallback-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, white 20%, transparent),
+        transparent 40%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 0.7rem,
+        color-mix(in oklch, var(--foreground) 5%, transparent) 0.7rem 0.75rem
+      );
+    opacity: 0.6;
+  }
+
+  .book-review-fallback-title,
+  .book-review-fallback-meta {
+    position: relative;
+    z-index: 2;
+    display: block;
+    padding-inline: 0.8rem 0.55rem;
+    color: color-mix(in oklch, var(--foreground) 84%, transparent);
+    overflow-wrap: anywhere;
+  }
+
+  .book-review-fallback-title {
+    padding-top: 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .book-review-fallback-meta {
+    padding-bottom: 0.65rem;
+    color: color-mix(in oklch, var(--foreground) 58%, transparent);
+    font-size: 0.58rem;
+    line-height: 1.4;
+  }
+
+  .book-review-fallback-logo {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    z-index: 1;
+    display: block;
+    width: 1.85rem;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: var(--book-review-logo-gray);
+    opacity: 0.62;
+    mask: url('/static/logo.svg') center / contain no-repeat;
+    -webkit-mask: url('/static/logo.svg') center / contain no-repeat;
+  }
+
+  .book-review-cover-preview {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.9rem);
+    z-index: 30;
+    display: none;
+    width: min(18rem, 38vw);
+    transform: translateY(-50%) translateX(-0.25rem);
+    opacity: 0;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .book-review-cover-preview img {
+    display: block;
+    max-width: 100%;
+    max-height: min(68vh, 28rem);
+    border-radius: 3px;
+    box-shadow:
+      0 18px 48px color-mix(in oklch, black 24%, transparent),
+      0 2px 10px color-mix(in oklch, black 16%, transparent);
+    object-fit: contain;
+  }
+
+  .book-review-cover-preview--fallback {
+    width: 14rem;
+  }
+
+  .book-review-fallback-cover--preview {
+    width: 14rem;
+    height: 19.75rem;
+    border-radius: 3px;
+    box-shadow:
+      0 18px 48px color-mix(in oklch, black 24%, transparent),
+      0 2px 10px color-mix(in oklch, black 16%, transparent);
+  }
+
+  .book-review-fallback-cover--preview .book-review-fallback-title {
+    padding: 1.7rem 1.35rem 0;
+    font-size: 1.05rem;
+    line-height: 1.45;
+  }
+
+  .book-review-fallback-cover--preview .book-review-fallback-meta {
+    padding: 0 1.35rem 1.35rem;
+    font-size: 0.8rem;
+  }
+
+  .book-review-fallback-cover--preview .book-review-fallback-logo {
+    width: 4.6rem;
+  }
+
+  .book-review-content {
+    min-width: 0;
+  }
+
+  .book-review-header {
+    margin-bottom: 0.55rem;
+  }
+
+  .book-review-title {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+  }
+
+  .book-review-meta {
+    margin: 0.15rem 0 0;
+    color: color-mix(in oklch, var(--foreground) 56%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .book-review-meta-separator {
+    margin: 0 0.35rem;
+  }
+
+  .book-review-rating {
+    color: color-mix(in oklch, var(--foreground) 42%, transparent);
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .book-review-summary {
+    margin: 0.25rem 0 0;
+    color: color-mix(in oklch, var(--foreground) 78%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.85;
+  }
+
+  .book-review-body {
+    color: color-mix(in oklch, var(--foreground) 72%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.85;
+  }
+
+  .book-review-body:empty {
+    display: none;
+  }
+
+  .book-review-body :global(p) {
+    margin: 0.65rem 0 0;
+  }
+
+  .book-review-body :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  .book-review-body :global(blockquote) {
+    margin: 0.85rem 0;
+    border-left: 1px solid color-mix(in oklch, var(--border) 80%, transparent);
+    padding-left: 1rem;
+    color: color-mix(in oklch, var(--foreground) 58%, transparent);
+  }
+
+  .book-review-body :global(blockquote p) {
+    margin: 0.45rem 0;
+  }
+
+  :global(.book-review-lightbox) {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: transparent;
+  }
+
+  :global(.book-review-lightbox[aria-hidden='false']) {
+    display: flex;
+  }
+
+  :global(.book-review-lightbox-inner) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 88vh;
+  }
+
+  :global(.book-review-lightbox img) {
+    display: block;
+    max-width: min(82vw, 34rem);
+    max-height: 82vh;
+    border-radius: 3px;
+    box-shadow:
+      0 24px 70px color-mix(in oklch, black 30%, transparent),
+      0 2px 12px color-mix(in oklch, black 18%, transparent);
+    object-fit: contain;
+    cursor: zoom-out;
+  }
+
+  :global(.book-review-lightbox-close) {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in oklch, white 24%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklch, black 52%, transparent);
+    color: white;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .book-review {
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+    }
+
+    .book-review-cover {
+      justify-self: center;
+      padding-top: 0;
+    }
+
+    .book-review-cover button {
+      margin-inline: auto;
+    }
+
+    .book-review-cover-thumb {
+      width: min(42vw, 8rem);
+    }
+
+    img.book-review-cover-thumb {
+      max-height: 11.4rem;
+    }
+
+    .book-review-fallback-cover {
+      height: min(58vw, 11.4rem);
+    }
+
+    .book-review-fallback-title {
+      padding-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .book-review-fallback-meta {
+      padding-bottom: 0.85rem;
+      font-size: 0.7rem;
+    }
+
+    .book-review-fallback-logo {
+      width: 3rem;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+    .book-review-cover button:hover .book-review-cover-preview,
+    .book-review-cover button:focus-visible .book-review-cover-preview {
+      display: block;
+      transform: translateY(-50%);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const initBookReviewLightbox = () => {
+    const win = window as Window &
+      typeof globalThis & {
+        __bookReviewLightboxInitialized?: boolean
+      }
+
+    if (win.__bookReviewLightboxInitialized) return
+    win.__bookReviewLightboxInitialized = true
+
+    const getDialog = () => {
+      const existing = document.querySelector<HTMLElement>(
+        '[data-book-review-lightbox]',
+      )
+      if (existing) return existing
+
+      const lightbox = document.createElement('div')
+      lightbox.className = 'book-review-lightbox'
+      lightbox.setAttribute('data-book-review-lightbox', '')
+      lightbox.setAttribute('aria-hidden', 'true')
+      lightbox.setAttribute('role', 'dialog')
+      lightbox.setAttribute('aria-modal', 'true')
+      lightbox.innerHTML = `
+        <div class="book-review-lightbox-inner">
+          <img data-book-review-lightbox-image alt="" />
+          <button class="book-review-lightbox-close" type="button" aria-label="关闭封面预览">&times;</button>
+        </div>
+      `
+      document.body.append(lightbox)
+
+      const close = () => {
+        lightbox.setAttribute('aria-hidden', 'true')
+        document.body.style.removeProperty('overflow')
+      }
+
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) close()
+      })
+
+      lightbox
+        .querySelector('[data-book-review-lightbox-image]')
+        ?.addEventListener('click', close)
+
+      lightbox
+        .querySelector('.book-review-lightbox-close')
+        ?.addEventListener('click', close)
+
+      document.addEventListener('keydown', (event) => {
+        if (
+          event.key === 'Escape' &&
+          lightbox.getAttribute('aria-hidden') === 'false'
+        ) {
+          close()
+        }
+      })
+
+      return lightbox
+    }
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as Element | null)?.closest<HTMLElement>(
+        '[data-book-review-cover]',
+      )
+      if (!trigger) return
+      event.preventDefault()
+      event.stopPropagation()
+
+      const src = trigger.dataset.coverSrc
+      if (!src) return
+
+      const lightbox = getDialog()
+      const image = lightbox.querySelector<HTMLImageElement>(
+        '[data-book-review-lightbox-image]',
+      )
+      if (!image) return
+
+      image.src = src
+      image.alt = trigger.dataset.coverAlt ?? ''
+      lightbox.setAttribute('aria-hidden', 'false')
+      document.body.style.overflow = 'hidden'
+    })
+  }
+
+  document.addEventListener('astro:page-load', initBookReviewLightbox)
+  initBookReviewLightbox()
+</script>
