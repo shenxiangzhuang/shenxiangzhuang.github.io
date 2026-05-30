@@ -21,6 +21,10 @@ export const NAV_LINKS: SocialLink[] = [
     label: '文章',
   },
   {
+    href: '/blog/2025/books',
+    label: '书单',
+  },
+  {
     href: '/tags',
     label: '标签',
   },
