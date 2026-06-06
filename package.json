@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.6.3",
   "private": true,
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.2",
   "scripts": {
     "dev": "NODE_OPTIONS='--disable-warning=DEP0040 --max-old-space-size=8192' astro dev",
     "start": "pnpm dev",
