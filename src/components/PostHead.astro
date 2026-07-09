@@ -1,14 +1,14 @@
 ---
 import { SITE } from '@/consts'
 import { getPostSocialImage } from '@/lib/post-images'
-import { isSubpost } from '@/lib/data-utils'
-import type { CollectionEntry } from 'astro:content'
+import { getEntries, type CollectionEntry } from 'astro:content'
 
 interface Props {
   post: CollectionEntry<'blog'>
+  canonical?: string
 }
 
-const { post } = Astro.props
+const { post, canonical } = Astro.props
 
 const title = post.data.title || SITE.title
 const description = post.data.description || SITE.description
@@ -19,18 +19,15 @@ const image = coverImage?.src
   : fallbackImage
 const imageWidth = String(coverImage?.width ?? 1200)
 const imageHeight = String(coverImage?.height ?? 630)
-const author =
-  post.data.authors && post.data.authors.length > 0
-    ? post.data.authors.join(', ')
-    : SITE.author
+const authors = await getEntries(post.data.authors)
+const author = authors.map((author) => author.data.name).join(', ')
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE.href)
 ---
 
 <title>{`${title} | ${SITE.title}`}</title>
 <meta name="title" content={`${title} | ${SITE.title}`} />
 <meta name="description" content={description} />
-<link rel="canonical" href={SITE.href} />
-
-{isSubpost(post.id) && <meta name="robots" content="noindex" />}
+<link rel="canonical" href={canonicalUrl.href} />
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

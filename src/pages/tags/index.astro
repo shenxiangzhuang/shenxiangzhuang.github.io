@@ -1,11 +1,11 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Icon from '@/components/Icon.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
-import { badgeVariants } from '@/components/ui/badge'
 import Layout from '@/layouts/Layout.astro'
 import { getSortedTags } from '@/lib/data-utils'
-import { Icon } from 'astro-icon/components'
+import { badgeVariants } from '@/lib/variants'
 
 const sortedTags = await getSortedTags()
 ---

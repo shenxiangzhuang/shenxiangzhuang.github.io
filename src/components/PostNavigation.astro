@@ -1,8 +1,8 @@
 ---
+import Icon from '@/components/Icon.astro'
 import Link from '@/components/Link.astro'
-import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
+import { buttonVariants } from '@/lib/variants'
 
 const { newerPost, olderPost, parentPost } = Astro.props
 const isSubpost = !!parentPost

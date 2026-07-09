@@ -1,7 +1,6 @@
 ---
+import Icon from '@/components/Icon.astro'
 import TagBadge from '@/components/TagBadge.astro'
-import AvatarComponent from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
   getSubpostCount,
@@ -10,7 +9,6 @@ import {
 } from '@/lib/data-utils'
 import { getDisplayCoverImage } from '@/lib/post-images'
 import { cn, formatDate } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 import Link from './Link.astro'
@@ -23,7 +21,7 @@ interface Props {
 const { entry, compact = false } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
-const authors = await parseAuthors(entry.data.authors ?? [])
+const authors = await parseAuthors(entry.data.authors)
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 const coverImage = getDisplayCoverImage(entry)
 ---
@@ -74,37 +72,35 @@ const coverImage = getDisplayCoverImage(entry)
                     compact ? 'gap-x-1' : 'gap-x-1.5',
                   )}
                 >
-                  <AvatarComponent
-                    client:load
+                  <img
                     src={author.avatar}
                     alt={author.name}
-                    fallback={author.name[0]}
-                    className={
+                    class={
                       compact ? 'size-4 rounded-full' : 'size-5 rounded-full'
                     }
+                    loading="lazy"
                   />
                   <span>{author.name}</span>
                 </div>
               ))}
-              <Separator
-                orientation="vertical"
-                className={compact ? 'h-3!' : 'h-4!'}
+              <span
+                aria-hidden="true"
+                class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}
               />
             </>
           )
         }
         <span>{formattedDate}</span>
-        <Separator
-          orientation="vertical"
-          className={compact ? 'h-3!' : 'h-4!'}
-        />
+        <span
+          aria-hidden="true"
+          class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}></span>
         <span>{readTime}</span>
         {
           subpostCount > 0 && (
             <>
-              <Separator
-                orientation="vertical"
-                className={compact ? 'h-3!' : 'h-4!'}
+              <span
+                aria-hidden="true"
+                class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}
               />
               <span class="flex items-center gap-1">
                 <Icon name="lucide:file-text" class="size-3" />
