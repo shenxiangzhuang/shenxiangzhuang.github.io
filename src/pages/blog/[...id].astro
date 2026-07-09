@@ -59,15 +59,19 @@ const parentPost = chain[0]
 const currentPostId = post.id
 const isCurrentSubpost = isSubpost(currentPostId)
 const canonical = isCurrentSubpost ? `/blog/${parentPost.id}` : undefined
+const shouldSkipParentContent =
+  chain.length > 1 && calculateWordCountFromHtml(parentPost.body) === 0
+const displayChain = shouldSkipParentContent ? chain.slice(1) : chain
 
 const renderedPosts = await Promise.all(
-  chain.map(async (entry, index) => {
+  displayChain.map(async (entry, index) => {
+    const isParentEntry = entry.id === parentPost.id
     const { Content } = await render(entry)
-    const anchor = index === 0 ? undefined : getSubpostAnchor(entry.id)
+    const anchor = isParentEntry ? undefined : getSubpostAnchor(entry.id)
     const readingTime = await getPostReadingTime(entry.id)
     const hasBody = calculateWordCountFromHtml(entry.body) > 0
     const combinedReadingTime =
-      index === 0 && chain.length > 1
+      isParentEntry && chain.length > 1
         ? await getCombinedReadingTime(entry.id)
         : null
 
@@ -75,6 +79,7 @@ const renderedPosts = await Promise.all(
       entry,
       Content,
       anchor,
+      isParentEntry,
       authors: await parseAuthors(entry.data.authors),
       coverImage: getDisplayCoverImage(entry),
       readingTime,
@@ -138,6 +143,7 @@ const hasToc = tocSections.length > 0
             entry,
             Content,
             anchor,
+            isParentEntry,
             authors,
             coverImage,
             readingTime,
@@ -146,120 +152,128 @@ const hasToc = tocSections.length > 0
             subpostCount,
           },
           index,
-        ) => (
-          <article
-            id={anchor ?? 'post-title'}
-            class={cn(
-              'col-start-2 flex scroll-mt-31 flex-col gap-y-6',
-              index > 0 && 'border-t pt-10',
-            )}
-            data-url={`/blog/${entry.id}`}
-            data-title={`${entry.data.title} | ${SITE.title}`}
-            data-anchor={anchor}
-            data-embedded={index > 0 ? 'true' : undefined}
-          >
-            {coverImage && (
-              <div class="border-border/60 bg-muted/20 mx-auto w-full max-w-3xl overflow-hidden rounded-md border">
-                <Image
-                  src={coverImage}
-                  alt={entry.data.title}
-                  width={1200}
-                  height={630}
-                  loading={entry.id === post.id ? 'eager' : 'lazy'}
-                  class="aspect-[1200/630] w-full object-contain"
-                />
-              </div>
-            )}
+        ) => {
+          const isPageHeading =
+            entry.id === post.id ||
+            (shouldSkipParentContent && !isCurrentSubpost && index === 0)
+          const articleUrl =
+            shouldSkipParentContent && !isCurrentSubpost && index === 0
+              ? `/blog/${parentPost.id}`
+              : `/blog/${entry.id}`
 
-            <header class="flex flex-col gap-y-6 text-center">
-              <div class="flex flex-col">
-                <h1
-                  class={cn(
-                    'mb-3 scroll-mt-31 leading-tight font-medium',
-                    index === 0
-                      ? 'text-3xl sm:text-4xl'
-                      : 'text-2xl sm:text-3xl',
-                  )}
-                  data-pagefind-meta={
-                    entry.id === post.id ? 'title' : undefined
-                  }
-                >
-                  {entry.data.title}
-                </h1>
-                <time
-                  class="sr-only"
-                  datetime={entry.data.date.toISOString()}
-                  data-pagefind-meta={entry.id === post.id ? 'date' : undefined}
-                >
-                  {entry.data.date.toISOString()}
-                </time>
+          return (
+            <article
+              id={anchor ?? 'post-title'}
+              class={cn(
+                'col-start-2 flex scroll-mt-31 flex-col gap-y-6',
+                index > 0 && 'border-t pt-10',
+              )}
+              data-url={articleUrl}
+              data-title={`${entry.data.title} | ${SITE.title}`}
+              data-anchor={anchor}
+              data-embedded={!isParentEntry ? 'true' : undefined}
+            >
+              {coverImage && (
+                <div class="border-border/60 bg-muted/20 mx-auto w-full max-w-3xl overflow-hidden rounded-md border">
+                  <Image
+                    src={coverImage}
+                    alt={entry.data.title}
+                    width={1200}
+                    height={630}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    class="aspect-[1200/630] w-full object-contain"
+                  />
+                </div>
+              )}
 
-                <div class="text-muted-foreground mb-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm">
-                  <div class="flex items-center gap-x-2">
-                    {authors.map((author) => (
-                      <div class="flex items-center gap-x-1.5">
-                        <img
-                          src={author.avatar}
-                          alt={author.name}
-                          width="20"
-                          height="20"
-                          class="rounded-full"
-                          loading="lazy"
-                        />
-                        <Link
-                          href={`/authors/${author.id}`}
-                          underline
-                          class="text-foreground"
-                        >
-                          <span>{author.name}</span>
-                        </Link>
+              <header class="flex flex-col gap-y-6 text-center">
+                <div class="flex flex-col">
+                  <h1
+                    class={cn(
+                      'mb-3 scroll-mt-31 leading-tight font-medium',
+                      index === 0
+                        ? 'text-3xl sm:text-4xl'
+                        : 'text-2xl sm:text-3xl',
+                    )}
+                    data-pagefind-meta={isPageHeading ? 'title' : undefined}
+                  >
+                    {entry.data.title}
+                  </h1>
+                  <time
+                    class="sr-only"
+                    datetime={entry.data.date.toISOString()}
+                    data-pagefind-meta={isPageHeading ? 'date' : undefined}
+                  >
+                    {entry.data.date.toISOString()}
+                  </time>
+
+                  <div class="text-muted-foreground mb-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm">
+                    <div class="flex items-center gap-x-2">
+                      {authors.map((author) => (
+                        <div class="flex items-center gap-x-1.5">
+                          <img
+                            src={author.avatar}
+                            alt={author.name}
+                            width="20"
+                            height="20"
+                            class="rounded-full"
+                            loading="lazy"
+                          />
+                          <Link
+                            href={`/authors/${author.id}`}
+                            underline
+                            class="text-foreground"
+                          >
+                            <span>{author.name}</span>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <span>{formatDate(entry.data.date)}</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      {hasBody || !combinedReadingTime ? (
+                        <span>
+                          {readingTime}
+                          {combinedReadingTime &&
+                            combinedReadingTime !== readingTime && (
+                              <span class="text-muted-foreground">
+                                {' '}
+                                ({combinedReadingTime} total)
+                              </span>
+                            )}
+                        </span>
+                      ) : (
+                        <span>{combinedReadingTime} total</span>
+                      )}
+                    </div>
+
+                    {subpostCount > 0 && (
+                      <div class="flex items-center gap-1">
+                        <Icon name="file-text" class="size-3" />
+                        {subpostCount} 篇子文章
                       </div>
-                    ))}
-                  </div>
-
-                  <div class="flex items-center gap-2">
-                    <span>{formatDate(entry.data.date)}</span>
-                  </div>
-
-                  <div class="flex items-center gap-2">
-                    {hasBody || !combinedReadingTime ? (
-                      <span>
-                        {readingTime}
-                        {combinedReadingTime &&
-                          combinedReadingTime !== readingTime && (
-                            <span class="text-muted-foreground">
-                              {' '}
-                              ({combinedReadingTime} total)
-                            </span>
-                          )}
-                      </span>
-                    ) : (
-                      <span>{combinedReadingTime} total</span>
                     )}
                   </div>
-
-                  {subpostCount > 0 && (
-                    <div class="flex items-center gap-1">
-                      <Icon name="file-text" class="size-3" />
-                      {subpostCount} 篇子文章
-                    </div>
-                  )}
+                  <div class="flex flex-wrap justify-center gap-x-3 gap-y-1">
+                    {entry.data.tags?.map((tag) => (
+                      <TagBadge tag={tag} />
+                    ))}
+                  </div>
                 </div>
-                <div class="flex flex-wrap justify-center gap-x-3 gap-y-1">
-                  {entry.data.tags?.map((tag) => (
-                    <TagBadge tag={tag} />
-                  ))}
-                </div>
-              </div>
-            </header>
+              </header>
 
-            <section class="flex flex-col gap-y-6">
-              <div class="prose max-w-none" data-pagefind-body>
-                <Content />
-              </div>
-            </section>
-          </article>
-        ),
+              <section class="flex flex-col gap-y-6">
+                <div class="prose max-w-none" data-pagefind-body>
+                  <Content />
+                </div>
+              </section>
+            </article>
+          )
+        },
       )
     }
 
