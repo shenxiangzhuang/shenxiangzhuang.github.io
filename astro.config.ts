@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap'
 import icon from 'astro-icon'
 import pagefind from 'astro-pagefind'
 
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
 import rehypeCitation from 'rehype-citation'
 import rehypeExpressiveCode from 'rehype-expressive-code'
 import rehypeExternalLinks from 'rehype-external-links'
@@ -24,6 +24,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://mathewshen.me',
   base: '/',
+  compressHTML: true,
   integrations: [
     mdx(),
     react(),
@@ -50,83 +51,85 @@ export default defineConfig({
   },
   markdown: {
     syntaxHighlight: false,
-    rehypePlugins: [
-      [
-        rehypeCitation,
-        {
-          bibliography: 'src/content/references.bib',
-          csl: 'src/content/chicago-fullnote-bibliography.csl',
-          lang: 'en-US',
-          suppressBibliography: true,
-        },
-      ],
-      [
-        rehypeExternalLinks,
-        {
-          target: '_blank',
-          rel: ['nofollow', 'noreferrer', 'noopener'],
-        },
-      ],
-      rehypeHeadingIds,
-      rehypeKatex,
-      [
-        rehypeExpressiveCode,
-        {
-          themes: ['github-light', 'github-dark'],
-          plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
-          useDarkModeMediaQuery: false,
-          themeCssSelector: (theme: ExpressiveCodeTheme) =>
-            `[data-theme="${theme.name.split('-')[1]}"]`,
-          defaultProps: {
-            wrap: true,
-            collapseStyle: 'collapsible-auto',
-            overridesByLang: {
-              'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
-                {
-                  showLineNumbers: false,
-                },
-            },
+    processor: unified({
+      rehypePlugins: [
+        [
+          rehypeCitation,
+          {
+            bibliography: 'src/content/references.bib',
+            csl: 'src/content/chicago-fullnote-bibliography.csl',
+            lang: 'en-US',
+            suppressBibliography: true,
           },
-          styleOverrides: {
-            codeFontSize: '0.75rem',
-            borderColor: 'var(--border)',
-            codeFontFamily: 'var(--font-mono)',
-            codeBackground:
-              'color-mix(in oklab, var(--muted) 25%, transparent)',
-            frames: {
-              editorActiveTabForeground: 'var(--muted-foreground)',
-              editorActiveTabBackground:
+        ],
+        [
+          rehypeExternalLinks,
+          {
+            target: '_blank',
+            rel: ['nofollow', 'noreferrer', 'noopener'],
+          },
+        ],
+        rehypeHeadingIds,
+        rehypeKatex,
+        [
+          rehypeExpressiveCode,
+          {
+            themes: ['github-light', 'github-dark'],
+            plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+            useDarkModeMediaQuery: false,
+            themeCssSelector: (theme: ExpressiveCodeTheme) =>
+              `[data-theme="${theme.name.split('-')[1]}"]`,
+            defaultProps: {
+              wrap: true,
+              collapseStyle: 'collapsible-auto',
+              overridesByLang: {
+                'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
+                  {
+                    showLineNumbers: false,
+                  },
+              },
+            },
+            styleOverrides: {
+              codeFontSize: '0.75rem',
+              borderColor: 'var(--border)',
+              codeFontFamily: 'var(--font-mono)',
+              codeBackground:
                 'color-mix(in oklab, var(--muted) 25%, transparent)',
-              editorActiveTabIndicatorBottomColor: 'transparent',
-              editorActiveTabIndicatorTopColor: 'transparent',
-              editorTabBorderRadius: '0',
-              editorTabBarBackground: 'transparent',
-              editorTabBarBorderBottomColor: 'transparent',
-              frameBoxShadowCssValue: 'none',
-              terminalBackground:
-                'color-mix(in oklab, var(--muted) 25%, transparent)',
-              terminalTitlebarBackground: 'transparent',
-              terminalTitlebarBorderBottomColor: 'transparent',
-              terminalTitlebarForeground: 'var(--muted-foreground)',
+              frames: {
+                editorActiveTabForeground: 'var(--muted-foreground)',
+                editorActiveTabBackground:
+                  'color-mix(in oklab, var(--muted) 25%, transparent)',
+                editorActiveTabIndicatorBottomColor: 'transparent',
+                editorActiveTabIndicatorTopColor: 'transparent',
+                editorTabBorderRadius: '0',
+                editorTabBarBackground: 'transparent',
+                editorTabBarBorderBottomColor: 'transparent',
+                frameBoxShadowCssValue: 'none',
+                terminalBackground:
+                  'color-mix(in oklab, var(--muted) 25%, transparent)',
+                terminalTitlebarBackground: 'transparent',
+                terminalTitlebarBorderBottomColor: 'transparent',
+                terminalTitlebarForeground: 'var(--muted-foreground)',
+              },
+              lineNumbers: {
+                foreground: 'var(--muted-foreground)',
+              },
+              uiFontFamily: 'var(--font-sans)',
             },
-            lineNumbers: {
-              foreground: 'var(--muted-foreground)',
+          },
+        ],
+        [
+          rehypeShiki,
+          {
+            themes: {
+              light: 'github-light',
+              dark: 'github-dark',
             },
-            uiFontFamily: 'var(--font-sans)',
+            inline: 'tailing-curly-colon',
           },
-        },
+        ],
       ],
-      [
-        rehypeShiki,
-        {
-          themes: {
-            light: 'github-light',
-            dark: 'github-dark',
-          },
-          inline: 'tailing-curly-colon',
-        },
-      ],
-    ],
-    remarkPlugins: [remarkMath, remarkEmoji],
+      remarkPlugins: [remarkMath, remarkEmoji],
+    }),
   },
 })
