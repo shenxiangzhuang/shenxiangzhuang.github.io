@@ -6,7 +6,7 @@
 | ---------- | ------------------------------------------------------------------------------------------ |
 | Framework  | [Astro](https://astro.build/)                                                              |
 | Styling    | [Tailwind](https://tailwindcss.com)                                                        |
-| Components | [shadcn/ui](https://ui.shadcn.com/)                                                        |
+| Components | Astro components, local UI variants, local Lucide icon sprite                              |
 | Content    | [MDX](https://mdxjs.com/)                                                                  |
 | Codeblocks | [Expressive Code](https://expressive-code.com/), [Shiki](https://github.com/shikijs/shiki) |
 
@@ -23,13 +23,18 @@ pnpm prettier       # 格式化所有文件
 ## 项目结构
 
 - `src/consts.ts` - 站点配置、导航链接、社交链接
-- `src/styles/global.css` - 全局样式，颜色定义（OKLCH 格式，shadcn/ui 约定）
+- `src/styles/global.css` - 全局样式，颜色定义（OKLCH 格式，兼容 shadcn/ui token 约定）
 - `src/content/blog/` - 博客文章（MDX 格式）
 - `src/content/references.bib` - 全局 BibTeX 文献库，博客文中引用统一从这里读取
 - `src/content/authors/` - 作者信息
 - `src/content/projects/` - 项目信息
-- `src/components/` - Astro/React 组件
+- `src/components/` - Astro 组件，本地图标与基础 UI 变体
 - `src/pages/` - 页面路由
+
+## 路由行为
+
+- `/blog` 不分页，按年份列出全部父文章。
+- 子文章保留独立 URL，但阅读页会连续渲染同一父文章下的父文和全部子文章，并在滚动时同步 URL。
 
 ## 搜索说明
 
@@ -45,7 +50,7 @@ date: 2024-01-01               # 必填，YYYY-MM-DD 格式
 tags: ['tag1', 'tag2']         # 可选
 imageWithText: 'images/cover.png'    # 可选，带标题的封面图（用于社交分享 OG image）
 imageWithoutText: 'images/cover.png' # 可选，纯图片封面（用于博客卡片显示）
-authors: ['author-id']         # 可选，对应 authors/ 下的文件名
+authors: ['author-id']         # 必填，对应 authors/ 下的文件名
 draft: false                   # 可选，默认 false
 order: 0                       # 可选，同日期子文章排序
 ---

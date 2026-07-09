@@ -1,6 +1,5 @@
 ---
 import Link from '@/components/Link.astro'
-import AvatarComponent from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import type { SocialLink } from '@/types'
 import type { CollectionEntry } from 'astro:content'
@@ -16,11 +15,31 @@ const currentPath = Astro.url.pathname
 const isAuthorPage = currentPath === `/authors/${author.id}`
 
 const socialLinks: SocialLink[] = [
-  author.data.website && { href: author.data.website, label: 'Website' },
-  author.data.github && { href: author.data.github, label: 'GitHub' },
-  author.data.twitter && { href: author.data.twitter, label: 'Twitter' },
-  author.data.linkedin && { href: author.data.linkedin, label: 'LinkedIn' },
-  author.data.mail && { href: `mailto:${author.data.mail}`, label: 'Email' },
+  author.data.website && {
+    href: author.data.website,
+    label: 'Website',
+    icon: 'globe',
+  },
+  author.data.github && {
+    href: author.data.github,
+    label: 'GitHub',
+    icon: 'github',
+  },
+  author.data.twitter && {
+    href: author.data.twitter,
+    label: 'Twitter',
+    icon: 'twitter',
+  },
+  author.data.linkedin && {
+    href: author.data.linkedin,
+    label: 'LinkedIn',
+    icon: 'linkedin',
+  },
+  author.data.mail && {
+    href: `mailto:${author.data.mail}`,
+    label: 'Email',
+    icon: 'mail',
+  },
 ].filter(Boolean) as SocialLink[]
 ---
 
@@ -32,13 +51,11 @@ const socialLinks: SocialLink[] = [
       href={`/authors/${author.id}`}
       class={cn('block', isAuthorPage && 'pointer-events-none')}
     >
-      <AvatarComponent
-        client:load
+      <img
         src={avatar}
         alt={`Avatar of ${name}`}
-        fallback={name[0]}
-        className={cn(
-          'size-32 rounded-md *:data-[slot=avatar-fallback]:rounded-md',
+        class={cn(
+          'size-32 rounded-md object-cover',
           !isAuthorPage &&
             'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
         )}

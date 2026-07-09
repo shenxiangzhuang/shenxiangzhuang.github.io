@@ -1,0 +1,28 @@
+---
+import { cn } from '@/lib/utils'
+
+interface Props {
+  name?: string
+  title?: string
+  class?: string
+}
+
+const {
+  name = 'lucide:circle-help',
+  title,
+  class: classValue,
+  ...attrs
+} = Astro.props
+const iconName = name.replace(/^lucide:/, '')
+---
+
+<svg
+  class={cn('inline-block size-4', classValue)}
+  aria-hidden={title ? undefined : 'true'}
+  role={title ? 'img' : undefined}
+  focusable="false"
+  {...attrs}
+>
+  {title && <title>{title}</title>}
+  <use href={`/icons/lucide.svg#${iconName}`}></use>
+</svg>

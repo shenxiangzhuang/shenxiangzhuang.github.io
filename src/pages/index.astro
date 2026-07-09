@@ -2,10 +2,10 @@
 import BlogCard from '@/components/BlogCard.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
-import { buttonVariants } from '@/components/ui/button'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
+import { buttonVariants } from '@/lib/variants'
 
 const blog = await getRecentPosts(SITE.recentPostCount)
 ---

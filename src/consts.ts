@@ -1,4 +1,4 @@
-import type { IconMap, SocialLink, Site } from '@/types'
+import type { SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
   title: 'Mathew Shen',
@@ -7,7 +7,6 @@ export const SITE: Site = {
   author: 'mathew',
   locale: 'zh-CN',
   recentPostCount: 5,
-  postsPerPage: 10,
 }
 
 export const RSS_FOLLOW_CHALLENGE = {
@@ -42,6 +41,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://github.com/shenxiangzhuang',
     label: 'GitHub',
+    icon: 'github',
   },
   // {
   //   href: 'https://twitter.com/enscry',
@@ -50,25 +50,19 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://www.linkedin.com/in/mathewshen/',
     label: 'LinkedIn',
+    icon: 'linkedin',
   },
   {
     href: 'mailto:datahonor@gmail.com',
     label: 'Email',
+    icon: 'mail',
   },
   {
     href: '/rss.xml',
     label: 'RSS',
+    icon: 'rss',
   },
 ]
-
-export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
-}
 
 export const GISCUS = {
   enabled: true,
