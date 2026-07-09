@@ -2,7 +2,7 @@
 title: '煮'
 description: '莲藕雪梨汤、鸡蛋、红薯、葱根红糖姜汤等简单水煮类做法。'
 date: 2025-01-02
-tags: ['生活', '菜谱']
+tags: ['菜谱']
 authors: ['mathew']
 draft: false
 order: 1

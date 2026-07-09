@@ -2,7 +2,7 @@
 title: '炒'
 description: '清炒西兰花等快手炒菜。'
 date: 2025-01-02
-tags: ['生活', '菜谱']
+tags: ['菜谱']
 authors: ['mathew']
 draft: false
 order: 2

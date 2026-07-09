@@ -2,7 +2,7 @@
 title: '炖'
 description: '番茄土豆牛腩等需要长时间炖煮的菜。'
 date: 2025-01-02
-tags: ['生活', '菜谱']
+tags: ['菜谱']
 authors: ['mathew']
 draft: false
 order: 3

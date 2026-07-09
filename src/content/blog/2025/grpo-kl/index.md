@@ -2,7 +2,7 @@
 title: 'Deepseek GRPO 中的 KL Divergence'
 description: 'Deepseek GRPO 中的 KL Divergence，forward kl divergence or reverse kl divergence?'
 date: 2025-02-23
-tags: ['AI', '笔记']
+tags: ['AI']
 authors: ['mathew']
 draft: false
 ---
