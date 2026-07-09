@@ -6,5 +6,3 @@ tags: ['书评']
 authors: ['mathew']
 draft: false
 ---
-
-书籍推荐与书单整理，覆盖 AI、概率统计、文学和随笔等主题。

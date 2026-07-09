@@ -23,7 +23,7 @@ import {
   parseAuthors,
 } from '@/lib/data-utils'
 import { getDisplayCoverImage } from '@/lib/post-images'
-import { cn, formatDate } from '@/lib/utils'
+import { calculateWordCountFromHtml, cn, formatDate } from '@/lib/utils'
 import { buttonVariants } from '@/lib/variants'
 import { Image } from 'astro:assets'
 import { render, type CollectionEntry } from 'astro:content'
@@ -65,6 +65,7 @@ const renderedPosts = await Promise.all(
     const { Content } = await render(entry)
     const anchor = index === 0 ? undefined : getSubpostAnchor(entry.id)
     const readingTime = await getPostReadingTime(entry.id)
+    const hasBody = calculateWordCountFromHtml(entry.body) > 0
     const combinedReadingTime =
       index === 0 && chain.length > 1
         ? await getCombinedReadingTime(entry.id)
@@ -77,6 +78,7 @@ const renderedPosts = await Promise.all(
       authors: await parseAuthors(entry.data.authors),
       coverImage: getDisplayCoverImage(entry),
       readingTime,
+      hasBody,
       combinedReadingTime,
       subpostCount: index === 0 ? await getSubpostCount(entry.id) : 0,
     }
@@ -139,6 +141,7 @@ const hasToc = tocSections.length > 0
             authors,
             coverImage,
             readingTime,
+            hasBody,
             combinedReadingTime,
             subpostCount,
           },
@@ -219,16 +222,20 @@ const hasToc = tocSections.length > 0
                   </div>
 
                   <div class="flex items-center gap-2">
-                    <span>
-                      {readingTime}
-                      {combinedReadingTime &&
-                        combinedReadingTime !== readingTime && (
-                          <span class="text-muted-foreground">
-                            {' '}
-                            ({combinedReadingTime} total)
-                          </span>
-                        )}
-                    </span>
+                    {hasBody || !combinedReadingTime ? (
+                      <span>
+                        {readingTime}
+                        {combinedReadingTime &&
+                          combinedReadingTime !== readingTime && (
+                            <span class="text-muted-foreground">
+                              {' '}
+                              ({combinedReadingTime} total)
+                            </span>
+                          )}
+                      </span>
+                    ) : (
+                      <span>{combinedReadingTime} total</span>
+                    )}
                   </div>
 
                   {subpostCount > 0 && (
