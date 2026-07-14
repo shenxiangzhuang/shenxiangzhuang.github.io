@@ -1,8 +1,8 @@
 ---
+import Icon from '@/components/Icon.astro'
 import Link from '@/components/Link.astro'
-import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
+import { badgeVariants } from '@/lib/variants'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
@@ -60,7 +60,7 @@ const { project } = Astro.props
         project.data.tags && (
           <div class="flex flex-wrap gap-2">
             {project.data.tags.map((tag: string) => (
-              <Badge variant="muted">{tag}</Badge>
+              <span class={badgeVariants({ variant: 'muted' })}>{tag}</span>
             ))}
           </div>
         )

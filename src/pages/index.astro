@@ -2,18 +2,18 @@
 import BlogCard from '@/components/BlogCard.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
-import { buttonVariants } from '@/components/ui/button'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
+import { buttonVariants } from '@/lib/variants'
 
 const blog = await getRecentPosts(SITE.recentPostCount)
 ---
 
 <Layout class="max-w-3xl">
-  <PageHead slot="head" title="Home" />
-  <section class="flex flex-col gap-y-3">
-    <ul class="flex flex-col gap-y-3">
+  <PageHead slot="head" title="首页" />
+  <section class="flex min-h-0 grow flex-col gap-y-3">
+    <ul class="flex min-h-0 grow flex-col justify-between">
       {
         blog.map((post) => (
           <li>
@@ -25,9 +25,10 @@ const blog = await getRecentPosts(SITE.recentPostCount)
     <div class="flex justify-center">
       <Link
         href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+        class={buttonVariants({ variant: 'ghost' }) +
+          ' group text-muted-foreground hover:bg-transparent hover:text-foreground'}
       >
-        See all posts <span
+        全部文章 <span
           class="ml-1.5 transition-transform group-hover:translate-x-1"
           >&rarr;</span
         >

@@ -1,18 +1,41 @@
 ---
-import { ScrollArea } from '@/components/ui/scroll-area'
+import ScrollArea from '@/components/ScrollArea.astro'
 import { cn, getHeadingMargin } from '@/lib/utils'
+import type { TOCSection } from '@/lib/data-utils'
 import type { MarkdownHeading } from 'astro'
-import { Icon } from 'astro-icon/components'
+import Icon from '@/components/Icon.astro'
 
 type Props = {
-  headings: MarkdownHeading[]
+  headings?: MarkdownHeading[]
+  sections?: TOCSection[]
+}
+type TocItem = {
+  slug: string
+  text: string
+  depth: number
+  isSectionTitle?: boolean
 }
 
-const { headings } = Astro.props
+const { headings = [], sections } = Astro.props
+const tocItems: TocItem[] = sections
+  ? sections.flatMap((section) => [
+      ...(section.type === 'subpost' && section.anchor
+        ? [
+            {
+              slug: section.anchor,
+              text: section.title,
+              depth: 2,
+              isSectionTitle: true,
+            },
+          ]
+        : []),
+      ...section.headings,
+    ])
+  : headings
 ---
 
 {
-  headings && headings.length > 0 && (
+  tocItems.length > 0 && (
     <div id="mobile-toc-container" class="w-full xl:hidden">
       <details class="group">
         <summary class="flex w-full cursor-pointer items-center justify-between">
@@ -47,7 +70,7 @@ const { headings } = Astro.props
               id="mobile-toc-current-section"
               class="text-muted-foreground grow truncate text-sm"
             >
-              Overview
+              目录
             </span>
             <span class="text-muted-foreground ml-2">
               <Icon
@@ -58,21 +81,18 @@ const { headings } = Astro.props
           </div>
         </summary>
 
-        <ScrollArea
-          client:load
-          className="mx-auto max-w-3xl"
-          data-toc-header-scroll
-        >
+        <ScrollArea className="mx-auto max-w-3xl" data-toc-header-scroll>
           <div class="max-h-[30vh]">
             <ul
               class="flex list-none flex-col gap-y-2 px-4 pb-4"
               id="mobile-table-of-contents"
             >
-              {headings.map((heading) => (
+              {tocItems.map((heading) => (
                 <li
                   class={cn(
                     'px-4 text-sm',
                     getHeadingMargin(heading.depth),
+                    heading.isSectionTitle && 'font-medium',
                     'text-foreground/60',
                   )}
                 >
@@ -94,7 +114,7 @@ const { headings } = Astro.props
 }
 
 <script>
-  const INITIAL_OVERVIEW_TEXT = 'Overview'
+  const INITIAL_OVERVIEW_TEXT = '目录'
   const HEADER_OFFSET = 102 + 36
   const PROGRESS_CIRCLE_RADIUS = 10
   const PROGRESS_CIRCLE_CIRCUMFERENCE = 2 * Math.PI * PROGRESS_CIRCLE_RADIUS
@@ -122,7 +142,7 @@ const { headings } = Astro.props
       this.listElement = document.getElementById('mobile-table-of-contents')
       const tocContainer = document.getElementById('mobile-toc-container')
       this.scrollArea =
-        tocContainer?.querySelector('[data-radix-scroll-area-viewport]') || null
+        tocContainer?.querySelector('[data-scroll-viewport]') || null
       this.headings = []
       this.regions = []
       this.activeIds = []

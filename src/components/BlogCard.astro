@@ -1,7 +1,6 @@
 ---
+import Icon from '@/components/Icon.astro'
 import TagBadge from '@/components/TagBadge.astro'
-import AvatarComponent from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
   getSubpostCount,
@@ -10,7 +9,6 @@ import {
 } from '@/lib/data-utils'
 import { getDisplayCoverImage } from '@/lib/post-images'
 import { cn, formatDate } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 import Link from './Link.astro'
@@ -23,15 +21,15 @@ interface Props {
 const { entry, compact = false } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
-const authors = await parseAuthors(entry.data.authors ?? [])
+const authors = await parseAuthors(entry.data.authors)
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 const coverImage = getDisplayCoverImage(entry)
 ---
 
 <div
   class={cn(
-    'hover:bg-muted/50 relative rounded-xl border transition-colors duration-300 ease-in-out',
-    compact ? 'p-3' : 'p-4',
+    'border-border/70 relative border-b transition-colors duration-200 ease-in-out hover:border-foreground/25',
+    compact ? 'py-3' : 'py-5',
   )}
 >
   <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -74,37 +72,35 @@ const coverImage = getDisplayCoverImage(entry)
                     compact ? 'gap-x-1' : 'gap-x-1.5',
                   )}
                 >
-                  <AvatarComponent
-                    client:load
+                  <img
                     src={author.avatar}
                     alt={author.name}
-                    fallback={author.name[0]}
-                    className={
+                    class={
                       compact ? 'size-4 rounded-full' : 'size-5 rounded-full'
                     }
+                    loading="lazy"
                   />
                   <span>{author.name}</span>
                 </div>
               ))}
-              <Separator
-                orientation="vertical"
-                className={compact ? 'h-3!' : 'h-4!'}
+              <span
+                aria-hidden="true"
+                class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}
               />
             </>
           )
         }
         <span>{formattedDate}</span>
-        <Separator
-          orientation="vertical"
-          className={compact ? 'h-3!' : 'h-4!'}
-        />
+        <span
+          aria-hidden="true"
+          class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}></span>
         <span>{readTime}</span>
         {
           subpostCount > 0 && (
             <>
-              <Separator
-                orientation="vertical"
-                className={compact ? 'h-3!' : 'h-4!'}
+              <span
+                aria-hidden="true"
+                class={cn('bg-border w-px shrink-0', compact ? 'h-3' : 'h-4')}
               />
               <span class="flex items-center gap-1">
                 <Icon name="lucide:file-text" class="size-3" />
@@ -133,14 +129,14 @@ const coverImage = getDisplayCoverImage(entry)
 
     {
       coverImage && (
-        <div class="w-full sm:w-44 sm:shrink-0">
-          <div class="bg-muted/25 border-border/60 rounded-xl border p-2.5 shadow-sm">
+        <div class="w-full sm:w-40 sm:shrink-0">
+          <div class="border-border/60 bg-muted/20 overflow-hidden rounded-md border">
             <Image
               src={coverImage}
               alt={entry.data.title}
               width={1200}
               height={630}
-              class="bg-background/80 aspect-[1200/630] w-full rounded-lg object-contain"
+              class="aspect-[1200/630] w-full object-cover"
             />
           </div>
         </div>

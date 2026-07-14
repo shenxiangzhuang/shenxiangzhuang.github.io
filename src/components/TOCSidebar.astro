@@ -1,7 +1,6 @@
 ---
-import { ScrollArea } from '@/components/ui/scroll-area'
+import ScrollArea from '@/components/ScrollArea.astro'
 import type { TOCSection } from '@/lib/data-utils'
-import { getParentId, isSubpost } from '@/lib/data-utils'
 import { cn, getHeadingMargin } from '@/lib/utils'
 
 type Props = {
@@ -10,8 +9,6 @@ type Props = {
 }
 
 const { sections, currentPostId } = Astro.props
-const isCurrentSubpost = isSubpost(currentPostId)
-const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
 ---
 
 {
@@ -21,13 +18,11 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
       class="sticky top-20 col-start-1 row-span-1 mr-8 ml-auto hidden h-[calc(100vh-5rem)] max-w-md xl:block"
     >
       <ScrollArea
-        client:load
         className="flex max-h-[calc(100vh-8rem)] flex-col overflow-y-auto"
-        type="hover"
         data-toc-scroll-area
       >
         <div class="flex flex-col gap-2 px-4">
-          <span class="text-lg font-medium">Table of Contents</span>
+          <span class="text-muted-foreground text-sm font-medium">目录</span>
           {sections.map((section, index) => {
             const isFirstSubpost =
               section.type === 'subpost' &&
@@ -39,7 +34,7 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                   <div class="mt-2 flex items-center gap-2">
                     <div class="bg-border h-px flex-1" />
                     <span class="text-muted-foreground text-xs font-medium">
-                      Subposts
+                      子文章
                     </span>
                     <div class="bg-border h-px flex-1" />
                   </div>
@@ -52,17 +47,11 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                         class={cn(
                           'text-sm',
                           getHeadingMargin(heading.depth),
-                          isCurrentSubpost
-                            ? 'text-foreground/40'
-                            : 'text-foreground/60',
+                          'text-foreground/60',
                         )}
                       >
                         <a
-                          href={
-                            isCurrentSubpost
-                              ? `/blog/${parentId}#${heading.slug}`
-                              : `#${heading.slug}`
-                          }
+                          href={`#${heading.slug}`}
                           class="marker:text-foreground/30 list-none underline decoration-transparent underline-offset-[3px] transition-colors duration-200 hover:decoration-inherit"
                           data-heading-link={heading.slug}
                         >
@@ -88,17 +77,9 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                         )}
                       >
                         <a
-                          href={
-                            section.subpostId === currentPostId
-                              ? '#'
-                              : `/blog/${section.subpostId}`
-                          }
+                          href={section.anchor ? `#${section.anchor}` : '#'}
                           class="marker:text-foreground/30 list-none underline decoration-transparent underline-offset-[3px] transition-colors duration-200 hover:decoration-inherit"
-                          data-heading-link={
-                            section.subpostId === currentPostId
-                              ? 'top'
-                              : `${section.subpostId}-top`
-                          }
+                          data-heading-link={section.anchor}
                         >
                           {section.title}
                         </a>
@@ -115,16 +96,13 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
                         >
                           <a
                             href={
-                              section.subpostId === currentPostId
+                              section.subpostId === currentPostId ||
+                              section.anchor
                                 ? `#${heading.slug}`
                                 : `/blog/${section.subpostId}#${heading.slug}`
                             }
                             class="marker:text-foreground/30 hover:text-foreground/60 list-none underline decoration-transparent underline-offset-[3px] transition-colors duration-200 hover:decoration-inherit"
-                            data-heading-link={
-                              section.subpostId === currentPostId
-                                ? heading.slug
-                                : `${section.subpostId}-${heading.slug}`
-                            }
+                            data-heading-link={heading.slug}
                           >
                             {heading.text}
                           </a>
@@ -164,7 +142,7 @@ const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
       this.regions = []
       const tocContainer = document.getElementById('toc-sidebar-container')
       this.scrollArea =
-        tocContainer?.querySelector('[data-radix-scroll-area-viewport]') || null
+        tocContainer?.querySelector('[data-scroll-viewport]') || null
       this.tocScrollArea =
         tocContainer?.querySelector('[data-toc-scroll-area]') || null
     }

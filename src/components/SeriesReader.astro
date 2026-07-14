@@ -1,0 +1,150 @@
+<script is:inline>
+  ;(() => {
+    const trimSlash = (value) => value.replace(/\/+$/, '') || '/'
+    const normalizePath = (value) => {
+      try {
+        return trimSlash(decodeURIComponent(value))
+      } catch {
+        return trimSlash(value)
+      }
+    }
+
+    const articles = Array.from(document.querySelectorAll('article[data-url]'))
+    if (articles.length <= 1) return
+
+    const namespaceEmbeddedHeadings = () => {
+      for (const article of articles) {
+        const prefix = article.dataset.anchor
+        if (!prefix) continue
+
+        const headingMap = new Map()
+        article
+          .querySelectorAll(
+            '.prose h2[id], .prose h3[id], .prose h4[id], .prose h5[id], .prose h6[id]',
+          )
+          .forEach((heading) => {
+            const oldId = heading.id
+            if (!oldId || oldId.startsWith(`${prefix}-`)) return
+            const newId = `${prefix}-${oldId}`
+            heading.id = newId
+            headingMap.set(oldId, newId)
+          })
+
+        for (const [oldId, newId] of headingMap) {
+          article
+            .querySelectorAll(`a[href="#${CSS.escape(oldId)}"]`)
+            .forEach((link) => link.setAttribute('href', `#${newId}`))
+        }
+      }
+    }
+
+    const targetFromHash = (hash) => {
+      if (!hash) return null
+      try {
+        return document.getElementById(decodeURIComponent(hash.slice(1)))
+      } catch {
+        return null
+      }
+    }
+
+    const sync = (article, hash = '') => {
+      const url = article.dataset.url
+      if (!url) return
+      const current = normalizePath(location.pathname)
+      if (current !== normalizePath(url) || hash) {
+        history.replaceState(history.state, '', `${url}${hash}`)
+      }
+      if (article.dataset.title) {
+        document.title = article.dataset.title
+      }
+    }
+
+    const scrollToArticle = (article, hash = '') => {
+      const target = targetFromHash(hash) || article
+      const targetArticle = target.closest?.('article[data-url]') || article
+
+      if (target === articles[0]) {
+        scrollTo({ top: 0 })
+      } else {
+        target.scrollIntoView()
+      }
+      sync(targetArticle, target === targetArticle ? '' : hash)
+    }
+
+    namespaceEmbeddedHeadings()
+
+    const requestedPath = normalizePath(location.pathname)
+    const requestedArticle = articles.find(
+      (article) => normalizePath(article.dataset.url || '') === requestedPath,
+    )
+    if (requestedArticle) {
+      const type = performance.getEntriesByType('navigation')[0]?.type
+      if (location.hash) {
+        requestAnimationFrame(() =>
+          scrollToArticle(requestedArticle, location.hash),
+        )
+      } else if (!type || type === 'navigate') {
+        requestedArticle.scrollIntoView({ behavior: 'instant' })
+      }
+    }
+
+    document.addEventListener('click', (event) => {
+      if (
+        event.defaultPrevented ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return
+      }
+
+      const link = event.target.closest?.('a[href]')
+      if (
+        !(link instanceof HTMLAnchorElement) ||
+        link.target ||
+        link.hasAttribute('download') ||
+        link.origin !== location.origin ||
+        link.search
+      ) {
+        return
+      }
+
+      const article = articles.find(
+        (entry) =>
+          normalizePath(entry.dataset.url || '') ===
+          normalizePath(link.pathname),
+      )
+      if (!article) return
+
+      event.preventDefault()
+      scrollToArticle(article, link.hash)
+    })
+
+    const inBand = new Set()
+    const atBottom = () => {
+      const max = document.documentElement.scrollHeight - innerHeight
+      return max > 0 && scrollY >= max - 2
+    }
+    const update = () => {
+      const current = atBottom()
+        ? articles[articles.length - 1]
+        : articles.find((article) => inBand.has(article))
+      if (current) sync(current)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) inBand.add(entry.target)
+          else inBand.delete(entry.target)
+        }
+        update()
+      },
+      { rootMargin: '-20% 0px -79% 0px' },
+    )
+
+    for (const article of articles) observer.observe(article)
+    addEventListener('scroll', update, { passive: true })
+  })()
+</script>

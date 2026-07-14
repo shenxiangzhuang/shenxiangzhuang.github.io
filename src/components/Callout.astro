@@ -1,7 +1,6 @@
 ---
+import Icon from '@/components/Icon.astro'
 import { cn } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
-import { cva, type VariantProps } from 'class-variance-authority'
 
 const calloutConfig = {
   note: {
@@ -128,18 +127,7 @@ const calloutConfig = {
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
-const calloutVariants = cva('relative px-4 py-3 my-6 border-l-4 text-sm', {
-  variants: {
-    variant: Object.fromEntries(
-      Object.entries(calloutConfig).map(([key, config]) => [key, config.style]),
-    ),
-  },
-  defaultVariants: {
-    variant: 'note',
-  },
-})
-
-interface Props extends VariantProps<typeof calloutVariants> {
+interface Props {
   title?: string
   class?: string
   variant?: keyof typeof calloutConfig
@@ -151,7 +139,8 @@ const { title, variant = 'note', defaultOpen = true, ...rest } = Astro.props
 
 <details
   class={cn(
-    calloutVariants({ variant }),
+    'relative my-6 border-l-4 px-4 py-3 text-sm',
+    calloutConfig[variant].style,
     rest.class,
     '[&[open]>summary_svg:last-child]:rotate-180 [&[open]>summary]:mb-3',
   )}

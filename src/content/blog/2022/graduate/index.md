@@ -2,7 +2,7 @@
 title: '考研杂记'
 description: '考研那些事...'
 date: 2022-12-12
-tags: ['生活', '回忆']
+tags: ['随笔']
 authors: ['mathew']
 draft: false
 ---

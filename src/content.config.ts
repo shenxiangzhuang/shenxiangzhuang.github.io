@@ -1,5 +1,6 @@
 import { glob } from 'astro/loaders'
-import { defineCollection, z } from 'astro:content'
+import { defineCollection, reference } from 'astro:content'
+import { z } from 'astro/zod'
 
 const blog = defineCollection({
   loader: glob({
@@ -15,7 +16,7 @@ const blog = defineCollection({
       imageWithText: image().optional(),
       imageWithoutText: image().optional(),
       tags: z.array(z.string()).optional(),
-      authors: z.array(z.string()).optional(),
+      authors: z.array(reference('authors')),
       draft: z.boolean().optional(),
     }),
 })
@@ -25,14 +26,14 @@ const authors = defineCollection({
   schema: z.object({
     name: z.string(),
     pronouns: z.string().optional(),
-    avatar: z.string().url().or(z.string().startsWith('/')),
+    avatar: z.url().or(z.string().startsWith('/')),
     bio: z.string().optional(),
-    mail: z.string().email().optional(),
-    website: z.string().url().optional(),
-    twitter: z.string().url().optional(),
-    github: z.string().url().optional(),
-    linkedin: z.string().url().optional(),
-    discord: z.string().url().optional(),
+    mail: z.email().optional(),
+    website: z.url().optional(),
+    twitter: z.url().optional(),
+    github: z.url().optional(),
+    linkedin: z.url().optional(),
+    discord: z.url().optional(),
   }),
 })
 
@@ -44,7 +45,7 @@ const projects = defineCollection({
       description: z.string(),
       tags: z.array(z.string()),
       image: image(),
-      link: z.string().url(),
+      link: z.url(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
     }),

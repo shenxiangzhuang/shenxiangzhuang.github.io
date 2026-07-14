@@ -1,8 +1,7 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+type ClassValue = string | false | null | undefined
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return inputs.filter((input): input is string => Boolean(input)).join(' ')
 }
 
 export function formatDate(date: Date) {

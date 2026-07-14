@@ -1,13 +1,5 @@
 ---
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Icon } from 'astro-icon/components'
+import Icon from '@/components/Icon.astro'
 
 export interface BreadcrumbItem {
   href?: string
@@ -22,40 +14,52 @@ interface Props {
 const { items } = Astro.props
 ---
 
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">
+<nav aria-label="breadcrumb">
+  <ol
+    class="text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"
+  >
+    <li class="inline-flex items-center gap-1.5">
+      <a href="/" class="hover:text-foreground transition-colors">
         <Icon name="lucide:home" class="size-4 shrink-0" />
-      </BreadcrumbLink>
-    </BreadcrumbItem>
+      </a>
+    </li>
     {
       items.map((item, index) => (
         <>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
+          <li role="presentation" aria-hidden="true" class="[&>svg]:size-3.5">
+            <Icon name="lucide:chevron-right" class="size-3.5" />
+          </li>
+          <li class="inline-flex items-center gap-1.5">
             {index === items.length - 1 ? (
-              <BreadcrumbPage>
+              <span
+                role="link"
+                aria-disabled="true"
+                aria-current="page"
+                class="text-foreground font-normal"
+              >
                 <span class="flex items-center gap-x-2">
                   {item.icon && (
                     <Icon name={item.icon} class="size-4 shrink-0" />
                   )}
                   <span>{item.label}</span>
                 </span>
-              </BreadcrumbPage>
+              </span>
             ) : (
-              <BreadcrumbLink href={item.href}>
+              <a
+                href={item.href}
+                class="hover:text-foreground transition-colors"
+              >
                 <span class="flex items-center gap-x-2">
                   {item.icon && (
                     <Icon name={item.icon} class="size-4 shrink-0" />
                   )}
                   <span>{item.label}</span>
                 </span>
-              </BreadcrumbLink>
+              </a>
             )}
-          </BreadcrumbItem>
+          </li>
         </>
       ))
     }
-  </BreadcrumbList>
-</Breadcrumb>
+  </ol>
+</nav>

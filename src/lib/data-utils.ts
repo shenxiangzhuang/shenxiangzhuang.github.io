@@ -1,4 +1,9 @@
-import { getCollection, render, type CollectionEntry } from 'astro:content'
+import {
+  getCollection,
+  getEntries,
+  render,
+  type CollectionEntry,
+} from 'astro:content'
 import { readingTime, calculateWordCountFromHtml } from '@/lib/utils'
 
 export async function getAllAuthors(): Promise<CollectionEntry<'authors'>[]> {
@@ -21,6 +26,19 @@ export async function getAllPostsAndSubposts(): Promise<
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
+export async function getPostChains(): Promise<
+  Map<string, CollectionEntry<'blog'>[]>
+> {
+  const posts = await getAllPosts()
+  const chains = new Map<string, CollectionEntry<'blog'>[]>()
+
+  for (const post of posts) {
+    chains.set(post.id, [post, ...(await getSubpostsForParent(post.id))])
+  }
+
+  return chains
+}
+
 export async function getAllProjects(): Promise<CollectionEntry<'projects'>[]> {
   const projects = await getCollection('projects')
   return projects.sort((a, b) => {
@@ -31,13 +49,17 @@ export async function getAllProjects(): Promise<CollectionEntry<'projects'>[]> {
 }
 
 export async function getAllTags(): Promise<Map<string, number>> {
-  const posts = await getAllPosts()
-  return posts.reduce((acc, post) => {
-    post.data.tags?.forEach((tag) => {
-      acc.set(tag, (acc.get(tag) || 0) + 1)
-    })
-    return acc
-  }, new Map<string, number>())
+  const chains = await getPostChains()
+  const tags = new Map<string, number>()
+
+  for (const chain of chains.values()) {
+    const chainTags = new Set(chain.flatMap((post) => post.data.tags ?? []))
+    for (const tag of chainTags) {
+      tags.set(tag, (tags.get(tag) || 0) + 1)
+    }
+  }
+
+  return tags
 }
 
 export async function getAdjacentPosts(currentId: string): Promise<{
@@ -103,14 +125,18 @@ export async function getPostsByAuthor(
   authorId: string,
 ): Promise<CollectionEntry<'blog'>[]> {
   const posts = await getAllPosts()
-  return posts.filter((post) => post.data.authors?.includes(authorId))
+  return posts.filter((post) =>
+    post.data.authors.some((author) => author.id === authorId),
+  )
 }
 
 export async function getPostsByTag(
   tag: string,
 ): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
-  return posts.filter((post) => post.data.tags?.includes(tag))
+  const chains = await getPostChains()
+  return [...chains.values()]
+    .filter((chain) => chain.some((post) => post.data.tags?.includes(tag)))
+    .map((chain) => chain[0])
 }
 
 export async function getRecentPosts(
@@ -144,6 +170,12 @@ export function getParentId(subpostId: string): string {
   }
 
   return segments[0]
+}
+
+export function getSubpostAnchor(subpostId: string): string {
+  const segments = subpostId.split('/').filter(Boolean)
+  const slug = segments[segments.length - 1] ?? subpostId
+  return slug.replace(/[^A-Za-z0-9_-]+/g, '-')
 }
 
 export async function getSubpostsForParent(
@@ -218,19 +250,17 @@ export async function getParentPost(
   return allPosts.find((post) => post.id === parentId) || null
 }
 
-export async function parseAuthors(authorIds: string[] = []) {
-  if (!authorIds.length) return []
+type BlogAuthorReference = CollectionEntry<'blog'>['data']['authors'][number]
 
-  const allAuthors = await getAllAuthors()
-  const authorMap = new Map(allAuthors.map((author) => [author.id, author]))
+export async function parseAuthors(authorRefs: BlogAuthorReference[]) {
+  const authors = await getEntries(authorRefs)
 
-  return authorIds.map((id) => {
-    const author = authorMap.get(id)
+  return authors.map((author) => {
     return {
-      id,
-      name: author?.data?.name || id,
-      avatar: author?.data?.avatar || '/static/logo.png',
-      isRegistered: !!author,
+      id: author.id,
+      name: author.data.name,
+      avatar: author.data.avatar,
+      isRegistered: true,
     }
   })
 }
@@ -283,6 +313,7 @@ export type TOCSection = {
   title: string
   headings: TOCHeading[]
   subpostId?: string
+  anchor?: string
 }
 
 export async function getTOCSections(postId: string): Promise<TOCSection[]> {
@@ -312,17 +343,27 @@ export async function getTOCSections(postId: string): Promise<TOCSection[]> {
   const subposts = await getSubpostsForParent(parentId)
   for (const subpost of subposts) {
     const { headings: subpostHeadings } = await render(subpost)
+    const anchor = getSubpostAnchor(subpost.id)
     if (subpostHeadings.length > 0) {
       sections.push({
         type: 'subpost',
         title: subpost.data.title,
         headings: subpostHeadings.map((heading, index) => ({
-          slug: heading.slug,
+          slug: `${anchor}-${heading.slug}`,
           text: heading.text,
           depth: heading.depth,
           isSubpostTitle: index === 0,
         })),
         subpostId: subpost.id,
+        anchor,
+      })
+    } else {
+      sections.push({
+        type: 'subpost',
+        title: subpost.data.title,
+        headings: [],
+        subpostId: subpost.id,
+        anchor,
       })
     }
   }

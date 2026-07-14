@@ -1,13 +1,12 @@
-import type { IconMap, SocialLink, Site } from '@/types'
+import type { SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
-  title: "MathewShen's Blog",
-  description: "Mathew Shen's personal blog.",
+  title: 'Mathew Shen',
+  description: 'Mathew Shen 的个人博客。',
   href: 'https://mathewshen.me',
   author: 'mathew',
   locale: 'zh-CN',
   recentPostCount: 5,
-  postsPerPage: 6,
 }
 
 export const RSS_FOLLOW_CHALLENGE = {
@@ -18,11 +17,15 @@ export const RSS_FOLLOW_CHALLENGE = {
 export const NAV_LINKS: SocialLink[] = [
   {
     href: '/blog',
-    label: 'blog',
+    label: '文章',
+  },
+  {
+    href: '/blog/2025/books',
+    label: '书单',
   },
   {
     href: '/tags',
-    label: 'tags',
+    label: '标签',
   },
   // {
   //   href: '/authors',
@@ -38,6 +41,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://github.com/shenxiangzhuang',
     label: 'GitHub',
+    icon: 'github',
   },
   // {
   //   href: 'https://twitter.com/enscry',
@@ -46,25 +50,19 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://www.linkedin.com/in/mathewshen/',
     label: 'LinkedIn',
+    icon: 'linkedin',
   },
   {
     href: 'mailto:datahonor@gmail.com',
     label: 'Email',
+    icon: 'mail',
   },
   {
     href: '/rss.xml',
     label: 'RSS',
+    icon: 'rss',
   },
 ]
-
-export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
-}
 
 export const GISCUS = {
   enabled: true,
@@ -78,6 +76,6 @@ export const GISCUS = {
   emitMetadata: '1',
   inputPosition: 'top',
   theme: '',
-  lang: 'en',
+  lang: 'zh-CN',
   loading: 'lazy',
 }

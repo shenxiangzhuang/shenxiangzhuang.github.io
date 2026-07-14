@@ -1,0 +1,33 @@
+---
+import BlogCard from '@/components/BlogCard.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
+
+const allPosts = await getAllPosts()
+const postsByYear = groupPostsByYear(allPosts)
+const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="文章" />
+  <Breadcrumbs items={[{ label: '文章', href: '/blog', icon: 'library' }]} />
+
+  <div class="flex flex-col gap-y-8">
+    {
+      years.map((year) => (
+        <section class="flex flex-col gap-y-4">
+          <div class="font-medium">{year}</div>
+          <ul class="flex flex-col">
+            {postsByYear[year].map((post) => (
+              <li>
+                <BlogCard entry={post} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Layout>
