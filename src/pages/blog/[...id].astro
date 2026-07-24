@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import ArticleLinkPreview from '@/components/ArticleLinkPreview.astro'
 import Giscus from '@/components/Giscus.astro'
 import Icon from '@/components/Icon.astro'
 import Link from '@/components/Link.astro'
@@ -287,6 +288,8 @@ const hasToc = tocSections.length > 0
   </section>
 
   {chain.length > 1 && <SeriesReader />}
+
+  <ArticleLinkPreview />
 
   <button
     class={buttonVariants({
