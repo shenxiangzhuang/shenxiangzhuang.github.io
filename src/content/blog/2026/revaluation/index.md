@@ -3,8 +3,8 @@ title: '重估一切价值'
 description: 'The Revaluation of All Values'
 date: 2026-08-07
 tags: ['随笔']
-imageWithText: 'images/Nietzsche187a.jpg'
-imageWithoutText: 'images/Nietzsche187a.jpg'
+imageWithText: 'images/Pale_Blue_Dot.png'
+imageWithoutText: 'images/Pale_Blue_Dot.png'
 authors: ['mathew']
 draft: false
 ---
@@ -20,7 +20,7 @@ draft: false
 
 白白浪费了时间的同时也感叹所谓顶会的可信度也不过如此，于是就随手吐槽了一下，然后 Keller Jordan 引用回复了一下:
 
-![](x.png)
+![](images/x.png)
 
 我感觉 Keller Jordan 的回复相当的友善，而且也确实引发了我的一些思考，我给他回复的是：
 
@@ -29,15 +29,28 @@ draft: false
 是的，虽然和尼采的出发点不一样，但我想我们的确进入到了一个需要重估一切价值的时代——我们必须重新审视已有的一切。
 
 
-我在 [AI 的黄金时代](https://mathewshen.me/blog/2025/ai-golden-age/)和[LLM in 2024](https://mathewshen.me/blog/2024/ai-think-2024/)
-中都写到如今AI的发展将很大程度上重构我们的生活。这两年AI也在极快地发展，所以我认为要重估价值的不仅仅是这些论文，还有很多其他的事物，甚至是一切事物。
-要说明的是，我不是说AI会直接改变很多事物，而是会很大程度上改变人类的生活方式，从而影响与人相关的几乎一切事物。
+在无法判断现在的一些事情时，我们可以回望一下历史。我们来看看人工智能之父A. M. Turing(图灵)在76年前(1950年)的论文 [COMPUTING MACHINERY AND INTELLIGENCE](https://courses.cs.umbc.edu/471/papers/turing.pdf) 是怎么写的吧:
+
+> I propose to consider the question, "Can machines think?" This should begin with
+definitions of the meaning of the terms "machine" and "think." The definitions might be
+framed so as to reflect so far as possible the normal use of the words, but this attitude is
+dangerous, If the meaning of the words "machine" and "think" are to be found by
+examining how they are commonly used it is difficult to escape the conclusion that the
+meaning and the answer to the question, "Can machines think?" is to be sought in a
+statistical survey such as a Gallup poll. But this is absurd. Instead of attempting such a
+definition I shall replace the question by another, which is closely related to it and is
+expressed in relatively unambiguous words.
+
+也就是在这篇论文中，图灵提出了如今被称为图灵测试(原文叫做"imitation game"即模仿游戏)的理论。
+我想图灵这段文字的严谨是值得我们去学习的，这无关时代，无关地位，只关乎科学的严谨性本身。
+如果一些论文连基础的严谨都做不到，那么一些所谓的权威认证都只是空谈，随之而来的，其价值也需要被重估。
 
 
-以教育来说，LLM将全世界人类数千年来积累的知识凝聚到一起，并以一种前所未有的姿态向人类呈现——我们可以直接通过简单对话来快速地获取这些知识，
-这种方式极大地促进了知识的平权。因为就在2022年ChatGPT发布之前，最好的信息检索方式还是在Google上通过一系列检索技巧来搜寻问题的答案，而现在
-我们只要打开一个手机App就可以得到一个针对性更强，更加翔实，更加有帮助的答案。那么这对教育有什么影响呢？
-站在2026年下半年的这个时间节点，我认为现在AI的综合能力已经超越了全国高校90%以上的教授的水平。且在不远的未来，这个数字会无限接近100%。
+我在 [LLM in 2024](https://mathewshen.me/blog/2024/ai-think-2024/)和[AI 的黄金时代](https://mathewshen.me/blog/2025/ai-golden-age/)
+中都写到如今AI的发展将很大程度上重构我们的生活。这两年AI也在极快地发展，所以我认为要重估价值的不仅仅是这些论文，还有很多其他的事物，甚至是一切事物。要说明的是，我不是说AI会直接改变很多事物，而是会很大程度上改变人类的生活方式，进而影响与人相关的几乎一切事物，最终使得我们有重估一切事物价值的必要。
+
+
+以教育来说，LLM将全世界人类数千年来积累的知识凝聚到一起，并以一种前所未有的姿态向人类呈现——我们可以直接通过简单对话来快速地获取这些知识，这种方式极大地促进了知识的平权。因为就在2022年ChatGPT发布之前，最好的信息检索方式还是在Google上通过一系列检索技巧来搜寻问题的答案，而现在我们只要打开一个手机App就可以得到一个针对性更强，更加翔实，更加有帮助的答案。那么这对教育有什么影响呢？站在2026年下半年的这个时间节点，我认为现在AI的综合能力已经超越了全国高校90%以上的教授的水平。且在不远的未来，这个数字会无限接近100%。
 基于这点，我认为现有高等教育的价值就必须被重估。同样地，以接受高等教育并拿到认证的高考以及之前所有的教育都必须被重估。
 如果你觉着我说的有些绝对，不妨先去体验下最先进的AI，然后问自己一个问题：如果你能够重新选择，你会选择让AI来当你的老师还是你之前在初高中和大学的老师？
 为了避免误解，我再来澄清一点，我认为现有教育的价值必须被重估，并不是说AI可以取代这一切并做的更好，而是说传统教育带来的价值需要被重新计算。
@@ -45,14 +58,13 @@ draft: false
 另一方面，我依然无法忘记我初中语文老师在课堂上说“义愤填Ying”的“Ying”是“老鹰的鹰”，我也无法忘记我的反驳如何被打压，
 更无法忘记我从家里词典撕下这一页给她看时，她扭头看也不看的样子。
 
-其实不仅仅是教育，现在的AI基本对所有的问题都能有一个回答（即使很多时候并不准确），而且因为在模型在训练的时候都会被要求客观公正，
-所以大部分时候(是的，并不是所有时候)，我们都会得到一个相对独立和客观的回答。
+其实不仅仅是教育，现在的AI基本对所有的问题都能有一个回答（即使很多时候并不准确），而且因为在模型在训练的时候都会被要求客观公正，所以大部分时候(是的，并不是所有时候)，我们都会得到一个相对独立和客观的回答。
 这些回答可以解决很多问题，比如生活上和情感上的问题——这在原先一般需要极为昂贵的咨询费用。
 当然，现在AI还无法取代一些专业的咨询，但是其价值也需要被重估。
 
-渐渐地，人们对不再满足于仅仅将AI作为一个“缸中之脑”存在，人们开始为其提供各种可以改变物理世界的工具，使其可以做很多原本只有人才可以做的工作。
-这当然会带来更多人的失业，但是也这对人本主义发起了最为有力的挑战。我认为这是好事，如今人类对于这个世界缺少了很多该有的敬畏，
-以至于时常会忘记整个地球也不过是浩瀚宇宙的一个[暗淡蓝点(Pale Blue Dot)](https://en.wikipedia.org/wiki/Pale_Blue_Dot)罢了。
+渐渐地，人们对不再满足于仅仅将AI作为一个“缸中之脑”存在，人们开始为其提供各种可以改变物理世界的工具，使其可以做很多原本只有人才可以做的工作。这当然会带来更多人的失业，但是也这对人本主义发起了最为有力的挑战。我认为这是好事，如今人类对于这个世界缺少了很多该有的敬畏，以至于时常会忘记整个地球也不过是浩瀚宇宙的一个[暗淡蓝点(Pale Blue Dot)](https://en.wikipedia.org/wiki/Pale_Blue_Dot)。
+我相信随着机器智能的发展，人们终将意识到人类智能也只是整个智能宇宙中的一个黯淡蓝点。
+而到这时，人们将会回想起那句“认识你自己”。在人类重新认识自己之时，一切事物的价值也终将被重估。
 
-现在，我们再回头看下最初的关于学术的讨论，我想也许就是因为少了一些严谨和对科学的敬畏吧。
-既然现在人人都在谈论AI(人工智能)，那我们就来看看人工智能之父A. M. Turing(图灵)在76年前(1950年)的论文是怎么写的吧:
+
+最后，感谢我的女朋友冯博士，我们在一次街头漫谈中聊到了尼采，她给我讲解了何谓“重估一切价值”，这是本文标题的来源。
