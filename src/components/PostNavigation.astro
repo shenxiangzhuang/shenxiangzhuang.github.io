@@ -6,11 +6,23 @@ import { buttonVariants } from '@/lib/variants'
 
 const { newerPost, olderPost, parentPost } = Astro.props
 const isSubpost = !!parentPost
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+})
+const olderDate = olderPost
+  ? dateFormatter.format(olderPost.data.date).replaceAll('/', '.')
+  : undefined
+const newerDate = newerPost
+  ? dateFormatter.format(newerPost.data.date).replaceAll('/', '.')
+  : undefined
 ---
 
 <nav
+  aria-label="文章时间导航"
   class={cn(
-    'col-start-2 grid grid-cols-1 gap-4',
+    'grid grid-cols-1 gap-3',
     isSubpost ? 'sm:grid-cols-3' : 'sm:grid-cols-2',
   )}
 >
@@ -18,23 +30,44 @@ const isSubpost = !!parentPost
     href={olderPost ? `/blog/${olderPost.id}#post-title` : '#'}
     class={cn(
       buttonVariants({ variant: 'outline' }),
-      'rounded-lg group flex items-center justify-start size-full',
+      'group relative min-h-20 w-full min-w-0 justify-start overflow-hidden rounded-xl px-4 py-2.5 whitespace-normal hover:-translate-y-0.5 hover:shadow-sm',
       !olderPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}
     aria-disabled={!olderPost}
   >
-    <Icon
-      name="lucide:arrow-left"
-      class="mr-2 size-4 transition-transform group-hover:-translate-x-1"
-    />
-    <div class="flex flex-col items-start overflow-hidden text-wrap">
-      <span class="text-muted-foreground text-left text-xs">
-        {isSubpost ? 'Previous Subpost' : 'Previous Post'}
+    <span
+      class="bg-muted-foreground/30 group-hover:bg-foreground absolute inset-y-3 left-0 w-0.5 rounded-full transition-colors"
+    ></span>
+    <span
+      class="bg-muted/70 group-hover:bg-foreground group-hover:text-background flex size-8 shrink-0 items-center justify-center rounded-full border transition-colors"
+    >
+      <Icon
+        name="lucide:arrow-left"
+        class="size-4 transition-transform group-hover:-translate-x-0.5"
+      />
+    </span>
+    <div class="flex min-w-0 flex-1 flex-col items-start gap-1">
+      <span class="flex w-full flex-wrap items-center gap-2">
+        <span class="text-muted-foreground text-xs font-normal">
+          {isSubpost ? '较早子文章' : '较早一篇'}
+        </span>
+        {
+          olderDate && (
+            <time
+              datetime={olderPost.data.date.toISOString()}
+              class="bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-[10px] leading-none font-normal tabular-nums"
+            >
+              {olderDate}
+            </time>
+          )
+        }
       </span>
-      <span class="w-full text-left text-sm text-balance text-ellipsis">
+      <span
+        class="line-clamp-2 w-full text-left text-sm leading-snug font-medium text-balance"
+      >
         {
           olderPost?.data.title ||
-            (isSubpost ? 'No older subpost' : "You're at the oldest post!")
+            (isSubpost ? '已经是最早的子文章' : '已经是最早一篇')
         }
       </span>
     </div>
@@ -46,20 +79,22 @@ const isSubpost = !!parentPost
         href={parentPost ? `/blog/${parentPost.id}#post-title` : '#'}
         class={cn(
           buttonVariants({ variant: 'outline' }),
-          'group flex size-full items-center justify-center rounded-lg',
+          'group min-h-20 w-full min-w-0 rounded-xl px-4 py-2.5 whitespace-normal hover:-translate-y-0.5 hover:shadow-sm',
           !parentPost && 'pointer-events-none cursor-not-allowed opacity-50',
         )}
       >
-        <Icon
-          name="lucide:corner-left-up"
-          class="mr-2 size-4 transition-transform group-hover:-translate-y-1"
-        />
-        <div class="flex flex-col items-center overflow-hidden text-wrap">
-          <span class="text-muted-foreground text-center text-xs">
-            Parent Post
+        <span class="bg-muted/70 group-hover:bg-foreground group-hover:text-background flex size-8 shrink-0 items-center justify-center rounded-full border transition-colors">
+          <Icon
+            name="lucide:corner-left-up"
+            class="size-4 transition-transform group-hover:-translate-y-0.5"
+          />
+        </span>
+        <div class="flex min-w-0 flex-1 flex-col items-start gap-1">
+          <span class="text-muted-foreground text-xs font-normal">
+            返回主文章
           </span>
-          <span class="w-full text-center text-sm text-balance text-ellipsis">
-            {parentPost?.data.title || 'No parent post'}
+          <span class="line-clamp-2 w-full text-left text-sm leading-snug font-medium text-balance">
+            {parentPost?.data.title || '暂无主文章'}
           </span>
         </div>
       </Link>
@@ -70,25 +105,45 @@ const isSubpost = !!parentPost
     href={newerPost ? `/blog/${newerPost.id}#post-title` : '#'}
     class={cn(
       buttonVariants({ variant: 'outline' }),
-      'rounded-lg group flex items-center justify-end size-full',
+      'bg-muted/30 group relative min-h-20 w-full min-w-0 justify-end overflow-hidden rounded-xl px-4 py-2.5 whitespace-normal hover:-translate-y-0.5 hover:bg-muted/60 hover:shadow-sm',
       !newerPost && 'pointer-events-none opacity-50 cursor-not-allowed',
     )}
     aria-disabled={!newerPost}
   >
-    <div class="flex flex-col items-end overflow-hidden text-wrap">
-      <span class="text-muted-foreground text-right text-xs">
-        {isSubpost ? 'Next Subpost' : 'Next Post'}
+    <div class="flex min-w-0 flex-1 flex-col items-end gap-1">
+      <span class="flex w-full flex-wrap items-center justify-end gap-2">
+        {
+          newerDate && (
+            <time
+              datetime={newerPost.data.date.toISOString()}
+              class="bg-background text-muted-foreground rounded-full border px-2 py-0.5 text-[10px] leading-none font-normal tabular-nums"
+            >
+              {newerDate}
+            </time>
+          )
+        }
+        <span class="text-muted-foreground text-xs font-normal">
+          {isSubpost ? '较新子文章' : '较新一篇'}
+        </span>
       </span>
-      <span class="w-full text-right text-sm text-balance text-ellipsis">
+      <span
+        class="line-clamp-2 w-full text-right text-sm leading-snug font-medium text-balance"
+      >
         {
           newerPost?.data.title ||
-            (isSubpost ? 'No newer subpost' : "You're at the newest post!")
+            (isSubpost ? '已经是最新的子文章' : '已经是最新一篇')
         }
       </span>
     </div>
-    <Icon
-      name="lucide:arrow-right"
-      class="ml-2 size-4 transition-transform group-hover:translate-x-1"
-    />
+    <span
+      class="bg-background group-hover:bg-foreground group-hover:text-background flex size-8 shrink-0 items-center justify-center rounded-full border transition-colors"
+    >
+      <Icon
+        name="lucide:arrow-right"
+        class="size-4 transition-transform group-hover:translate-x-0.5"
+      />
+    </span>
+    <span class="bg-foreground/40 absolute inset-y-3 right-0 w-0.5 rounded-full"
+    ></span>
   </Link>
 </nav>
