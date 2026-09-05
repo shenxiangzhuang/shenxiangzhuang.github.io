@@ -3,6 +3,7 @@ title: 'Presentia: 简单而优雅的 Presentation 模板'
 description: '介绍一个 Presentation 开源模板集合，让 Presentation 变得简单而不失优雅。'
 date: 2025-03-01
 tags: ['项目', '开源']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

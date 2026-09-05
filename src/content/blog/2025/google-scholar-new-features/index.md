@@ -3,7 +3,7 @@ title: '新时代的 Google Scholar'
 description: '介绍下 Google Scholar 最近更新的一些好用的新功能，比如 AI 导航栏，引用文献快速查看和这几天推出的 Highlight&Comment 和 Scholar Labs.'
 date: 2025-11-24
 tags: ['AI']
-imageWithoutText: 'images/highlight_view.png'
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

@@ -3,6 +3,7 @@ title: 'Oh-Numpy & Oh-Pytorch'
 description: '100 道 Numpy 练习题的 Numpy 和 PyTorch 解答'
 date: 2025-01-23
 tags: ['项目', '开源']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

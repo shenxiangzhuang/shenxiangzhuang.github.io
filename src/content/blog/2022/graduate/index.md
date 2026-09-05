@@ -3,6 +3,7 @@ title: '考研杂记'
 description: '考研那些事...'
 date: 2022-12-12
 tags: ['随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

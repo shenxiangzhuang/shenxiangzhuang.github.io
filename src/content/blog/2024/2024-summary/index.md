@@ -3,6 +3,7 @@ title: '我的 2024'
 description: '2024 年度总结。'
 date: 2024-12-28
 tags: ['随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

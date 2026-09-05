@@ -3,6 +3,7 @@ title: '当谈论吃饭时，我们在谈论什么？关于我在 SYSU 吃饭这
 description: '如题，仅仅是出于好奇而已。大致分为两个部分，校园卡数据爬取与数据分析'
 date: 2021-02-28
 tags: ['随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

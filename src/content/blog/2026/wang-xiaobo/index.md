@@ -3,8 +3,8 @@ title: '纪念王小波'
 description: '一些跨越十年的往事'
 date: 2026-04-11
 tags: ['随笔']
-imageWithText: 'images/xiaobo_tombstone.jpg'
-imageWithoutText: 'images/xiaobo_tombstone.jpg'
+imageWithText: 'images/cover-literary.webp'
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

@@ -3,6 +3,7 @@ title: '奇怪的梦'
 description: '他伸手把月亮关掉，只剩下自己和满天的星星。'
 date: 2018-07-07
 tags: ['随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

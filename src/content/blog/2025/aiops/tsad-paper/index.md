@@ -3,6 +3,7 @@ title: 'Time Series Anomaly Detection Papers'
 description: '时间序列异常检测相关论文与系统资料整理。'
 date: 2025-01-01
 tags: ['AI', '论文']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 order: 1
