@@ -3,6 +3,7 @@ title: 'Rust ♥️ Python: Rust 做底层实现的高效 Python 库'
 description: 'Rust ♥️ Python: 推荐一些 Rust 做底层实现的高效 Python 库'
 date: 2025-06-25
 tags: ['编程']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

@@ -3,6 +3,7 @@ title: '近期做开源项目的一些正反馈'
 description: '近期在开源项目中获得的一些积极反馈和体会。'
 date: 2025-10-16
 tags: ['开源', '随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

@@ -3,8 +3,8 @@ title: '重估一切价值'
 description: 'The Revaluation of All Values'
 date: 2026-08-09
 tags: ['随笔']
-imageWithText: 'images/Pale_Blue_Dot.png'
-imageWithoutText: 'images/Pale_Blue_Dot.png'
+imageWithText: 'images/cover-literary.webp'
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

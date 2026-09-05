@@ -3,6 +3,7 @@ title: 'AI 的黄金时代'
 description: '少一些 AGI 的闲谈，少一些 FOMO 情绪，我们应该务实地享受 AI 的黄金时代！'
 date: 2025-09-06
 tags: ['AI', '随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

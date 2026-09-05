@@ -3,6 +3,7 @@ title: '所谓偶然'
 description: '读一些书的时候，渐渐发现一些“所谓偶然”的东西，也就是说，似乎许多人在他们的文字都在诉说着相同的事情。以下所言，或来自读书笔记，或来自书籍的勾画，或只是回忆...作为参考。'
 date: 2019-01-19
 tags: ['文学', '随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

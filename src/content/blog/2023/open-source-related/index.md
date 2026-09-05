@@ -3,6 +3,7 @@ title: '开源体会'
 description: '记录下最近逛开源社区的体会'
 date: 2023-11-01
 tags: ['开源', '随笔']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

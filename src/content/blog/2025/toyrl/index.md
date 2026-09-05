@@ -3,6 +3,7 @@ title: 'ToyRL: 从零实现深度强化学习算法'
 description: 'ToyRL: 从零实现深度强化学习算法'
 date: 2025-05-08
 tags: ['项目', 'AI']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

@@ -3,6 +3,7 @@ title: 'zhplot: 让 Python 中文做图变得简单'
 description: '介绍一个简单的做图辅助库，让 matplotlib 显示中文更加简单'
 date: 2024-12-08
 tags: ['项目', '开源']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

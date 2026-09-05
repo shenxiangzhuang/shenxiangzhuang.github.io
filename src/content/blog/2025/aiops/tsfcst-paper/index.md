@@ -3,6 +3,7 @@ title: 'Time Series Forecasting Papers'
 description: '时间序列预测相关论文资料整理。'
 date: 2025-01-01
 tags: ['AI', '论文']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 order: 2

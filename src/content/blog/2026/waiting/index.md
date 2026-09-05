@@ -4,7 +4,7 @@ description: '“俟河之清，人寿几何？君为思想家，鄙人乃实行
 date: 2026-03-08
 tags: ['AI', '随笔']
 # imageWithText: 'images/yan_sun.jpg'
-imageWithoutText: 'images/yan_sun.jpg'
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

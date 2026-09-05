@@ -3,6 +3,7 @@ title: 'BERT 论文复现'
 description: '记录 BERT 论文的复现过程与经验教训。这是我一直想要找的一篇博客，但我一直没找到，于是决定自己来写一篇。'
 date: 2025-11-02
 tags: ['AI', '论文']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---

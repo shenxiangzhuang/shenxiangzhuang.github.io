@@ -3,6 +3,7 @@ title: 'LLM Speculative Sampling'
 description: 'LLM Speculative Sampling 论文复现'
 date: 2025-03-08
 tags: ['AI']
+imageWithoutText: 'images/cover-literary.webp'
 authors: ['mathew']
 draft: false
 ---
