@@ -39,7 +39,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "sharp": "^0.35.3"
+    "sharp": "^0.35.4"
   },
   "prettier": {
     "semi": false,
