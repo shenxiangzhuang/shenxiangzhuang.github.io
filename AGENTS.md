@@ -20,6 +20,9 @@ pnpm preview        # 预览构建后的项目
 pnpm prettier       # 格式化所有文件
 ```
 
+升级 Astro 时，同步检查 `@astrojs/markdown-remark` 是否满足其 peer dependency 范围，并验证内部类型兼容；当前固定为与 Astro 7.3.3 同批发布的 7.3.1。
+`pnpm-workspace.yaml` 统一固定 `@types/hast` 为 3.0.4，避免 Astro 与 rehype 插件使用不兼容的 HAST 类型。
+
 ## 项目结构
 
 - `src/consts.ts` - 站点配置、导航链接、社交链接
